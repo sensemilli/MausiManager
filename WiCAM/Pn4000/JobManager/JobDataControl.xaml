@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.JobManager.JobDataControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager" xmlns:helpers="clr-namespace:WiCAM.Pn4000.JobManager.Helpers">
+  <UIElement.InputBindings>
+    <KeyBinding Key="F10" Command="{Binding JobOpenCommand}" />
+  </UIElement.InputBindings>
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ControlTemplate x:Key="controlTemplateToolTip" TargetType="{x:Type local:JobToolTip}">
+        <Border BorderThickness="1" BorderBrush="#FFD3D3D3" CornerRadius="2" Background="#FFFFFFFF" Width="180" MaxHeight="200">
+          <StackPanel Margin="3">
+            <Border>
+              <Grid>
+                <UIElement.Effect>
+                  <DropShadowEffect Opacity="0.4" />
+                </UIElement.Effect>
+                <TextBlock FontWeight="Bold" VerticalAlignment="Top" TextAlignment="Center" Text="{TemplateBinding local:JobToolTip.JobName}" HorizontalAlignment="Left" Padding="5" TextWrapping="Wrap" />
+              </Grid>
+            </Border>
+            <Separator Height="5" Background="#FF696969" />
+            <Border BorderBrush="#FFD3D3D3" BorderThickness="1">
+              <TextBlock Foreground="{TemplateBinding local:JobToolTip.MessageBrush}" VerticalAlignment="Center" TextAlignment="Left" Text="{TemplateBinding local:JobToolTip.ErrorMessage}" HorizontalAlignment="Left" Padding="5" TextWrapping="Wrap" />
+            </Border>
+          </StackPanel>
+        </Border>
+      </ControlTemplate>
+      <Style x:Key="{x:Type local:JobToolTip}" TargetType="{x:Type local:JobToolTip}">
+        <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="true" />
+        <Setter Property="ToolTip.HasDropShadow" Value="True" />
+        <Setter Property="UIElement.SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template" Value="{StaticResource controlTemplateToolTip}" />
+      </Style>
+      <Style x:Key="styleJobRow" TargetType="{x:Type DataGridRow}">
+        <Setter Property="FrameworkElement.ToolTip">
+          <Setter.Value>
+            <local:JobToolTip NoPlatesMessage="{DynamicResource MsgPlatesAreNotFound}" StatusMessage="{DynamicResource MsgJobInformation}" Job="{Binding}" />
+          </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+          <DataTrigger Value="0" Binding="{Binding Status}">
+            <Setter Property="Background" Value="#FFFFFFFF" />
+          </DataTrigger>
+          <DataTrigger Value="3" Binding="{Binding Status}">
+            <Setter Property="Background" Value="#FFC1FFC1" />
+          </DataTrigger>
+          <DataTrigger Value="1" Binding="{Binding Status}">
+            <Setter Property="Background" Value="#FFFFC0B9" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <helpers:PlateWrongStatusConverter x:Key="WrongStatusConverter" />
+      <Style x:Key="styleRow" TargetType="{x:Type DataGridRow}">
+        <Style.Triggers>
+          <DataTrigger Value="2" Binding="{Binding PLATE_STATUS}">
+            <Setter Property="Background" Value="#FFFFFFFF" />
+          </DataTrigger>
+          <DataTrigger Value="3" Binding="{Binding PLATE_STATUS}">
+            <Setter Property="Background" Value="#FFC1FFC1" />
+          </DataTrigger>
+          <DataTrigger Value="1" Binding="{Binding PLATE_STATUS}">
+            <Setter Property="Background" Value="#FFFFC0B9" />
+          </DataTrigger>
+          <DataTrigger Value="0" Binding="{Binding PLATE_STATUS}">
+            <Setter Property="Background" Value="#99FF0000" />
+            <Setter Property="FrameworkElement.ToolTip">
+              <Setter.Value>
+                <Border BorderBrush="#FFFF0000" BorderThickness="2">
+                  <TextBlock Margin="10" FontWeight="Bold" Text="{Binding PLATE_HEADER_TXT_1, Converter={StaticResource WrongStatusConverter}, ConverterParameter={StaticResource MsgWrongPlateStatus}}" />
+                </Border>
+              </Setter.Value>
+            </Setter>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="{x:Type DataGrid}" TargetType="{x:Type DataGrid}">
+        <Setter Property="DataGrid.CanUserAddRows" Value="False" />
+        <Setter Property="DataGrid.CanUserDeleteRows" Value="False" />
+        <Setter Property="DataGrid.CanUserResizeRows" Value="False" />
+        <Setter Property="DataGrid.CanUserReorderColumns" Value="True" />
+        <Setter Property="DataGrid.CanUserResizeColumns" Value="True" />
+        <Setter Property="DataGrid.IsReadOnly" Value="True" />
+        <Setter Property="DataGrid.VerticalGridLinesBrush" Value="#FFB0B0B0" />
+        <Setter Property="DataGrid.HorizontalGridLinesBrush" Value="#FFB0B0B0" />
+      </Style>
+      <local:BindingProxy x:Key="Proxy" Data="{Binding}" />
+      <local:StatusWidthConverter x:Key="statusWidthConverter" />
+      <DataTemplate x:Key="templateJobStatus" DataType="local:JobInfo">
+        <Grid>
+          <StackPanel Name="parent" Orientation="Horizontal">
+            <Rectangle Name="rcProduction" Fill="#FF77FF77">
+              <FrameworkElement.Width>
+                <MultiBinding Converter="{StaticResource statusWidthConverter}">
+                  <Binding Path="ProductionProgress" />
+                  <Binding ElementName="parent" Path="ActualWidth" />
+                </MultiBinding>
+              </FrameworkElement.Width>
+            </Rectangle>
+            <Rectangle Name="rcStorno" Fill="#FFFFCCCC">
+              <FrameworkElement.Width>
+                <MultiBinding Converter="{StaticResource statusWidthConverter}">
+                  <Binding Path="StornoProgress" />
+                  <Binding ElementName="parent" Path="ActualWidth" />
+                </MultiBinding>
+              </FrameworkElement.Width>
+            </Rectangle>
+          </StackPanel>
+          <TextBlock HorizontalAlignment="Center" Text="{Binding JOB_PROGRESS, StringFormat={}{0}%}" />
+        </Grid>
+      </DataTemplate>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="{Binding GridJobHeight, Mode=TwoWay}" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="{Binding GridPlateHeight, Mode=TwoWay}" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <DataGrid Name="gridJobs" Grid.Row="0" Grid.Column="0" RowStyle="{StaticResource styleJobRow}" AreRowDetailsFrozen="True" HeadersVisibility="Column" FontSize="{Binding FontSize}" ItemsSource="{Binding Jobs}">
+      <FrameworkElement.ContextMenu>
+        <ContextMenu>
+          <MenuItem Header="{DynamicResource ButtonProduce}" Command="{Binding Source={StaticResource Proxy}, Path=Data.ProduceJobCommand}">
+            <MenuItem.Icon>
+              <Image Source="{StaticResource BitmapJobProduce32}" />
+            </MenuItem.Icon>
+          </MenuItem>
+          <MenuItem Header="{DynamicResource ButtonJobDelete}" Command="{Binding Source={StaticResource Proxy}, Path=Data.DeleteJobCommand}">
+            <MenuItem.Icon>
+              <Image Source="{StaticResource BitmapJobDelete32}" />
+            </MenuItem.Icon>
+          </MenuItem>
+          <MenuItem Header="{DynamicResource ButtonPrintLabel}" Command="{Binding Source={StaticResource Proxy}, Path=Data.PrintJobLabelsCommand}">
+            <MenuItem.Icon>
+              <Image Source="{StaticResource BitmapPrintLabel32}" />
+            </MenuItem.Icon>
+          </MenuItem>
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+    </DataGrid>
+    <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="4" ResizeDirection="Rows" HorizontalAlignment="Stretch" Background="#FF808080" Margin="0,2,0,2" />
+    <DataGrid Name="gridPlates" Grid.Row="2" Grid.Column="0" RowStyle="{StaticResource styleRow}" AreRowDetailsFrozen="True" HeadersVisibility="Column" FontSize="{Binding FontSize}" ItemsSource="{Binding Plates}">
+      <FrameworkElement.ContextMenu>
+        <ContextMenu>
+          <MenuItem Header="{DynamicResource ButtonProduce}" Command="{Binding Source={StaticResource Proxy}, Path=Data.ProducePlateCommand}">
+            <MenuItem.Icon>
+              <Image Source="{StaticResource BitmapPlateProduce32}" />
+            </MenuItem.Icon>
+          </MenuItem>
+          <MenuItem Header="{DynamicResource ButtonStorno}" Command="{Binding Source={StaticResource Proxy}, Path=Data.StornoPlateCommand}">
+            <MenuItem.Icon>
+              <Image Source="{StaticResource BitmapPlateStorno32}" />
+            </MenuItem.Icon>
+          </MenuItem>
+          <Separator />
+          <MenuItem Header="{DynamicResource ButtonPrintLabel}" Command="{Binding Source={StaticResource Proxy}, Path=Data.PrintPlateLabelsCommand}">
+            <MenuItem.Icon>
+              <Image Source="{StaticResource BitmapPrintLabel32}" />
+            </MenuItem.Icon>
+          </MenuItem>
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+    </DataGrid>
+    <GridSplitter Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Height="4" ResizeDirection="Rows" HorizontalAlignment="Stretch" Background="#FF808080" Margin="0,2,0,2" />
+    <DataGrid Name="gridPart" Grid.Row="4" Grid.Column="0" AreRowDetailsFrozen="True" HeadersVisibility="Column" FontSize="{Binding FontSize}" ItemsSource="{Binding Parts}">
+      <FrameworkElement.ContextMenu>
+        <ContextMenu>
+          <MenuItem Header="{DynamicResource ButtonReject}" Command="{Binding Source={StaticResource Proxy}, Path=Data.RejectPartCommand}">
+            <MenuItem.Icon>
+              <Image Source="{StaticResource BitmapPartReject32}" />
+            </MenuItem.Icon>
+          </MenuItem>
+          <Separator />
+          <MenuItem Header="{DynamicResource ButtonPrintLabel}" Command="{Binding Source={StaticResource Proxy}, Path=Data.PrintPartLabelsCommand}">
+            <MenuItem.Icon>
+              <Image Source="{StaticResource BitmapPrintLabel32}" />
+            </MenuItem.Icon>
+          </MenuItem>
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+    </DataGrid>
+    <StatusBar Grid.Row="5">
+      <StatusBarItem Margin="10,0,0,0">
+        <TextBlock>
+          <Run Text="{DynamicResource JobAmount}" /> <Run Text="=" /> <Run Text="{Binding JobsAmount, FallbackValue=0}" /></TextBlock>
+      </StatusBarItem>
+      <StatusBarItem Margin="10,0,0,0">
+        <TextBlock>
+          <Run Text="{DynamicResource JobsFiltered}" /> <Run Text="=" /> <Run Text="{Binding JobsFiltered, FallbackValue=0}" /></TextBlock>
+      </StatusBarItem>
+      <StatusBarItem Margin="10,0,0,0">
+        <ProgressBar Width="200" Height="14" Minimum="0" SmallChange="1" LargeChange="10" Maximum="{Binding MaxJobsAmount}" Value="{Binding ReadJobsAmount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+      </StatusBarItem>
+      <StatusBarItem Margin="0,0,10,0" HorizontalAlignment="Right">
+        <Button CommandParameter="{Binding ElementName=gridPart, Path=Items}" Command="{Binding ShowSumOfPartsCommand}">
+          <Image Source="../Images/32/SumOf.png" Width="16" Height="16" Margin="5" />
+        </Button>
+      </StatusBarItem>
+      <StatusBarItem Margin="0,0,10,0" HorizontalAlignment="Right">
+        <TextBlock>
+          <Run Text="{DynamicResource JobsPath}" /> <Run Text="=" /> <Run Text="{Binding JobsPath}" /></TextBlock>
+      </StatusBarItem>
+    </StatusBar>
+  </Grid>
+</UserControl>

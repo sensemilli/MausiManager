@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager">
+    <SolidColorBrush x:Key="BrushBackground" Color="WhiteSmoke" />
+    <Style x:Key="StyleTextBlock" TargetType="{x:Type TextBlock}">
+        <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left" />
+        <Setter Property="FrameworkElement.VerticalAlignment" Value="Center" />
+        <Setter Property="FrameworkElement.MinHeight" Value="21" />
+        <Setter Property="TextBlock.FontSize" Value="{Binding FontSize, FallbackValue=12}" />
+    </Style>
+    <Style x:Key="StyleTextBlockNumeric" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource StyleTextBlock}">
+        <Setter Property="FrameworkElement.Width" Value="40" />
+    </Style>
+    <Style x:Key="StyleTextBlockShadow" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource StyleTextBlock}">
+        <Setter Property="FrameworkElement.Margin" Value="0,0,3,0" />
+    </Style>
+    <Style x:Key="StyleTextBoxNumeric" TargetType="{x:Type TextBox}">
+        <Setter Property="FrameworkElement.VerticalAlignment" Value="Center" />
+        <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left" />
+        <Setter Property="FrameworkElement.Width" Value="60" />
+        <Setter Property="Control.FontSize" Value="{Binding FontSize, FallbackValue=12}" />
+    </Style>
+    <Style x:Key="StyleTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="FrameworkElement.VerticalAlignment" Value="Center" />
+        <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left" />
+        <Setter Property="FrameworkElement.Margin" Value="0,0,10,2" />
+        <Setter Property="FrameworkElement.MinWidth" Value="180" />
+        <Setter Property="FrameworkElement.MinHeight" Value="21" />
+        <Setter Property="Control.FontSize" Value="{Binding FontSize, FallbackValue=12}" />
+    </Style>
+    <BitmapImage x:Key="BitmapDefaultMachine" UriSource="/MausiManager;component/Images/DefaultMachine.png" />
+    <BitmapImage x:Key="BitmapActionReorder16" UriSource="/MausiManager;component/Images/16/actionReorder.png" />
+    <BitmapImage x:Key="BitmapError16" UriSource="/MausiManager;component/Images/16/error.png" />
+    <BitmapImage x:Key="BitmapJob16" UriSource="/MausiManager;component/Images/16/job.png" />
+    <BitmapImage x:Key="BitmapPlateProduce16" UriSource="/MausiManager;component/Images/16/plateProduce.png" />
+    <BitmapImage x:Key="BitmapPlateStorno16" UriSource="/MausiManager;component/Images/16/plateStorno.png" />
+    <BitmapImage x:Key="BitmapJobDelete16" UriSource="/MausiManager;component/Images/16/jobDelete.png" />
+    <BitmapImage x:Key="BitmapJobProduce16" UriSource="/MausiManager;component/Images/16/jobProduce.png" />
+    <BitmapImage x:Key="BitmapJobsDeleteProduced16" UriSource="/MausiManager;component/Images/16/jobsDeleteProduced.png" />
+    <BitmapImage x:Key="BitmapJobsFinished16" UriSource="/MausiManager;component/Images/16/jobsFinished.png" />
+    <BitmapImage x:Key="BitmapJobsInProduction16" UriSource="/MausiManager;component/Images/16/jobsInProduction.png" />
+    <BitmapImage x:Key="BitmapJobsSaveProduced16" UriSource="/MausiManager;component/Images/16/jobsSaveProduced.png" />
+    <BitmapImage x:Key="BitmapPart16" UriSource="/MausiManager;component/Images/16/part.png" />
+    <BitmapImage x:Key="BitmapPlate16" UriSource="/MausiManager;component/Images/16/plate.png" />
+    <BitmapImage x:Key="BitmapSearchJob16" UriSource="/MausiManager;component/Images/16/searchJob.png" />
+    <BitmapImage x:Key="BitmapSettings16" UriSource="/MausiManager;component/Images/16/settings.png" />
+    <BitmapImage x:Key="BitmapPartReject16" UriSource="/MausiManager;component/Images/16/partReject.png" />
+    <BitmapImage x:Key="BitmapTemplate16" UriSource="/MausiManager;component/Images/16/template.png" />
+    <BitmapImage x:Key="BitmapTouchscreen16" UriSource="/MausiManager;component/Images/16/touchscreen.png" />
+    <BitmapImage x:Key="BitmapFilter16" UriSource="/MausiManager;component/Images/16/filter.png" />
+    <BitmapImage x:Key="BitmapFilterDelete16" UriSource="/MausiManager;component/Images/16/filterDelete.png" />
+    <BitmapImage x:Key="BitmapSave16" UriSource="/MausiManager;component/Images/16/save.png" />
+    <BitmapImage x:Key="BitmapAccept32" UriSource="/MausiManager;component/Images/32/Accept.png" />
+    <BitmapImage x:Key="BitmapActionCancel32" UriSource="/MausiManager;component/Images/32/actionCancel.png" />
+    <BitmapImage x:Key="BitmapActionPrint32" UriSource="/MausiManager;component/Images/32/actionPrint.png" />
+    <BitmapImage x:Key="BitmapActionReorder32" UriSource="/MausiManager;component/Images/32/actionReorder.png" />
+    <BitmapImage x:Key="BitmapActionStorno32" UriSource="/MausiManager;component/Images/32/actionStorno.png" />
+    <BitmapImage x:Key="BitmapPlateProduce32" UriSource="/MausiManager;component/Images/32/plateProduce.png" />
+    <BitmapImage x:Key="BitmapPlateStorno32" UriSource="/MausiManager;component/Images/32/plateStorno.png" />
+    <BitmapImage x:Key="BitmapPlateReset32" UriSource="/MausiManager;component/Images/32/platereset.png" />
+    <BitmapImage x:Key="BitmapJobDelete32" UriSource="/MausiManager;component/Images/32/jobDelete.png" />
+    <BitmapImage x:Key="BitmapJobProduce32" UriSource="/MausiManager;component/Images/32/jobProduce.png" />
+    <BitmapImage x:Key="BitmapJobsDeleteProduced32" UriSource="/MausiManager;component/Images/32/jobsDeleteProduced.png" />
+    <BitmapImage x:Key="BitmapJobsFinished32" UriSource="/MausiManager;component/Images/32/jobsFinished.png" />
+    <BitmapImage x:Key="BitmapJobsSaveProduced32" UriSource="/MausiManager;component/Images/32/jobsSaveProduced.png" />
+    <BitmapImage x:Key="BitmapMessageInfo32" UriSource="/MausiManager;component/Images/32/messageInfo.png" />
+    <BitmapImage x:Key="BitmapSettings32" UriSource="/MausiManager;component/Images/32/settings.png" />
+    <BitmapImage x:Key="BitmapShutdown32" UriSource="/MausiManager;component/Images/32/shutdown.png" />
+    <BitmapImage x:Key="BitmapPartReject32" UriSource="/MausiManager;component/Images/32/partReject.png" />
+    <BitmapImage x:Key="BitmapTemplate32" UriSource="/MausiManager;component/Images/32/template.png" />
+    <BitmapImage x:Key="BitmapTouchscreen32" UriSource="/MausiManager;component/Images/32/touchscreen.png" />
+    <BitmapImage x:Key="BitmapFilter32" UriSource="/MausiManager;component/Images/32/filter.png" />
+    <BitmapImage x:Key="BitmapFilterDelete32" UriSource="/MausiManager;component/Images/32/filterDelete.png" />
+    <BitmapImage x:Key="BitmapSave32" UriSource="/MausiManager;component/Images/32/save.png" />
+    <BitmapImage x:Key="BitmapOpen32" UriSource="/MausiManager;component/Images/32/open.png" />
+    <BitmapImage x:Key="BitmapPrintLabel32" UriSource="/MausiManager;component/Images/32/actionPrintLabel.png" />
+    <BitmapImage x:Key="BitmapExport32" UriSource="/MausiManager;component/Images/export_32.png" />
+
+    <BitmapImage x:Key="BitmapIniFile32" UriSource="/Images/maus.ico"/>
+    <BitmapImage x:Key="BitmapLogFile32" UriSource="/MausiManager;component/Images/32/messageinfo.png"/>
+
+    <BitmapImage x:Key="BitmapSortieren" UriSource="/MausiManager;component/Images/1717.png" />
+    <BitmapImage x:Key="BitmapNCdelete" UriSource="/MausiManager;component/Images/1703.png" />
+    <BitmapImage x:Key="BitmapWKZaendern" UriSource="/MausiManager;component/Images/1711.png" />
+    <BitmapImage x:Key="BitmapStanzenAuto" UriSource="/MausiManager;component/Images/1830.png" />
+    <BitmapImage x:Key="BitmapFlaecheAussen" UriSource="/MausiManager;component/Images/1310.png" />
+    <BitmapImage x:Key="BitmapKonturAussen" UriSource="/MausiManager;component/Images/1311.png" />
+    <BitmapImage x:Key="BitmapStanzenInnen" UriSource="/MausiManager;component/Images/1309.png" />
+    <BitmapImage x:Key="BitmapLage" UriSource="/MausiManager;component/Images/110A.png" />
+    <BitmapImage x:Key="BitmapXrichten" UriSource="/MausiManager;component/Images/2231.png" />
+    <BitmapImage x:Key="BitmapYrichten" UriSource="/MausiManager;component/Images/2232.png" />
+    <BitmapImage x:Key="BitmapTrimmen" UriSource="/MausiManager;component/Images/2311.png" />
+    <BitmapImage x:Key="BitmapCADdelete" UriSource="/MausiManager;component/Images/2101.png" />
+    <BitmapImage x:Key="BitmapGleicheD" UriSource="/MausiManager;component/Images/2382.png" />
+    <BitmapImage x:Key="BitmapGravur" UriSource="/MausiManager;component/Images/144D.png" />
+    <BitmapImage x:Key="BitmapFlaecheStanzen" UriSource="/MausiManager;component/Images/144A.png" />
+
+    <BitmapImage x:Key="BitmapAutoCC" UriSource="/MausiManager;component/Images/FPR201.png" />
+    <BitmapImage x:Key="BitmapAutoLoop" UriSource="/MausiManager;component/Images/L001.png" />
+    <BitmapImage x:Key="BitmapSelectAuftrag" UriSource="/MausiManager;component/Images/FPR013.png" />
+    <BitmapImage x:Key="BitmapPNSERVICE" UriSource="/MausiManager;component/Images/PNSERVICE.png" />
+    <BitmapImage x:Key="BitmapMultiShear" UriSource="/MausiManager;component/Images/1484.png" />
+    <BitmapImage x:Key="BitmapStahl" UriSource="/MausiManager;component/Images/Stahl.png" />
+    <BitmapImage x:Key="BitmapStandart" UriSource="/MausiManager;component/Images/Standart.png" />
+    <BitmapImage x:Key="BitmapAuftrag" UriSource="/MausiManager;component/Images/excel.png" />
+    <BitmapImage x:Key="BitmapAuftragDaten" UriSource="/MausiManager;component/Images/auftrag.png" />
+    <BitmapImage x:Key="BitmapArchivBrowser" UriSource="/MausiManager;component/Images/NCA3.png" />
+    <BitmapImage x:Key="BitmapKundeK" UriSource="/MausiManager;component/Images/kundeK.png" />
+    <BitmapImage x:Key="BitmapDatumD" UriSource="/MausiManager;component/Images/datumD.png" />
+    <BitmapImage x:Key="BitmapArchivName" UriSource="/MausiManager;component/Images/archivName.png" />
+    <BitmapImage x:Key="BitmapArchivNumber" UriSource="/MausiManager;component/Images/archivNumber.png" />
+    <BitmapImage x:Key="BitmapAuftragA" UriSource="/MausiManager;component/Images/auftragA.png" />
+</ResourceDictionary>

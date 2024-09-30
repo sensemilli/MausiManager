@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.JobManager.PartRejectWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager" Title="{DynamicResource PartRejectWindow}" Height="280" Width="520" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="/JobManager;component/Images/32/partReject.png">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <local:PlateRejectImageConverter x:Key="converterPartPreview" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Background="#FFF5F5F5">
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0" Margin="3">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="184" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <Border Grid.Column="0" BorderBrush="#FFD3D3D3" BorderThickness="1" Width="184" Height="139" VerticalAlignment="Top" Margin="0,10,0,0">
+        <Image Width="180" Height="135" Source="{Binding Part.PlatePart.Part, Converter={StaticResource converterPartPreview}}" />
+      </Border>
+      <Grid Column="1" Margin="10,0,0,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="120" />
+          <ColumnDefinition Width="3" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="18" />
+          <RowDefinition Height="18" />
+          <RowDefinition Height="18" />
+          <RowDefinition Height="18" />
+          <RowDefinition Height="18" />
+          <RowDefinition Height="18" />
+          <RowDefinition Height="18" />
+          <RowDefinition Height="18" />
+          <RowDefinition Height="18" />
+          <RowDefinition Height="24" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource PART_NAME}" />
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Part.PlatePart.Part.PART_NAME}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource PART_ORDER}" />
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Part.PlatePart.Part.PART_ORDER}" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource PART_POSITION}" />
+        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Part.PlatePart.Part.PART_POSITION}" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource PART_REMARK}" />
+        <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Part.PlatePart.Part.PART_REMARK}" />
+        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource Amount}" />
+        <TextBlock Grid.Row="4" Grid.Column="2" Style="{StaticResource StyleTextBlockNumeric}" Text="{Binding Part.PlatePart.Part.PART_ACOUNT}" />
+        <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource AmountProduced}" />
+        <TextBlock Grid.Row="5" Grid.Column="2" Style="{StaticResource StyleTextBlockNumeric}" Text="{Binding Part.PlatePart.Part.PART_PRODUCED}" />
+        <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource AmountStorno}" />
+        <TextBlock Grid.Row="6" Grid.Column="2" Style="{StaticResource StyleTextBlockNumeric}" Text="{Binding Part.PlatePart.Part.PART_STORNO}" />
+        <TextBlock Grid.Row="7" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource AmountRejected}" />
+        <TextBlock Grid.Row="7" Grid.Column="2" Style="{StaticResource StyleTextBlockNumeric}" Text="{Binding Part.PlatePart.Part.PART_REJECT}" />
+        <TextBlock Grid.Row="9" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource AmountToReject}" />
+        <StackPanel Grid.Row="9" Grid.Column="2" Orientation="Horizontal">
+          <TextBox Style="{StaticResource StyleTextBoxNumeric}" TabIndex="1" FontSize="16" Text="{Binding Part.AmountToReject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          <TextBlock Margin="10,0,0,0" Foreground="#FFFF0000" Style="{StaticResource StyleTextBlockShadow}">
+            <Run Text="( MAX = " /> <Run Text="{Binding Part.RestOfRejection, FallbackValue=0}" /> <Run Text=" )" /></TextBlock>
+        </StackPanel>
+      </Grid>
+    </Grid>
+    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,5">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="75" />
+          </Style>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+      <Button Content="{DynamicResource ButtonCancel}" Margin="0,0,5,0" Command="{Binding CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+      <Button Content="{DynamicResource ButtonOK}" IsDefault="True" Command="{Binding OkCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+    </StackPanel>
+  </Grid>
+</Window>

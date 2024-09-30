@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MausiManager": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\tommy\\source\\repos\\sensemilli\\MausiManager"
+    }
+  }
+}

@@ -1,0 +1,227 @@
+VERSION 4.0
+#
+TEXT_START
+ ActivateTouchScreen = Touchscreen ON/OFF
+ Amount = Anzahl
+ AmountProduced = Gefertigt
+ AmountRejected = Ausschuss
+ AmountStorno = Storniert
+ AmountToProduce = Anzahl zu fertigen
+ AmountToReject = Anzahl Ausschuss
+ AmountToStorno = Anzahl (stornieren)
+ AmountTotal = Gesamtanzahl
+ BarcodeActions = Barcode
+ ButtonCancel = Abbruch
+ ButtonDeleteProduced = Gefert. löschen
+ ButtonExit = Schließen
+ ButtonJobDelete = Job löschen
+ ButtonOK = OK
+ ButtonProduce = Produziert
+ ButtonReject = Ausschuss
+ ButtonReloadJobs = Neu laden
+ ButtonSave = Speichern
+ ButtonStoreProduced = Gefert. sichern
+ ButtonStorno = Stornieren
+ ButtonOpen = Öffnen
+ ChargeName = Chargennummer
+ ColumnName = Spaltenname
+ DeleteFilter = Filter löschen
+ Filter = Filter
+ GroupColumnsConfiguration = Spaltenkonfiguration
+ GroupJobActions = Job
+ GroupJobListActions = Jobliste
+ GroupPartActions = Teil
+ GroupPlateActions = Tafel
+ IsDefault = Standard
+ IsSelected = Selektiert
+ IsVisible = Sichtbar
+ JobAmount = Anzahl Jobs
+ JobHasRejectParts = Melden mit Ausschuss
+ JobInfo = Job
+ JobNoRejectParts = Melden ohne Ausschuss
+ JobProductionStrategySelect = Jobproduktion
+ JobsFiltered = Gefiltert
+ JobsPath = JOBDATA Pfad
+ JobsSavePath = JOBDATA Sicherung
+ MachineName = Maschinenname
+ MachineNumber = Maschine Nr.:
+ MainWindow = PN4000 Job Manager
+ MsgAllIsProduced = Alle {0} sind fertiggemeldet bzw. storniert!
+ MsgAllPartsAreProduced = Alle Teile '{0}' sind schon gefertigt oder als Ausschuss gemeldet!
+ MsgAskDeleteJobs = Möchten Sie selektierte Jobs löschen?
+ MsgAskDeleteProducedJobs = Möchten Sie alle gefertigten Jobs löschen?
+ MsgAskProduceJobs = Möchten Sie die selektierten Jobs fertigmelden?
+ MsgAskSaveProducedJobs = Möchten Sie alle gefertigten Jobs sichern?
+ MsgAskSaveListConfiguration = Liste wurde geändert. Möchten Sie die Einstellungen speichern?
+ MsgFileIsNotFound = Datei '{0}' ist beschädigt oder existiert nicht!
+ MsgJobInformation = Anzahl Tafeln = {0}|Anzahl Teile = {1}
+ MsgJobIsAlreadyProduced = Der Job '{0}' ist schon komplett fertiggemeldet oder storniert
+ MsgJobIsNotFound = Job wurde nicht gefunden!
+ MsgNoJobsFound = Es gibt keine Jobs!
+ MsgPlateIsNotFound = NC Programm ist nicht gefunden!
+ MsgPlatesAreNotFound = Keine Tafeln gefunden
+ MsgSelectJob = Selektieren Sie einen Job!
+ MsgSelectNewPath = Selektieren Sie den neuen Pfad
+ MsgSelectPart = Selektieren Sie ein Teil!
+ MsgWrongAmount = Maximale {0} Anzahl ist überschritten! Operation wird abgebrochen!
+ MsgWrongPlateStatus = NC-Programme {0} hat PN Status = 0 |( nicht freigegeben )!| Operation wird abgebrochen!
+ PART_NAME = Part
+ PART_ORDER = Auftragsnummer
+ PART_POSITION = Position
+ PART_REMARK = Bemerkung
+ PartInfo = Teile Info
+ PartRejectWindow = Ausschuss melden
+ Parts = Teile
+ PlateInfo = Tafelinformation
+ PathChange = Pfad ändern
+ PLATE_DIALOG = Tafelparameter
+ PLATE_HEADER_TXT_1 = NC-Programme
+ PLATE_NAME = Tafelname
+ PLATE_NAME_DESCRIP = Beschreibung
+ PLATE_NAME_IDENT = Identnr.
+ PLATE_NAME_REMARK_1 = Bemerkung 1
+ PLATE_NAME_REMARK_2 = Bemerkung 2
+ PLATE_NAME_REMARK_3 = Bemerkung 3
+ PLATE_NAME_REST = Resttafelname
+ PLATE_STORAGE_NO = Lagernr.
+ PLATE_TIME_REAL = ist Zeit
+ PlateProductionWindow = Tafelproduktion
+ Plates = Tafeln
+ PlateStornoWindow = Tafel stornieren
+ Reload = Neu laden
+ Settings = Einstellungen
+ ShowAll = Alle
+ TemplateOpen = Template Datei öffnen
+ TimeBuffer = ausstehend
+ TimeProduction = gefertigt
+ TimeStamp = Datum / Zeit
+ Translation = Übersetzung
+ UserName = Benutzername
+ UserNames = Benutzer
+ ButtonJobSettings = Jobs
+ ButtonPlateSettings =   Tafeln
+ ButtonPartSettings =   Teile
+ ButtonPlatePartSettings = Teile auf Tafel
+ LocalConfiguration = JobManager.ini
+ LogFile = JobManager Logfile
+ PrinterSettings = Drucker Einstellungen
+TEXT_END
+#
+#
+#
+WINDOW_SIZE_START
+ TOP;      148;
+ BOTTOM;   822;
+ LEFT;     179;
+ RIGTH;    1102;
+WINDOW_SIZE_END
+#
+#
+#=========================================================================
+# ID  KEYWORD              DESCRIPTION       VISIBLE Y/N  PLACE   WIDTH
+#=========================================================================
+#
+JOBS_START
+  JOB_DATA_1;             Jobname;                 1;    L;      70;
+  JOB_PROGRESS;           Fortschritt;             4;    L;      117;
+  JOB_MACHINE_NO;         Maschinennr.;            2;    R;      7;
+  JOB_MACHINE_NAME;       Maschine;                1;    L;      118;
+  JOB_MATERIAL_NO;        Materialnr.;             2;    R;      5;
+  JOB_MATERIAL_NAME;      Material;                1;    L;      107;
+  JOB_THICKNESS;          Dicke;                   2;    R;      50;
+  AMOUNT_DIFF_PLATES;     Tafeln;                  2;    R;      45;
+  AMOUNT_DIFF_PARTS;      Teile;                   2;    R;      70;
+  JOB_TIME_WORK;          Fertig;                  2;    R;      70;
+  JOB_TIME_TOTAL;         Laufzeit;                2;    R;      70;  
+JOBS_END
+#
+#
+PLATES_START
+  PLATE_NUMBER;           Nummer;                  2;    R;      0;
+  PLATE_NAME;             Tafelname;               1;    L;      114;
+  PLATE_NAME_IDENT;       Charge;                  1;    L;      0;
+  PLATE_NAME_DESCRIP;     Beschreibung;            1;    L;      0;
+  PLATE_STORAGE_NO;       Lagerplatz;              2;    R;      0;
+  PLATE_HEADER_TXT_1;     Programmnr.;             2;    R;      87;
+  PLATE_SIZE_X;           Dimension X;             2;    R;      0;
+  PLATE_SIZE_Y;           Dimension Y;             2;    R;      0;
+  PLATE_NAME_REST;        Name d. Resttafel;       1;    L;      38;
+  REST_PLATE_REF_NO;      Ref. Nr. d. Resttafel;   2;    R;      38;
+  NUMBER_OF_PLATES;       Tafelanzahl;             2;    R;      45;
+  PLATE_PRODUCED;         Fertiggemeldet;          2;    R;      42;
+  PLATE_STORNO;           Storniert;               2;    R;      36;
+  PLATE_MATERIAL_NO;      Materialnr.;             2;    R;      41;
+  PLATE_THICKNESS;        Dicke;                   2;    R;      39;
+  PLATE_DIFF_PARTS;       Versch. Teile;           2;    R;      39;
+  PLATE_TOTAL_PARTS;      Teile auf Tafel;         2;    R;      70;
+  PLATE_TIME_WORK;        Produktionszeit;         2;    R;      70;
+PLATES_END
+#
+#
+PLATEPART_START
+  PLATE_PART_NUMBER;      Nummer;                  1;    R;      1;
+  PLATE_PART_AMOUNT;      Anzahl auf Tafel;        1;    R;      1;
+  PLATE_PART_TIME_PLUS;   Teilezeit;               2;    R;      1;
+  PLATE_PART_AREA_PLUS;   Teilefläche;             2;    R;      1;
+  PLATE_PART_AMOUNT_RE;   Anzahl Ausschuss;        1;    R;      1;
+PLATEPART_END
+#
+#
+PARTS_START
+  PART_NAME;              Artikel;                 1;    L;      70;
+  PART_ARCHIV_NO;         Archivnr.;               2;    R;      70;
+  PART_ORDER;             Auftrag;                 1;    L;      70;
+  PART_POSITION;          Position;                1;    L;      70;
+  PART_REMARK;            Bemerkung;               1;    L;      70;
+  PART_REMARK_1;          Bemerkung 1;             1;    L;      70;
+  PART_REMARK_2;          Bemerkung 2;             1;    L;      70;
+  PART_REMARK_3;          Bemerkung 3;             1;    L;      70;
+  PART_ACOUNT;            Anzahl;                  2;    R;      70;
+  PART_PRODUCED;          Fertig;                  2;    R;      70;
+  PART_STORNO;            Storniert;               2;    R;      70;
+  PART_REJECT;            Ausschuss;               2;    R;      70;
+  PartAmountOnPlate;      Anzahl auf Tafel        ;2;    R;      70;
+PARTS_END
+#
+#
+#
+SETTINGS_START
+ JOBDATA_PATH         = $PNDRIVE$\u\sfa\jobdata
+ IsJobDeleteEnabled   = 1
+ IsJobDeleteProducedEnabled = 1
+ IsJobSaveProducedEnabled = 1
+ IsJobProduceEnabled  = 1
+ IsPlateProduceEnabled = 1
+ IsPlateStornoEnabled = 1
+ IsPartRejectEnabled  = 1
+ SET_PLATE_PARAMETERS = 0
+ UserNames            = 
+ AllowedMachines      = 
+ Column1Width         = 380
+ GridJobHeight        = 312
+ GridPlateHeight      = 184
+ JobDataSavePath      = D:\u\sfa\jobdata_save
+ IsTouchScreen        = 0
+ HasToSaveProducedJobs = 0
+ IsSettingsVisible    = 1
+ PlateSaveBatchPath   = D:\u\pn\bin\JobManagerPlate.bat
+ PlateDeleteBatchPath = D:\u\pn\bin\JobManagerPlate.bat
+ StandardDatOutputPath = 
+ LastSelectedUser     = 
+ HasToMultiplyPlatePartAmount = 0
+ CoraUrl              = 
+ PlateBookTimeKey     = PLATE_TIME_WORK
+ IsChargeObligatory   = 0
+ IsUserObligatory     = 0
+ HasToSaveLastUser    = 0
+ LabelPrintOrder      = 1
+ IsJobPrintLabelEnabled = 1
+ IsPlatePrintLabelEnabled = 1
+ IsPartPrintLabelEnabled = 1
+ HasToUseBatchForHtmlPreview = 0
+ HtmlPreviewBatchPath = 
+ IsButtonPlateResetVisible = 0
+SETTINGS_END
+#
+#
+#

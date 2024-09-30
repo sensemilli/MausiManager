@@ -1,0 +1,827 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ribbon:RibbonWindow x:Class="WiCAM.Pn4000.JobManager.MainWindow" Height="800" Width="1000" Title="{Binding WindowName}" 
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager" xmlns:ribbon="clr-namespace:System.Windows.Controls.Ribbon;assembly=System.Windows.Controls.Ribbon" 
+                     xmlns:common="clr-namespace:WiCAM.Pn4000.Common;assembly=WiCAM.Pn4000.Comon"
+                                             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                     xmlns:cadgeo="clr-namespace:WiCAM.Pn4000.WpfControls.CadgeoViewer;assembly=WiCAM.Pn4000.Comon" 
+                        xmlns:filter="clr-namespace:WiCAM.Pn4000.WpfControls;assembly=WiCAM.Pn4000.Comon" 
+                     xmlns:tree="clr-namespace:WiCAM.Pn4000.WpfControls.ArchivesControl;assembly=WiCAM.Pn4000.Comon"
+                       xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
+                       xmlns:mdix="http://materialdesigninxaml.net/winfx/xaml/themes"  Icon="maus.ico"
+                      xmlns:controlsarchive="clr-namespace:WiCAM.Pn4000.ScreenD3D.Controls;assembly=WiCAM.Pn4000.ScreenD3D" 
+                                          xmlns:consoleControl="clr-namespace:ConsoleControl.WPF;assembly=ConsoleControl.WPF"
+                                                       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                                                                            xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                                xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes" x:Name="winni">
+  <RibbonWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Shadows.xaml" />
+
+                <!-- <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Page.xaml" /> -->
+
+                <!-- this should be added -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ValidationError.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ContentControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Flyout.xaml" />
+                <ResourceDictionary  Source="pack://application:,,,/MausiManager;component/Resources/StylesDictionary.xaml" />
+                <ResourceDictionary Source="/Simple.Wpf.Terminal.Themes;component/BlueTheme.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="BrushBachkgoundStandard" Color="WhiteSmoke" />
+            <Style BasedOn="{StaticResource MahApps.Styles.CustomValidationPopup}" TargetType="{x:Type mah:CustomValidationPopup}" />
+
+            <local:BorderHeightConverter x:Key="converterImageHeight" />
+            <common:VisibilityConverter x:Key="converterMenuVisibility" />
+            <BitmapImage x:Key="imageSave" UriSource="maus.ico" />
+
+            <Image x:Key="ImageWarning" Source="Images/warning_16.png" Width="16" />
+            <Image x:Key="ImageStop" Source="Images/stop_16.png" Width="16" />
+            <Image x:Key="ImageFolder" Source="Images/folder_16.png" Width="16" />
+            <Image x:Key="ImageDatabase" Source="Images/database_16.png" Width="16" />
+            <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
+                <Setter Property="FrameworkElement.Width" Value="80" />
+                <Setter Property="FrameworkElement.Margin" Value="3,0,0,0" />
+            </Style>
+            <Style x:Key="{x:Type DataGrid}" TargetType="{x:Type DataGrid}">
+                <Setter Property="DataGrid.AlternatingRowBackground" Value="#FFF0F0F0" />
+                <Setter Property="ItemsControl.AlternationCount" Value="2" />
+                <Setter Property="DataGrid.VerticalGridLinesBrush" Value="#FFB0B0B0" />
+                <Setter Property="DataGrid.HorizontalGridLinesBrush" Value="#FFB0B0B0" />
+            </Style>
+            <Style x:Key="StyleRightAlignedCell" TargetType="{x:Type DataGridCell}">
+                <Setter Property="TextBlock.TextAlignment" Value="Right" />
+                <Style.Triggers>
+                    <Trigger Property="DataGridCell.IsSelected" Value="True">
+                        <Setter Property="Control.Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                        <Setter Property="Control.BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}">
+                <Setter Property="FrameworkElement.Height" Value="28" />
+            </Style>
+            <DataTemplate x:Key="FilterHeaderTemplate" DataType="archive:FilterConfiguration">
+                <Border Margin="5,0,0,0">
+                    <TextBlock VerticalAlignment="Center" TextBlock.FontSize="13" Text="{Binding Description}" />
+                </Border>
+            </DataTemplate>
+            <Style x:Key="StyleDataGridCellSelected" TargetType="{x:Type DataGridCell}">
+                <Style.Triggers>
+                    <Trigger Property="DataGridCell.IsSelected" Value="true">
+                        <Setter Property="Control.Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                        <Setter Property="Control.BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                    </Trigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsSelected}" Value="True" />
+                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=IsKeyboardFocusWithin}" Value="False" />
+                        </MultiDataTrigger.Conditions>
+                        <MultiDataTrigger.Setters>
+                            <Setter Property="Control.Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                            <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                            <Setter Property="Control.BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        </MultiDataTrigger.Setters>
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </RibbonWindow.Resources>
+
+
+  
+    
+    <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <ribbon:Ribbon Grid.Row="0" SelectionChanged="Ribbon_SelectionChanged">
+      <ribbon:Ribbon.ApplicationMenu>
+        <ribbon:RibbonApplicationMenu>
+          <ribbon:RibbonApplicationMenuItem Header="{DynamicResource LocalConfiguration}" ImageSource="{StaticResource BitmapIniFile32}" Command="{Binding OpenIniFileCommand}" />
+          <ribbon:RibbonApplicationMenuItem Header="{DynamicResource LogFile}" ImageSource="{StaticResource BitmapLogFile32}" Command="{Binding OpenLogFileCommand}" />
+          <ribbon:RibbonSeparator />
+          <ribbon:RibbonApplicationMenuItem Header="{DynamicResource ButtonExit}" ImageSource="{StaticResource BitmapShutdown32}" Command="{Binding ExitCommand}" />
+        </ribbon:RibbonApplicationMenu>
+      </ribbon:Ribbon.ApplicationMenu>
+      <ribbon:RibbonTab Name="ribbonTab1" Header="{DynamicResource JobInfo}">
+        <ribbon:RibbonGroup Header="{DynamicResource Filter}">
+          <local:FilterControl x:Name="filterControlJobs" />
+                    <ribbon:RibbonButton Label="{DynamicResource DeleteFilter}" ToolTipTitle="{DynamicResource DeleteFilter}" ToolTipDescription="Key = DeleteFilter" SmallImageSource="maus.ico" LargeImageSource="maus.ico" Command="{Binding FilterDeleteCommand}" />
+        </ribbon:RibbonGroup>
+        <ribbon:RibbonGroup Header="{DynamicResource GroupJobListActions}">
+          <ribbon:RibbonButton Label="{DynamicResource ButtonDeleteProduced}" SmallImageSource="{StaticResource BitmapJobsDeleteProduced16}" LargeImageSource="{StaticResource BitmapJobsDeleteProduced32}" Command="{Binding DeleteProducedJobsCommand}" />
+          <ribbon:RibbonButton Label="{DynamicResource ButtonStoreProduced}" SmallImageSource="{StaticResource BitmapJobsSaveProduced16}" LargeImageSource="{StaticResource BitmapJobsSaveProduced32}" Command="{Binding SaveProducedJobsCommand}" />
+          <ribbon:RibbonButton Label="{DynamicResource ButtonReloadJobs}" Margin="0,0,15,0" SmallImageSource="{StaticResource BitmapActionReorder16}" LargeImageSource="{StaticResource BitmapActionReorder32}" Command="{Binding ReloadJobsCommand}" />
+                    <ribbon:RibbonButton Label="{DynamicResource ButtonReloadWithFinishedJobs}" Margin="0,0,15,0"
+ SmallImageSource="{StaticResource BitmapActionReorder16}"
+ LargeImageSource="{StaticResource BitmapActionReorder32}" Command="{Binding ReloadWithFinishedJobsCommand}"/>
+                </ribbon:RibbonGroup>
+        <ribbon:RibbonGroup Header="{DynamicResource GroupJobActions}">
+          <ribbon:RibbonButton Label="{DynamicResource ButtonProduce}" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapJobProduce16}" LargeImageSource="{StaticResource BitmapJobProduce32}" Command="{Binding ProduceJobCommand}" />
+          <ribbon:RibbonButton Label="{DynamicResource ButtonJobDelete}" Margin="0,0,15,0" SmallImageSource="{StaticResource BitmapJobDelete16}" LargeImageSource="{StaticResource BitmapJobDelete32}" Command="{Binding DeleteJobCommand}" />
+          <ribbon:RibbonButton Label="{DynamicResource ButtonPrintLabel}" Margin="0,0,15,0" SmallImageSource="{StaticResource BitmapPrintLabel32}" LargeImageSource="{StaticResource BitmapPrintLabel32}" Command="{Binding PrintJobLabelsCommand}" />
+        </ribbon:RibbonGroup>
+        <ribbon:RibbonGroup Header="{DynamicResource GroupPlateActions}">
+          <ribbon:RibbonButton Label="{DynamicResource ButtonProduce}" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapPlateProduce16}" LargeImageSource="{StaticResource BitmapPlateProduce32}" Command="{Binding ProducePlateCommand}" />
+          <ribbon:RibbonButton Label="{DynamicResource ButtonStorno}" Margin="0,0,15,0" SmallImageSource="{StaticResource BitmapPlateStorno16}" LargeImageSource="{StaticResource BitmapPlateStorno32}" Command="{Binding StornoPlateCommand}" />
+          <ribbon:RibbonButton Label="{DynamicResource ButtonPrintLabel}" Margin="0,0,15,0" SmallImageSource="{StaticResource BitmapPrintLabel32}" LargeImageSource="{StaticResource BitmapPrintLabel32}" Command="{Binding PrintPlateLabelsCommand}" />
+        </ribbon:RibbonGroup>
+        <ribbon:RibbonGroup Header="{DynamicResource GroupPartActions}">
+          <ribbon:RibbonButton Label="{DynamicResource ButtonReject}" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapPartReject16}" LargeImageSource="{StaticResource BitmapPartReject32}" Command="{Binding RejectPartCommand}" />
+          <ribbon:RibbonButton Label="{DynamicResource ButtonPrintLabel}" Margin="0,0,15,0" SmallImageSource="{StaticResource BitmapPrintLabel32}" LargeImageSource="{StaticResource BitmapPrintLabel32}" Command="{Binding PrintPartLabelsCommand}" />
+        </ribbon:RibbonGroup>
+        <ribbon:RibbonGroup Header="{DynamicResource BarcodeActions}">
+          <Grid Width="180">
+            <Grid.RowDefinitions>
+              <RowDefinition />
+              <RowDefinition Height="5" />
+              <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0" Grid.Row="0" Source="{StaticResource BitmapJobProduce32}" Width="22" />
+            <TextBox Name="txtBarcodeJob" Grid.Column="1" Grid.Row="0" FontSize="18" Margin="10,0,0,0" />
+            <Image Grid.Column="0" Grid.Row="2" Source="{StaticResource BitmapPlateProduce32}" Width="22" />
+            <TextBox Name="txtBarcodePlate" Grid.Column="1" Grid.Row="2" FontSize="18" Margin="10,0,0,0" />
+          </Grid>
+        </ribbon:RibbonGroup>
+      </ribbon:RibbonTab>
+      <ribbon:RibbonTab Name="ribbonTab04" Header="{DynamicResource PlateInfo}">
+        <ribbon:RibbonGroup Header="{DynamicResource Filter}">
+          <local:FilterControl x:Name="filterControlPlates" />
+          <ribbon:RibbonButton Label="{DynamicResource DeleteFilter}" SmallImageSource="{StaticResource BitmapFilterDelete16}" LargeImageSource="{StaticResource BitmapFilterDelete32}" Command="{Binding FilterDeleteCommand}" />
+        </ribbon:RibbonGroup>
+        <ribbon:RibbonGroup Header="{DynamicResource GroupPlateActions}">
+          <ribbon:RibbonButton Label="{DynamicResource ButtonProduce}" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapPlateProduce16}" LargeImageSource="{StaticResource BitmapPlateProduce32}" Command="{Binding ProducePlateCommand}" />
+          <ribbon:RibbonButton Label="{DynamicResource ButtonStorno}" Margin="0,0,15,0" SmallImageSource="{StaticResource BitmapPlateStorno16}" LargeImageSource="{StaticResource BitmapPlateStorno32}" Command="{Binding StornoPlateCommand}" />
+        </ribbon:RibbonGroup>
+        <ribbon:RibbonGroup Header="{DynamicResource GroupPartActions}">
+          <ribbon:RibbonButton Label="{DynamicResource ButtonReject}" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapPartReject16}" LargeImageSource="{StaticResource BitmapPartReject32}" Command="{Binding RejectPartCommand}" />
+        </ribbon:RibbonGroup>
+      </ribbon:RibbonTab>
+      <ribbon:RibbonTab Name="ribbonTab2" Header="{DynamicResource PartInfo}">
+        <ribbon:RibbonGroup Header="{DynamicResource Filter}">
+          <local:FilterControl x:Name="filterControlParts" />
+          <ribbon:RibbonButton Label="{DynamicResource DeleteFilter}" SmallImageSource="{StaticResource BitmapFilterDelete16}" LargeImageSource="{StaticResource BitmapFilterDelete32}" Command="{Binding FilterDeleteCommand}" />
+        </ribbon:RibbonGroup>
+        <ribbon:RibbonGroup Header="{DynamicResource GroupPartActions}">
+          <ribbon:RibbonButton Label="{DynamicResource ButtonReject}" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapPartReject16}" LargeImageSource="{StaticResource BitmapPartReject32}" Command="{Binding RejectPartCommand}" />
+        </ribbon:RibbonGroup>
+      </ribbon:RibbonTab>
+      <ribbon:RibbonTab Name="ribbonTab3" Header="{DynamicResource Settings}" Visibility="{Binding IsSettingsVisible}">
+        <ribbon:RibbonGroup Header="{DynamicResource GroupColumnsConfiguration}">
+          <ribbon:RibbonButton Label="{DynamicResource TemplateOpen}" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapTemplate16}" LargeImageSource="{StaticResource BitmapTemplate32}" Command="{Binding ShowTemplateCommand}" />
+        </ribbon:RibbonGroup>
+        <ribbon:RibbonGroup Header="{DynamicResource Settings}">
+          <ribbon:RibbonToggleButton Label="{DynamicResource ActivateTouchScreen}" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapTouchscreen16}" LargeImageSource="{StaticResource BitmapTouchscreen32}" IsChecked="{Binding IsTouchScreen}" />
+        </ribbon:RibbonGroup>
+        <ribbon:RibbonGroup Header="{DynamicResource Settings}">
+          <ribbon:RibbonButton Label="{DynamicResource ButtonSave}" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapSave16}" LargeImageSource="{StaticResource BitmapSave32}" Command="{Binding SaveSettingsCommand}" />
+        </ribbon:RibbonGroup>
+      </ribbon:RibbonTab>
+        
+            <ribbon:RibbonTab x:Name="ribbonTab5" Header="MaterialPool" >
+            </ribbon:RibbonTab>
+            <ribbon:RibbonTab x:Name="ribbonTab05" Header="NCArchiv" >
+            </ribbon:RibbonTab>
+            <ribbon:RibbonTab x:Name="ribbonTab6" Header="Auftrag">
+
+                <ribbon:RibbonGroup Header="{DynamicResource Filter}">
+                    <ribbon:RibbonButton Label="{DynamicResource DeleteFilter}" ToolTipTitle="{DynamicResource DeleteFilter}" ToolTipDescription="Key = DeleteFilter" SmallImageSource="{StaticResource BitmapFilterDelete16}"
+                           LargeImageSource="{StaticResource BitmapFilterDelete32}" Command="{Binding FilterDeleteCommand}" />
+                </ribbon:RibbonGroup>
+                
+                      <ribbon:RibbonGroup Header="{DynamicResource ButtonPnTools}">
+                          <ribbon:RibbonButton Label="{DynamicResource ButtonPnArchivBrowser}" SmallImageSource="{StaticResource BitmapArchivBrowser}" LargeImageSource="{StaticResource BitmapArchivBrowser}" Command="{Binding ButtonPnArchivBrowserCommand}"/>
+                    <ribbon:RibbonButton Label="{DynamicResource ButtonPnArchivBrowser}" SmallImageSource="{StaticResource BitmapArchivBrowser}" LargeImageSource="{StaticResource BitmapArchivBrowser}" Command="{Binding ButtonPnArchivSelectedBrowserCommand}" />
+                </ribbon:RibbonGroup>
+                
+                <ribbon:RibbonGroup Header="{DynamicResource AuftragActions}">           
+                    <ribbon:RibbonButton Label="{DynamicResource ButtonSelectArchiv}" Margin="10,0,15,0" SmallImageSource="{StaticResource BitmapActionReorder16}" LargeImageSource="{StaticResource BitmapActionReorder32}" Command="{Binding ButtonSelectArchivCommand}" />
+                    <Grid Width="180">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Grid.Row="1" Source="{StaticResource BitmapArchivNumber}" Width="24" ToolTip="Archiv Nummer"/>
+                        <TextBox x:Name="txtArchivNummer" Grid.Column="1" Grid.Row="1" FontSize="12" Margin="10,0,0,0" />
+                        <Image Grid.Column="0" Grid.Row="3" Source="{StaticResource BitmapArchivName}" Width="24" ToolTip="Archiv Name"/>
+                        <TextBox x:Name="txtArchivName" Grid.Column="1" Grid.Row="3" FontSize="12" Margin="10,0,0,0" />
+                        <TextBlock x:Name="txtSelectedArchiv" Text="SelektiertesArchiv" FontSize="10" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" />
+                    </Grid>
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="{DynamicResource AuftragsDaten}"  LargeImageSource="{StaticResource BitmapAuftragDaten}">
+                    <Grid>
+                        <DatePicker x:Name="xDatePicker" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Margin="24,48,0,0" Padding="55,0,0,0">
+                            <DatePicker.Resources>
+                                <!-- For many of these brushes the calendar template applies opacity to them -->
+                                <!--"today" background color -->
+                                <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="Purple" />
+                                <!-- "today" foreground -->
+                                <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="Aqua" />
+                                <!-- Header, text box colors, selected data background circle -->
+                                <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="Red" />
+                                <!--Highlighted day background, and focus -->
+                                <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="Orange" />
+                                <!--Selected day button, text color -->
+                                <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="DarkGreen" />
+                                <!-- Calendar button text color -->
+                                <SolidColorBrush x:Key="MaterialDesignBody" Color="Gold" />
+                            </DatePicker.Resources>
+                        </DatePicker>
+
+                        <Grid Width="180">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="24" />
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="22" />
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="24" />
+                                <RowDefinition Height="0" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Column="0" Grid.Row="0" Source="{StaticResource BitmapAuftragA}" Width="26" ToolTip="Auftrags Nummer"/>
+                            <TextBox x:Name="txtAuftragsNummer" Grid.Column="1" Grid.Row="0" FontSize="12" Margin="10,0,0,0" />
+                            <Image Grid.Column="0" Grid.Row="2" Source="{StaticResource BitmapKundeK}" Width="26" ToolTip="Kunden Name"/>
+                            <TextBox x:Name="txtKundenName" Grid.Column="1" Grid.Row="2" FontSize="12" Margin="10,0,0,0" />
+                            <ribbon:RibbonButton Grid.Column="0" Grid.Row="4" SmallImageSource="{StaticResource BitmapDatumD}" Width="22"  
+                                                             Command="{Binding ShowLeftFlyoutCommandMain}" 
+                                                             ToolTip="End Datum"/>
+                        </Grid>
+                    </Grid>
+                </ribbon:RibbonGroup>
+          
+               
+                <ribbon:RibbonGroup Header="Auftrags-Info-Übersicht">
+                    <ribbon:RibbonButton Label="Auftrags- Datenbank" SmallImageSource="{StaticResource BitmapTemplate16}" LargeImageSource="/images/maus.ico" Command="{Binding ToggleAuftragCommand}"/>
+                    <ribbon:RibbonButton Label="Auftrag- anlegen" SmallImageSource="{StaticResource BitmapPlateReset32}" LargeImageSource="{StaticResource BitmapPlateReset32}" Command="{Binding AddAuftragCommand}"/>
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="Auftrags-Teile-Daten">
+                    <ribbon:RibbonButton Label="Archive - Ordner" SmallImageSource="{StaticResource BitmapJobsFinished16}" LargeImageSource="/images/gmpool.ico" Command="{Binding ToggleTeileCommand}"/>
+                    <ribbon:RibbonButton Label="Abgleich" SmallImageSource="{StaticResource BitmapTemplate16}" LargeImageSource="{StaticResource BitmapTemplate32}" Command="{Binding AbgleichCommand}"/>
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="Teile-Liste-2D">
+                    <ribbon:RibbonButton Label="Read-Excel-2D" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapAuftrag}" LargeImageSource="{StaticResource BitmapAuftrag}" Command="{Binding ReadExcel2DCommand}"  />
+                    <ribbon:RibbonButton Label="Write-Excel-2D" SmallImageSource="{StaticResource BitmapTemplate16}" LargeImageSource="/images/toexcel.ico" Command="{Binding WriteExcel2DCommand}"/>
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="Teile-Liste-3D">
+                    <ribbon:RibbonButton Label="Read-Excel-3D" SmallImageSource="{StaticResource BitmapTemplate16}" LargeImageSource="{StaticResource BitmapAuftrag}" Command="{Binding ReadExcel3DCommand}"/>
+                    <ribbon:RibbonButton Label="Write-Excel-3D" SmallImageSource="{StaticResource BitmapTemplate16}" LargeImageSource="/images/toexcel.ico" Command="{Binding WriteExcel3DCommand}"/>
+                </ribbon:RibbonGroup>
+         
+                <ribbon:RibbonGroup Header="Material-Tools">
+                    <ribbon:RibbonButton Label="Material-DB anzeigen" SmallImageSource="{StaticResource BitmapExport32}" LargeImageSource="{StaticResource BitmapExport32}" Command="{Binding ToggleMaterialCommand}"/>
+                    <ribbon:RibbonButton Label="CSV-Proflex lesen" SmallImageSource="{StaticResource BitmapTemplate16}" LargeImageSource="{StaticResource BitmapTemplate32}" Command="{Binding ButtonReadMaterialCSVCommand}"/>
+                    <ribbon:RibbonButton Label="PN-Material anlegen" SmallImageSource="{StaticResource BitmapJobProduce16}" LargeImageSource="{StaticResource BitmapJobProduce32}" Command="{Binding ButtonWriteToMaterialDBCommand}"/>
+                    <ribbon:RibbonButton Label="Mat. Etiketten drucken" SmallImageSource="{StaticResource BitmapPrintLabel32}" LargeImageSource="{StaticResource BitmapPrintLabel32}" Command="{Binding ButtonCreateMaterialPrintExcelCommand}"/>           
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="Excel-Tools">
+                    <ribbon:RibbonButton Label="Excel2Swift" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapAuftrag}" LargeImageSource="{StaticResource BitmapAuftrag}" Command="{Binding Excel2SwiftCommand}"  />
+                    <ribbon:RibbonButton Label="Ordner-Inhalt zu Excel" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapAuftrag}" LargeImageSource="{StaticResource BitmapAuftrag}" Command="{Binding RibbonButtonOrdnerZuExel}"  />
+                </ribbon:RibbonGroup>
+
+            </ribbon:RibbonTab>
+        
+        
+        
+            <ribbon:RibbonTab x:Name="ribbonTab7" Header="{DynamicResource AutoLoopFunctions}">
+                <ribbon:RibbonGroup Header="{DynamicResource Filter}">
+                    <ribbon:RibbonButton Label="{DynamicResource DeleteFilter}" SmallImageSource="{StaticResource BitmapFilterDelete16}" LargeImageSource="{StaticResource BitmapFilterDelete32}" Command="{Binding FilterDeleteCommand}" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="{DynamicResource AusrichtenActions}">
+                    <ribbon:RibbonToggleButton x:Name="xLage" Label="{DynamicResource ButtonLage}" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapLage}" LargeImageSource="{StaticResource BitmapLage}" Command="{Binding LageCommand}"  />
+                    <ribbon:RibbonToggleButton x:Name="xXrichten" Label="{DynamicResource ButtonXrichten}" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapXrichten}" LargeImageSource="{StaticResource BitmapXrichten}" Command="{Binding XrichtenCommand}"  />
+                    <ribbon:RibbonToggleButton x:Name="xYrichten" Label="{DynamicResource ButtonYrichten}" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapYrichten}" LargeImageSource="{StaticResource BitmapYrichten}" Command="{Binding YrichtenCommand}"  />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="{DynamicResource CADactions}">
+                    <ribbon:RibbonToggleButton x:Name="xTrimmen" Label="{DynamicResource ButtonTrimmen}" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapTrimmen}" LargeImageSource="{StaticResource BitmapTrimmen}" Command="{Binding TrimmenCommand}" />
+                    <ribbon:RibbonToggleButton x:Name="xGleicheD" Label="{DynamicResource ButtonGleicheD}" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapGleicheD}" LargeImageSource="{StaticResource BitmapGleicheD}" Command="{Binding GleicheDCommand}" />
+                    <ribbon:RibbonToggleButton x:Name="xCADdelete" Label="{DynamicResource ButtonCADdelete}" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapCADdelete}" LargeImageSource="{StaticResource BitmapCADdelete}" Command="{Binding CADdeleteCommand}" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="{DynamicResource NCactions}">
+                    <ribbon:RibbonToggleButton x:Name="xGravur" Label="{DynamicResource ButtonGravur}" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapGravur}"  LargeImageSource="{StaticResource BitmapGravur}" Command="{Binding GravurCommand}" />
+                    <ribbon:RibbonToggleButton  x:Name="xStanzenInnen"  Label="{DynamicResource ButtonStanzenInnen}" Margin="5,0,0,0" SmallImageSource="{StaticResource BitmapStanzenInnen}" LargeImageSource="{StaticResource BitmapStanzenInnen}" Command="{Binding StanzenInnenCommand}" />
+                    <ribbon:RibbonToggleButton x:Name="xKonturAussen"  Label="{DynamicResource ButtonKonturAussen}" Margin="5,0,0,0" SmallImageSource="{StaticResource BitmapKonturAussen}"  LargeImageSource="{StaticResource BitmapKonturAussen}" Command="{Binding KonturAussenCommand}" />
+                    <ribbon:RibbonToggleButton x:Name="xFlaecheAussen"  Label="{DynamicResource ButtonFlaecheAussen}" Margin="5,0,0,0" SmallImageSource="{StaticResource BitmapFlaecheAussen}" LargeImageSource="{StaticResource BitmapFlaecheAussen}" Command="{Binding FlaecheAussenCommand}" />
+                    <ribbon:RibbonToggleButton  x:Name="xStanzenAuto"  Label="{DynamicResource ButtonStanzenAuto}" Margin="5,0,0,0" SmallImageSource="{StaticResource BitmapStanzenAuto}" LargeImageSource="{StaticResource BitmapStanzenAuto}" Command="{Binding StanzenAutoCommand}" />
+                    <ribbon:RibbonToggleButton x:Name="xFlaecheStanzen"  Label="{DynamicResource ButtonFlaecheStanzen}" Margin="5,0,0,0" SmallImageSource="{StaticResource BitmapFlaecheStanzen}" LargeImageSource="{StaticResource BitmapFlaecheStanzen}" Command="{Binding FlaecheStanzenCommand}"  />
+                    <ribbon:RibbonToggleButton x:Name="xChangeWKZ"  Label="{DynamicResource ButtonWKZaendern}" Margin="5,0,0,0" SmallImageSource="{StaticResource BitmapWKZaendern}" LargeImageSource="{StaticResource BitmapWKZaendern}" Command="{Binding WKZaendernCommand}"  />
+                    <ribbon:RibbonToggleButton x:Name="xSortieren"  Label="{DynamicResource ButtonSortieren}" Margin="5,0,0,0" SmallImageSource="{StaticResource BitmapSortieren}" LargeImageSource="{StaticResource BitmapSortieren}" Command="{Binding SortierenCommand}"  />
+                    <ribbon:RibbonToggleButton x:Name="xNCLoeschen"  Label="{DynamicResource ButtonNCdelete}" Margin="5,0,5,0" SmallImageSource="{StaticResource BitmapNCdelete}" LargeImageSource="{StaticResource BitmapNCdelete}" Command="{Binding NCdeleteCommand}"  />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="{DynamicResource FPRactions}">
+                    <ribbon:RibbonSplitButton Label="SelectFPR" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapTemplate16}" LargeImageSource="{StaticResource BitmapTemplate32}">
+                        <ribbon:RibbonToggleButton x:Name="FPR998toggle" Label="FPR998" LargeImageSource="{StaticResource BitmapSave16}" SmallImageSource="{StaticResource BitmapSave16}" IsChecked="True"  Command="{Binding FPR998toggleCommand}" />
+                        <ribbon:RibbonToggleButton x:Name="FPR999toggle" Label="FPR999" LargeImageSource="{StaticResource BitmapSave16}" SmallImageSource="{StaticResource BitmapSave16}" Command="{Binding FPR999toggleCommand}" />
+                    </ribbon:RibbonSplitButton>
+                    <ribbon:RibbonToggleButton x:Name="saveFPR"  Label="FPRedit speichern" Margin="5,0,5,0"
+       SmallImageSource="{StaticResource BitmapNCdelete}"
+       LargeImageSource="{StaticResource BitmapNCdelete}" 
+       Command="{Binding SaveFPRedit}" />
+                </ribbon:RibbonGroup>
+            </ribbon:RibbonTab>
+
+            <ribbon:RibbonTab x:Name="ribbonTab8" Header="{DynamicResource CommonCutActions}">
+                <ribbon:RibbonGroup Header="{DynamicResource Filter}">
+
+                    <ribbon:RibbonButton Label="{DynamicResource DeleteFilter}" SmallImageSource="{StaticResource BitmapFilterDelete16}"
+    LargeImageSource="{StaticResource BitmapFilterDelete32}" Command="{Binding FilterDeleteCommand}" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="{DynamicResource CommonCutWKZ}">
+                    <ribbon:RibbonToggleButton x:Name="xMultiShear" Label="{DynamicResource ButtonMultiShear}" 
+                                    Margin="15,0,0,0"
+                                    SmallImageSource="{StaticResource BitmapMultiShear}"
+                                    LargeImageSource="{StaticResource BitmapMultiShear}" 
+                                    Command="{Binding MultiShearCommand}" />
+                    <ribbon:RibbonToggleButton x:Name="xStandart76" Label="{DynamicResource ButtonStandart}" 
+                                    Margin="15,0,0,0"
+                                    SmallImageSource="{StaticResource BitmapStandart}"
+                                    LargeImageSource="{StaticResource BitmapStandart}" 
+                                    Command="{Binding StandartCommand}" />
+                    <ribbon:RibbonToggleButton x:Name="xStandart56" Label="{DynamicResource Button56x5}" 
+                                    Margin="15,0,0,0"
+                                    SmallImageSource="{StaticResource BitmapStahl}"
+                                    LargeImageSource="{StaticResource BitmapStahl}" 
+                                    Command="{Binding SechsundfuenzigCommand}" />
+                    <ribbon:RibbonToggleButton x:Name="xStandart46" Label="{DynamicResource Button46x5}" 
+                                    Margin="15,0,0,0"
+                                    SmallImageSource="{StaticResource BitmapStahl}"
+                                    LargeImageSource="{StaticResource BitmapStahl}" 
+                                    Command="{Binding SechsundvierzigCommand}" />
+                    <ribbon:RibbonToggleButton x:Name="xStandart30" Label="{DynamicResource Button30x5}" 
+                                    Margin="15,0,15,0"
+                                    SmallImageSource="{StaticResource BitmapStahl}"
+                                    LargeImageSource="{StaticResource BitmapStahl}" 
+                                    Command="{Binding DreissigCommand}" />
+                </ribbon:RibbonGroup>
+
+                <ribbon:RibbonGroup Header="{DynamicResource CommonCutZusatz}">
+                    <ribbon:RibbonSplitButton Label="{DynamicResource ButtonSelectVerticalTrimTool}" Margin="15,0,0,0"
+                                              SmallImageSource="{StaticResource BitmapMultiShear}"
+                                              LargeImageSource="{StaticResource BitmapMultiShear}">
+                        <ribbon:RibbonButton Label="MS-76.2x5" 
+                                             LargeImageSource="{StaticResource BitmapSave16}" 
+                                             SmallImageSource="{StaticResource BitmapSave16}" 
+                                             Command="{Binding SelectVerticalTrimTool762x5Command}" />
+                        <ribbon:RibbonButton Label="St-76x5" 
+                                             LargeImageSource="{StaticResource BitmapSave16}" 
+                                             SmallImageSource="{StaticResource BitmapSave16}" 
+                                             Command="{Binding SelectVerticalTrimTool76x5Command}" />
+                        <ribbon:RibbonButton Label="St-56x5" 
+                                             LargeImageSource="{StaticResource BitmapSave16}" 
+                                             SmallImageSource="{StaticResource BitmapSave16}" 
+                                             Command="{Binding SelectVerticalTrimTool56x5Command}" />
+                        <ribbon:RibbonButton Label="St-46x5" 
+                                             LargeImageSource="{StaticResource BitmapSave16}" 
+                                             SmallImageSource="{StaticResource BitmapSave16}" 
+                                             Command="{Binding SelectVerticalTrimTool46x5Command}" />
+                        <ribbon:RibbonButton Label="St-30x5" 
+                                             LargeImageSource="{StaticResource BitmapSave16}" 
+                                             SmallImageSource="{StaticResource BitmapSave16}" 
+                                             Command="{Binding SelectVerticalTrimTool30x5Command}" />
+                        <ribbon:RibbonButton Label="St-15x5" 
+                                             LargeImageSource="{StaticResource BitmapSave16}" 
+                                             SmallImageSource="{StaticResource BitmapSave16}" 
+                                             Command="{Binding SelectVerticalTrimTool15x5Command}" />
+                    </ribbon:RibbonSplitButton>
+
+                    <ribbon:RibbonToggleButton Label="{DynamicResource ButtonSortX}" 
+                                    Margin="5,0,0,0" x:Name="xSortX"
+                                    SmallImageSource="{StaticResource BitmapXrichten}"
+                                    LargeImageSource="{StaticResource BitmapXrichten}" 
+                                    Command="{Binding SortXCommand}" />
+                    
+                    <ribbon:RibbonSplitButton Label="{DynamicResource ButtonSelectTrimTool}" Margin="5,0,0,0"
+                                    SmallImageSource="{StaticResource BitmapMultiShear}"
+                                    LargeImageSource="{StaticResource BitmapMultiShear}">
+                        <ribbon:RibbonButton Label="MS-76.2x5" 
+                                             LargeImageSource="{StaticResource BitmapSave16}" 
+                                             SmallImageSource="{StaticResource BitmapSave16}"
+                                             Command="{Binding SelectTrimTool762x5Command}" />
+                        <ribbon:RibbonButton Label="St-76x5" 
+                                             LargeImageSource="{StaticResource BitmapSave16}" 
+                                             SmallImageSource="{StaticResource BitmapSave16}"  
+                                             Command="{Binding SelectTrimTool76x5Command}" />
+                        <ribbon:RibbonButton Label="St-56x5" 
+                                             LargeImageSource="{StaticResource BitmapSave16}" 
+                                             SmallImageSource="{StaticResource BitmapSave16}" 
+                                             Command="{Binding SelectTrimTool56x5Command}" />
+                        <ribbon:RibbonButton Label="St-46x5"
+                                             LargeImageSource="{StaticResource BitmapSave16}" 
+                                             SmallImageSource="{StaticResource BitmapSave16}" 
+                                             Command="{Binding SelectTrimTool46x5Command}" />
+                        <ribbon:RibbonButton Label="St-30x5" 
+                                             LargeImageSource="{StaticResource BitmapSave16}" 
+                                             SmallImageSource="{StaticResource BitmapSave16}" 
+                                             Command="{Binding SelectTrimTool30x5Command}" />
+                    </ribbon:RibbonSplitButton>
+                    <ribbon:RibbonToggleButton Label="{DynamicResource Button76zu762}" Margin="0,0,15,0"
+                                            SmallImageSource="{StaticResource BitmapWKZaendern}"
+                                            LargeImageSource="{StaticResource BitmapWKZaendern}" 
+                                               Command="{Binding SechundsiebzigzusechsundsiebzigzweiCommand}" />
+                </ribbon:RibbonGroup>
+
+                <ribbon:RibbonGroup Header="{DynamicResource Zerstanzen}"  LargeImageSource="{StaticResource BitmapAuftragDaten}">
+
+                    <Grid Width="70">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition />
+                            <RowDefinition Height="5" />
+                            <RowDefinition />
+                            <RowDefinition Height="5" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Grid.Row="0" Source="{StaticResource BitmapJobsSaveProduced16}" Width="22" />
+                        <TextBox x:Name="txtZerstanzen" Grid.Column="1" Grid.Row="0" FontSize="12" Margin="10,0,0,0" Text="120" HorizontalContentAlignment="Right" />
+                    </Grid>
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="Werkzeuge">
+                        <ribbon:RibbonSplitButton Label="WLAST" Margin="5,0,0,0" x:Name="xWLAST"
+                          SmallImageSource="{StaticResource BitmapMultiShear}"
+                          LargeImageSource="{StaticResource BitmapMultiShear}" Command="{Binding WLASTCommand}">
+                        <ribbon:RibbonToggleButton Label="MS-76.2x5" x:Name="WLAST762x5"
+                         LargeImageSource="{StaticResource BitmapSave16}" 
+                         SmallImageSource="{StaticResource BitmapSave16}" 
+                          />
+                        <ribbon:RibbonToggleButton Label="St-76x5" x:Name="WLAST76x5" 
+                         LargeImageSource="{StaticResource BitmapSave16}" 
+                         SmallImageSource="{StaticResource BitmapSave16}" 
+                         />
+                        <ribbon:RibbonToggleButton Label="St-56x5" x:Name="WLAST56x5"
+                         LargeImageSource="{StaticResource BitmapSave16}" 
+                         SmallImageSource="{StaticResource BitmapSave16}" 
+                         />
+                        <ribbon:RibbonToggleButton Label="St-46x5" x:Name="WLAST46x5"
+                         LargeImageSource="{StaticResource BitmapSave16}" 
+                         SmallImageSource="{StaticResource BitmapSave16}" 
+                         />
+                        <ribbon:RibbonToggleButton Label="St-30x5" x:Name="WLAST30x5"
+                         LargeImageSource="{StaticResource BitmapSave16}" 
+                         SmallImageSource="{StaticResource BitmapSave16}" 
+                        />
+                        <ribbon:RibbonToggleButton Label="St-15x5" x:Name="WLAST15x5"
+                         LargeImageSource="{StaticResource BitmapSave16}" 
+                         SmallImageSource="{StaticResource BitmapSave16}" 
+                        />
+                    </ribbon:RibbonSplitButton>
+                </ribbon:RibbonGroup>
+            </ribbon:RibbonTab>
+        </ribbon:Ribbon>
+      
+    <Grid Name="gridMain" Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="{Binding Column1Width, Mode=TwoWay}" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <DockPanel Grid.Column="0" Margin="3">
+        <Grid DockPanel.Dock="Top">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="180" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <Border Name="borderImage" Grid.Row="0" Margin="3" Padding="3" BorderBrush="#FFD3D3D3" BorderThickness="1" CornerRadius="3" Height="{Binding ElementName=borderImage, Path=ActualWidth, Converter={StaticResource converterImageHeight}}">
+            <Image Source="{Binding SelectedImage}" />
+          </Border>
+          <local:MachinesControl x:Name="machinesControl" Grid.Row="2" DockPanel.Dock="Top" />
+        </Grid>
+      </DockPanel>
+      <GridSplitter Grid.Column="0" VerticalAlignment="Stretch" Width="3" ResizeDirection="Columns" Background="#FF808080" Margin="1,0,1,0" />
+      <DockPanel x:Name="dockMain" Grid.Column="1" >
+        <local:JobDataControl x:Name="jobDataControl" />
+      </DockPanel>
+    </Grid>
+    <Grid Name="gridSettings" Grid.Row="1" Visibility="Hidden">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="10" />
+                    <RowDefinition  />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <local:SettingsControl x:Name="settingsControl" />
+                </Grid>
+                <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="4" ResizeDirection="Rows" HorizontalAlignment="Stretch" Background="Green" Margin="0,2,0,2"/>
+
+                <Grid Grid.Row="2" Grid.Column="0" Margin="5,2,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="900"/>
+                    </Grid.ColumnDefinitions>
+                    <consoleControl:ConsoleControl x:Name="xConsoleControl"  Grid.Column="0"/>
+                    <local:LoggingTextBox  Width="900" x:Name="TestBox"  Grid.Column="1" Background="Black" Foreground="Green" />
+                </Grid>
+            </Grid>
+        </Grid>
+        
+        <Grid x:Name="gridJob" Row="1" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Hidden">
+            <local:AuftragsDataControl x:Name="auftragsDataControl"/>
+            <controls:FlyoutsControl>
+                <controls:Flyout x:Name="xOrderFlyOut" Header="Debug" 
+Position="Left" Width="200" Background="Transparent" Margin="0,50,0,0" AreAnimationsEnabled="True"
+IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="20" />
+                            <RowDefinition  />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0" Margin="5,2,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <iconPacks:PackIconOcticons Kind="Archive" Grid.Column="0"/>
+                            <TextBlock Text="Some text " Grid.Column="1"/>
+                        </Grid>
+                    </Grid>
+                </controls:Flyout>
+            </controls:FlyoutsControl>
+        </Grid>
+
+        <Grid x:Name="FPReditor" Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Hidden">
+            <WindowsFormsHost x:Name="xFormsHostFPRedit" Height="780" MinHeight="300" Visibility="Hidden">
+
+            </WindowsFormsHost>
+            <local:AutoLoopControl x:Name="autoLoopControl"/>
+
+        </Grid>
+
+        <Grid x:Name="MaterialView"  Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Hidden" Background="{StaticResource BrushBachkgoundStandard}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="34" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="3,0,3,0">
+                <Menu>
+                    <Menu.Resources>
+                        <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+                            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center" />
+                        </Style>
+                        <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}">
+                            <Setter Property="FrameworkElement.Height" Value="30" />
+                            <Setter Property="Control.VerticalContentAlignment" Value="Center" />
+                        </Style>
+                    </Menu.Resources>
+                    <MenuItem>
+                        <MenuItem.Header>
+                            <TextBlock Text="{DynamicResource Settings}" />
+                        </MenuItem.Header>
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/JobManager;component/Images/settings.ico" />
+                        </MenuItem.Icon>
+                        <MenuItem Command="{Binding SettingsCommand}">
+                            <MenuItem.Header>
+                                <TextBlock Text="{DynamicResource SettingsText}" />
+                            </MenuItem.Header>
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/JobManager;component/Images/SettingsText.ico" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Command="{Binding ShowDeletedCommand}" Visibility="{Binding IsDatabaseActive, Converter={StaticResource converterMenuVisibility}}" IsChecked="{Binding ShowDeletedItems}" IsEnabled="{Binding IsDatabaseActive}">
+                            <MenuItem.Header>
+                                <TextBlock Text="{DynamicResource ShowDeleted}" />
+                            </MenuItem.Header>
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/JobManager;component/Images/delete.png" Width="24" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem ToolTip="{DynamicResource ToolTipButtonGmpool}" Command="{Binding SaveGmpoolCommand}">
+                        <MenuItem.Header>
+                            <TextBlock Text="{DynamicResource ButtonGmpool}" />
+                        </MenuItem.Header>
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/JobManager;component/Images/SaveToFile.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem ToolTip="{DynamicResource ToolTipButtonExcel}" Command="{Binding SaveCsvCommand}">
+                        <MenuItem.Header>
+                            <TextBlock Text="{DynamicResource ButtonExcel}" />
+                        </MenuItem.Header>
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/JobManager;component/Images/ToExcel.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </Menu>
+            </Grid>
+            <Grid  Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="310" MaxHeight="310" />
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="28" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="400" MaxWidth="400" />
+                            <ColumnDefinition MinWidth="400" MaxWidth="400" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="190" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <cadgeo:CadgeoViewer Name="cadgeoViewer1" Grid.Column="0" Grid.RowSpan="3" Background="#FF100583" Margin="3" BorderBrush="#FFA9A9A9" BorderThickness="1" SnapsToDevicePixels="True">
+                            <cadgeo:CadgeoViewer.Effect>
+                                <DropShadowEffect BlurRadius="3" Color="DarkGray" ShadowDepth="3" />
+                            </cadgeo:CadgeoViewer.Effect>
+                        </cadgeo:CadgeoViewer>
+                        <Border Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Height="30" VerticalAlignment="Top" Margin="5,5,15,0">
+                            <TextBlock Name="txtArchiveName" TextBlock.FontWeight="Bold" TextBlock.FontSize="16">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect BlurRadius="3" Opacity="0.15" />
+                                </TextBlock.Effect>
+                            </TextBlock>
+                        </Border>
+                        <filter:FilterControl Name="filter" Grid.Column="1" Grid.Row="1" Margin="5,0,0,0" Padding="0,0,0,3" IsTabStop="True" TabIndex="2" DateFilterVisibility="Hidden" />
+                        <Grid Grid.Row="2" Grid.Column="1" Margin="5,2,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="18" />
+                                <RowDefinition Height="18" />
+                                <RowDefinition Height="18" />
+                                <RowDefinition Height="18" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Row="0" Grid.Column="0" Content="{DynamicResource Normal}" IsChecked="{Binding IsNormalSelected}" />
+                            <CheckBox Grid.Row="1" Grid.Column="0" Content="{DynamicResource Zuschnitt}" IsChecked="{Binding IsZuschnittSelected}" />
+                            <CheckBox Grid.Row="2" Grid.Column="0" Content="{DynamicResource RestPlate}" IsChecked="{Binding IsRestPlateSelected}" />
+                            <CheckBox Grid.Row="3" Grid.Column="0" Content="{DynamicResource CoilPlate}" IsChecked="{Binding IsCoilSelected}" />
+                            <CheckBox Grid.Row="0" Grid.Column="1" Content="{DynamicResource PLATE_FAVOURITE}" IsChecked="{Binding IsBevorzugtSelected}" />
+                        </Grid>
+                    </Grid>
+                    <DataGrid Name="gridData" Grid.Row="1" IsSynchronizedWithCurrentItem="True" CanUserResizeRows="False" Margin="3,0,3,3" MinRowHeight="19" CanUserDeleteRows="False" 
+                              IsReadOnly="True" ClipboardCopyMode="IncludeHeader" Background="#FFF0F0F0" RowDetailsVisibilityMode="Collapsed" CanUserAddRows="False" 
+                              CellStyle="{StaticResource StyleDataGridCellSelected}" ItemsSource="{Binding MaterialsCollection}" SelectedItem="{Binding SelectedMaterial}">
+                        <DataGrid.InputBindings>
+                            <MouseBinding Gesture="RightClick" Command="{Binding OkCommand}" />
+                            <MouseBinding Gesture="LeftDoubleClick" Command="{Binding EditCommand}" />
+                        </DataGrid.InputBindings>
+                    </DataGrid>
+                    <Grid Grid.Row="2" Margin="5,0,5,0" Background="{Binding DeletedColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding StatusText}" />
+                        <TextBlock Grid.Column="1" TextBlock.FontWeight="Bold" TextBlock.FontSize="14" Text="{Binding ItemsTypeText}" />
+                    </Grid>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="0.5*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="3">
+                            <Button Content="{DynamicResource ButtonCopy}" ToolTip="{DynamicResource ToolTipButtonCopy}" Command="{Binding CopyCommand}" />
+                            <Button Content="{DynamicResource ButtonAdd}" ToolTip="{DynamicResource ToolTipButtonAdd}" Command="{Binding AddCommand}" Visibility="{Binding AddButtonVisibility}" />
+                            <Button Content="{DynamicResource ButtonEdit}" ToolTip="{DynamicResource ToolTipButtonEdit}" Command="{Binding EditCommand}" />
+                            <Button Content="{DynamicResource ButtonDelete}" ToolTip="{DynamicResource ToolTipButtonDelete}" Command="{Binding DeleteCommand}" />
+                            <Separator Width="10" Opacity="0.01" Visibility="{Binding AddRestPlateVisibility}" />
+                            <Button Content="{DynamicResource ButtonAddRest}" ToolTip="{DynamicResource ToolTipButtonAddRt}" Command="{Binding AddRestPlateCommand}" Visibility="{Binding AddRestPlateVisibility}" />
+                            <Button Content="{DynamicResource ButtonRestore}" ToolTip="{DynamicResource ToolTipButtonRestore}" Command="{Binding RestorePlateCommand}" Visibility="{Binding RestoreButtonVisibility}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="3" HorizontalAlignment="Right">
+                            <Button Content="{DynamicResource ButtonOK}" ToolTip="{DynamicResource ToolTipButtonOK}" Command="{Binding OkCommand}" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <ContentControl Grid.Row="1" Grid.RowSpan="2" SnapsToDevicePixels="True" x:Name="xCControl" Width="400" Height="400"/>
+
+            <DockPanel Name="dockParent" Grid.Row="0" Grid.RowSpan="2" Visibility="Hidden" />
+            <DockPanel Name="dockEdit" Grid.Row="0" Grid.RowSpan="2" Visibility="Hidden" />
+
+            <ContentControl Grid.Row="0" Grid.RowSpan="2" SnapsToDevicePixels="True" Content="{Binding ActiveView}" />
+        </Grid>
+        
+        
+        <Grid x:Name="PNarchive" Grid.Row="1" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Name="ColumnExpanded" Width="265" />
+                <ColumnDefinition MaxWidth="5" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Expander Name="Expander" Grid.Column="0" ExpandDirection="Right" IsExpanded="True" Background="#FFD3D3D3" Collapsed="expander_Collapsed" Expanded="expander_Expanded">
+                <tree:ArchiveTreeFilterControl Name="ArchiveFilter" Margin="4,0,0,0" />
+            </Expander>
+            <GridSplitter Grid.Row="1" ResizeDirection="Columns" VerticalAlignment="Stretch" Width="3" />
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="300" MaxHeight="300" />
+                    <RowDefinition />
+                    <RowDefinition Height="28" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MinWidth="400" MaxWidth="400" />
+                        <ColumnDefinition MinWidth="400" MaxWidth="400" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="190" />
+                    </Grid.RowDefinitions>
+                    <cadgeo:CadgeoViewer Name="CadgeoViewer1" Grid.Column="0" Grid.RowSpan="3" Background="#FF100583" Margin="3" BorderBrush="#FFA9A9A9" BorderThickness="1" SnapsToDevicePixels="True" Visibility="Visible" PreviewMouseMove="spCadGeo_PreviewMouseMove" PreviewMouseWheel="spCadGeo_PreviewMouseWheel">
+                        <cadgeo:CadgeoViewer.Effect>
+                            <DropShadowEffect BlurRadius="3" Color="DarkGray" ShadowDepth="3" />
+                        </cadgeo:CadgeoViewer.Effect>
+                    </cadgeo:CadgeoViewer>
+                    <Border Name="Border3D" Grid.Column="0" Grid.RowSpan="3" Margin="3" BorderThickness="1" BorderBrush="#FFA9A9A9" Background="#FFF0F8FF" Visibility="Hidden">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="24" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <controlsarchive:Screen3D Name="Geometry3dViewer" Grid.Row="0" Grid.RowSpan="2" SnapsToDevicePixels="True" />
+                            <TextBlock Name="TxtN3dMeasures" VerticalAlignment="Center" HorizontalAlignment="Center" TextBlock.FontWeight="Bold" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Height="30" VerticalAlignment="Top" Margin="15,5,15,0">
+                        <TextBlock Name="TxtArchiveName" TextBlock.FontWeight="Bold" TextBlock.FontSize="16">
+                            <TextBlock.Effect>
+                                <DropShadowEffect BlurRadius="3" Opacity="0.15" />
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </Border>
+                    <filter:FilterControl Name="FilterControl1" Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" Padding="0,0,0,3" IsTabStop="True" TabIndex="2" />
+                </Grid>
+                <DataGrid Name="GrdArchiveData" Grid.Row="1" CellStyle="{StaticResource StyleDataGridCellSelected}" CanUserResizeRows="False" 
+                          Margin="3,0,3,3" MinRowHeight="19" SelectionMode="Single" ClipboardCopyMode="IncludeHeader" BorderBrush="#FFD3D3D3" 
+                          IsReadOnly="True" Background="#FFF0F0F0" RowDetailsVisibilityMode="Collapsed" CanUserAddRows="False" AlternatingRowBackground="#FFF5F5F5" ItemsSource="{Binding ArchiveContent}" />
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="0.5*" />
+                        <ColumnDefinition Width="0.5*" />
+                    </Grid.ColumnDefinitions>
+                    <StatusBar Name="StatusBar" Grid.Column="0" Background="{StaticResource BrushBachkgoundStandard}" SnapsToDevicePixels="True">
+                        <StatusBarItem>
+                            <TextBlock Name="StatusText" MinWidth="120" SnapsToDevicePixels="True" />
+                        </StatusBarItem>
+                        <StatusBarItem>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Image Name="StatusImage2" Grid.Column="0" Width="17" Height="17" SnapsToDevicePixels="True" />
+                                <TextBlock Name="StatusText2" Grid.Column="1" Width="Auto" SnapsToDevicePixels="True" />
+                            </Grid>
+                        </StatusBarItem>
+                    </StatusBar>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="3">
+                        <Button Name="BtnDelete" Content="{DynamicResource ButtonDelete}" Click="btnDelete_Click" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="3" HorizontalAlignment="Right">
+                        <Button Name="BtnCancel" IsCancel="True" Content="{DynamicResource ButtonCancel}" Click="btnCancel_Click" />
+                        <Button Name="BtnOk" IsDefault="False" Content="{DynamicResource ButtonOK}" Click="btnOK_Click" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+        <DockPanel Name="DockParent" Grid.Row="0" Grid.RowSpan="2" Visibility="Hidden" />
+        
+    <Grid x:Name="gridCommonCut"  Visibility="Hidden" Grid.Row="1" Grid.Column="0">
+
+
+    
+            <local:CommonCutControl x:Name="commonCutControl"/>
+
+        </Grid>
+    </Grid>
+</ribbon:RibbonWindow>
