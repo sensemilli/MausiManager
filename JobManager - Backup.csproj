@@ -1,0 +1,256 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>JobManager</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <OutputType>Exe</OutputType>
+    <UseWPF>True</UseWPF>
+    <Configurations>Debug;Release;Test</Configurations>
+    <Platforms>AnyCPU;x86</Platforms>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>11.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace />
+    <UseWindowsForms>True</UseWindowsForms>
+    <PlatformTarget>x64</PlatformTarget>
+    <IncludeSymbols>True</IncludeSymbols>
+    <StartupObject>WiCAM.Pn4000.JobManager.App</StartupObject>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <ApplicationIcon>maus.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>True</Optimize>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <Optimize>True</Optimize>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|x86'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="WiCAM\Pn4000\JobManager\MainWindow.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="resources\images\32\actionreorder.png" />
+    <None Remove="WiCAM\Pn4000\JobManager\maus.ico" />
+    <None Remove="WiCAM\Pn4000\JobManager\resources\images\32\actionreorder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="**\*.xml;**\*.xsl;**\*.xslt;**\*.txt;**\*.bmp;**\*.ico;**\*.cur;**\*.gif;**\*.jpeg;**\*.jpe;**\*.jpg;**\*.png;**\*.dib;**\*.tiff;**\*.tif;**\*.inf;**\*.compositefont;**\*.otf;**\*.ttf;**\*.ttc;**\*.tte" />
+  </ItemGroup>
+  <ItemGroup>
+  
+  
+    <Content Include="WiCAM\Pn4000\JobManager\maus.ico" />
+    <EmbeddedResource Include="images\16\filterdelete.png" LogicalName="images/16/filterdelete.png" />
+    <EmbeddedResource Include="images\32\jobdelete.png" LogicalName="images/32/jobdelete.png" />
+    <EmbeddedResource Include="images\32\platereset.png" LogicalName="images/32/platereset.png" />
+    <EmbeddedResource Include="images\32\shutdown.png" LogicalName="images/32/shutdown.png" />
+    <EmbeddedResource Include="images\32\messageinfo.png" LogicalName="images/32/messageinfo.png" />
+    <EmbeddedResource Include="images\16\jobsdeleteproduced.png" LogicalName="images/16/jobsdeleteproduced.png" />
+    <EmbeddedResource Include="images\32\jobproduce.png" LogicalName="images/32/jobproduce.png" />
+    <EmbeddedResource Include="images\16\jobproduce.png" LogicalName="images/16/jobproduce.png" />
+    <EmbeddedResource Include="images\32\actionreorder.png" LogicalName="images/32/actionreorder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\32\jobssaveproduced.png" LogicalName="images/32/jobssaveproduced.png" />
+    <EmbeddedResource Include="images\32\jobsfinished.png" LogicalName="images/32/jobsfinished.png" />
+    <EmbeddedResource Include="images\16\filter.png" LogicalName="images/16/filter.png" />
+    <EmbeddedResource Include="images\16\template.png" LogicalName="images/16/template.png" />
+    <EmbeddedResource Include="images\16\settings.png" LogicalName="images/16/settings.png" />
+    <EmbeddedResource Include="images\16\partreject.png" LogicalName="images/16/partreject.png" />
+    <EmbeddedResource Include="images\32\filter.png" LogicalName="images/32/filter.png" />
+    <EmbeddedResource Include="images\32\accept.png" LogicalName="images/32/accept.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\16\jobsinproduction.png" LogicalName="images/16/jobsinproduction.png" />
+    <EmbeddedResource Include="images\laser.ico" LogicalName="images/laser.ico" />
+    <EmbeddedResource Include="images\16\plate.png" LogicalName="images/16/plate.png" />
+    <EmbeddedResource Include="images\defaultmachine.png" LogicalName="images/defaultmachine.png" />
+    <EmbeddedResource Include="images\32\filterdelete.png" LogicalName="images/32/filterdelete.png" />
+    <EmbeddedResource Include="images\16\platestorno.png" LogicalName="images/16/platestorno.png" />
+    <EmbeddedResource Include="images\16\jobsfinished.png" LogicalName="images/16/jobsfinished.png" />
+    <EmbeddedResource Include="images\32\actionprint.png" LogicalName="images/32/actionprint.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\16\actionreorder.png" LogicalName="images/16/actionreorder.png" />
+    <EmbeddedResource Include="images\32\actionprintlabel.png" LogicalName="images/32/actionprintlabel.png" />
+    <EmbeddedResource Include="images\32\sumof.png" LogicalName="images/32/sumof.png" />
+    <EmbeddedResource Include="images\32\platestorno.png" LogicalName="images/32/platestorno.png" />
+    <EmbeddedResource Include="images\32\settings.png" LogicalName="images/32/settings.png" />
+    <EmbeddedResource Include="images\32\plateproduce.png" LogicalName="images/32/plateproduce.png" />
+    <EmbeddedResource Include="images\16\error.png" LogicalName="images/16/error.png" />
+    <EmbeddedResource Include="images\32\actioncancel.png" LogicalName="images/32/actioncancel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\16\save.png" LogicalName="images/16/save.png" />
+    <EmbeddedResource Include="images\32\actionstorno.png" LogicalName="images/32/actionstorno.png" />
+    <EmbeddedResource Include="images\32\printersettings.png" LogicalName="images/32/printersettings.png" />
+    <EmbeddedResource Include="images\32\partreject.png" LogicalName="images/32/partreject.png" />
+    <EmbeddedResource Include="images\16\job.png" LogicalName="images/16/job.png" />
+    <EmbeddedResource Include="images\16\jobssaveproduced.png" LogicalName="images/16/jobssaveproduced.png" />
+    <EmbeddedResource Include="images\16\searchjob.png" LogicalName="images/16/searchjob.png" />
+    <EmbeddedResource Include="images\16\part.png" LogicalName="images/16/part.png" />
+    <EmbeddedResource Include="images\16\plateproduce.png" LogicalName="images/16/plateproduce.png" />
+    <EmbeddedResource Include="images\32\open.png" LogicalName="images/32/open.png" />
+    <EmbeddedResource Include="images\32\template.png" LogicalName="images/32/template.png" />
+    <EmbeddedResource Include="images\32\jobsdeleteproduced.png" LogicalName="images/32/jobsdeleteproduced.png" />
+    <EmbeddedResource Include="images\16\touchscreen.png" LogicalName="images/16/touchscreen.png" />
+    <EmbeddedResource Include="images\32\save.png" LogicalName="images/32/save.png" />
+    <EmbeddedResource Include="images\32\touchscreen.png" LogicalName="images/32/touchscreen.png" />
+    <EmbeddedResource Include="images\16\jobdelete.png" LogicalName="images/16/jobdelete.png" />
+    <EmbeddedResource Include="resources\images\32\actionreorder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\images\save.png" />
+    <EmbeddedResource Include="resources\images\savetofile.ico" />
+    <EmbeddedResource Include="resources\images\save_32.png" />
+    <EmbeddedResource Include="resources\images\settings.ico" />
+    <EmbeddedResource Include="resources\images\settingstext.ico" />
+    <EmbeddedResource Include="resources\images\settings_32.png" />
+    <EmbeddedResource Include="resources\images\Stahl.png" />
+    <EmbeddedResource Include="WiCAM.Pn4000.JobManager._Configuration.pn.bin.JobManagerPlate.bat" LogicalName="WiCAM.Pn4000.JobManager._Configuration.pn.bin.JobManagerPlate.bat" />
+    <EmbeddedResource Include="WiCAM.Pn4000.JobManager._Configuration.pn.bin.JobManagerPreview.bat" LogicalName="WiCAM.Pn4000.JobManager._Configuration.pn.bin.JobManagerPreview.bat" />
+    <EmbeddedResource Include="WiCAM.Pn4000.JobManager._Configuration.pn.gfiles.JobManagerTemplates.txt" LogicalName="WiCAM.Pn4000.JobManager._Configuration.pn.gfiles.JobManagerTemplates.txt" />
+    <EmbeddedResource Include="WiCAM.Pn4000.JobManager._Configuration.pn.lfiles._01.JOBMANAGER.TXT" LogicalName="WiCAM.Pn4000.JobManager._Configuration.pn.lfiles._01.JOBMANAGER.TXT" />
+    <EmbeddedResource Include="WiCAM.Pn4000.JobManager._Configuration.pn.lfiles._02.JOBMANAGER.TXT" LogicalName="WiCAM.Pn4000.JobManager._Configuration.pn.lfiles._02.JOBMANAGER.TXT" />
+    <EmbeddedResource Include="WiCAM\Pn4000\JobManager\images\32\actionreorder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WiCAM\Pn4000\JobManager\resources\images\32\actionreorder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.2.1" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.1.1-ci680" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="3.1.1-ci680" />
+   <PackageReference Include="MicrosoftOfficeCore" Version="15.0.0" NoWarn="NU1701" />
+
+    <PackageReference Include="ShowMeTheXAML" Version="2.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="WiCAM.Pn4000.BendModel">
+      <HintPath>..\..\..\..\u\pn\run\WiCAM.Pn4000.BendModel.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Comon">
+      <HintPath>..\..\..\..\u\pn\run\WiCAM.Pn4000.Comon.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Jobdata">
+      <HintPath>..\..\..\..\u\pn\run\WiCAM.Pn4000.Jobdata.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Apis.CoraAdapters">
+      <HintPath>..\..\..\..\u\pn\run\WiCAM.Apis.CoraAdapters.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>..\..\..\..\u\pn\run\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection">
+      <HintPath>..\..\..\..\u\pn\run\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Apis.Clients.PnApiClient">
+      <HintPath>..\..\..\..\u\pn\run\WiCAM.Apis.Clients.PnApiClient.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.PN3D">
+      <HintPath>..\..\..\..\u\pn\run\WiCAM.Pn4000.PN3D.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.SchachtelBasis">
+      <HintPath>..\..\..\..\u\pn\run\WiCAM.Pn4000.SchachtelBasis.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Encodings">
+      <HintPath>..\..\..\..\u\pn\run\WiCAM.Pn4000.Encodings.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ScreenD3D">
+      <HintPath>..\..\..\..\u\pn\run\WiCAM.Pn4000.ScreenD3D.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Services.ConfigProviders.Contracts">
+      <HintPath>..\..\..\..\u\pn\run\WiCAM.Services.ConfigProviders.Contracts.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="resources\JobManager.g.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JobManager.g.resx</DependentUpon>
+    </Compile>
+    <Compile Update="WiCAM\Pn4000\JobManager\resources\JobManager.g.Designer.cs">
+      <DependentUpon>JobManager.g.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="resources\JobManager.g.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>JobManager.g.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="WiCAM\Pn4000\JobManager\resources\JobManager.g.resx">
+      <LastGenOutput>JobManager.g.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="resources\images\32\actionprint.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\images\maus.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CustomToolNamespace>WiCAM\Pn4000\JobManager</CustomToolNamespace>
+    </None>
+    <None Update="WiCAM\Pn4000\JobManager\images\32\actionprint.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="WiCAM\Pn4000\JobManager\images\maus.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CustomToolNamespace>WiCAM\Pn4000\JobManager</CustomToolNamespace>
+    </None>
+    <None Update="WiCAM\Pn4000\JobManager\resources\images\32\actionprint.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Remove="WiCAM\Pn4000\JobManager\resources\images\maus.ico">
+   
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="resources\images\save.png" />
+    <Resource Remove="resources\images\savetofile.ico" />
+    <Resource Remove="resources\images\save_16.png" />
+    <Resource Remove="resources\images\save_32.png" />
+    <Resource Remove="resources\images\settings.ico" />
+    <Resource Remove="resources\images\settingstext.ico" />
+    <Resource Remove="resources\images\settings_32.png" />
+    <Resource Remove="resources\images\Stahl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EditorConfigFiles Include="resources\images\save_16.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+</Project>

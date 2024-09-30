@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.JobManager.PlateProductionWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager" Title="{DynamicResource PlateProductionWindow}" Icon="/JobManager;component/Images/16/plateProduce.png" Height="700" Width="800" WindowStartupLocation="CenterScreen">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <local:TextToTimeConverter x:Key="converterDoubleToTime" />
+      <local:PlateRejectImageConverter x:Key="converterPartPreview" />
+      <DataTemplate x:Key="templatePartData" DataType="local:PartProductionInfo">
+        <Border BorderBrush="#FF696969" BorderThickness="1" CornerRadius="3" Background="#FFF5F5F5" Margin="0,0,0,3">
+          <Grid Margin="3">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="35" />
+              <ColumnDefinition Width="180" />
+              <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1">
+              <Image Width="180" Height="135" Source="{Binding PlatePart.Part, Converter={StaticResource converterPartPreview}}" />
+            </Border>
+            <Grid Column="2" Margin="10,0,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="18" />
+                <RowDefinition Height="18" />
+                <RowDefinition Height="18" />
+                <RowDefinition Height="18" />
+                <RowDefinition Height="18" />
+                <RowDefinition Height="18" />
+                <RowDefinition Height="24" />
+              </Grid.RowDefinitions>
+              <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource PART_NAME}" Style="{StaticResource StyleTextBlockShadow}" />
+              <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PlatePart.Part.PART_NAME}" />
+              <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource PART_ORDER}" Style="{StaticResource StyleTextBlockShadow}" />
+              <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding PlatePart.Part.PART_ORDER}" />
+              <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource PART_POSITION}" Style="{StaticResource StyleTextBlockShadow}" />
+              <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PlatePart.Part.PART_POSITION}" />
+              <TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource PART_REMARK}" Style="{StaticResource StyleTextBlockShadow}" />
+              <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding PlatePart.Part.PART_REMARK}" />
+              <TextBlock Grid.Row="4" Grid.Column="0" Text="{DynamicResource Amount}" Style="{StaticResource StyleTextBlockShadow}" />
+              <TextBlock Grid.Row="4" Grid.Column="2" Style="{StaticResource StyleTextBlockNumeric}" Text="{Binding PlatePart.PLATE_PART_AMOUNT}" />
+              <TextBlock Grid.Row="5" Grid.Column="0" Text="{DynamicResource AmountToProduce}" Style="{StaticResource StyleTextBlockShadow}" />
+              <TextBlock Grid.Row="5" Grid.Column="2" Style="{StaticResource StyleTextBlockNumeric}" Text="{Binding AmountToProduce}" />
+              <TextBlock Grid.Row="6" Grid.Column="0" Text="{DynamicResource AmountToReject}" Style="{StaticResource StyleTextBlockShadow}" />
+              <TextBox Grid.Row="6" Grid.Column="2" FontSize="13" Style="{StaticResource StyleTextBoxNumeric}" Text="{Binding AmountToReject, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" />
+            </Grid>
+            <TextBlock Grid.Column="0" Margin="5,5,0,0" FontSize="22" Foreground="#FF0000FF" Text="{Binding PlatePart.Part.PART_NUMBER}">
+              <UIElement.Effect>
+                <DropShadowEffect ShadowDepth="3" />
+              </UIElement.Effect>
+            </TextBlock>
+          </Grid>
+        </Border>
+      </DataTemplate>
+      <Style x:Key="{x:Type TextBox}" TargetType="{x:Type TextBox}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,2,40,2" />
+        <Setter Property="Validation.ErrorTemplate">
+          <Setter.Value>
+            <ControlTemplate>
+              <DockPanel LastChildFill="True">
+                <AdornedElementPlaceholder Name="customAdorner" VerticalAlignment="Center">
+                  <Border BorderBrush="#FFFF0000" BorderThickness="1" />
+                </AdornedElementPlaceholder>
+              </DockPanel>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border Background="{StaticResource BrushBackground}">
+    <Grid Margin="3">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <Border Grid.Row="0" BorderBrush="#FF696969" BorderThickness="1" Margin="2" CornerRadius="3" Padding="0,0,0,1">
+        <Grid Margin="5,2,5,2">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="15" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition MinHeight="26" Height="Auto" />
+            <RowDefinition MinHeight="26" Height="Auto" />
+            <RowDefinition MinHeight="26" Height="Auto" />
+            <RowDefinition MinHeight="26" Height="Auto" />
+            <RowDefinition MaxHeight="26" Height="Auto" />
+            <RowDefinition MaxHeight="3" Height="Auto" />
+          </Grid.RowDefinitions>
+          <TextBlock Name="TextBlockForFont" Grid.Row="0" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource PLATE_HEADER_TXT_1}" />
+          <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource StyleTextBlock}" Text="{Binding Plate.Plate.PLATE_HEADER_TXT_1}" />
+          <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource PLATE_NAME_REST}" />
+          <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource StyleTextBlock}" Text="{Binding Plate.Plate.PLATE_NAME_REST}" />
+          <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource ChargeName}" />
+          <TextBox Grid.Row="2" Grid.Column="2" Style="{StaticResource StyleTextBox}" TabIndex="1" Text="{Binding ChargeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true, NotifyOnValidationError=true}" PreviewKeyDown="TextBox_PreviewKeyDown" />
+          <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource MachineName}" />
+          <ComboBox Grid.Row="3" Grid.Column="2" TabIndex="2" Margin="0,0,0,3" DisplayMemberPath="Name" ItemsSource="{Binding Plate.ProductionData.Machines}" SelectedItem="{Binding Plate.ProductionData.Machine}" />
+          <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource UserName}" />
+          <ComboBox Grid.Row="4" Grid.Column="2" Margin="0,0,0,3" TabIndex="3" ItemsSource="{Binding Plate.ProductionData.Users}" SelectedItem="{Binding SelectedUser, ValidatesOnDataErrors=true, NotifyOnValidationError=true}" />
+          <TextBlock Grid.Row="0" Grid.Column="4" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource AmountTotal}" />
+          <TextBlock Grid.Row="0" Grid.Column="6" Style="{StaticResource StyleTextBlock}" Text="{Binding Plate.Plate.NUMBER_OF_PLATES}" />
+          <TextBlock Grid.Row="1" Grid.Column="4" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource AmountProduced}" />
+          <TextBlock Grid.Row="1" Grid.Column="6" Style="{StaticResource StyleTextBlock}" Text="{Binding Plate.Plate.PLATE_PRODUCED}" />
+          <TextBlock Grid.Row="2" Grid.Column="4" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource AmountStorno}" />
+          <TextBlock Grid.Row="2" Grid.Column="6" Style="{StaticResource StyleTextBlock}" Text="{Binding Plate.Plate.PLATE_STORNO}" />
+          <TextBlock Grid.Row="3" Grid.Column="4" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource AmountToProduce}" />
+          <StackPanel Grid.Row="3" Grid.Column="6" Orientation="Horizontal">
+            <TextBox Style="{StaticResource StyleTextBoxNumeric}" TabIndex="4" MinHeight="21" Text="{Binding Plate.AmountToProduce, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Margin="10,0,0,0" Foreground="#FFFF0000" Style="{StaticResource StyleTextBlockShadow}">
+              <Run Text="( MAX = " /> <Run Text="{Binding Plate.RestOfProduction, FallbackValue=0}" /> <Run Text=" )" /></TextBlock>
+          </StackPanel>
+          <TextBlock Grid.Row="4" Grid.Column="4" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource PLATE_TIME_REAL}" />
+          <TextBox Grid.Row="4" Grid.Column="6" Style="{StaticResource StyleTextBox}" MaxWidth="100" Text="{Binding Plate.PlateTimeReal, Converter={StaticResource converterDoubleToTime}, StringFormat=hh\:mm\:ss}" />
+        </Grid>
+      </Border>
+      <Grid Row="1" Margin="3">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="84" />
+        </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Visible">
+          <ItemsControl Name="listParts" BorderThickness="0" HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource templatePartData}" ItemsSource="{Binding Plate.PlateParts}" />
+        </ScrollViewer>
+        <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
+          <Button Height="25" Width="80" Content="{DynamicResource ButtonCancel}" Command="{Binding CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+          <Canvas Height="5" />
+          <Button Height="25" Width="80" IsDefault="True" Content="{DynamicResource ButtonOK}" Command="{Binding OkCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+        </StackPanel>
+      </Grid>
+    </Grid>
+  </Border>
+</Window>

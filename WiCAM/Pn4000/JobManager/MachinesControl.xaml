@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.JobManager.MachinesControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager" xmlns:machine="clr-namespace:WiCAM.Pn4000.Machine;assembly=WiCAM.Pn4000.Comon">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <machine:MachineBackgroundConverter x:Key="converterMachineBackground" NormalBrush="#FFFFFFFF" SelectedBrush="#FF47D929" />
+      <DataTemplate x:Key="templateMachineZero" DataType="machine:MachineViewInfo">
+        <Border Padding="2" BorderBrush="#FFD3D3D3" BorderThickness="1" CornerRadius="2" Background="{Binding IsSelected, Converter={StaticResource converterMachineBackground}}">
+          <ToggleButton Command="{Binding ClickedCommand}">
+            <ContentControl.Content>
+              <Grid Margin="4" Width="160">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="62" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" FontWeight="Black" Margin="10" Text="{StaticResource ShowAll}" />
+              </Grid>
+            </ContentControl.Content>
+          </ToggleButton>
+        </Border>
+      </DataTemplate>
+      <local:MachineImageConverter x:Key="converterMachineImage" Default="{StaticResource BitmapDefaultMachine}" />
+      <local:MachineTimeConverter x:Key="converterIndustrialTime" />
+      <DataTemplate x:Key="templateMachine" DataType="machine:MachineViewInfo">
+        <Border Padding="2" BorderBrush="#FFD3D3D3" BorderThickness="1" CornerRadius="2" Background="{Binding IsSelected, Converter={StaticResource converterMachineBackground}}">
+          <ToggleButton Command="{Binding ClickedCommand}">
+            <ContentControl.Content>
+              <Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=ToggleButton}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="62" />
+                  <ColumnDefinition Width="5" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" VerticalAlignment="Center" Width="60" MaxHeight="50" Source="{Binding Machine.Image32, Converter={StaticResource converterMachineImage}}">
+                  <UIElement.Effect>
+                    <DropShadowEffect Opacity="0.5" BlurRadius="3" />
+                  </UIElement.Effect>
+                </Image>
+                <Grid Column="2" Margin="4" MinWidth="220">
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" FontWeight="Black">
+                    <TextBlock.Text>
+                      <MultiBinding StringFormat="{}{0} {1} ( {2} )">
+                        <Binding Path="Machine.Number" />
+                        <Binding Path="Machine.Producer" />
+                        <Binding Path="Machine.Modell" />
+                      </MultiBinding>
+                    </TextBlock.Text>
+                  </TextBlock>
+                  <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource TimeBuffer}" />
+                  <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding AmountTotal}" />
+                  <TextBlock Grid.Row="2" Grid.Column="2" Foreground="#FF1E1EA4" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,0,10,0" FontFamily="Courier New" FontSize="14" VerticalAlignment="Bottom" Text="{Binding TimeProduction, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource converterIndustrialTime}}" />
+                  <TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource TimeProduction}" />
+                  <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding AmountProduced}" />
+                  <TextBlock Grid.Row="3" Grid.Column="2" Foreground="#FF12610F" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,0,10,0" FontFamily="Courier New" FontSize="14" VerticalAlignment="Bottom" Text="{Binding TimeProduced, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource converterIndustrialTime}}" />
+                </Grid>
+              </Grid>
+            </ContentControl.Content>
+          </ToggleButton>
+        </Border>
+      </DataTemplate>
+      <local:MachineTemplateSelector x:Key="machineTemplateSelector" Machine="{StaticResource templateMachine}" MachineZero="{StaticResource templateMachineZero}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <ScrollViewer Margin="3" Background="#FFD3D3D3">
+    <ItemsControl ItemTemplateSelector="{StaticResource machineTemplateSelector}" Margin="3" ItemsSource="{Binding Machines}" />
+  </ScrollViewer>
+</UserControl>

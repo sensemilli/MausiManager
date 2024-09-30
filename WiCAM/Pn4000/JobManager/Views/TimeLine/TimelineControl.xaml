@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="WiCAM.Pn4000.JobManager.TimelineControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" UseLayoutRounding="True"
+             Height="24" Width="120">
+	<UserControl.Resources>
+		<LinearGradientBrush x:Key="MonthBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+			<GradientStop Color="#FF3EB1EA" Offset="0"/>
+			<GradientStop Color="#FF61BFF1" Offset="0.5"/>
+			<GradientStop Color="#FF01A1F4" Offset="1"/>
+		</LinearGradientBrush>
+		<LinearGradientBrush x:Key="DayBrush" EndPoint="0.999,0.51" StartPoint="0.045,0.51">
+			<GradientStop Color="#FFEDA25E" Offset="0"/>
+			<GradientStop Color="#FFEDA25E" Offset="0.15"/>
+			<GradientStop Color="#FFFA7A05" Offset="1"/>
+		</LinearGradientBrush>
+	</UserControl.Resources>
+    
+    <Grid x:Name="LayoutRoot">
+        <Rectangle Margin="0" StrokeThickness="0" Height="10" Fill="{DynamicResource MonthBrush}"/>
+        <StackPanel Margin="0" Width="120" Height="20" Orientation="Horizontal">
+            <Rectangle x:Name="Day00" StrokeThickness="0" Width="2" 
+                       Fill="{DynamicResource DayBrush}" Visibility="Hidden"/>
+            <Rectangle x:Name="Day01" Fill="{DynamicResource DayBrush}" 
+                       StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day02" Fill="{DynamicResource DayBrush}" 
+                       StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day03" Fill="{DynamicResource DayBrush}" 
+                       StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day04" Fill="{DynamicResource DayBrush}" 
+                       StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day05" Fill="{DynamicResource DayBrush}" 
+                       StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day06" Fill="{DynamicResource DayBrush}" 
+                       StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day07" Fill="{DynamicResource DayBrush}" 
+                       StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day08" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="8" Visibility="Hidden"/>
+            <Rectangle x:Name="Day09" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day10" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day11" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day12" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day13" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day14" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day15" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day16" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day17" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day18" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day19" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day20" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day21" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day22" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day23" Fill="{DynamicResource DayBrush}" StrokeThickness="6" Width="12" Visibility="Hidden"/>
+            <Rectangle x:Name="Day24" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="12" Visibility="Hidden"/>
+            <Rectangle x:Name="Day25" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day26" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day27" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day28" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day29" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day30" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+            <Rectangle x:Name="Day31" Fill="{DynamicResource DayBrush}" StrokeThickness="0" Width="2" Visibility="Hidden"/>
+     
+        </StackPanel>
+    </Grid>
+</UserControl>

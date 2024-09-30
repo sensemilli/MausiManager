@@ -1,0 +1,74 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MausiManager", "MausiManager.csproj", "{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC} = {0885B661-CE80-45D8-A9B4-3D276F36EBFC}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D3781E06-0018-4FFF-9257-23ED49DEC7F6}"
+	ProjectSection(SolutionItems) = preProject
+		Resources.Designer.t4 = Resources.Designer.t4
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleControl.WPF", "ConsoleControl\ConsoleControl.WPF\ConsoleControl.WPF.csproj", "{0885B661-CE80-45D8-A9B4-3D276F36EBFC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleControlAPI", "ConsoleControl\ConsoleControlAPI\ConsoleControlAPI.csproj", "{1686EFBC-16B2-4320-9A5B-C881B2F398DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+		Test|Any CPU = Test|Any CPU
+		Test|x86 = Test|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}.Debug|x86.Build.0 = Debug|Any CPU
+		{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}.Release|x86.ActiveCfg = Release|x86
+		{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}.Release|x86.Build.0 = Release|x86
+		{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}.Test|Any CPU.Build.0 = Test|Any CPU
+		{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}.Test|x86.ActiveCfg = Test|x86
+		{0368C521-1A8F-4E86-A880-2A4DC17CC8CE}.Test|x86.Build.0 = Test|x86
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC}.Debug|x86.Build.0 = Debug|Any CPU
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC}.Release|x86.ActiveCfg = Release|Any CPU
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC}.Release|x86.Build.0 = Release|Any CPU
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC}.Test|x86.ActiveCfg = Debug|Any CPU
+		{0885B661-CE80-45D8-A9B4-3D276F36EBFC}.Test|x86.Build.0 = Debug|Any CPU
+		{1686EFBC-16B2-4320-9A5B-C881B2F398DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1686EFBC-16B2-4320-9A5B-C881B2F398DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1686EFBC-16B2-4320-9A5B-C881B2F398DB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1686EFBC-16B2-4320-9A5B-C881B2F398DB}.Debug|x86.Build.0 = Debug|Any CPU
+		{1686EFBC-16B2-4320-9A5B-C881B2F398DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1686EFBC-16B2-4320-9A5B-C881B2F398DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1686EFBC-16B2-4320-9A5B-C881B2F398DB}.Release|x86.ActiveCfg = Release|Any CPU
+		{1686EFBC-16B2-4320-9A5B-C881B2F398DB}.Release|x86.Build.0 = Release|Any CPU
+		{1686EFBC-16B2-4320-9A5B-C881B2F398DB}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{1686EFBC-16B2-4320-9A5B-C881B2F398DB}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{1686EFBC-16B2-4320-9A5B-C881B2F398DB}.Test|x86.ActiveCfg = Debug|Any CPU
+		{1686EFBC-16B2-4320-9A5B-C881B2F398DB}.Test|x86.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_NeutralResourcesLanguage = de-DE
+		SolutionGuid = {14EF393A-6F17-43F0-978D-30E9216EC8D0}
+	EndGlobalSection
+EndGlobal

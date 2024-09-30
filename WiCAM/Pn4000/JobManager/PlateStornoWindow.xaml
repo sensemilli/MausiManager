@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.JobManager.PlateStornoWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager" Title="{DynamicResource PlateStornoWindow}" Icon="/JobManager;component/Images/32/plateStorno.png" Height="300" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+  <Border Grid.Column="1" Grid.Row="1" Background="{StaticResource BrushBackground}" Margin="3">
+    <Border Grid.Row="0" Margin="2" CornerRadius="3">
+      <Grid Margin="5,2,5,2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="10" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition />
+          <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Margin" Value="0,5,0,5" />
+            </Style>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource PLATE_HEADER_TXT_1}" />
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Plate.Plate.PLATE_HEADER_TXT_1}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource PLATE_NAME_REST}" />
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Plate.Plate.PLATE_NAME_REST}" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource AmountTotal}" />
+        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Plate.Plate.NUMBER_OF_PLATES}" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource AmountProduced}" />
+        <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Plate.Plate.PLATE_PRODUCED}" />
+        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource AmountStorno}" />
+        <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding Plate.Plate.PLATE_STORNO}" />
+        <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource AmountToStorno}" />
+        <StackPanel Grid.Row="5" Grid.Column="2" Orientation="Horizontal">
+          <TextBox Style="{StaticResource StyleTextBoxNumeric}" TabIndex="1" Text="{Binding Plate.AmountStorno, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          <TextBlock Margin="10,0,0,0" Foreground="#FFFF0000" Style="{StaticResource StyleTextBlockShadow}">
+            <Run Text="( MAX = " /> <Run Text="{Binding Plate.RestOfProduction, FallbackValue=0}" /> <Run Text=" )" /></TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="6" Grid.Column="2" VerticalAlignment="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+          <Button Width="75" Content="{DynamicResource ButtonCancel}" Command="{Binding CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+          <Separator Width="5" Opacity="0.01" />
+          <Button Width="75" IsDefault="True" Content="{DynamicResource ButtonOK}" Command="{Binding OkCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+        </StackPanel>
+      </Grid>
+    </Border>
+  </Border>
+</Window>

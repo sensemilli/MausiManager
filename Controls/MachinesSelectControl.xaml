@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.Gmpool.Controls.MachinesSelectControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.Gmpool.Controls" xmlns:controls="clr-namespace:WiCAM.Pn4000.Machine.Controls;assembly=WiCAM.Pn4000.Comon">
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/JobManager;component/Resources/StylesDictionary.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </UserControl.Resources>
+  <UserControl.InputBindings>
+    <KeyBinding Key="End" Command="{Binding CancelCommand}" />
+    <MouseBinding Gesture="RightClick" Command="{Binding OkCommand}" />
+  </UserControl.InputBindings>
+  <Border Margin="3" Background="{StaticResource brushBackground}">
+    <Grid Margin="3">
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition Height="640" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="600" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <controls:MachinesSelectControl Name="machineSelectControl" Grid.Row="1" Grid.Column="1" MultipleSelectionAllowed="True" ButtonBackVisibility="Hidden" ButtonPrintVisibility="Hidden" HeaderVisibility="Hidden" ButtonOkText="{DynamicResource ButtonOK}" ButtonCancelText="{DynamicResource ButtonCancel}" MachineControllerText="{DynamicResource MachineControllerText}" MachineModelText="{DynamicResource MachineModelText}" MachineNameText="{DynamicResource MachineNameText}" MachineRemarkText="{DynamicResource MachineRemarkText}" OkCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.OkCommand}" CancelCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.CancelCommand}">
+        <controls:MachinesSelectControl.Machines>
+          <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.MachinesCollection" />
+        </controls:MachinesSelectControl.Machines>
+      </controls:MachinesSelectControl>
+    </Grid>
+  </Border>
+</UserControl>

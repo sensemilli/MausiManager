@@ -1,0 +1,208 @@
+#
+TEMPLATE_BEGIN
+#-------------------------------------------------
+# SETTINGS;MATERIAL;PN4000;PRODUCED
+# PATH=$PNDRIVE$\u\pn\mpools
+#-------------------------------------------------
+#
+# VERSION 2016.03.01
+#
+MATPOOL_START
+#
+   CREATE_NEW_PLATE        =  YES
+      PLATE_ACTION         = PRODUCED
+      PLATE_NAME           = $PLATE_NAME$
+      PLATE_AMOUNT         = $PLATE_PRODUCED_ACT$
+      PLATE_MATERIAL_NO    = $PLATE_MATERIAL_NO$
+      PLATE_THIKNESS       = $PLATE_THICKNESS$
+      PLATE_IDENT          = $PLATE_NAME_IDENT$
+      PLATE_DESCRIPTION    = $PLATE_NAME_DESCRIP$
+      PLATE_STORAGE_NO     = $PLATE_STORAGE_NO$
+      PLATE_RELEASE_STATUS = 1
+#
+MATPOOL_END
+#
+TEMPLATE_END
+
+
+
+TEMPLATE_BEGIN
+#-------------------------------------------------
+# SETTINGS;MATERIAL;PN4000;STORNO
+# PATH=$PNDRIVE$\u\pn\mpools
+#-------------------------------------------------
+#
+# VERSION 2016.03.01
+#
+MATPOOL_START
+#
+   CREATE_NEW_PLATE        =  YES
+      PLATE_ACTION         = STORNO
+      PLATE_NAME           = $PLATE_NAME$
+      PLATE_AMOUNT         = $PLATE_PRODUCED_ACT$
+      PLATE_MATERIAL_NO    = $PLATE_MATERIAL_NO$
+      PLATE_THIKNESS       = $PLATE_THICKNESS$
+      PLATE_IDENT          = $PLATE_NAME_IDENT$
+      PLATE_DESCRIPTION    = $PLATE_NAME_DESCRIP$
+      PLATE_STORAGE_NO     = $PLATE_STORAGE_NO$
+#
+MATPOOL_END
+#
+TEMPLATE_END
+
+
+
+
+TEMPLATE_BEGIN
+#-------------------------------------------------
+# SETTINGS;MATERIAL_REST;PN4000;PRODUCED
+# PATH=$PNDRIVE$\u\pn\mpools
+#-------------------------------------------------
+# VERSION 2016.03.01
+#
+MATPOOL_START
+#
+   CREATE_NEW_PLATE        = YES
+      PLATE_ACTION         = ACTUAL
+      PLATE_TYP            = 3
+      PLATE_RELEASE_STATUS = 1
+      PLATE_REFERENCE_NO   = $REST_PLATE_REF_NO$
+#
+MATPOOL_END
+#
+TEMPLATE_END
+
+
+
+TEMPLATE_BEGIN
+#-------------------------------------------------
+# SETTINGS;MATERIAL_REST;PN4000;STORNO
+# PATH=$PNDRIVE$\u\pn\mpools
+#-------------------------------------------------
+# VERSION 2016.03.01
+#
+MATPOOL_START
+#
+   CREATE_NEW_PLATE        = YES
+      PLATE_ACTION         = DELETE
+      PLATE_TYP            = 3
+      PLATE_REFERENCE_NO   = $REST_PLATE_REF_NO$
+#
+MATPOOL_END
+#
+TEMPLATE_END
+
+
+
+
+TEMPLATE_BEGIN
+#-------------------------------------------------
+# SETTINGS;MATERIAL;CUSTOMER;PRODUCED
+# PATH=\\server\wicam\materials
+# FEEDBACK_TYPE=CSV
+#-------------------------------------------------
+#
+#
+ $PLATE_NAME$;$PLATE_PRODUCED_ACT$;$PLATE_MATERIAL_NO$;$PLATE_THICKNESS$;$PLATE_NAME_IDENT$;$PLATE_NAME_DESCRIP$;$PLATE_STORAGE_NO$
+#
+#
+TEMPLATE_END
+#
+
+
+
+
+
+
+
+TEMPLATE_BEGIN
+#-------------------------------------------------
+# SETTINGS;GAPOOL;PN4000;PRODUCED
+# PATH=$PNDRIVE$\u\pn\apools
+#-------------------------------------------------
+#
+# VERSION 2016.03.01
+#
+PART_START
+#
+   CREATE_NEW_ORDER        =  YES
+      ORDER_ACTION         = PRODUCED
+      ORDER_NC_FILE        = $PART_NAME$
+      ORDER_NC_ARCHIV      = $PART_ARCHIV_NO$
+      ORDER_NUMBER         = $PART_ORDER$
+      ORDER_POSITION       = $PART_POSITION$
+      ORDER_REMARK         = $PART_REMARK$
+      ORDER_AMOUNT         = $PART_PRODUCED$
+#
+PART_END
+#
+TEMPLATE_END
+#
+
+
+
+
+TEMPLATE_BEGIN
+#-------------------------------------------------
+# SETTINGS;GAPOOL;PN4000;STORNO
+# PATH=$PNDRIVE$\u\pn\apools
+#-------------------------------------------------
+#
+# VERSION 2016.03.01
+#
+PART_START
+#
+   CREATE_NEW_ORDER        =  YES
+      ORDER_ACTION         = STORNO
+      ORDER_NC_FILE        = $PART_NAME$
+      ORDER_NC_ARCHIV      = $PART_ARCHIV_NO$
+      ORDER_NUMBER         = $PART_ORDER$
+      ORDER_POSITION       = $PART_POSITION$
+      ORDER_REMARK         = $PART_REMARK$
+      ORDER_AMOUNT         = $PART_PRODUCED$
+#
+PART_END
+#
+TEMPLATE_END
+
+
+
+
+TEMPLATE_BEGIN
+#-------------------------------------------------
+# SETTINGS;GAPOOL;PN4000;REJECT
+# PATH=$PNDRIVE$\u\pn\apools
+#-------------------------------------------------
+#
+# VERSION 2016.03.01
+#
+PART_START
+#
+   CREATE_NEW_ORDER        =  YES
+      ORDER_ACTION         = REJECT
+      ORDER_NC_FILE        = $PART_NAME$
+      ORDER_NC_ARCHIV      = $PART_ARCHIV_NO$
+      ORDER_NUMBER         = $PART_ORDER$
+      ORDER_POSITION       = $PART_POSITION$
+      ORDER_REMARK         = $PART_REMARK$
+      ORDER_AMOUNT         = $PART_PRODUCED$
+#
+PART_END
+#
+TEMPLATE_END
+#
+
+TEMPLATE_BEGIN
+#-------------------------------------------------
+# SETTINGS;GAPOOL;CUSTOMER;PRODUCED
+# PATH=\\server\wicam\materials
+# FEEDBACK_TYPE=CSV
+# HEADER=Auftragsnummer;Stückzahl Tafel;Stückzahl Job;Bearbeiter;Datum;Uhrzeit;Programmnummer;Jobnummer;Arbeitsgang;Teilegewicht kg;Maschine;Charge;Ausschuß
+#-------------------------------------------------
+#
+#
+$PART_ORDER$;$PLATE_PART_AMOUNT$;$PART_ACOUNT$;$PRODUCTION_USER$;$PRODUCTION_TIME$;09:11:16;$PLATE_HEADER_TXT_1$;$JOB_DATA_1$;Laserschneiden;0.55689;$PRODUCTION_MACHINE$;$PRODUCTION_CHARGE$;$PART_REJECT$
+#
+#
+TEMPLATE_END
+#

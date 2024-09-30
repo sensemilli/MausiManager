@@ -1,0 +1,1059 @@
+<UserControl x:Class="WiCAM.Pn4000.JobManager.AuftragsDataControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
+               xmlns:mdix="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:mahMaterialDragablzMashUp="clr-namespace:WiCAM.Pn4000.JobManager"
+            xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"  
+             xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager"
+             xmlns:helpers="clr-namespace:WiCAM.Pn4000.JobManager.Helpers"
+                     xmlns:classes="clr-namespace:WiCAM.Pn4000.JobManager.ShellClasses">
+    <UserControl.Resources>
+        <ResourceDictionary>
+     
+       
+        <local:BorderHeightConverter x:Key="converterImageHeight"/>
+            <local:IsEqualOrMoreThanConverter x:Key="IsEqualOrMoreThanConverter"/>
+            <local:IsRALOrNotConverter x:Key="IsRALOrNotConverter"/>
+
+            <ObjectDataProvider x:Key="PNEnumValues"
+          MethodName="GetValues"
+          ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="mahMaterialDragablzMashUp:PNEnumValues" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+            <DataTemplate x:Key="CalendarTemplate" x:Name="caltemp">
+                <Calendar x:Name="xCalendar" SelectedDate="{Binding Path=avtermindate}" />
+            </DataTemplate>
+        </ResourceDictionary>
+        
+    </UserControl.Resources>
+
+
+    <Grid VerticalAlignment="Stretch" Grid.IsSharedSizeScope="True">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding Column1Width, Mode=TwoWay}"/>
+
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Column="0" Margin="3">
+            <Grid DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="180"/>
+                </Grid.RowDefinitions>
+
+                <DockPanel Grid.Column="0" Margin="3" Visibility="Hidden" x:Name="xDXFprevhost" Background="Transparent">
+                    <Border x:Name="borderImagePrev" Grid.Column="0" Grid.Row="0" Margin="3,50,12,3" Padding="3" BorderBrush="GreenYellow" BorderThickness="3"
+                         CornerRadius="3"  Visibility="Visible" >
+                        <WindowsFormsHost x:Name="prevHost" MinHeight="200" Width="Auto" Margin="10,1,10,12" MinWidth="80" Visibility="Visible"/>
+                    </Border>
+                </DockPanel>
+
+
+                <DockPanel Grid.Column="0" Margin="3,40,0,0" x:Name="xPartPrevDock" Background="Transparent" Visibility="Visible">
+
+                    <Grid DockPanel.Dock="Bottom" Background="Transparent">
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="180"/>
+                        </Grid.RowDefinitions>
+                        <Image x:Name="xpartprevimage" Visibility="Visible" Height="Auto" Width="Auto" Source="/WiCAM/Pn4000/JobManager/Views/auftrag.png" Grid.Row="0" />
+                    </Grid>
+                </DockPanel>
+
+                <DockPanel Grid.Column="0" Margin="3" x:Name="xFeedBackDock" Background="Transparent" Visibility="Visible">
+
+                    <Grid DockPanel.Dock="Top" Background="Transparent">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Border x:Name="borderFeedBack" Grid.Column="0" Grid.Row="0" Margin="3,3,12,3" Padding="3" 
+                        BorderBrush="DarkBlue" BorderThickness="5" CornerRadius="8"  Visibility="Visible" Background="Black" >
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <ToggleButton Background="DarkBlue" Foreground="White" FontWeight="DemiBold" FontSize="16" Width="60" Click="OnClickSwitchPrev" Style="{DynamicResource MetroCircleToggleButtonStyle}">SwitchPrev:</ToggleButton>
+                                <ToggleButton Background="DarkBlue" Foreground="White" FontWeight="DemiBold" FontSize="16" Width="60" Click="OnClickOutput" Style="{DynamicResource MetroCircleToggleButtonStyle}">Output:</ToggleButton>
+                                <TextBlock x:Name="xFeedBack" Margin="10,0,0,0" FontSize="16" FontWeight="DemiBold" Foreground="LawnGreen">Idle...</TextBlock>
+                            </StackPanel>
+                        </Border>
+
+                    </Grid>
+                </DockPanel>
+
+            </Grid>
+
+        </DockPanel>
+        <GridSplitter Grid.Column="0" VerticalAlignment="Stretch" Width="8" ResizeDirection="Columns" Background="Gray" Margin="0,0,0,0" />
+
+        <DockPanel x:Name="dockMainAuftrag" Grid.Column="1" VerticalAlignment="Stretch"  >
+     
+            <Grid x:Name="gridAuftrag" Grid.Column="1" >
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="56"/>
+                    <RowDefinition Height="{Binding GridArchiveHeight, Mode=TwoWay}"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="{Binding GridFoldersHeight, Mode=OneWayToSource}"/>
+                    <RowDefinition Height="Auto"/>
+              
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+<!--  Dock Filter Archive und Files  -->
+                <DockPanel Name="dockFilterArchiveListe"  Grid.Row="0" Visibility="Hidden" >
+                    <Border x:Name="borderImageFilter" Grid.Column="1" Grid.Row="0"  Padding="3" BorderBrush="DarkOrange" BorderThickness="2" Height="40" CornerRadius="3"   Visibility="Visible">
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Height="30" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <Button Content="Filter-Archive" FontSize="14" FontWeight="Heavy" Width="100"/>
+                            <TextBox x:Name="TextFilterText" Text="{Binding TextFilter}" VerticalContentAlignment="Center" TextChanged="FilteredTextChanged" Width="200" FontSize="14"/>
+                            <Button Content="Filter-Files" FontSize="14" FontWeight="Heavy" Width="100" HorizontalAlignment="Right"/>
+                            <TextBox x:Name="TextFilterFilesText" Text="{Binding TextFilterFiles}" VerticalContentAlignment="Center" TextChanged="FilteredFilesTextChanged" Width="200" FontSize="14" HorizontalAlignment="Right"/>
+                            <TextBox x:Name="TextKunde" Text="" VerticalContentAlignment="Center"  MinWidth="200" FontSize="14" HorizontalAlignment="Right"/>
+                            <TextBox x:Name="TextAuftrag" Text="" VerticalContentAlignment="Center"  MinWidth="200" FontSize="14" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </Border>
+                </DockPanel>
+<!-- Dock Filter Material-->
+                <DockPanel Name="dockFilterMaterialListe"  Grid.Row="0" Visibility="Hidden" >
+                    <Border x:Name="borderMaterialFilter" Grid.Column="1" Grid.Row="0"  Padding="3" BorderBrush="DarkOrange" BorderThickness="2" Height="40" CornerRadius="3"   Visibility="Visible">
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Height="30" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <Button Content="Filter-Material" FontSize="14" FontWeight="Heavy" Width="120"/>
+                            <TextBox x:Name="MaterialFilterText" Text="{Binding MaterialTextFilter}" VerticalContentAlignment="Center" TextChanged="MaterialFilteredTextChanged" MinWidth="200" FontSize="14"/>
+                            <Button Content="Filter-Dicke" FontSize="14" FontWeight="Heavy" Width="120"/>
+                            <TextBox x:Name="DickeFilterText" Text="{Binding DickeTextFilter}" VerticalContentAlignment="Center" TextChanged="DickeFilteredTextChanged" MinWidth="200" FontSize="14"/>
+                            <Button Content="Filter-MatNr." FontSize="14" FontWeight="Heavy" Width="120"/>
+                            <TextBox x:Name="MatNrFilterText" Text="{Binding MatNrTextFilter}" VerticalContentAlignment="Center" TextChanged="MatNrFilteredTextChanged" MinWidth="200" FontSize="14"/>
+                            <CheckBox Content="HideMuster" x:Name="xHideMuster" IsChecked="True"/>
+                        </StackPanel>
+                    </Border>
+                </DockPanel>
+<!-- Dock Filter Auftraege -->
+                <DockPanel Name="dockFilterAuftragsListe"  Grid.Row="0" Visibility="Visible" >
+                    <Border x:Name="borderAuftragFilter" Grid.Column="1" Grid.Row="0"  Padding="3" BorderBrush="DarkOrange" BorderThickness="2" Height="40" CornerRadius="3"   Visibility="Visible">
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Height="30" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <Button Content="Filter-Auftrag" FontSize="14" FontWeight="Heavy" Width="120"/>
+                            <TextBox x:Name="AuftragFilterText" Text="{Binding AuftragFilterText}" VerticalContentAlignment="Center" TextChanged="AuftragFilteredTextChanged" MinWidth="200" FontSize="14"/>
+                        </StackPanel>
+                    </Border>
+                </DockPanel>
+                
+                <DockPanel Name="dockPartsOrderListe"  Grid.Row="1" Visibility="Hidden" >
+                    <Border x:Name="borderImageArch" Grid.Row="1" Margin="3,3,0,0" BorderBrush="DarkOrange" BorderThickness="3" 
+                        CornerRadius="3" Visibility="Visible" VerticalAlignment="Stretch" >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+
+                            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding GridDataa}" Height="Auto" x:Name="Griddi" ScrollViewer.CanContentScroll="True" 
+                                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="5,5,0,5"
+                                                    ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" GridLinesVisibility="Horizontal" 
+                                                    HorizontalGridLinesBrush="#FF258E87" AlternatingRowBackground="#66FFFFFF" Grid.IsSharedSizeScope="True" FontSize="14"
+                                                    SelectedItem="{Binding GridSelectedItemProperty}" VerticalGridLinesBrush="#FF666666" RowBackground="#66666666" >
+                                <DataGrid.ItemContainerStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick" />
+                                    </Style>
+                                </DataGrid.ItemContainerStyle>
+
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn Binding="{Binding IsChecked}">
+                                        <DataGridCheckBoxColumn.Header>
+                                            <CheckBox IsChecked="False" IsEnabled="False" />
+                                        </DataGridCheckBoxColumn.Header>
+                                    </DataGridCheckBoxColumn>
+                                    <DataGridTextColumn Binding="{Binding Text}" Header="ArchivName" Width="260" />
+                                    <DataGridTextColumn Width="100" Binding="{Binding IntValue}"
+                                                                      Header="ArchivNr"  />
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                                <TreeView Name="treeView" Margin="5" MinWidth="300" VerticalAlignment="Stretch" Width="Auto" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+           VerticalContentAlignment="Stretch"  SelectedItemChanged="treeView_SelectedItemChanged" BorderThickness="3,3,3,3" Background="OldLace" FontSize="14" >
+                                    <FrameworkElement.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="OpenFolder" Click="Image_OpenFolderMouseLeftButtonDown">
+                                                <MenuItem.Icon>
+                                                    <Image Source="{StaticResource BitmapJobProduce32}" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Header="Todo" >
+                                                <MenuItem.Icon>
+                                                    <Image Source="{StaticResource BitmapJobDelete32}" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Header="2D-Teile-Liste" Click="MenuItem2DTeileListeLaden_Click">
+                                                <MenuItem.Icon>
+                                                    <Image Source="{StaticResource BitmapPrintLabel32}" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Header="3D-Teile-Liste" Click="MenuItem3DTeileListeLaden_Click">
+                                                <MenuItem.Icon>
+                                                    <Image Source="{StaticResource BitmapPrintLabel32}" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </FrameworkElement.ContextMenu>
+                                    <TreeView.ItemContainerStyle>
+                                        <Style TargetType="{x:Type TreeViewItem}">
+                                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                                            <Setter Property="KeyboardNavigation.AcceptsReturn" Value="True" />
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
+                                    <TreeView.Resources>
+                                        <HierarchicalDataTemplate DataType="{x:Type classes:FileSystemObjectInfo}" ItemsSource="{Binding Path=Children}" >
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding Path=ImageSource, UpdateSourceTrigger=PropertyChanged}" Margin="0,1,8,1"></Image>
+                                                <TextBlock Text="{Binding Path=FileSystemInfo.Name}"></TextBlock>
+                                            </StackPanel>
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.Resources>
+                                </TreeView>
+                                <DataGrid AutoGenerateColumns="False"  Height="Auto" x:Name="xFilesList" ScrollViewer.CanContentScroll="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+               ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FF258E87" AlternatingRowBackground="Beige" 
+               Grid.IsSharedSizeScope="True" FontSize="14" SelectedItem="{Binding FolderFilesSelectedItemProperty}" VerticalGridLinesBrush="#FF666666" RowBackground="#66666666" Margin="0,5,5,5" 
+               SelectionMode="Single" MinWidth="300" >
+                                    <FrameworkElement.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="{DynamicResource ButtonProduce}">
+                                                <MenuItem.Icon>
+                                                    <Image Source="{StaticResource BitmapJobProduce32}" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Header="{DynamicResource ButtonJobDelete}">
+                                                <MenuItem.Icon>
+                                                    <Image Source="{StaticResource BitmapJobDelete32}" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Header="{DynamicResource ButtonPrintLabel}">
+                                                <MenuItem.Icon>
+                                                    <Image Source="{StaticResource BitmapPrintLabel32}" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </FrameworkElement.ContextMenu>
+                                    <DataGrid.ItemContainerStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <EventSetter Event="MouseDoubleClick" Handler="RowFiles_DoubleClick" />
+                                        </Style>
+                                    </DataGrid.ItemContainerStyle>
+
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="Icon" Width="30" IsReadOnly="True">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="{Binding FileIcon}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="SizeToCells" FontSize="16" FontWeight="Medium"  />
+                                        <DataGridTextColumn Binding="{Binding CreationDate}" Header="Date" Width="100" />
+
+                                        <DataGridTextColumn Binding="{Binding Extension}" Header="Ext" Width="40" FontSize="14">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Text" Value=".stp">
+                                                            <Setter Property="Background" Value="Yellow"/>
+                                                            <Setter Property="Foreground" Value="DarkBlue"/>
+                                                        </Trigger>
+                                                        <Trigger Property="Text" Value=".dxf">
+                                                            <Setter Property="Background" Value="LawnGreen"/>
+                                                            <Setter Property="Foreground" Value="OrangeRed"/>
+                                                        </Trigger>
+                                                        <Trigger Property="Text" Value=".STP">
+                                                            <Setter Property="Background" Value="Yellow"/>
+                                                            <Setter Property="Foreground" Value="DarkBlue"/>
+                                                        </Trigger>
+                                                        <Trigger Property="Text" Value=".DXF">
+                                                            <Setter Property="Background" Value="LawnGreen"/>
+                                                            <Setter Property="Foreground" Value="OrangeRed"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Size}" Header="Size" Width="80" >
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                     <Setter Property="HorizontalAlignment" Value="Center"/>                                                                                                        
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+
+                                </DataGrid>
+
+                           
+
+                        </StackPanel>
+
+                    </Border>
+               
+                </DockPanel>
+          
+
+                <DockPanel Name="dockAuftragsListe"  Grid.Row="1" Visibility="Visible">                
+                    <DockPanel DockPanel.Dock="Top" >
+                        <local:TimelineDatagrid x:Name="dgTimeline" AutoGenerateColumns="False" HorizontalAlignment="Stretch" CanUserAddRows="False"
+                                                CanUserResizeColumns="False" IsReadOnly="True" VerticalAlignment="Stretch"/>
+                    </DockPanel>
+                    
+                    <Border x:Name="borderImageAuftrag" Grid.Row="1" Margin="3,3,0,0" BorderBrush="MediumVioletRed" BorderThickness="3" CornerRadius="3" Visibility="Visible" VerticalAlignment="Stretch" >
+
+                            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding GridOrders}" Height="Auto" x:Name="GridOrders" ScrollViewer.CanContentScroll="True" 
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Center"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" GridLinesVisibility="None"  RowDetailsVisibilityMode="VisibleWhenSelected" 
+                                      HorizontalGridLinesBrush="#FF258E87" AlternatingRowBackground="#66FFFF" Grid.IsSharedSizeScope="True" FontSize="16"
+                                      SelectedItem="{Binding OrdersGridSelectedItemProperty}" VerticalGridLinesBrush="#66FFFF" RowBackground="#66FFFF55" Width="Auto" SelectionMode="Extended">
+                                
+                                <FrameworkElement.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="{DynamicResource ButtonProduce}">
+                                            <MenuItem.Icon>
+                                                <Image Source="{StaticResource BitmapJobProduce32}" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    <MenuItem Header="{DynamicResource ButtonJobDelete}" Click="Image_JobDeleteMouseLeftButtonDown">
+                                            <MenuItem.Icon>
+                                                <Image Source="{StaticResource BitmapJobDelete32}" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="2D-Teile-Liste" Click="MenuItem2DTeileListeLaden_Click">
+                                            <MenuItem.Icon>
+                                                <Image Source="{StaticResource BitmapPrintLabel32}" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    <MenuItem Header="3D-Teile-Liste" Click="MenuItem3DTeileListeLaden_Click">
+                                        <MenuItem.Icon>
+                                            <Image Source="{StaticResource BitmapPrintLabel32}" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                                </FrameworkElement.ContextMenu>
+
+                                <DataGrid.ItemContainerStyle>
+                                    <Style TargetType="DataGridRow">
+                                    <EventSetter Event="MouseDoubleClick" Handler="OrdersRow_DoubleClick" />
+                                    </Style>
+                                </DataGrid.ItemContainerStyle>
+
+                            <DataGrid.RowDetailsTemplate>
+                                <DataTemplate>
+                                    <DockPanel Background="#FF258E87" >
+                                        <Image DockPanel.Dock="Left" Source="{Binding ResultThumb}" Height="74" Margin="10" />
+                                        <Grid Margin="0,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"  />
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Text="Auftrag: " FontWeight="Bold"  />
+                                            <TextBlock Text="{Binding auftragsnummer}" Grid.Column="1" Foreground="Blue"/>
+                                            <TextBlock Text="Kunde: " FontWeight="Bold" Grid.Row="1" />
+                                            <TextBlock Text="{Binding kundenname}" Grid.Column="1" Grid.Row="1" Foreground="White" />
+                                            <TextBlock Text="Bemerkungen: " FontWeight="Bold" Grid.Row="2" />
+                                            <TextBlock Text="{Binding bemerkungen, StringFormat=d}" Grid.Column="1" Grid.Row="2" Grid.RowSpan="3" Foreground="White"/>
+                                            
+                                            <TextBlock Text="Bearbeiter: " FontWeight="Bold" Grid.Column="2"/>
+                                            <TextBlock Text="{Binding bearbeiter1}" Grid.Column="3" Foreground="Yellow"/>
+                                            <TextBlock Text="Liefer-Termin: " FontWeight="Bold" Grid.Row="1" Grid.Column="2"/>
+                                            <TextBlock Text="{Binding liefertermin,StringFormat=dd.MM.yyyy}"  Grid.Column="3" Grid.Row="1" Foreground="White"/>
+                                            <TextBlock Text="Muster: " FontWeight="Bold" Grid.Row="2" Grid.Column="2" />
+                                            <TextBlock Text="{Binding bearbeiter1, StringFormat=d}" Grid.Column="3" Grid.Row="2" />
+                                            <TextBlock Text="Wiederholt: " FontWeight="Bold" Grid.Row="3" Grid.Column="2"/>
+                                            <TextBlock Text="{Binding bearbeiter1, StringFormat=d}" Grid.Column="3" Grid.Row="3" />
+                                            <TextBlock Text="Nachbestell: " FontWeight="Bold" Grid.Row="4" Grid.Column="2"/>
+                                            <TextBlock Text="{Binding bearbeiter1, StringFormat=d}" Grid.Column="3" Grid.Row="4" />
+
+                                            <TextBlock Text="Bearbeiter: " FontWeight="Bold" Grid.Column="4"/>
+                                            <TextBlock Text="{Binding bearbeiter2}" Grid.Column="5" Foreground="PaleTurquoise"/>
+                                            <TextBlock Text="AV-Termin: " FontWeight="Bold" Grid.Row="1" Grid.Column="4"/>
+                                            <TextBlock Text="{Binding avtermin,StringFormat=dd.MM.yyyy}"  Grid.Column="5" Grid.Row="1" Foreground="White"/>
+                                            <TextBlock Text="Zeichnungen: " FontWeight="Bold" Grid.Row="2" Grid.Column="4" />
+                                            <TextBlock Text="{Binding bearbeiter2, StringFormat=d}" Grid.Column="5" Grid.Row="2" />
+                                            <TextBlock Text="Material: " FontWeight="Bold" Grid.Row="3" Grid.Column="4"/>
+                                            <TextBlock Text="{Binding bearbeiter2, StringFormat=d}" Grid.Column="5" Grid.Row="3" />
+                                            <TextBlock Text="Infos: " FontWeight="Bold" Grid.Row="4" Grid.Column="4"/>
+                                            <TextBlock Text="{Binding bearbeiter2, StringFormat=d}" Grid.Column="5" Grid.Row="4" />
+
+                                            <TextBlock Text="Bearbeiter: " FontWeight="Bold" Grid.Column="6"/>
+                                            <TextBlock Text="{Binding bearbeiter3}" Grid.Column="7" Foreground="Purple"/>
+                                            <TextBlock Text="Abwicklung: " FontWeight="Bold" Grid.Row="1" Grid.Column="6"/>
+                                            <TextBlock Text="{Binding produktion,StringFormat=dd.MM.yyyy}"  Grid.Column="7" Grid.Row="1" Foreground="White"/>
+                                            <TextBlock Text="NC-Prog.: " FontWeight="Bold" Grid.Row="2" Grid.Column="6" />
+                                            <TextBlock Text="{Binding bearbeiter3, StringFormat=d}" Grid.Column="7" Grid.Row="2" />
+                                            <TextBlock Text="Verbrauch: " FontWeight="Bold" Grid.Row="3" Grid.Column="6"/>
+                                            <TextBlock Text="{Binding bearbeiter3, StringFormat=d}" Grid.Column="7" Grid.Row="3" />
+                                            <TextBlock Text="Infos: " FontWeight="Bold" Grid.Row="4" Grid.Column="6"/>
+                                            <TextBlock Text="{Binding bearbeiter3, StringFormat=d}" Grid.Column="7" Grid.Row="4" />
+
+                                            <TextBlock Text="Bearbeiter: " FontWeight="Bold" Grid.Column="8"/>
+                                            <TextBlock Text="{Binding bearbeiter4}" Grid.Column="9" Foreground="Red"/>
+                                            <TextBlock Text="Produktion: " FontWeight="Bold" Grid.Row="1" Grid.Column="8"/>
+                                            <TextBlock Text="{Binding produktion,StringFormat=dd.MM.yyyy}"  Grid.Column="9" Grid.Row="1" Foreground="White"/>
+                                            <TextBlock Text="Stanzen: " FontWeight="Bold" Grid.Row="2" Grid.Column="8" />
+                                            <TextBlock Text="{Binding bearbeiter4,StringFormat=dd.MM.yyyy}" Grid.Column="9" Grid.Row="2" />
+                                            <TextBlock Text="Biegen: " FontWeight="Bold" Grid.Row="3" Grid.Column="8"/>
+                                            <TextBlock Text="{Binding bearbeiter4,StringFormat=dd.MM.yyyy}" Grid.Column="9" Grid.Row="3" />
+                                            <TextBlock Text="Bolzen: " FontWeight="Bold" Grid.Row="4" Grid.Column="8"/>
+                                            <TextBlock Text="{Binding bearbeiter4,StringFormat=dd.MM.yyyy}" Grid.Column="9" Grid.Row="4" />
+
+                                            <TextBlock Text="Bearbeiter: " FontWeight="Bold" Grid.Column="10"/>
+                                            <TextBlock Text="{Binding bearbeiter5}" Grid.Column="11" Foreground="GreenYellow"/>
+                                            <TextBlock Text="Verpacken: " FontWeight="Bold" Grid.Row="1" Grid.Column="10"/>
+                                            <TextBlock Text="{Binding verpacken,StringFormat=dd.MM.yyyy}"  Grid.Column="11" Grid.Row="1" Foreground="White"/>
+                                            <TextBlock Text="Oberflaeche: " FontWeight="Bold" Grid.Row="2" Grid.Column="10"/>
+                                            <TextBlock Text="{Binding bearbeiter5, StringFormat=d}" Grid.Column="11" Grid.Row="2" />
+                                            <TextBlock Text="Baustelle: " FontWeight="Bold" Grid.Row="3" Grid.Column="10"/>
+                                            <TextBlock Text="{Binding bearbeiter5, StringFormat=d}" Grid.Column="11" Grid.Row="3" />
+                                            <TextBlock Text="Mundal: " FontWeight="Bold" Grid.Row="4" Grid.Column="10"/>
+                                            <TextBlock Text="{Binding bearbeiter5, StringFormat=d}" Grid.Column="11" Grid.Row="4" />
+
+                                            <TextBlock Text="Bearbeiter: " FontWeight="Bold" Grid.Column="12"/>
+                                            <TextBlock Text="{Binding bearbeiter6}" Grid.Column="13" Foreground="HotPink"/>
+                                            <TextBlock Text="Oberflaeche: " FontWeight="Bold" Grid.Row="1" Grid.Column="12"/>
+                                            <TextBlock Text="{Binding oberflaeche,StringFormat=dd.MM.yyyy}"  Grid.Column="13" Grid.Row="1" Foreground="White"/>
+                                            <TextBlock Text="Zufuhr: " FontWeight="Bold" Grid.Row="2" Grid.Column="12" />
+                                            <TextBlock Text="{Binding bearbeiter6,StringFormat=dd.MM.yyyy}" Grid.Column="13" Grid.Row="2" />
+                                            <TextBlock Text="Zurueck: " FontWeight="Bold" Grid.Row="3" Grid.Column="12"/>
+                                            <TextBlock Text="{Binding bearbeiter6,StringFormat=dd.MM.yyyy}" Grid.Column="13" Grid.Row="3" />
+                                            <TextBlock Text="Infos: " FontWeight="Bold" Grid.Row="4" Grid.Column="12"/>
+                                            <TextBlock Text="{Binding bearbeiter6,StringFormat=dd.MM.yyyy}" Grid.Column="13" Grid.Row="4" />
+
+                                            <TextBlock Text="Bearbeiter: " FontWeight="Bold" Grid.Column="14"/>
+                                            <TextBlock Text="{Binding bearbeiter7}" Grid.Column="15" Foreground="DarkOrange"/>
+                                            <TextBlock Text="Komplettieren: " FontWeight="Bold" Grid.Row="1" Grid.Column="14"/>
+                                            <TextBlock Text="{Binding komplettieren,StringFormat=dd.MM.yyyy}"  Grid.Column="15" Grid.Row="1" Foreground="White"/>
+                                            <TextBlock Text="Abteilung: " FontWeight="Bold" Grid.Row="2" Grid.Column="14" />
+                                            <TextBlock Text="{Binding bearbeiter7,StringFormat=dd.MM.yyyy}" Grid.Column="15" Grid.Row="2" />
+                                            <TextBlock Text="Liefer-Termin: " FontWeight="Bold" Grid.Row="3" Grid.Column="14"/>
+                                            <TextBlock Text="{Binding liefertermin,StringFormat=dd.MM.yyyy}" Grid.Column="15" Grid.Row="3" />
+                                            <TextBlock Text="Infos: " FontWeight="Bold" Grid.Row="4" Grid.Column="14"/>
+                                            <TextBlock Text="{Binding bearbeiter7,StringFormat=dd.MM.yyyy}" Grid.Column="15" Grid.Row="4" />
+                                        </Grid>
+                                    </DockPanel>
+                                </DataTemplate>
+                            </DataGrid.RowDetailsTemplate>
+
+                            <DataGrid.Columns>
+                                    <!-- <DataGridTemplateColumn Header="Calendar" CellTemplate="{StaticResource CalendarTemplate}" x:Name="cCal"  /> -->
+                             
+                                    
+                                <DataGridTextColumn Binding="{Binding auftragsnummer}" Header="AuftragsNr." Width="SizeToCells" />
+                                    <DataGridTextColumn Binding="{Binding kundenname}" Header="Kunde" Width="SizeToCells" />
+                                    <DataGridTextColumn Binding="{Binding bemerkungen}" Header="Info" Width="SizeToCells"  />
+
+
+                                <DataGridTemplateColumn Header="Liefer-Termin" Width="SizeToHeader" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=liefertermin,StringFormat=dd.MM.yyyy}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Path=liefertermin}" SelectedDateFormat="Short" FirstDayOfWeek="Monday" IsDropDownOpen="True"  ></DatePicker>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="AV-Termin" Width="SizeToHeader">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=avtermin,StringFormat=dd.MM.yyyy}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Path=avtermin}" SelectedDateFormat="Short" FirstDayOfWeek="Monday" IsDropDownOpen="True"  ></DatePicker>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Produktion" Width="SizeToHeader">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=produktion,StringFormat=dd.MM.yyyy}" HorizontalAlignment="Center"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Path=produktion}" SelectedDateFormat="Short" FirstDayOfWeek="Monday" IsDropDownOpen="True"  ></DatePicker>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Oberflaeche" Width="SizeToHeader">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=oberflaeche ,StringFormat=dd.MM.yyyy}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Path=oberflaeche}" SelectedDateFormat="Short" FirstDayOfWeek="Monday" IsDropDownOpen="True"  ></DatePicker>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Verpacken" Width="SizeToHeader">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=verpacken,StringFormat=dd.MM.yyyy}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Path=verpacken}" SelectedDateFormat="Short" FirstDayOfWeek="Monday" IsDropDownOpen="True"  ></DatePicker>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Komplettieren" Width="SizeToHeader">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=komplettieren,StringFormat=dd.MM.yyyy}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Path=komplettieren}" SelectedDateFormat="Short" FirstDayOfWeek="Monday" IsDropDownOpen="True"  ></DatePicker>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Binding="{Binding bearbeiter1}" Header="Bearbeiter1" Width="SizeToCells"/>
+                                <DataGridTextColumn Binding="{Binding bearbeiter2}" Header="Bearbeiter2" Width="SizeToCells"  />
+                                <DataGridTextColumn Binding="{Binding bearbeiter3}" Header="Bearbeiter3" Width="SizeToCells" />
+                                <DataGridTextColumn Binding="{Binding bearbeiter4}" Header="Bearbeiter4" Width="SizeToCells" />
+                                <DataGridTextColumn Binding="{Binding bearbeiter5}" Header="Bearbeiter5" Width="SizeToCells"  />
+                                <DataGridTextColumn Binding="{Binding bearbeiter6}" Header="Bearbeiter6" Width="SizeToCells" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="Almg1">
+                                                    <Setter Property="Background" Value="Yellow"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="Almg3">
+                                                    <Setter Property="Background" Value="Orange"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="Almg4 E0/C0">
+                                                    <Setter Property="Background" Value="DarkGreen"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="1.0033">
+                                                    <Setter Property="Background" Value="Blue"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="1.4404">
+                                                    <Setter Property="Background" Value="HotPink"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding bearbeiter7}" Header="Bearbeiter7" Width="SizeToCells"  />
+                                <DataGridTextColumn Binding="{Binding bemerk_1}" Header="Bemerk1" Width="SizeToCells" />
+                                <DataGridTextColumn Binding="{Binding bemerk_1}" Header="Bemerk2" Width="SizeToCells" />
+                                    
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </Border>
+                </DockPanel>
+
+
+                <DockPanel Name="dockMaterialListe"  Grid.Row="1" Visibility="Hidden" >
+                   
+                    <Border x:Name="borderImageMaterialListe" Grid.Row="1" Margin="3,3,0,0" BorderBrush="MediumVioletRed" BorderThickness="3" 
+        CornerRadius="3" Visibility="Visible" VerticalAlignment="Stretch" >
+
+                        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding GridMaterialPool}" Height="Auto" x:Name="GridMaterialPool" ScrollViewer.CanContentScroll="True" 
+HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Center"
+ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" GridLinesVisibility="None"  RowDetailsVisibilityMode="Visible" 
+HorizontalGridLinesBrush="#FF258E87" AlternatingRowBackground="#66FFFF66" Grid.IsSharedSizeScope="True" FontSize="14"
+SelectedItem="{Binding MaterialPoolGridSelectedItemProperty}" VerticalGridLinesBrush="#FF666666" RowBackground="#66FFFF" Width="Auto" SelectionMode="Extended" RowHeight="24" FontWeight="ExtraBlack" >
+
+                            <FrameworkElement.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{DynamicResource ButtonProduce}">
+                                        <MenuItem.Icon>
+                                            <Image Source="{StaticResource BitmapJobProduce32}" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="{DynamicResource ButtonJobDelete}" Click="Image_JobDeleteMouseLeftButtonDown">
+                                        <MenuItem.Icon>
+                                            <Image Source="{StaticResource BitmapJobDelete32}" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="2D-Teile-Liste" Click="MenuItem2DTeileListeLaden_Click">
+                                        <MenuItem.Icon>
+                                            <Image Source="{StaticResource BitmapPrintLabel32}" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="3D-Teile-Liste" Click="MenuItem3DTeileListeLaden_Click">
+                                        <MenuItem.Icon>
+                                            <Image Source="{StaticResource BitmapPrintLabel32}" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </FrameworkElement.ContextMenu>
+
+                            <DataGrid.ItemContainerStyle>
+                                <Style TargetType="DataGridRow">
+                                    <EventSetter Event="MouseDoubleClick" Handler="MaterialPoolRow_DoubleClick" />
+                                </Style>
+                            </DataGrid.ItemContainerStyle>
+
+                            <DataGrid.RowDetailsTemplate>
+                                <DataTemplate>
+                                    <DockPanel Background="GhostWhite">
+                                        <Image DockPanel.Dock="Left" Source="/Images/maus.ico" Height="60" Margin="10" />
+                                        <Grid Margin="0,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100"  />
+                                                <ColumnDefinition Width="140" />
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width="60" />
+                                                <ColumnDefinition Width="125" />
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="115" />
+                                                <ColumnDefinition Width="280" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Text="TafelName: " FontWeight="Bold"  />
+                                            <TextBlock Text="{Binding PlName}" Grid.Column="1" Foreground="Blue"/>
+                                            <TextBlock Text="Material: " FontWeight="Bold" Grid.Row="1" Grid.Column="0"/>
+                                            <TextBlock Text="{Binding MaterialName, StringFormat=d}" Grid.Column="1" Grid.Row="1" />
+                                            <TextBlock Text="Amount: " FontWeight="Bold" Grid.Row="2" >
+                                                <TextBlock.Style>
+
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Amount, Converter={StaticResource IsEqualOrMoreThanConverter}, ConverterParameter=10}" Value="False">
+                                                                <Setter Property="Foreground" Value="Red"/>
+                                                                <Setter Property="Background" Value="LightYellow"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Amount, Converter={StaticResource IsEqualOrMoreThanConverter}, ConverterParameter=10}" Value="True">
+                                                                <Setter Property="Foreground" Value="Green"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding Amount}" Grid.Column="1" Grid.Row="2" >
+                                                <TextBlock.Style>
+                                                  
+                                                        <Style TargetType="{x:Type TextBlock}">
+                                                            <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Amount, Converter={StaticResource IsEqualOrMoreThanConverter}, ConverterParameter=10}" Value="False">
+                                                                <Setter Property="Foreground" Value="Red"/>
+                                                                <Setter Property="Background" Value="LightYellow"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Amount, Converter={StaticResource IsEqualOrMoreThanConverter}, ConverterParameter=10}" Value="True">
+                                                            <Setter Property="Foreground" Value="Green"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                        </Style>
+                                                 
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <TextBlock Text="Dicke: " FontWeight="Bold" Grid.Column="2" Grid.Row="0" />
+                                            <TextBlock Text="{Binding PlThick}" Grid.Column="3" Grid.Row="0" Foreground="Blue"/>
+                                            <TextBlock Text="MatNr.: " FontWeight="Bold" Grid.Row="1" Grid.Column="2"/>
+                                            <TextBlock Text="{Binding MatNr, StringFormat=d}" Grid.Column="3" Grid.Row="1" />
+                                            <TextBlock Text="Lager: " FontWeight="Bold" Grid.Column="2" Grid.Row="2"/>
+                                            <TextBlock Text="{Binding Lagerplatz}" Grid.Column="3" Grid.Row="2" Foreground="DarkGreen"/>
+
+
+                                            <TextBlock Text="CreationDate: " FontWeight="Bold" Grid.Row="0" Grid.Column="4"/>
+                                            <TextBlock Text="{Binding CreationDate,StringFormat=dd.MM.yyyy}"  Grid.Column="5" Grid.Row="0" />
+                                            <TextBlock Text="ModifiedDate: " FontWeight="Bold" Grid.Row="1" Grid.Column="4"/>
+                                            <TextBlock Text="{Binding ModifiedDate,StringFormat=dd.MM.yyyy}"  Grid.Column="5" Grid.Row="1" />
+                                            <TextBlock Text="DeleteDate: " FontWeight="Bold" Grid.Row="2" Grid.Column="4"/>
+                                            <TextBlock Text="{Binding DeleteDate,StringFormat=dd.MM.yyyy}"  Grid.Column="5" Grid.Row="2" />
+
+                                            <TextBlock Text="Charge: " FontWeight="Bold" Grid.Row="0" Grid.Column="6" />
+                                            <TextBlock Text="{Binding PlIdentNr}" Grid.Column="7" Grid.Row="0" />
+                                            <TextBlock Text="Bezeichnung: " FontWeight="Bold" Grid.Row="1" Grid.Column="6" />
+                                            <TextBlock Text="{Binding Bezeichnung}" Grid.Column="7" Grid.Row="1" />
+                                            <TextBlock Text="Lieferant: " FontWeight="Bold" Grid.Row="2" Grid.Column="6" />
+                                            <TextBlock Text="{Binding Bemerk3}" Grid.Column="7" Grid.Row="2" />
+                                            
+                                            <TextBlock Text="Erstellt: " FontWeight="Bold" Grid.Row="0" Grid.Column="8" />
+                                            <TextBlock Text="{Binding ErstellungsDatum}" Grid.Column="9" Grid.Row="0" />
+                                            <TextBlock Text="TafelTyp: " FontWeight="Bold" Grid.Column="8" Grid.Row="1" />
+                                            <TextBlock Text="{Binding PlTyp}" Grid.Column="9" Grid.Row="1" />
+                                            <TextBlock Text="Archiv: " FontWeight="Bold" Grid.Column="8" Grid.Row="2"/>
+                                            <TextBlock Text="{Binding ArNumber}" Grid.Column="9" Grid.Row="2" Foreground="DarkGreen"/>
+
+                                            <TextBlock Text="Nutzfl.: " FontWeight="Bold" Grid.Column="10" Grid.Row="0"/>
+                                            <TextBlock Text="{Binding PlNutzFl, StringFormat=0.00 (qm)}" Grid.Column="11" Grid.Row="0" Foreground="DarkGreen"/>
+                                            <TextBlock Text="Flaeche: " FontWeight="Bold" Grid.Row="1" Grid.Column="10" />
+                                            <TextBlock Text="{Binding PlFlaeche, StringFormat=0.00 (qm)}" Grid.Column="11" Grid.Row="1" />
+                                            <TextBlock Text="Gewicht: " FontWeight="Bold" Grid.Column="10" Grid.Row="2" />
+                                            <TextBlock Text="{Binding PlGewicht, StringFormat=0.00 (kg)}" Grid.Column="11" Grid.Row="2" />
+                                   
+
+                                        </Grid>
+                                    </DockPanel>
+                                </DataTemplate>
+                            </DataGrid.RowDetailsTemplate>
+
+                            <DataGrid.Columns>
+                                <!-- <DataGridTemplateColumn Header="Calendar" CellTemplate="{StaticResource CalendarTemplate}" x:Name="cCal"  /> -->
+
+
+                                <DataGridTextColumn Binding="{Binding PlName}" Header="TafelName" Width="SizeToCells" />
+                                <DataGridTemplateColumn Header="MaterialName" Width="SizeToHeader">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=MaterialName}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Anzahl" Width="SizeToHeader" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Amount}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Dicke" Width="SizeToHeader" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=PlThick}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="MatNr" Width="SizeToHeader" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=MatNr}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Lager" Width="SizeToHeader" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Lagerplatz}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Binding="{Binding PlIdentNr}" Header="Charge" Width="SizeToCells" />
+                                <DataGridTextColumn Binding="{Binding Bezeichnung}" Header="Bezeichnung" Width="SizeToCells" />
+                                <DataGridTextColumn Binding="{Binding Bemerk3}" Header="Lieferant" Width="SizeToCells" />
+                            
+                                <DataGridTemplateColumn Header="CreationDate" Width="SizeToHeader">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=CreationDate,StringFormat=dd.MM.yyyy}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Path=CreationDate}" SelectedDateFormat="Short" FirstDayOfWeek="Monday" IsDropDownOpen="True"  ></DatePicker>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="ModifiedDate" Width="SizeToHeader">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=ModifiedDate,StringFormat=dd.MM.yyyy}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Path=ModifiedDate}" SelectedDateFormat="Short" FirstDayOfWeek="Monday" IsDropDownOpen="True"  ></DatePicker>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                
+                                <DataGridTemplateColumn Header="DeleteDate" Width="SizeToHeader">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=DeleteDate,StringFormat=dd.MM.yyyy}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Path=DeleteDate}" SelectedDateFormat="Short" FirstDayOfWeek="Monday" IsDropDownOpen="True"  ></DatePicker>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Erstellt" Width="SizeToHeader">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=ErstellungsDatum}" HorizontalAlignment="Center"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Path=ErstellungsDatum}" SelectedDateFormat="Short" FirstDayOfWeek="Monday" IsDropDownOpen="True"  ></DatePicker>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Binding="{Binding PlTyp}" Header="TafelTyp" Width="SizeToCells" />
+
+                                <DataGridTemplateColumn Header="Archiv" Width="SizeToHeader" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=ArNumber}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="RefNr" Width="SizeToHeader">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=ReferenceNr}" HorizontalAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Border>
+                </DockPanel>
+
+                <GridSplitter Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Height="4" ResizeDirection="Rows" HorizontalAlignment="Stretch" Background="Gray" Margin="0,2,0,2"/>
+
+                <Border x:Name="borderPartsOrder" Grid.Row="3" Margin="3" Padding="3" BorderBrush="DarkOrange" BorderThickness="3" CornerRadius="3" Visibility="Visible" Grid.IsSharedSizeScope="True" Background="Cornsilk">
+                    <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding PartOrderData, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" Height="Auto" x:Name="GridOrderParts" ScrollViewer.CanContentScroll="True" 
+HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" GridLinesVisibility="Horizontal" 
+HorizontalGridLinesBrush="#FF258E87" AlternatingRowBackground="#66FFFFFF" Grid.IsSharedSizeScope="True" FontSize="16"
+SelectedItem="{Binding PartOrderGridSelectedItemProperty}" VerticalGridLinesBrush="#FF666666" RowBackground="#66666666" Width="Auto" SelectionMode="Single" >
+
+                        <FrameworkElement.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Update DB" Click="UpdatePartsDB">
+                                    <MenuItem.Icon>
+                                        <Image Source="{StaticResource BitmapJobProduce32}" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="{DynamicResource ButtonJobDelete}">
+                                    <MenuItem.Icon>
+                                        <Image Source="{StaticResource BitmapJobDelete32}" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="{DynamicResource ButtonPrintLabel}">
+                                    <MenuItem.Icon>
+                                        <Image Source="{StaticResource BitmapPrintLabel32}" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </FrameworkElement.ContextMenu>
+                        <DataGrid.ItemContainerStyle>
+                            <Style TargetType="DataGridRow">
+                                <EventSetter Event="MouseDoubleClick" Handler="PartsRow_DoubleClick" />
+                            </Style>
+                        </DataGrid.ItemContainerStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PartName}" Value="True">
+                                        <Setter Property="Background" Value="Green"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PartName}" Value="False">
+                                        <Setter Property="Background" Value="Black"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Binding="{Binding PartName}" Header="FileName" Width="SizeToCells" />
+                            <DataGridTextColumn Binding="{Binding OrderPos}" Header="Pos." Width="SizeToCells" />
+                            <DataGridTextColumn Binding="{Binding AssemblyName}" Header="Baugruppe" Width="SizeToCells"  />
+                            <DataGridTextColumn Binding="{Binding Artikel}" Header="Artikel" Width="SizeToCells"/>
+                            <DataGridTextColumn Binding="{Binding Anzahl}" Header="Anz." Width="45" >
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Laenge}" Header="Laenge" Width="SizeToCells" />
+                            <DataGridTextColumn Binding="{Binding Breite}" Header="Breite" Width="SizeToCells" >
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Breite, Converter={StaticResource IsEqualOrMoreThanConverter}, ConverterParameter=1501}" Value="True">
+                                                <Setter Property="Foreground" Value="DarkRed"/>
+                                                <Setter Property="Background" Value="Goldenrod"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Dicke}" Header="Dicke" Width="SizeToCells" >
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding MaterialInt}" Header="MatNr" Width="SizeToCells" >
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Material}" Header="Material" Width="SizeToCells" >
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <Trigger Property="Text" Value="Almg1">
+                                                <Setter Property="Background" Value="Yellow"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="Almg3">
+                                                <Setter Property="Background" Value="Yellow"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="Almg4 E0/C0">
+                                                <Setter Property="Background" Value="DarkGreen"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="1.0033">
+                                                <Setter Property="Background" Value="Blue"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="1.0038">
+                                                <Setter Property="Background" Value="Cyan"/>
+                                                <Setter Property="Foreground" Value="Black"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="1.4301">
+                                                <Setter Property="Background" Value="HotPink"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="1.4304">
+                                                <Setter Property="Background" Value="HotPink"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="1.4401">
+                                                <Setter Property="Background" Value="HotPink"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="1.4404">
+                                                <Setter Property="Background" Value="HotPink"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Oberflaeche}" Header="Oberflaeche" Width="SizeToCells" >
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Oberflaeche, Converter={StaticResource IsRALOrNotConverter}, ConverterParameter=1}" Value="True">
+                                                <Setter Property="Foreground" Value="BlueViolet"/>
+                                                <Setter Property="Background" Value="LightGreen"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Bemerkungen}" Header="Info" Width="120" />
+                            <DataGridTextColumn Binding="{Binding Gravur}" Header="Gravur" Width="200" />
+                            <DataGridCheckBoxColumn Header="NC-?" IsThreeState="False" Binding="{Binding Path=Release, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridCheckBoxColumn Header="Tru-?" IsThreeState="False" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataGrid.Columns>
+                    </DataGrid>                   
+                </Border>
+
+                <DockPanel Name="dockEdit" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Visibility="Hidden" />
+
+
+                <Border x:Name="borderImageFiles" Grid.Column="1" Grid.Row="4" Margin="3" Padding="3" BorderBrush="GreenYellow" BorderThickness="3"
+                        CornerRadius="3"  Visibility="Visible"  >
+                    <Grid Grid.Row="5" VerticalAlignment="Bottom" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                     
+                        <Border x:Name="borderImageStatusDXF" Grid.Column="1" Grid.Row="0" Margin="3" Padding="3" BorderBrush="GreenYellow" BorderThickness="2" Height="34" CornerRadius="3"  >
+
+                            <StatusBar Name="dxfListStatus" Grid.Column="1" Grid.Row="0" Height="30" Background="Black" VerticalAlignment="Bottom">
+                                <TextBlock x:Name="dxfListStatusText" Text="Status" FontSize="14" FontWeight="DemiBold" Foreground="GreenYellow" />
+                            </StatusBar>
+                        </Border>
+
+
+                        <Border x:Name="borderImageStatus" Grid.Column="1" Grid.Row="1" Margin="3" Padding="3" BorderBrush="Orchid" 
+                                BorderThickness="2" CornerRadius="3"  Visibility="Visible" >
+
+                            <StatusBar Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" >
+                                <StatusBarItem Margin="10,0,0,0">
+                                    <TextBlock>
+          <Run Text="Archive"/>
+          <Run Text="="/>
+          <Run Text="{Binding ArchivesAmount, FallbackValue=0}"/>
+                                    </TextBlock>
+                                </StatusBarItem>
+                                <StatusBarItem Margin="10,0,0,0">
+                                    <TextBlock>
+          <Run Text="{DynamicResource JobsFiltered}"/>
+          <Run Text="="/>
+          <Run Text="{Binding JobsFiltered, FallbackValue=0}"/>
+                                    </TextBlock>
+                                </StatusBarItem>
+                                <StatusBarItem Margin="10,0,0,0">
+                                    <ProgressBar Width="200" Height="14" Minimum="0" SmallChange="1" LargeChange="10"
+                     Maximum="{Binding MaxArchivesAmount}"
+                     Value="{Binding ReadArchivesAmount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StatusBarItem>
+                                <StatusBarItem Margin="0,0,10,0" HorizontalAlignment="Right">
+                                    <TextBlock>
+          <Run Text="Archives-Collection-Path"/>
+          <Run Text="="/>
+          <Run Text="{Binding ArchivesPath}"/>
+                                    </TextBlock>
+                                </StatusBarItem>
+                            </StatusBar>
+                        </Border>
+
+                    </Grid>
+
+                </Border>
+
+            </Grid>
+
+        </DockPanel>
+
+    </Grid>
+
+
+</UserControl>

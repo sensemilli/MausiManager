@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MausiManager": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\sense\\Desktop\\jm\\bin\\Debug\\net6.0-windows"
+    }
+  }
+}

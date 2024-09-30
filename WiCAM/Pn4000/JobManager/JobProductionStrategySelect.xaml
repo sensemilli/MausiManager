@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.JobManager.JobProductionStrategySelect" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager" Title="{DynamicResource JobProductionStrategySelect}" Height="300" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+  <Grid Margin="5">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="27" />
+    </Grid.RowDefinitions>
+    <CheckBox Grid.Row="0" Content="{DynamicResource JobHasRejectParts}" Margin="3" IsChecked="{Binding Data.ProduceWithRejection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    <GroupBox Grid.Row="1" Margin="0,10,0,0">
+      <Grid Margin="5">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="5" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource ChargeName}" />
+        <TextBox Grid.Row="0" Grid.Column="2" Style="{StaticResource StyleTextBox}" TabIndex="2" Margin="0,0,0,3" FontSize="18" Text="{Binding ChargeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true, NotifyOnValidationError=true}" PreviewKeyDown="TextBox_PreviewKeyDown" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource MachineName}" />
+        <ComboBox Grid.Row="1" Grid.Column="2" TabIndex="3" Margin="0,0,0,3" DisplayMemberPath="Name" ItemsSource="{Binding Data.Machines}" SelectedItem="{Binding Data.Machine}" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource UserName}" />
+        <ComboBox Grid.Row="2" Grid.Column="2" Margin="0,0,0,3" TabIndex="4" ItemsSource="{Binding Data.Users}" SelectedItem="{Binding SelectedUser, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true, NotifyOnValidationError=true}" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource StyleTextBlockShadow}" Text="{DynamicResource TimeStamp}" />
+        <TextBlock Grid.Row="3" Grid.Column="2" Style="{StaticResource StyleTextBlockShadow}" Margin="0,0,0,3" Text="{Binding Data.TimeStamp, StringFormat={}{0:yyyy.MM.dd HH:mm}}" />
+      </Grid>
+    </GroupBox>
+    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,5">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="75" />
+          </Style>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+      <Button Content="{DynamicResource ButtonCancel}" Margin="0,0,5,0" Command="{Binding CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+      <Button Content="{DynamicResource ButtonOK}" Command="{Binding OkCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+    </StackPanel>
+  </Grid>
+</Window>
