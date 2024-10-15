@@ -35,7 +35,7 @@ namespace WiCAM.Pn4000.JobManager
         {
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             
-            if (!AuftragsDataControl.selectedItem.FileSystemInfo.FullName.ToString().Contains("\\"))
+            if (AuftragsDataControl.selectedItem == null)
             {
                 dlg.InitialDirectory = Path.GetDirectoryName(path: "X:\\Kunden\\");
             }
@@ -489,10 +489,9 @@ namespace WiCAM.Pn4000.JobManager
             var filePath = string.Empty;
 
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            if (!AuftragsDataControl.selectedItem.FileSystemInfo.FullName.ToString().Contains("\\"))
-            {
+            if (AuftragsDataControl.selectedItem.FileSystemInfo == null)
                 dlg.InitialDirectory = Path.GetDirectoryName(path: "S:\\cadzeich\\");
-            }
+            
             else
                 dlg.InitialDirectory = Path.GetDirectoryName(path: AuftragsDataControl.selectedItem.FileSystemInfo.FullName + "\\");
             dlg.FileName = "Teileliste"; // Default file name
@@ -618,11 +617,11 @@ namespace WiCAM.Pn4000.JobManager
        
         public void WritePN3DExcel(string kundenName, string auftragsNummer, string datePicker, string archName)
         {
+            PartsOrderData = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData;
+
             FolderBrowserDialog dlg = new FolderBrowserDialog();
-            if (!AuftragsDataControl.selectedItem.FileSystemInfo.FullName.ToString().Contains("X:"))
-            {
+            if (AuftragsDataControl.selectedItem == null)
                 dlg.InitialDirectory = Path.GetDirectoryName(path: "X:\\Kunden\\");
-            }
             else
                 dlg.InitialDirectory = Path.GetDirectoryName(path: AuftragsDataControl.selectedItem.FileSystemInfo.FullName.ToString() + "\\");
             // Show open file dialog box
@@ -686,11 +685,12 @@ namespace WiCAM.Pn4000.JobManager
 
         public void WritePN2DExcel(string kundenName, string auftragsNummer, string datePicker, string archName)
         {
+            PartsOrderData = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData;
+
             FolderBrowserDialog dlg = new FolderBrowserDialog();
-            if (!AuftragsDataControl.selectedItem.FileSystemInfo.FullName.ToString().Contains("X:"))
-            {
-                dlg.InitialDirectory = Path.GetDirectoryName(path: "X:\\Kunden\\");
-            }
+            if (AuftragsDataControl.selectedItem == null)
+                dlg.InitialDirectory = Path.GetDirectoryName(path: "X:\\Kunden\\");  
+        
             else
                 dlg.InitialDirectory = Path.GetDirectoryName(path: AuftragsDataControl.selectedItem.FileSystemInfo.FullName.ToString() + "\\");
             // Show open file dialog box

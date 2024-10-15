@@ -178,7 +178,7 @@ namespace WiCAM.Pn4000.JobManager
             this._provider = provider;
             this._settings = this._provider.FindService<IJobManagerSettings>();
             this._stateManager = this._provider.FindService<IStateManager>();
-            this.ArchivesPath = "P:\\u\\ar\\abasis\\ABASDF";
+            this.ArchivesPath = PnPathBuilder.ArDrive + "\\u\\ar\\abasis\\ABASDF";
             this.GridArchiveHeight = this.CreateHeight(this._settings.GridArchiveHeight);
             this.GridFoldersHeight = this.CreateHeight(this._settings.GridFoldersHeight);
             this.GridFilesHeight = this.CreateHeight(this._settings.GridFilesHeight);

@@ -194,9 +194,6 @@
     <Reference Include="WiCAM.Pn4000.ScreenControls">
       <HintPath>Librarys\WiCAM.Pn4000.ScreenControls.dll</HintPath>
     </Reference>
-    <Reference Include="WiCAM.Pn4000.ScreenD3D">
-      <HintPath>Librarys\WiCAM.Pn4000.ScreenD3D.dll</HintPath>
-    </Reference>
     <Reference Include="WiCAM.Services.ConfigProviders.Contracts">
       <HintPath>Librarys\WiCAM.Services.ConfigProviders.Contracts.dll</HintPath>
     </Reference>

@@ -63,7 +63,7 @@ namespace WiCAM.Pn4000.JobManager
         private string sqlQuery;
         private SqlCommand sqlcmd;
         private SqlDataAdapter sqlda;
-        JobHelper jobHelper;
+        public JobHelper jobHelper;
         private SQLMaterialPool _SQLMaterialPool;
         private ObservableCollection<PlateData> _FilteredMaterialList;
         private ObservableCollection<OrdersData> _FilteredOrdersList;
@@ -963,7 +963,8 @@ namespace WiCAM.Pn4000.JobManager
 
         private void UpdatePartsDB(object sender, RoutedEventArgs e)
         {
-            _SQLMaterialPool.ChangeOrderedParts(jobHelper.PartsOrderData);
+            ObservableCollection<PartOrderData> data = (ObservableCollection<PartOrderData>)GridOrderParts.ItemsSource;
+            _SQLMaterialPool.ChangeOrderedParts(data);
         }
     }
 

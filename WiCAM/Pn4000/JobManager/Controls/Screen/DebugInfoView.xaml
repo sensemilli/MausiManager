@@ -1,0 +1,35 @@
+<UserControl x:Class="WiCAM.Pn4000.ScreenD3D.Controls.DebugInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WiCAM.Pn4000.ScreenD3D.Controls"
+             Loaded="DebugInfoView_OnLoaded" x:Name="uc" DataContext="{Binding ElementName=uc}">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="1*"/>
+    </Grid.RowDefinitions>
+    <GridSplitter Visibility="Visible" Grid.Row="1" Height="5" HorizontalAlignment="Stretch"/>
+    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+      <StackPanel>
+        <WrapPanel Grid.Row="0">
+          <TextBlock VerticalAlignment="Center">Search:</TextBlock>
+          <ComboBox ItemsSource="{Binding AllSearchTypes}" SelectedItem="{Binding SearchType}"/>
+          <TextBox KeyDown="TxtSearch_OnKeyDown" x:Name="txtSearch" Grid.Row="0" MinWidth="100"
+                   Background="{Binding BackgroundSearch}"/>
+          <CheckBox IsChecked="{Binding MoveScreenWhenSearching}">Move Camera</CheckBox>
+        </WrapPanel>
+        <WrapPanel Grid.Row="0">
+          <TextBlock VerticalAlignment="Center">click at:</TextBlock>
+          <ComboBox ItemsSource="{Binding AllSearchTypes}" SelectedItem="{Binding ClickType}"/>
+        </WrapPanel>
+        <TextBlock Text="{Binding SelectedObjectBb}"/>
+      </StackPanel>
+    </ScrollViewer>
+    <TextBlock Grid.Row="2" Text="{Binding SelectedType}"/>
+    <WindowsFormsHost x:Name="WindowsFormsHost" Grid.Row="3"/>
+  </Grid>
+</UserControl>

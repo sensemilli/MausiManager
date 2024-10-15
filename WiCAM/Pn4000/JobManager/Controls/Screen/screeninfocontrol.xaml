@@ -1,0 +1,14 @@
+<UserControl x:Class="WiCAM.Pn4000.ScreenD3D.Controls.ScreenInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WiCAM.Pn4000.ScreenD3D"
+             Background="Transparent" Opacity="{Binding Opacity}" Visibility="{Binding ControlVisibility}">
+  <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="0.6"/>
+    </Border.Background>
+    <TextBlock Name="TextB" Background="Transparent" Margin="10" Text="{Binding InfoText}"/>
+  </Border>
+</UserControl>

@@ -824,7 +824,7 @@ namespace WiCAM.Pn4000.JobManager.AuftragsHelfer
                 SqlConnection connection = new SqlConnection(connectionString);
                 connection.Open();
 
-                string sql = "UPDATE wicam.dbo.OrderedParts SET RELEASE=@release, STATUS=@status WHERE IDB050=@idb050";
+                string sql = "UPDATE wicam.dbo.OrderedParts SET RELEASE=@release, STATUS=@status, REMARK_7=@kunde WHERE IDB050=@idb050";
                 Console.WriteLine(AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.IDB050 + "  " + AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.Release);
 
                 //  "SET  , VALUES (@ WHERE IDB050 = " + _PartOrderGridSelectedItemProperty.IDB050;
@@ -836,6 +836,8 @@ namespace WiCAM.Pn4000.JobManager.AuftragsHelfer
                             cmd.Parameters.AddWithValue("@idb050", AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.IDB050);
                             cmd.Parameters.AddWithValue("@release", AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.Release);
                             cmd.Parameters.AddWithValue("@status", AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.Status);
+                            cmd.Parameters.AddWithValue("@kunde", AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.Kunde);
+                            ///TODO
                             //add whatever parameters you required to update here
                             int rows = cmd.ExecuteNonQuery();
                             Console.WriteLine("ID  " + AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.IDB050);
@@ -894,9 +896,9 @@ namespace WiCAM.Pn4000.JobManager.AuftragsHelfer
 
                     string sql = "INSERT INTO dbo.OrderedParts ([NC_FILE] ,[POSITION] ,[NUMBER] ,[REMARK] ,[AMOUNT] ,[NESTING_ROT] ,[NC_EXIST] ,[MATERIAL_NO] ,[MACHINE_NO] ,[NC_ARCHIV] ,[PRIORITY] ,[RELEASE] ,[STATUS] " +
                         ",[THICKNESS] ,[DIMENSION_X] ,[DIMENSION_Y] ,[ORDER_DATE] ,[RELEASED_AMOUNT] ,[PRODUCED_AMOUNT] ,[REJECTED_AMOUNT] ,[MAX_AMOUNT] ,[TABLE_NO] ,[STACK_NO] ,[NEST_MIRR] ,[COMMON_CUT] ,[RESERVE_ID] ,[RESERVED_1] ,[RESERVED_2] " +
-                        ",[PART_AREA] , [REMARK_1], [REMARK_2], [REMARK_3], [REMARK_4], [REMARK_5], [REMARK_6], [locked] ,[pc_name] ,[filter] ,[BAUGRUPPE] ,[COMMISSION_NR] ,[COLOR] ,[CLEANED_UP] ,[StdNestingName] ,[StdNestingArchive] ,[RotationAngle] ,[ModifiedDate] ,[CreationDate])  VALUES (@nc_file,@position,@number,@remark,@amount," +
+                        ",[PART_AREA] , [REMARK_1], [REMARK_2], [REMARK_3], [REMARK_4], [REMARK_5], [REMARK_6], [REMARK_7], [locked] ,[pc_name] ,[filter] ,[BAUGRUPPE] ,[COMMISSION_NR] ,[COLOR] ,[CLEANED_UP] ,[StdNestingName] ,[StdNestingArchive] ,[RotationAngle] ,[ModifiedDate] ,[CreationDate])  VALUES (@nc_file,@position,@number,@remark,@amount," +
                         " @nesting_rot,@nc_exist, @material_no, @machine_no,@ncarchiv,@priority,@release,@status,@thickness,@dim_x,@dim_y,@order_date,@released_amount,@produced_amount,@rejected_amount,@max_amount,@table_no,@stack_no,@nest_mirr,@common_cut,@reserve_id," +
-                        "@res_1,@res_2,@part_area, @remark_1, @remark_2, @remark_3, @remark_4, @remark_5, @remark_6, @locked, @pc_name,@filter, @baugruppe,@com_nr,@color,@cleaned_up,@nest_name,@nest_arch, @rot_angle, @ModifiedDate, @CreationDate)";
+                        "@res_1,@res_2,@part_area, @remark_1, @remark_2, @remark_3, @remark_4, @remark_5, @remark_6, @remark_7, @locked, @pc_name,@filter, @baugruppe,@com_nr,@color,@cleaned_up,@nest_name,@nest_arch, @rot_angle, @ModifiedDate, @CreationDate)";
                     SqlCommand cmd = new SqlCommand(sql, connection);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
@@ -936,6 +938,7 @@ namespace WiCAM.Pn4000.JobManager.AuftragsHelfer
                     adapter.InsertCommand.Parameters.AddWithValue("@remark_4", _oberflaeche);
                     adapter.InsertCommand.Parameters.AddWithValue("@remark_5", _assembly);
                     adapter.InsertCommand.Parameters.AddWithValue("@remark_6", _gravur);
+                    adapter.InsertCommand.Parameters.AddWithValue("@remark_7", jobHelper.PartsOrderData[j].Kunde);
                     adapter.InsertCommand.Parameters.AddWithValue("@locked", 0);
                     adapter.InsertCommand.Parameters.AddWithValue("@pc_name", "abc");
                     adapter.InsertCommand.Parameters.AddWithValue("@filter", "abc");

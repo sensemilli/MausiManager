@@ -989,6 +989,8 @@ SelectedItem="{Binding PartOrderGridSelectedItemProperty}" VerticalGridLinesBrus
                             <DataGridTextColumn Binding="{Binding Gravur}" Header="Gravur" Width="200" />
                             <DataGridCheckBoxColumn Header="NC-?" IsThreeState="False" Binding="{Binding Path=Release, UpdateSourceTrigger=PropertyChanged}" />
                             <DataGridCheckBoxColumn Header="Tru-?" IsThreeState="False" Binding="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTextColumn Binding="{Binding Auftrag}" Header="AuftragsNr" Width="120" />
+                            <DataGridTextColumn Binding="{Binding Kunde}" Header="Kunde" Width="200" />
                         </DataGrid.Columns>
                     </DataGrid>                   
                 </Border>

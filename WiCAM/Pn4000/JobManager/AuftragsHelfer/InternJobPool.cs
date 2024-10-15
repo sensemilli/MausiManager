@@ -218,6 +218,7 @@ namespace WiCAM.Pn4000.JobManager.AuftragsHelfer
                         oberflaeche = reader.GetOrdinal("REMARK_4"),
                         baugruppe = reader.GetOrdinal("REMARK_5"),
                         gravur = reader.GetOrdinal("REMARK_6"),
+                        kunde = reader.GetOrdinal("REMARK_7"),
                         release = reader.GetOrdinal("RELEASE"),
                         status = reader.GetOrdinal("STATUS")
 
@@ -251,6 +252,12 @@ namespace WiCAM.Pn4000.JobManager.AuftragsHelfer
                             temp.AssemblyName = reader.GetString(ordinals.baugruppe);
                         if (!reader.IsDBNull(ordinals.gravur))
                             temp.Gravur = reader.GetString(ordinals.gravur);
+
+                        if (!reader.IsDBNull(ordinals.kunde))
+                            temp.Kunde = reader.GetString(ordinals.kunde);
+                        else
+                            temp.Kunde = "None";
+
                         if (!reader.IsDBNull(ordinals.release))
                             temp.Release = reader.GetInt32(ordinals.release);
                         if (!reader.IsDBNull(ordinals.status))

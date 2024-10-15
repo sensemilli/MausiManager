@@ -10,7 +10,7 @@
                      xmlns:tree="clr-namespace:WiCAM.Pn4000.WpfControls.ArchivesControl;assembly=WiCAM.Pn4000.Comon"
                        xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
                        xmlns:mdix="http://materialdesigninxaml.net/winfx/xaml/themes"  Icon="maus.ico"
-                      xmlns:controlsarchive="clr-namespace:WiCAM.Pn4000.ScreenD3D.Controls;assembly=WiCAM.Pn4000.ScreenD3D" 
+                      xmlns:controlsarchive="clr-namespace:WiCAM.Pn4000.ScreenD3D.Controls" 
                                           xmlns:consoleControl="clr-namespace:ConsoleControl.WPF;assembly=ConsoleControl.WPF"
                                                        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                                                                             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -595,14 +595,14 @@ IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
                             <TextBlock Text="{DynamicResource Settings}" />
                         </MenuItem.Header>
                         <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/JobManager;component/Images/settings.ico" />
+                            <Image Source="pack://application:,,,/MausiManager;component/Images/settings.ico" />
                         </MenuItem.Icon>
                         <MenuItem Command="{Binding SettingsCommand}">
                             <MenuItem.Header>
                                 <TextBlock Text="{DynamicResource SettingsText}" />
                             </MenuItem.Header>
                             <MenuItem.Icon>
-                                <Image Source="pack://application:,,,/JobManager;component/Images/SettingsText.ico" />
+                                <Image Source="pack://application:,,,/MausiManager;component/Images/SettingsText.ico" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Command="{Binding ShowDeletedCommand}" Visibility="{Binding IsDatabaseActive, Converter={StaticResource converterMenuVisibility}}" IsChecked="{Binding ShowDeletedItems}" IsEnabled="{Binding IsDatabaseActive}">
@@ -610,7 +610,7 @@ IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
                                 <TextBlock Text="{DynamicResource ShowDeleted}" />
                             </MenuItem.Header>
                             <MenuItem.Icon>
-                                <Image Source="pack://application:,,,/JobManager;component/Images/delete.png" Width="24" />
+                                <Image Source="pack://application:,,,/MausiManager;component/Images/delete.png" Width="24" />
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
@@ -619,7 +619,7 @@ IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
                             <TextBlock Text="{DynamicResource ButtonGmpool}" />
                         </MenuItem.Header>
                         <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/JobManager;component/Images/SaveToFile.ico" />
+                            <Image Source="pack://application:,,,/MausiManager;component/Images/SaveToFile.ico" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem ToolTip="{DynamicResource ToolTipButtonExcel}" Command="{Binding SaveCsvCommand}">
@@ -627,7 +627,7 @@ IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
                             <TextBlock Text="{DynamicResource ButtonExcel}" />
                         </MenuItem.Header>
                         <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/JobManager;component/Images/ToExcel.ico" />
+                            <Image Source="pack://application:,,,/MausiManager;component/Images/ToExcel.ico" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </Menu>
@@ -767,7 +767,7 @@ IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
                                 <RowDefinition Height="24" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <controlsarchive:Screen3D Name="Geometry3dViewer" Grid.Row="0" Grid.RowSpan="2" SnapsToDevicePixels="True" />
+                            <controlsarchive:Screen3D x:Name="Geometry3dViewer" Grid.Row="0" Grid.RowSpan="2" SnapsToDevicePixels="True" />
                             <TextBlock Name="TxtN3dMeasures" VerticalAlignment="Center" HorizontalAlignment="Center" TextBlock.FontWeight="Bold" />
                         </Grid>
                     </Border>

@@ -2,7 +2,7 @@
   "profiles": {
     "MausiManager": {
       "commandName": "Project",
-      "workingDirectory": "C:\\Users\\tommy\\source\\repos\\sensemilli\\MausiManager"
+      "workingDirectory": "C:\\Users\\TBraig\\source\\repos\\sensemilli\\MausiManager\\bin\\Debug\\net6.0-windows"
     }
   }
 }
