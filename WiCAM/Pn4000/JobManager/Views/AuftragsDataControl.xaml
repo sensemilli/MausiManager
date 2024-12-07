@@ -62,7 +62,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition MinHeight="180"/>
                         </Grid.RowDefinitions>
-                        <Image x:Name="xpartprevimage" Visibility="Visible" Height="Auto" Width="Auto" Source="/WiCAM/Pn4000/JobManager/Views/auftrag.png" Grid.Row="0" />
+                        <Image x:Name="xpartprevimage" Visibility="Visible" Height="Auto" Width="Auto" Source="/WiCAM/Pn4000/JobManager/resources/images/auftrag.png" Grid.Row="0" />
                     </Grid>
                 </DockPanel>
 

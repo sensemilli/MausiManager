@@ -17,6 +17,9 @@ namespace WiCAM.Pn4000.JobManager
 
      
         ICommand SaveFPRedit { get; }
+        ICommand FPR996toggleCommand { get; }
+        ICommand FPR997toggleCommand { get; }
+
         ICommand FPR998toggleCommand { get; }
 
         ICommand FPR999toggleCommand { get; }

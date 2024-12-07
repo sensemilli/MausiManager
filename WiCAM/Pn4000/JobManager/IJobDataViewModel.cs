@@ -13,8 +13,9 @@ public interface IJobDataViewModel : IViewModel, IMachineStateObserver, IFilter,
 	ICommand DeleteJobCommand { get; }
 
 	ICommand DeleteProducedJobsCommand { get; }
+    ICommand AddToBlechOptCommand { get; }
 
-	ICommand ProduceJobCommand { get; }
+    ICommand ProduceJobCommand { get; }
 
 	ICommand ProducePlateCommand { get; }
 

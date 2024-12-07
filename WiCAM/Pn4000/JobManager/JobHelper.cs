@@ -444,15 +444,15 @@ namespace WiCAM.Pn4000.JobManager
                         OrderPos = Convert.ToString(xlWorksheet.Cells[i, 2].Value),
                         AssemblyName = Convert.ToString(xlWorksheet.Cells[i, 3].Value),
                         Artikel = Convert.ToString(xlWorksheet.Cells[i, 4].Value),
-                        Anzahl = Convert.ToString(xlWorksheet.Cells[i, 6].Value),
-                        Laenge = Convert.ToString(xlWorksheet.Cells[i, 7].Value),
-                        Breite = Convert.ToString(xlWorksheet.Cells[i, 8].Value),
-                        Dicke = Convert.ToString(xlWorksheet.Cells[i, 9].Value),
-                        Material = Convert.ToString(xlWorksheet.Cells[i, 10].Value),
-                        MaterialInt = _SQLMaterialPool.switchStringMaterials(Convert.ToString(xlWorksheet.Cells[i, 10].Value)),
-                        Oberflaeche = Convert.ToString(xlWorksheet.Cells[i, 11].Value),
-                        Bemerkungen = Convert.ToString(xlWorksheet.Cells[i, 12].Value),
-                        Gravur = Convert.ToString(xlWorksheet.Cells[i, 13].Value),
+                        Anzahl = Convert.ToString(xlWorksheet.Cells[i, 5].Value),
+                        Laenge = Convert.ToString(xlWorksheet.Cells[i, 6].Value),
+                        Breite = Convert.ToString(xlWorksheet.Cells[i, 7].Value),
+                        Dicke = Convert.ToString(xlWorksheet.Cells[i, 8].Value),
+                        Material = Convert.ToString(xlWorksheet.Cells[i, 9].Value),
+                        MaterialInt = _SQLMaterialPool.switchStringMaterials(Convert.ToString(xlWorksheet.Cells[i, 9].Value)),
+                        Oberflaeche = Convert.ToString(xlWorksheet.Cells[i, 10].Value),
+                        Bemerkungen = Convert.ToString(xlWorksheet.Cells[i, 11].Value),
+                        Gravur = Convert.ToString(xlWorksheet.Cells[i, 12].Value),
                         Auftrag = Convert.ToString(xlWorksheet.Cells[1, 4].Value),
                         Kunde = Convert.ToString(xlWorksheet.Cells[1, 1].Value)
                     });
@@ -489,14 +489,14 @@ namespace WiCAM.Pn4000.JobManager
             var filePath = string.Empty;
 
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            if (AuftragsDataControl.selectedItem.FileSystemInfo == null)
+            if (AuftragsDataControl.selectedItem == null)
                 dlg.InitialDirectory = Path.GetDirectoryName(path: "S:\\cadzeich\\");
             
             else
                 dlg.InitialDirectory = Path.GetDirectoryName(path: AuftragsDataControl.selectedItem.FileSystemInfo.FullName + "\\");
             dlg.FileName = "Teileliste"; // Default file name
             dlg.DefaultExt = ".xlsx"; // Default file extension
-            dlg.Filter = "CAD dxf Dateien (.dxf,.xlsx)|*.dxf;*.xlsx"; // Filter files by extension
+            dlg.Filter = "CAD dxf Dateien (.dxf,.xlsx,.xlsm)|*.dxf;*.xlsx;*.xlsm"; // Filter files by extension
 
             // Show open file dialog box
             Nullable<bool> result = dlg.ShowDialog();
@@ -516,7 +516,7 @@ namespace WiCAM.Pn4000.JobManager
             // Open document
             string filename = dlg.FileName;
             string dxfDirectory = Path.GetDirectoryName(dlg.FileName);
-
+            string ext = Path.GetExtension(dlg.FileName);
             //string dxfPath = dlg.Path
             Console.WriteLine("Teileliste =  " + filename);
             
@@ -535,7 +535,9 @@ namespace WiCAM.Pn4000.JobManager
             Console.WriteLine("rows   " + xlRange.Rows.Count);
             Console.WriteLine("cols   " + xlRange.Columns.Count);
 
-            AuftragsDataViewModel._auftragsDataViewModel._PartOrderList = PartsOrderData;
+            PartsOrderData = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData;
+
+         //   AuftragsDataViewModel._auftragsDataViewModel._PartOrderList = PartsOrderData;
 
             if (PartsOrderData == null)
                 PartsOrderData = new ObservableCollection<PartOrderData>();
@@ -554,31 +556,57 @@ namespace WiCAM.Pn4000.JobManager
                     finishReading();
                     return;
                 }
-              // if (xlWorksheet.Cells[i, 4].Value != previouscell)
+                // if (xlWorksheet.Cells[i, 4].Value != previouscell)
                 //{
+//                if (ext.Contains("xlsm"))
+//                {
+//                    PartsOrderData.Add(new PartOrderData
+//                    {
+//                        PartName = Convert.ToString(xlWorksheet.Cells[i, 1].Value),
+//                        OrderPos = Convert.ToString(xlWorksheet.Cells[i, 22].Value),
+//                        AssemblyName = Convert.ToString(xlWorksheet.Cells[i, 23].Value),
+//                        Artikel = Convert.ToString(xlWorksheet.Cells[i, 1].Value),
+//                        Anzahl = Convert.ToString(xlWorksheet.Cells[i, 6].Value),
+//                        Laenge = Convert.ToString(xlWorksheet.Cells[i, 7].Value),
+//                        Breite = Convert.ToString(xlWorksheet.Cells[i, 8].Value),
+//                        Dicke = Convert.ToString(xlWorksheet.Cells[i, 9].Value),
+//                        Material = Convert.ToString(xlWorksheet.Cells[i, 4].Value),
+//                        MaterialInt = _SQLMaterialPool.switchStringMaterials(Convert.ToString(xlWorksheet.Cells[i, 4].Value)),
+//                        Oberflaeche = Convert.ToString(xlWorksheet.Cells[i, 10].Value),
+//                        Bemerkungen = Convert.ToString(xlWorksheet.Cells[i, 12].Value),
+//                        Gravur = Convert.ToString(xlWorksheet.Cells[i, 19].Value),
+//                        Auftrag = Convert.ToString(xlWorksheet.Cells[i, 2].Value),
+//                        Kunde = Convert.ToString(xlWorksheet.Cells[i, 17].Value)
+//                    });
+//                }
+//////////////////////Oberes Löschen
+/////unteres ist Einlesefunktion
+//                else
+             //   {
                     PartsOrderData.Add(new PartOrderData
                     {
                         PartName = Convert.ToString(xlWorksheet.Cells[i, 1].Value),
                         OrderPos = Convert.ToString(xlWorksheet.Cells[i, 2].Value),
                         AssemblyName = Convert.ToString(xlWorksheet.Cells[i, 3].Value),
                         Artikel = Convert.ToString(xlWorksheet.Cells[i, 4].Value),
-                        Anzahl = Convert.ToString(xlWorksheet.Cells[i, 6].Value),
-                        Laenge = Convert.ToString(xlWorksheet.Cells[i, 7].Value),
-                        Breite = Convert.ToString(xlWorksheet.Cells[i, 8].Value),
-                        Dicke = Convert.ToString(xlWorksheet.Cells[i, 9].Value),
-                        Material = Convert.ToString(xlWorksheet.Cells[i, 10].Value),
-                        MaterialInt = _SQLMaterialPool.switchStringMaterials(Convert.ToString(xlWorksheet.Cells[i, 10].Value)),
-                        Oberflaeche = Convert.ToString(xlWorksheet.Cells[i, 11].Value),
-                        Bemerkungen = Convert.ToString(xlWorksheet.Cells[i, 12].Value),
-                        Gravur = Convert.ToString(xlWorksheet.Cells[i, 13].Value),
+                        Anzahl = Convert.ToString(xlWorksheet.Cells[i, 5].Value),
+                        Laenge = Convert.ToString(xlWorksheet.Cells[i, 6].Value),
+                        Breite = Convert.ToString(xlWorksheet.Cells[i, 7].Value),
+                        Dicke = Convert.ToString(xlWorksheet.Cells[i, 8].Value),
+                        Material = Convert.ToString(xlWorksheet.Cells[i, 9].Value),
+                        MaterialInt = _SQLMaterialPool.switchStringMaterials(Convert.ToString(xlWorksheet.Cells[i, 9].Value)),
+                        Oberflaeche = Convert.ToString(xlWorksheet.Cells[i, 10].Value),
+                        Bemerkungen = Convert.ToString(xlWorksheet.Cells[i, 11].Value),
+                        Gravur = Convert.ToString(xlWorksheet.Cells[i, 12].Value),
                         Auftrag = Convert.ToString(xlWorksheet.Cells[1, 4].Value),
                         Kunde = Convert.ToString(xlWorksheet.Cells[1, 1].Value)
                     });
+             //   }
                     Console.WriteLine(Convert.ToString(xlWorksheet.Cells[i, 1].Value));
-                if (xlWorksheet.Cells[i, 7].Value != null)
-                gesamtlaenge = gesamtlaenge + xlWorksheet.Cells[i, 7].Value / 1000;
-                if (xlWorksheet.Cells[i, 8].Value != null)
-                    gesamtbreite = gesamtbreite + xlWorksheet.Cells[i, 8].Value / 1000;
+              //  if (xlWorksheet.Cells[i, 7].Value != null)
+               // gesamtlaenge = gesamtlaenge + xlWorksheet.Cells[i, 7].Value / 1000;
+               // if (xlWorksheet.Cells[i, 8].Value != null)
+                  //  gesamtbreite = gesamtbreite + xlWorksheet.Cells[i, 8].Value / 1000;
                 //   previouscell = xlWorksheet.Cells[i, 4].Value;
 
                 // }
@@ -589,7 +617,7 @@ namespace WiCAM.Pn4000.JobManager
         public void finishReading()
         {
             AuftragsDataControl._AuftragsDataControl.GridOrderParts.ItemsSource = PartsOrderData;
-
+            AuftragsDataViewModel._auftragsDataViewModel.PartOrderData = PartsOrderData;
             //cleanup
             GC.Collect();
             GC.WaitForPendingFinalizers();
@@ -617,7 +645,7 @@ namespace WiCAM.Pn4000.JobManager
        
         public void WritePN3DExcel(string kundenName, string auftragsNummer, string datePicker, string archName)
         {
-            PartsOrderData = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData;
+            PartsOrderData =  AuftragsDataViewModel._auftragsDataViewModel.PartOrderData;
 
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             if (AuftragsDataControl.selectedItem == null)
@@ -733,6 +761,9 @@ namespace WiCAM.Pn4000.JobManager
                     xlWorksheetPN.Cells[rowStart + j, 17] = PartsOrderData[j].Kunde;
                     xlWorksheetPN.Cells[rowStart + j, 18] = 0;
                     xlWorksheetPN.Cells[rowStart + j, 19] = PartsOrderData[j].Gravur;
+                    xlWorksheetPN.Cells[rowStart + j, 22] = PartsOrderData[j].OrderPos;
+                    xlWorksheetPN.Cells[rowStart + j, 23] = PartsOrderData[j].AssemblyName;
+
                 }
                 xlWorkbookPN.SaveAs(dxfpathname + "\\" + PartsOrderData[0].Kunde + "-" + PartsOrderData[0].Auftrag + "-PN2Dloop.xlsm",
          System.Reflection.Missing.Value,

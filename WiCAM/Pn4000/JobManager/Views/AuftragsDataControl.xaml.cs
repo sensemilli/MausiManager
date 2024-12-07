@@ -963,8 +963,7 @@ namespace WiCAM.Pn4000.JobManager
 
         private void UpdatePartsDB(object sender, RoutedEventArgs e)
         {
-            ObservableCollection<PartOrderData> data = (ObservableCollection<PartOrderData>)GridOrderParts.ItemsSource;
-            _SQLMaterialPool.ChangeOrderedParts(data);
+            _SQLMaterialPool.ChangeOrderedParts(jobHelper);
         }
     }
 

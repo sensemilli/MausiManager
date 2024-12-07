@@ -37,6 +37,8 @@ namespace WiCAM.Pn4000.JobManager
         private bool traced;
         public string pathToPNdrive;
         public string pathToFPR;
+        public string pathToFPR996 = "\\u\\pn\\pfiles\\00\\FPR996";
+        public string pathToFPR997 = "\\u\\pn\\pfiles\\00\\FPR997";
         public string pathToFPR998 = "\\u\\pn\\pfiles\\00\\FPR998";
         public string pathToFPR999 = "\\u\\pn\\pfiles\\00\\FPR999";
 

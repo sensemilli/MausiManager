@@ -172,6 +172,7 @@ public partial class MainWindow : RibbonWindow, IDialogView, IView, IComponentCo
             this.FPReditor.Visibility = Visibility.Hidden;
             this.gridCommonCut.Visibility = Visibility.Hidden;
             this.MaterialView.Visibility = Visibility.Hidden;
+            this.gridPNxpert.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab2.IsSelected)
         {
@@ -182,6 +183,7 @@ public partial class MainWindow : RibbonWindow, IDialogView, IView, IComponentCo
             this.FPReditor.Visibility = Visibility.Hidden;
             this.gridCommonCut.Visibility = Visibility.Hidden;
             this.MaterialView.Visibility = Visibility.Hidden;
+            this.gridPNxpert.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab04.IsSelected)
         {
@@ -192,6 +194,7 @@ public partial class MainWindow : RibbonWindow, IDialogView, IView, IComponentCo
             this.FPReditor.Visibility = Visibility.Hidden;
             this.gridCommonCut.Visibility = Visibility.Hidden;
             this.MaterialView.Visibility = Visibility.Hidden;
+            this.gridPNxpert.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab05.IsSelected)
         {
@@ -202,6 +205,7 @@ public partial class MainWindow : RibbonWindow, IDialogView, IView, IComponentCo
             this.FPReditor.Visibility = Visibility.Hidden;
             this.gridCommonCut.Visibility = Visibility.Hidden;
             this.MaterialView.Visibility = Visibility.Hidden;
+            this.gridPNxpert.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab3.IsSelected)
         {
@@ -212,6 +216,7 @@ public partial class MainWindow : RibbonWindow, IDialogView, IView, IComponentCo
             this.FPReditor.Visibility = Visibility.Hidden;
             this.gridCommonCut.Visibility = Visibility.Hidden;
             this.MaterialView.Visibility = Visibility.Hidden;
+            this.gridPNxpert.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab6.IsSelected)
         {
@@ -222,6 +227,7 @@ public partial class MainWindow : RibbonWindow, IDialogView, IView, IComponentCo
             this.FPReditor.Visibility = Visibility.Hidden;
             this.gridCommonCut.Visibility = Visibility.Hidden;
             this.MaterialView.Visibility = Visibility.Hidden;
+            this.gridPNxpert.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab7.IsSelected)
         {
@@ -232,10 +238,23 @@ public partial class MainWindow : RibbonWindow, IDialogView, IView, IComponentCo
             this.gridJob.Visibility = Visibility.Hidden;
             this.gridCommonCut.Visibility = Visibility.Hidden;
             this.MaterialView.Visibility = Visibility.Hidden;
+            this.gridPNxpert.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab8.IsSelected)
         {
             this.gridCommonCut.Visibility = Visibility.Visible;
+            this.gridMain.Visibility = Visibility.Hidden;
+            this.gridSettings.Visibility = Visibility.Hidden;
+            this.PNarchive.Visibility = Visibility.Hidden;
+            this.gridJob.Visibility = Visibility.Hidden;
+            this.FPReditor.Visibility = Visibility.Hidden;
+            this.MaterialView.Visibility = Visibility.Hidden;
+            this.gridPNxpert.Visibility = Visibility.Hidden;
+        }
+        else if (this.ribbonTab9.IsSelected)
+        {
+            this.gridPNxpert.Visibility = Visibility.Visible;
+            this.gridCommonCut.Visibility = Visibility.Hidden;
             this.gridMain.Visibility = Visibility.Hidden;
             this.gridSettings.Visibility = Visibility.Hidden;
             this.PNarchive.Visibility = Visibility.Hidden;
@@ -254,7 +273,7 @@ public partial class MainWindow : RibbonWindow, IDialogView, IView, IComponentCo
             this.FPReditor.Visibility = Visibility.Hidden;
             this.gridJob.Visibility = Visibility.Hidden;
             this.gridCommonCut.Visibility = Visibility.Hidden;
-
+            this.gridPNxpert.Visibility = Visibility.Hidden;
         }
     }
 

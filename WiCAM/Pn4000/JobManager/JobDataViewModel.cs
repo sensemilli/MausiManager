@@ -1,3 +1,4 @@
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -22,12 +23,17 @@ using WiCAM.Pn4000.JobManager.ViewModels;
 using WiCAM.Pn4000.JobManager.Views;
 using WiCAM.Pn4000.Machine;
 using WiCAM.Pn4000.WpfControls;
+using Style = System.Windows.Style;
 
 namespace WiCAM.Pn4000.JobManager;
 
 public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IMachineStateObserver, IFilter, IFilterPlates, IFilterParts, IPreviewObserver
 {
-	private IJobManagerServiceProvider _provider;
+
+    private Microsoft.Office.Interop.Excel.Range xlrange;
+    private Microsoft.Office.Interop.Excel.Range xlrange2;
+    private ICommand _AddToBlechOptCommand;
+    private IJobManagerServiceProvider _provider;
 
 	private IJobManagerSettings _settings;
 
@@ -316,7 +322,7 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
     public void LoadWithFinishedJobs()
     {
         Console.Write("LoadSavedJobs");
-        this._settings.JobDataPath = Environment.ExpandEnvironmentVariables(PnPathBuilder.PathInPnDrive((object)"u\\sfa\\jobdata_save"));
+        this._settings.JobDataPath = PnPathBuilder.ArDrive + "\\u\\sfa\\jobdata_save";
         JobsPath = this._settings.JobDataPath;
 
         this.ProgressVisibility = Visibility.Visible;
@@ -1068,7 +1074,361 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 		_stateManager.AttachImageObserver(this);
 	}
 
-	private GridLength CreateHeight(int value)
+    public ICommand AddToBlechOptCommand
+    {
+        get
+        {
+            if (_AddToBlechOptCommand == null)
+            {
+                _AddToBlechOptCommand = new RelayCommand(delegate
+                {
+                    AddToBlechOpt();
+                }, (object x) => true);
+            }
+            return _AddToBlechOptCommand;
+        }
+    }
+
+    private void AddToBlechOpt()
+    {
+        foreach (JobInfo selectedItem in _gridJobController.SelectedItems)
+        {
+            string auftragsnr = selectedItem.JOB_DATA_2;
+            string oberfl = selectedItem.JOB_DATA_4;
+            string material = selectedItem.JOB_MATERIAL_NAME;
+            string kunde = selectedItem.JOB_DATA_9;
+            int platesAmount = selectedItem.TOTAL_AMOUNT_PLATES;
+            double plateThick = selectedItem.JOB_THICKNESS;
+
+            string arguments = Path.Combine(_jobsPath, System.IO.Path.GetDirectoryName(selectedItem.Path));
+            var linesRead = File.ReadLines(arguments + "\\JOB.DAT");
+
+
+            FolderBrowserDialog dlg = new FolderBrowserDialog();
+
+            //if (!AuftragsDataControl.selectedItem.FileSystemInfo.FullName.ToString().Contains("\\"))
+            //{
+            //    dlg.InitialDirectory = Path.GetDirectoryName(path: "X:\\Kunden\\");
+            //}
+            //else
+            Microsoft.Office.Interop.Excel._Worksheet xlWorksheetFileNames = null;
+            Microsoft.Office.Interop.Excel.Workbook xlWorkbookFileNames = null;
+            string blechOptDirectory;
+            int count = auftragsnr.Count();
+            string orderYear = auftragsnr.Remove(2, count - 2);
+            string aNr = auftragsnr.Remove(6, count - 6);
+            dlg.InitialDirectory = Path.GetDirectoryName(path: "S:\\cadzeich\\20" + orderYear + "\\" + aNr + "\\Blechfertigung\\");
+
+            // Show open file dialog box
+            DialogResult result = dlg.ShowDialog();
+            blechOptDirectory = dlg.SelectedPath;
+
+            // Process open file dialog box results
+            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dlg.SelectedPath))
+            {
+                // Open document
+
+                Console.WriteLine("BlechOpt =  " + blechOptDirectory);
+                Microsoft.Office.Interop.Excel.Application xlAppFileNames = new Microsoft.Office.Interop.Excel.Application();
+                object misValue = System.Reflection.Missing.Value;
+
+                if (!File.Exists(blechOptDirectory + "\\" + kunde + "-" + aNr + "-BlechOpt.xlsx"))
+                {
+                    xlWorkbookFileNames = xlAppFileNames.Workbooks.Add(misValue);
+                }
+                else
+                {
+                    xlWorkbookFileNames = xlAppFileNames.Workbooks.Open(blechOptDirectory + "\\" + kunde + "-" + aNr + "-BlechOpt.xlsx");
+
+                }
+                //Excel._Worksheet xlWorksheetFileNames = xlWorkbookFileNames.Sheets[1];
+                xlWorksheetFileNames = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbookFileNames.Worksheets.get_Item(1);
+                xlAppFileNames.Visible = true;
+                Microsoft.Office.Interop.Excel.Range range = xlWorksheetFileNames.UsedRange;
+                int rows = range.Rows.Count;
+                Console.WriteLine("Creating Header  " + rows);
+                if (!File.Exists(blechOptDirectory + "\\" + kunde + "-" + aNr + "-BlechOpt.xlsx"))
+                {
+                    rows = rows + 1;
+                }
+                else
+                { rows = rows + 3; }
+                Console.WriteLine("Kunde  " + kunde);
+                xlWorksheetFileNames.Cells[rows, 1] = "Kunde";
+                xlWorksheetFileNames.Cells[rows, 1].Interior.Color = System.Drawing.Color.FromArgb(333333);
+                xlWorksheetFileNames.Cells[rows, 1].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                xlWorksheetFileNames.Cells[rows, 1].Font.Size = 16;
+                xlWorksheetFileNames.Cells[rows, 2] = kunde;
+                xlWorksheetFileNames.Cells[rows, 2].Interior.Color = System.Drawing.Color.FromArgb(333333);
+                xlWorksheetFileNames.Cells[rows, 2].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                xlWorksheetFileNames.Cells[rows, 2].Font.Size = 13;
+
+                Console.WriteLine("Auftrags_Nr.  " + auftragsnr);
+                xlWorksheetFileNames.Cells[rows + 1, 1] = "AuftragsNr.";
+                xlWorksheetFileNames.Cells[rows + 1, 1].Interior.Color = System.Drawing.Color.FromArgb(333333);
+                xlWorksheetFileNames.Cells[rows + 1, 1].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                xlWorksheetFileNames.Cells[rows + 1, 1].Font.Size = 16;
+                xlWorksheetFileNames.Cells[rows + 1, 2] = auftragsnr;
+                xlWorksheetFileNames.Cells[rows + 1, 2].Interior.Color = System.Drawing.Color.FromArgb(333333);
+                xlWorksheetFileNames.Cells[rows + 1, 2].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                xlWorksheetFileNames.Cells[rows + 1, 2].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                xlWorksheetFileNames.Cells[rows + 1, 2].Font.Size = 13;
+
+                Console.WriteLine("Material  " + material);
+                xlWorksheetFileNames.Cells[rows, 7] = "Material";
+                xlWorksheetFileNames.Cells[rows, 7].Interior.Color = System.Drawing.Color.FromArgb(868686);
+                xlWorksheetFileNames.Cells[rows, 7].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                xlWorksheetFileNames.Cells[rows, 7].Font.Size = 16;
+                xlWorksheetFileNames.Cells[rows, 8] = material;
+                xlWorksheetFileNames.Cells[rows, 8].Interior.Color = System.Drawing.Color.FromArgb(868686);
+                xlWorksheetFileNames.Cells[rows, 8].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                xlWorksheetFileNames.Cells[rows, 8].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                xlWorksheetFileNames.Cells[rows, 8].Font.Size = 13;
+
+                Console.WriteLine("Platine_Dicke  " + plateThick);
+                xlWorksheetFileNames.Cells[rows + 1, 7] = "Dicke";
+                xlWorksheetFileNames.Cells[rows + 1, 7].Interior.Color = System.Drawing.Color.FromArgb(868686);
+                xlWorksheetFileNames.Cells[rows + 1, 7].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                xlWorksheetFileNames.Cells[rows + 1, 7].Font.Size = 16;
+                xlWorksheetFileNames.Cells[rows + 1, 8] = plateThick;
+                xlWorksheetFileNames.Cells[rows + 1, 8].Interior.Color = System.Drawing.Color.FromArgb(868686);
+                xlWorksheetFileNames.Cells[rows + 1, 8].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                xlWorksheetFileNames.Cells[rows + 1, 8].Font.Size = 13;
+
+                xlWorksheetFileNames.Cells[rows + 3, 1] = "Plate-Pos";
+                xlWorksheetFileNames.Cells[rows + 3, 1].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                xlWorksheetFileNames.Cells[rows + 3, 1].Font.Bold = true;
+                xlWorksheetFileNames.Cells[rows + 3, 2] = "PlateDim_X";
+                xlWorksheetFileNames.Cells[rows + 3, 2].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                xlWorksheetFileNames.Cells[rows + 3, 2].Font.Bold = true;
+                xlWorksheetFileNames.Cells[rows + 3, 3] = "PlateDim_Y";
+                xlWorksheetFileNames.Cells[rows + 3, 3].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                xlWorksheetFileNames.Cells[rows + 3, 3].Font.Bold = true;
+                xlWorksheetFileNames.Cells[rows + 3, 4] = "Anzahl";
+                xlWorksheetFileNames.Cells[rows + 3, 4].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                xlWorksheetFileNames.Cells[rows + 3, 4].Font.Bold = true;
+                xlWorksheetFileNames.Cells[rows + 3, 5] = "Material";
+                xlWorksheetFileNames.Cells[rows + 3, 5].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                xlWorksheetFileNames.Cells[rows + 3, 5].Font.Bold = true;
+                xlWorksheetFileNames.Cells[rows + 3, 6] = "Dicke";
+                xlWorksheetFileNames.Cells[rows + 3, 6].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                xlWorksheetFileNames.Cells[rows + 3, 6].Font.Bold = true;
+                xlWorksheetFileNames.Cells[rows + 3, 7] = "Teil-Pos";
+                xlWorksheetFileNames.Cells[rows + 3, 8] = "TeileDim_X";
+                xlWorksheetFileNames.Cells[rows + 3, 9] = "TeileDim_Y";
+                xlWorksheetFileNames.Cells[rows + 3, 10] = "Anzahl";
+                xlWorksheetFileNames.Cells[rows + 3, 11] = "Material";
+                xlWorksheetFileNames.Cells[rows + 3, 12] = "Dicke";
+                xlWorksheetFileNames.Cells[rows + 3, 13] = "Teile-ID";
+                xlWorksheetFileNames.Cells[rows + 3, 14] = "Oberfl";
+                xlWorksheetFileNames.Cells[rows + 3, 15] = "Gewicht";
+                //xlWorksheetFileNames.Cells[3, 12] = "Bemerkungen";
+                //xlWorksheetFileNames.Cells[3, 13] = "Gravur";
+                xlrange = xlWorksheetFileNames.Range["A5:O5"];//xlWorksheetFileNames.UsedRange;
+                if (!File.Exists(blechOptDirectory + "\\" + kunde + "-" + aNr + "-BlechOpt.xlsx"))
+                {
+                    xlrange.AutoFilter(1, "", Microsoft.Office.Interop.Excel.XlAutoFilterOperator.xlFilterValues, Type.Missing, true);
+                }
+                List<PlateInfo> list = new List<PlateInfo>(selectedItem.Plates);
+                list.Sort((PlateInfo x, PlateInfo y) => x.PLATE_NUMBER.CompareTo(y.PLATE_NUMBER));
+                int i = rows + 4;
+                foreach (PlateInfo item in list)
+                {
+                    xlWorksheetFileNames.Cells[i, 1] = item.PLATE_NUMBER;
+                    xlWorksheetFileNames.Cells[i, 1].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                    xlWorksheetFileNames.Cells[i, 1].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                    xlWorksheetFileNames.Cells[i, 1].Font.Bold = true;
+                    xlWorksheetFileNames.Cells[i, 2] = item.PLATE_SIZE_X;
+                    xlWorksheetFileNames.Cells[i, 2].NumberFormat = "#.0";
+                    xlWorksheetFileNames.Cells[i, 2].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                    xlWorksheetFileNames.Cells[i, 2].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                    xlWorksheetFileNames.Cells[i, 2].Font.Bold = true;
+                    xlWorksheetFileNames.Cells[i, 3] = item.PLATE_SIZE_Y;
+                    xlWorksheetFileNames.Cells[i, 3].NumberFormat = "#.0";
+                    xlWorksheetFileNames.Cells[i, 3].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                    xlWorksheetFileNames.Cells[i, 3].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                    xlWorksheetFileNames.Cells[i, 3].Font.Bold = true;
+                    xlWorksheetFileNames.Cells[i, 4] = item.NUMBER_OF_PLATES;
+                    xlWorksheetFileNames.Cells[i, 4].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                    xlWorksheetFileNames.Cells[i, 4].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                    xlWorksheetFileNames.Cells[i, 4].Font.Bold = true;
+                    xlWorksheetFileNames.Cells[i, 5] = material;
+                    xlWorksheetFileNames.Cells[i, 5].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                    xlWorksheetFileNames.Cells[i, 5].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                    xlWorksheetFileNames.Cells[i, 5].Font.Bold = true;
+                    xlWorksheetFileNames.Cells[i, 6] = plateThick;
+                    xlWorksheetFileNames.Cells[i, 6].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                    xlWorksheetFileNames.Cells[i, 6].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                    xlWorksheetFileNames.Cells[i, 6].Font.Bold = true;
+                    Console.WriteLine("Platine_Nr.  " + item.PLATE_NUMBER);
+                    Console.WriteLine("Platine_X.  " + item.PLATE_SIZE_X);
+                    Console.WriteLine("Platine_Y.  " + item.PLATE_SIZE_Y);
+                    Console.WriteLine("Anzahl Platinen  " + item.NUMBER_OF_PLATES);
+                    i++;
+                }
+                xlWorksheetFileNames.Cells[i, 3] = "Summe:";
+                xlWorksheetFileNames.Cells[i, 3].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbDarkSeaGreen;
+                xlWorksheetFileNames.Cells[i, 3].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbBlack;
+                xlWorksheetFileNames.Cells[i, 3].Font.Bold = true;
+                i = i - 1;
+                int iirows = rows + 4;
+                xlWorksheetFileNames.Cells[i + 1, 4].Formula = "=Sum(D" + iirows + ":D" + i + ")";
+                xlWorksheetFileNames.Cells[i + 1, 4].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbDarkSeaGreen;
+                xlWorksheetFileNames.Cells[i + 1, 4].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbBlack;
+                xlWorksheetFileNames.Cells[i + 1, 4].Font.Bold = true;
+
+                i = rows + 4;
+
+                string[] files = Directory.GetFiles(arguments);
+                int iForFiles = 1;
+                bool resulting;
+                foreach (string file in files)
+                {
+                    resulting = Path.GetExtension(file).Equals(".DAT") && file.Contains("PART");
+                    //if (resulting == false)
+                    //{
+                    //    resulting = Path.GetExtension(file).Equals(".dat");
+                    //}
+
+                    if (resulting == true)
+                    {
+
+                        Console.WriteLine(file + "   " + arguments + "\\PART_" + "00" + iForFiles.ToString() + ".DAT");
+
+                        if (iForFiles < 10)
+                        {
+                            var linesReadPart = File.ReadLines(arguments + "\\PART_" + "00" + iForFiles.ToString() + ".DAT");
+                            foreach (var lineRead in linesReadPart)
+                            {
+                                if (lineRead.Contains("PART_NUMBER          ="))
+                                {
+                                    //  Console.WriteLine(lineRead);
+                                    string[] amount = lineRead.Split("=");
+                                    Console.WriteLine("PART_NUMBER  " + amount[1]);
+                                    xlWorksheetFileNames.Cells[i, 7] = amount[1];
+                                }
+                                //   Console.WriteLine(lineRead);
+                                if (lineRead.Contains("PART_SIZE_X"))
+                                {
+                                    //  Console.WriteLine(lineRead);
+                                    string[] amount = lineRead.Split("=");
+                                    Console.WriteLine("PART_SIZE_X  " + amount[1]);
+                                    xlWorksheetFileNames.Cells[i, 8] = amount[1];
+                                    xlWorksheetFileNames.Cells[i, 8].NumberFormat = "#.0";
+                                }
+                                if (lineRead.Contains("PART_SIZE_Y"))
+                                {
+                                    //  Console.WriteLine(lineRead);
+                                    string[] amount = lineRead.Split("=");
+                                    Console.WriteLine("PART_SIZE_Y  " + amount[1]);
+                                    xlWorksheetFileNames.Cells[i, 9] = amount[1];
+                                    xlWorksheetFileNames.Cells[i, 9].NumberFormat = "#.0";
+                                }
+                                if (lineRead.Contains("PART_ACOUNT          ="))
+                                {
+                                    //  Console.WriteLine(lineRead);
+                                    string[] amount = lineRead.Split("=");
+                                    Console.WriteLine("PART_ACOUNT  " + amount[1]);
+                                    xlWorksheetFileNames.Cells[i, 10] = amount[1];
+                                }
+                                if (lineRead.Contains("PART_NAME            ="))
+                                {
+                                    //  Console.WriteLine(lineRead);
+                                    string[] amount = lineRead.Split("=");
+                                    Console.WriteLine("PART_NAME  " + amount[1]);
+                                    xlWorksheetFileNames.Cells[i, 13] = amount[1];
+                                }
+                                if (lineRead.Contains("PART_REMARK          ="))
+                                {
+                                    //  Console.WriteLine(lineRead);
+                                    string[] amount = lineRead.Split("=");
+                                    Console.WriteLine("Oberfl  " + amount[1]);
+                                    xlWorksheetFileNames.Cells[i, 14] = amount[1];
+                                }
+                                if (lineRead.Contains("PART_WGHT_RE         ="))
+                                {
+                                    //  Console.WriteLine(lineRead);
+                                    string[] amount = lineRead.Split("=");
+                                    Console.WriteLine("PART_WGHT_RE  " + amount[1]);
+                                    xlWorksheetFileNames.Cells[i, 15] = amount[1];
+                                }
+                                xlWorksheetFileNames.Cells[i, 11] = material;
+                                xlWorksheetFileNames.Cells[i, 12] = plateThick;
+
+                            }
+                            Console.WriteLine("Nr " + iForFiles + "  " + Path.GetFileName(file));
+                            Console.WriteLine(linesReadPart);
+                            //     xlWorksheetFileNames.Cells[iForFiles + 1, 1] = Path.GetFileNameWithoutExtension(file);
+                            iForFiles++;
+                            i++;
+                        }
+                    }
+                }
+                xlWorksheetFileNames.Cells[i, 9] = "Summe:";
+                xlWorksheetFileNames.Cells[i, 9].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                xlWorksheetFileNames.Cells[i, 9].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                xlWorksheetFileNames.Cells[i, 9].Font.Bold = true;
+                i = i - 1;
+                int irows = rows + 4;
+                xlWorksheetFileNames.Cells[i + 1, 10].Formula = "=Sum(J" + irows + ":J" + i + ")";
+                xlWorksheetFileNames.Cells[i + 1, 10].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                xlWorksheetFileNames.Cells[i + 1, 10].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                xlWorksheetFileNames.Cells[i + 1, 10].Font.Bold = true;
+                int iFrows = irows - 1;
+                xlWorksheetFileNames.Range["G" + iFrows + ":O" + i].Font.Bold = true;
+                xlWorksheetFileNames.Range["G" + iFrows + ":O" + i].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbDarkSeaGreen;
+
+                xlWorksheetFileNames.Columns.AutoFit();
+                xlWorksheetFileNames.Rows.AutoFit();
+
+                xlWorkbookFileNames.SaveAs(blechOptDirectory + "\\" + kunde + "-" + aNr + "-BlechOpt.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, misValue, misValue, misValue, misValue, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+                //                    foreach (PlateInfo item in list)
+                //{
+                //	List<PartInfo> listparts = new List<PartInfo>();
+                //	foreach (PlatePartInfo platePart in item.PlateParts)
+                //	{
+                //                    //listparts.Add(platePart.Part);
+                //                    xlWorksheetFileNames.Cells[i, 7] = platePart.PLATE_PART_NUMBER;
+                //                    xlWorksheetFileNames.Cells[i, 8] = platePart.PART_SIZE_X;
+                //		xlWorksheetFileNames.Cells[i, 9] = platePart.Part.PART_SIZE_Y;
+                //                    xlWorksheetFileNames.Cells[i, 10] = platePart.PLATE_PART_AMOUNT_PL;
+                //		i++;
+                //                }
+                //}
+                //xlrange2 = xlWorksheetFileNames.Range[xlWorksheetFileNames.Cells[i, 1], xlWorksheetFileNames.Cells[i, 4]];//xlWorksheetFileNames.UsedRange;
+                //xlrange2.AutoFilter(1, "", Microsoft.Office.Interop.Excel.XlAutoFilterOperator.xlFilterValues, Type.Missing, true);
+                // xlWorksheetFileNames.Cells[1, 1] = MainWindow.mainWindow.txtKundenName.Text;
+                //xlWorksheetFileNames.Cells[1, 4] = MainWindow.mainWindow.txtAuftragsNummer.Text;
+
+
+
+                //    Marshal.ReleaseComObject(xlWorksheetFileNames);
+                // xlWorkbookFileNames.Close();
+                //   Marshal.ReleaseComObject(xlWorkbookFileNames);
+                // xlAppFileNames.Quit();
+            }
+            // iterate through each element within the array and
+            // print it out
+            //
+
+            // Console.WriteLine("Platine_Oberfl.  " + oberfl);
+
+
+
+
+
+
+            // xlWorkbookFileNames.Save();
+            // xlWorkbookFileNames.SaveAs(dxfDirectory + "dxfFileNames.xlsx");
+            //xlWorkbookFileNames.Close(true, misValue, misValue);
+
+
+
+            // Process.Start("explorer.exe", arguments);
+        }
+    }
+
+    private GridLength CreateHeight(int value)
 	{
 		if (value <= 0)
 		{
@@ -1079,8 +1439,11 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 
 	public void LoadJobs()
 	{
+		Console.WriteLine("Loading Path " + PnPathBuilder.ArDrive + "\\u\\sfa\\jobdata");
 		ProgressVisibility = Visibility.Visible;
-        this._settings.JobDataPath = Environment.ExpandEnvironmentVariables(/*PnPathBuilder.PathInPnDrive((object)*/"P:\\u\\sfa\\jobdata");
+        this._settings.JobDataPath = PnPathBuilder.ArDrive + "\\u\\sfa\\jobdata";
+        JobsPath = this._settings.JobDataPath;
+
         Stopwatch sw = Stopwatch.StartNew();
 		Task.Run(() => ReadJobs(_settings.JobDataPath)).ContinueWith(delegate(Task<List<JobInfo>> t)
 		{
@@ -1088,6 +1451,7 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 			Logger.Verbose("Read Jobs : {0}", sw.ElapsedMilliseconds);
 			ShowJobs(t);
 		});
+
 	}
 
 	private void ShowJobs(Task<List<JobInfo>> task)

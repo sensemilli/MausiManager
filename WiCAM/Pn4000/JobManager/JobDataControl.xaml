@@ -135,7 +135,12 @@
               <Image Source="{StaticResource BitmapPrintLabel32}" />
             </MenuItem.Icon>
           </MenuItem>
-        </ContextMenu>
+                    <MenuItem Header="AddToBlechOpt" Command="{Binding Source={StaticResource Proxy}, Path=Data.AddToBlechOptCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource BitmapPrintLabel32}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
       </FrameworkElement.ContextMenu>
     </DataGrid>
     <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="4" ResizeDirection="Rows" HorizontalAlignment="Stretch" Background="#FF808080" Margin="0,2,0,2" />
@@ -158,7 +163,12 @@
               <Image Source="{StaticResource BitmapPrintLabel32}" />
             </MenuItem.Icon>
           </MenuItem>
-        </ContextMenu>
+                    <MenuItem Header="AddToBlechOpt" Command="{Binding Source={StaticResource Proxy}, Path=Data.AddToBlechOptCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource BitmapPrintLabel32}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
       </FrameworkElement.ContextMenu>
     </DataGrid>
     <GridSplitter Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Height="4" ResizeDirection="Rows" HorizontalAlignment="Stretch" Background="#FF808080" Margin="0,2,0,2" />
@@ -176,7 +186,12 @@
               <Image Source="{StaticResource BitmapPrintLabel32}" />
             </MenuItem.Icon>
           </MenuItem>
-        </ContextMenu>
+                    <MenuItem Header="AddToBlechOpt" Command="{Binding Source={StaticResource Proxy}, Path=Data.AddToBlechOptCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource BitmapPrintLabel32}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
       </FrameworkElement.ContextMenu>
     </DataGrid>
     <StatusBar Grid.Row="5">

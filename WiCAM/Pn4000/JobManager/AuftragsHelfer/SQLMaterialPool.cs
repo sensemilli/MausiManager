@@ -805,43 +805,111 @@ namespace WiCAM.Pn4000.JobManager.AuftragsHelfer
             }
         }
 
-        public void ChangeOrderedParts(ObservableCollection<PartOrderData> partsOrderData)
+        public void ChangeOrderedParts(JobHelper jobHelper)
         {
-            int partsCount = partsOrderData.Count;
+            int partsCount = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData.Count;
 
             if (PnPathBuilder.ArDrive == "P:")
                 connectionString = @"Data Source=MUNDAL-APP02\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
             if (PnPathBuilder.ArDrive == "C:")
-                connectionString = @"Data Source=DESKTOP-8M8J1J0\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
+                connectionString = @"Data Source=.\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
 
             string _bemerkungen = "null";
             string _orderpos = "0";
             string _assembly = "Keine";
             string _gravur = "Keine";
             string _oberflaeche = "Keine";
+            string _number = "0";
+            string artikel = "0";
+            string ncfile = "0";
+            string material = "0";
+            string kunde = "";
+
+            int? matnr = 0;
+            int? anzahl = 0;
+            int count = 0;
+            double? laenge = 0.0;
+            double? breite = 0.0;
+            double? dicke = 0.0;
+
             for (int j = 0; j <= partsCount - 1; j++)
             {
                 SqlConnection connection = new SqlConnection(connectionString);
                 connection.Open();
 
-                string sql = "UPDATE wicam.dbo.OrderedParts SET RELEASE=@release, STATUS=@status, REMARK_7=@kunde WHERE IDB050=@idb050";
-                Console.WriteLine(AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.IDB050 + "  " + AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.Release);
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Auftrag != null)
+                    count = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Auftrag.ToString().Count();
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Bemerkungen != null)
+                    _bemerkungen = Convert.ToString(AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Bemerkungen);
+                else
+                    _bemerkungen = "Keine";
+
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].OrderPos != null)
+                    _orderpos = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].OrderPos;
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].AssemblyName != null)
+                    _assembly = Convert.ToString(AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].AssemblyName);
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Gravur != null)
+                    _gravur = Convert.ToString(AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Gravur);
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Oberflaeche != null)
+                    _oberflaeche = Convert.ToString(AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Oberflaeche);
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Auftrag != null)
+                    _number = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Auftrag.ToString().Remove(6, count - 6);
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Material != null)
+                    material = Convert.ToString(AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Material);
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].MaterialInt != null)
+                    matnr = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].MaterialInt; //switchStringMaterials(AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Material);
+
+                int? idb050 = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].IDB050;
+                int? release = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Release;
+                int? status = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Status;
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].PartName != null)
+                    ncfile = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].PartName;
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Anzahl != null)
+                    anzahl = int.Parse(AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Anzahl);
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Artikel != null)
+                    artikel = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Artikel;
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Laenge != null)
+                    laenge = double.Parse(AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Laenge);
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Breite != null)
+                    breite = double.Parse(AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Breite);
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Dicke != null)
+                    dicke = double.Parse(AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Dicke);
+                if (AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Kunde != null)
+                    kunde = AuftragsDataViewModel._auftragsDataViewModel.PartOrderData[j].Kunde;
+
+                string sql = "UPDATE wicam.dbo.OrderedParts SET NC_FILE=@ncfile, POSITION=@orderpos, NUMBER=@number, Amount=@amount, MATERIAL_NO=@matnr, RELEASE=@release, STATUS=@status, " +
+                    "THICKNESS=@dicke, DIMENSION_X=@laenge, DIMENSION_Y=@breite, REMARK_1=@bemerkungen, REMARK_2=@material, REMARK_3=@artikel, REMARK_4=@oberflaeche, REMARK_5=@assembly, REMARK_6=@gravur, REMARK_7=@kunde   WHERE IDB050=@idb050";
+                Console.WriteLine("ID  " + idb050 + " Auftrag  " + _number + "  NCFILE  " + ncfile + "  Pos  " + _orderpos + "  BG  " + _assembly + "  Artikel  " + artikel + "  Anzahl  " + anzahl + "  L  " + laenge + "  B  " + breite + "  D  " + dicke + "  OF  " + _oberflaeche + "  Gravur  " + _gravur + "  NC  " + release + "  Tru   " + status);
 
                 //  "SET  , VALUES (@ WHERE IDB050 = " + _PartOrderGridSelectedItemProperty.IDB050;
                 using (SqlCommand cmd =
                       new SqlCommand(sql, connection))
                     try
                     {
-                        {
-                            cmd.Parameters.AddWithValue("@idb050", AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.IDB050);
-                            cmd.Parameters.AddWithValue("@release", AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.Release);
-                            cmd.Parameters.AddWithValue("@status", AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.Status);
-                            cmd.Parameters.AddWithValue("@kunde", AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.Kunde);
-                            ///TODO
-                            //add whatever parameters you required to update here
-                            int rows = cmd.ExecuteNonQuery();
-                            Console.WriteLine("ID  " + AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.IDB050);
-                        }
+                        cmd.Parameters.AddWithValue("@idb050", idb050);
+                        cmd.Parameters.AddWithValue("@ncfile", ncfile);
+                        cmd.Parameters.AddWithValue("@orderpos", _orderpos);
+                        cmd.Parameters.AddWithValue("@number", _number);
+                        cmd.Parameters.AddWithValue("@amount", anzahl);
+                        cmd.Parameters.AddWithValue("@matnr", matnr);
+
+                        cmd.Parameters.AddWithValue("@release", release);
+                        cmd.Parameters.AddWithValue("@status", status);
+
+                        cmd.Parameters.AddWithValue("@dicke", dicke);
+                        cmd.Parameters.AddWithValue("@laenge", laenge);
+                        cmd.Parameters.AddWithValue("@breite", breite);
+                        cmd.Parameters.AddWithValue("@bemerkungen", _bemerkungen);
+                        cmd.Parameters.AddWithValue("@material", material);
+                        cmd.Parameters.AddWithValue("@artikel", artikel);
+                        cmd.Parameters.AddWithValue("@oberflaeche", _oberflaeche);
+                        cmd.Parameters.AddWithValue("@assembly", _assembly);
+                        cmd.Parameters.AddWithValue("@gravur", _gravur);
+                        cmd.Parameters.AddWithValue("@kunde", kunde);
+
+                        //add whatever parameters you required to update here
+                        int rows = cmd.ExecuteNonQuery();
+                        Console.WriteLine("ID  " + AuftragsDataViewModel._auftragsDataViewModel.PartOrderGridSelectedItemProperty.IDB050);
                     }
                     catch (SqlException ex)
                     {
@@ -853,8 +921,9 @@ namespace WiCAM.Pn4000.JobManager.AuftragsHelfer
                         connection.Close();
                     }
             }
-
+            AuftragsDataControl._AuftragsDataControl.xFeedBack.Text = "Zu Auftrag " + _number + " wurden " + partsCount + " - Teile in der Datenbank aktualisiert.";
         }
+
 
         public void CreateOrderedParts(JobHelper jobHelper)
         {

@@ -253,6 +253,7 @@
     <None Remove="WiCAM\Pn4000\JobManager\resources\images\maus.ico">
    
     </None>
+    <None Remove="WiCAM\Pn4000\JobManager\Views\auftrag.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="resources\images\save.png" />

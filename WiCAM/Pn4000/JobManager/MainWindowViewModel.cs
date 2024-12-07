@@ -240,6 +240,8 @@ namespace WiCAM.Pn4000.JobManager
         public ICommand ButtonPnArchivSelectedBrowserCommand => this._auftragsDataModel.ButtonPnArchivBrowserSelectedCommand;
         public ICommand ButtonCreateMaterialPrintExcelCommand => this._auftragsDataModel.ButtonCreateMaterialPrintExcelCommand;
         public ICommand SaveFPRedit => this._autoLoopModel.SaveFPRedit;
+        public ICommand FPR996toggleCommand => this._autoLoopModel.FPR996toggleCommand;
+        public ICommand FPR997toggleCommand => this._autoLoopModel.FPR997toggleCommand;
         public ICommand FPR998toggleCommand => this._autoLoopModel.FPR998toggleCommand;
         public ICommand FPR999toggleCommand => this._autoLoopModel.FPR999toggleCommand;
         public ICommand LageCommand => this._autoLoopModel.LageCommand;

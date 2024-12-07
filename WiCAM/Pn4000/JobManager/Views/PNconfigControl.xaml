@@ -1,0 +1,39 @@
+<UserControl x:Class="WiCAM.Pn4000.JobManager.PNconfigControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
+               xmlns:mdix="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:mahMaterialDragablzMashUp="clr-namespace:WiCAM.Pn4000.JobManager"
+   xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"  
+             xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager"
+             xmlns:helpers="clr-namespace:WiCAM.Pn4000.JobManager.Helpers">
+    <UserControl.Resources>
+        <local:BorderHeightConverter x:Key="converterImageHeight"/>
+     
+    </UserControl.Resources>
+
+    <Grid >
+       
+        
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="40" MaxHeight="40" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <ComboBox Width="400" x:Name="comboBoxSelMachine"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <ListView x:Name="listeMaschinen" />
+        </Grid>
+        <!--   <ListView.View>                <GridView>                    <GridViewColumn/>                </GridView>            </ListView.View> -->
+        <Grid Grid.Row="2">
+            <ListView x:Name="listePopup"/>
+        </Grid>
+    </Grid>
+
+</UserControl>

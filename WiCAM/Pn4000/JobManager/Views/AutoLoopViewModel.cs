@@ -41,6 +41,8 @@ namespace WiCAM.Pn4000.JobManager
 
         public static AutoLoopViewModel _AutoLoopViewModel;
         public static AutoLoopViewModel _instance;
+        private ICommand _FPR996ToggleCommand;
+        private ICommand _FPR997ToggleCommand;
         private ICommand _FPR998ToggleCommand;
         private ICommand _FPR999ToggleCommand;
         private ICommand _SortierenCommand;
@@ -115,6 +117,64 @@ namespace WiCAM.Pn4000.JobManager
         }
 
 
+        public ICommand FPR996toggleCommand
+        {
+            get
+            {
+                if (this._FPR996ToggleCommand == null)
+                    this._FPR996ToggleCommand = (ICommand)new RelayCommand((Action<object>)(x => this.ButtonFPR996Toggle()), (Predicate<object>)(x => true));
+                return this._FPR996ToggleCommand;
+            }
+        }
+
+        public void ButtonFPR996Toggle()
+        {
+            Console.WriteLine("ButtonFPR996Toggle");
+            Logger.Info("ButtonFPR996Toggle : {0}", (object)DateTime.Now.ToString("s"));
+            Console.WriteLine("FPR996 =  " + AutoLoopControl._AutoLoopControl.pathToFPR);
+            if (MainWindow.mainWindow.FPR996toggle.IsChecked == true)
+            {
+                AutoLoopControl._AutoLoopControl.pathToFPR = AutoLoopControl._AutoLoopControl.pathToPNdrive + AutoLoopControl._AutoLoopControl.pathToFPR996;
+                MainWindow.mainWindow.FPR999toggle.IsChecked = false;
+                MainWindow.mainWindow.FPR998toggle.IsChecked = false;
+                MainWindow.mainWindow.FPR997toggle.IsChecked = false;
+                MainWindow.mainWindow.saveFPR.Label = "FPR996 speichern";
+
+            }
+            Console.WriteLine("FPR Pfad =  " + AutoLoopControl._AutoLoopControl.pathToFPR + "  " + MainWindow.mainWindow.FPR996toggle.IsChecked);
+            AutoLoopControl._AutoLoopControl.CheckToolBar();
+            AutoLoopControl._AutoLoopControl.ReadFPRtoEditBox();
+        }
+
+        public ICommand FPR997toggleCommand
+        {
+            get
+            {
+                if (this._FPR997ToggleCommand == null)
+                    this._FPR997ToggleCommand = (ICommand)new RelayCommand((Action<object>)(x => this.ButtonFPR997Toggle()), (Predicate<object>)(x => true));
+                return this._FPR997ToggleCommand;
+            }
+        }
+
+        public void ButtonFPR997Toggle()
+        {
+            Console.WriteLine("ButtonFPR997Toggle");
+            Logger.Info("ButtonFPR997Toggle : {0}", (object)DateTime.Now.ToString("s"));
+            Console.WriteLine("FPR997 =  " + AutoLoopControl._AutoLoopControl.pathToFPR);
+            if (MainWindow.mainWindow.FPR997toggle.IsChecked == true)
+            {
+                AutoLoopControl._AutoLoopControl.pathToFPR = AutoLoopControl._AutoLoopControl.pathToPNdrive + AutoLoopControl._AutoLoopControl.pathToFPR997;
+                MainWindow.mainWindow.FPR998toggle.IsChecked = false;
+                MainWindow.mainWindow.FPR996toggle.IsChecked = false;
+                MainWindow.mainWindow.FPR999toggle.IsChecked = false;
+                MainWindow.mainWindow.saveFPR.Label = "FPR997 speichern";
+
+            }
+            Console.WriteLine("FPR Pfad =  " + AutoLoopControl._AutoLoopControl.pathToFPR + "  " + MainWindow.mainWindow.FPR997toggle.IsChecked);
+            AutoLoopControl._AutoLoopControl.CheckToolBar();
+            AutoLoopControl._AutoLoopControl.ReadFPRtoEditBox();
+        }
+
         public ICommand FPR998toggleCommand
         {
             get
@@ -134,6 +194,10 @@ namespace WiCAM.Pn4000.JobManager
             {
                 AutoLoopControl._AutoLoopControl.pathToFPR = AutoLoopControl._AutoLoopControl.pathToPNdrive + AutoLoopControl._AutoLoopControl.pathToFPR998;
                 MainWindow.mainWindow.FPR999toggle.IsChecked = false;
+                MainWindow.mainWindow.FPR997toggle.IsChecked = false;
+                MainWindow.mainWindow.FPR996toggle.IsChecked = false;
+                MainWindow.mainWindow.saveFPR.Label = "FPR998 speichern";
+
             }
             Console.WriteLine("FPR Pfad =  " + AutoLoopControl._AutoLoopControl.pathToFPR + "  " + MainWindow.mainWindow.FPR998toggle.IsChecked);
             AutoLoopControl._AutoLoopControl.CheckToolBar();
@@ -159,6 +223,10 @@ namespace WiCAM.Pn4000.JobManager
             {
                 AutoLoopControl._AutoLoopControl.pathToFPR = AutoLoopControl._AutoLoopControl.pathToPNdrive + AutoLoopControl._AutoLoopControl.pathToFPR999;
                 MainWindow.mainWindow.FPR998toggle.IsChecked = false;
+                MainWindow.mainWindow.FPR997toggle.IsChecked = false;
+                MainWindow.mainWindow.FPR996toggle.IsChecked = false;
+                MainWindow.mainWindow.saveFPR.Label = "FPR999 speichern";
+
             }
             Console.WriteLine("FPR Pfad =  " + AutoLoopControl._AutoLoopControl.pathToFPR + "  " + MainWindow.mainWindow.FPR999toggle.IsChecked);
             AutoLoopControl._AutoLoopControl.CheckToolBar();

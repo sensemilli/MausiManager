@@ -333,13 +333,13 @@
                 </ribbon:RibbonGroup>
                 <ribbon:RibbonGroup Header="{DynamicResource FPRactions}">
                     <ribbon:RibbonSplitButton Label="SelectFPR" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapTemplate16}" LargeImageSource="{StaticResource BitmapTemplate32}">
+                        <ribbon:RibbonToggleButton x:Name="FPR996toggle" Label="FPR996" LargeImageSource="{StaticResource BitmapSave16}" SmallImageSource="{StaticResource BitmapSave16}"  Command="{Binding FPR996toggleCommand}" />
+                        <ribbon:RibbonToggleButton x:Name="FPR997toggle" Label="FPR997" LargeImageSource="{StaticResource BitmapSave16}" SmallImageSource="{StaticResource BitmapSave16}" Command="{Binding FPR997toggleCommand}" />
+
                         <ribbon:RibbonToggleButton x:Name="FPR998toggle" Label="FPR998" LargeImageSource="{StaticResource BitmapSave16}" SmallImageSource="{StaticResource BitmapSave16}" IsChecked="True"  Command="{Binding FPR998toggleCommand}" />
                         <ribbon:RibbonToggleButton x:Name="FPR999toggle" Label="FPR999" LargeImageSource="{StaticResource BitmapSave16}" SmallImageSource="{StaticResource BitmapSave16}" Command="{Binding FPR999toggleCommand}" />
                     </ribbon:RibbonSplitButton>
-                    <ribbon:RibbonToggleButton x:Name="saveFPR"  Label="FPRedit speichern" Margin="5,0,5,0"
-       SmallImageSource="{StaticResource BitmapNCdelete}"
-       LargeImageSource="{StaticResource BitmapNCdelete}" 
-       Command="{Binding SaveFPRedit}" />
+                    <ribbon:RibbonToggleButton x:Name="saveFPR"  Label="FPRedit speichern" Margin="5,0,5,0" SmallImageSource="{StaticResource BitmapNCdelete}" LargeImageSource="{StaticResource BitmapNCdelete}" Command="{Binding SaveFPRedit}" />
                 </ribbon:RibbonGroup>
             </ribbon:RibbonTab>
 
@@ -491,6 +491,23 @@
                          SmallImageSource="{StaticResource BitmapSave16}" 
                         />
                     </ribbon:RibbonSplitButton>
+                </ribbon:RibbonGroup>
+            </ribbon:RibbonTab>
+            <ribbon:RibbonTab x:Name="ribbonTab9" Header="PNenvironment">
+                <ribbon:RibbonGroup Header="{DynamicResource Filter}">
+                    <ribbon:RibbonButton Label="{DynamicResource DeleteFilter}" SmallImageSource="{StaticResource BitmapFilterDelete16}" LargeImageSource="{StaticResource BitmapFilterDelete32}" Command="{Binding FilterDeleteCommand}" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="PNenvironment">
+                    <ribbon:RibbonToggleButton x:Name="xLocal" Label="Local" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapLage}" LargeImageSource="{StaticResource BitmapLage}" Command="{Binding LocalCommand}"  />
+                    <ribbon:RibbonToggleButton x:Name="xPNdrive" Label="PNdrive" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapXrichten}" LargeImageSource="{StaticResource BitmapXrichten}" Command="{Binding PNdriveCommand}"  />
+                    <ribbon:RibbonToggleButton x:Name="xArchiv" Label="Archiv" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapYrichten}" LargeImageSource="{StaticResource BitmapYrichten}" Command="{Binding ArchivCommand}"  />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="Commands">
+                    <ribbon:RibbonToggleButton x:Name="xCMDprompt" Label="CMD" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapLage}" LargeImageSource="{StaticResource BitmapLage}" Command="{Binding CmdCommand}"  />
+                    <ribbon:RibbonToggleButton x:Name="xLastMach" Label="LastMachine" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapXrichten}" LargeImageSource="{StaticResource BitmapXrichten}" Command="{Binding LastMachCommand}"  />
+                    <ribbon:RibbonToggleButton x:Name="xReadMach" Label="ReadMachines" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapYrichten}" LargeImageSource="{StaticResource BitmapYrichten}" Command="{Binding ReadMachCommand}"  />
+                    <ribbon:RibbonToggleButton x:Name="xPopUpCheck" Label="ReadPopUps" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapYrichten}" LargeImageSource="{StaticResource BitmapYrichten}" Command="{Binding ReadPopUpsCommand}"  />
+
                 </ribbon:RibbonGroup>
             </ribbon:RibbonTab>
         </ribbon:Ribbon>
@@ -821,6 +838,13 @@ IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
 
     
             <local:CommonCutControl x:Name="commonCutControl"/>
+
+        </Grid>
+        
+        <Grid x:Name="gridPNxpert"  Visibility="Hidden" Grid.Row="1" Grid.Column="0">
+
+            <local:PNconfigControl x:Name="xPNconfigControl"/>
+
 
         </Grid>
     </Grid>
