@@ -19,8 +19,8 @@
     <EmbeddedResource Include="tool.ico" LogicalName="tool.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Users\TBraig\source\repos\sensemilli\MausiManager\Contracts\WiCAM.Pn4000.Contracts.csproj" />
-    <ProjectReference Include="C:\Users\TBraig\source\repos\sensemilli\MausiManager\PKernelFlowAdapters\WiCAM.Pn4000.PKernelFlow.Adapters.csproj" />
+    <ProjectReference Include="..\Contracts\WiCAM.Pn4000.Contracts.csproj" />
+    <ProjectReference Include="..\PKernelFlowAdapters\WiCAM.Pn4000.PKernelFlow.Adapters.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">

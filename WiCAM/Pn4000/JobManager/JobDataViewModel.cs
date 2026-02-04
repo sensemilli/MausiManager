@@ -23,6 +23,7 @@ using WiCAM.Pn4000.JobManager.ViewModels;
 using WiCAM.Pn4000.JobManager.Views;
 using WiCAM.Pn4000.Machine;
 using WiCAM.Pn4000.WpfControls;
+using Range = Microsoft.Office.Interop.Excel.Range;
 using Style = System.Windows.Style;
 
 namespace WiCAM.Pn4000.JobManager;
@@ -1218,74 +1219,94 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
                 { rows = rows + 3; }
                 Console.WriteLine("Kunde  " + kunde);
                 xlWorksheetFileNames.Cells[rows, 1] = "Kunde";
-                xlWorksheetFileNames.Cells[rows, 1].Interior.Color = System.Drawing.Color.FromArgb(333333);
-                xlWorksheetFileNames.Cells[rows, 1].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                xlWorksheetFileNames.Cells[rows, 1].Font.Size = 16;
+                ((Range)xlWorksheetFileNames.Cells[rows, 1]).Interior.Color = System.Drawing.Color.FromArgb(333333);
+                ((Range)xlWorksheetFileNames.Cells[rows, 1]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                ((Range)xlWorksheetFileNames.Cells[rows, 1]).Font.Size = 16;
                 xlWorksheetFileNames.Cells[rows, 2] = kunde;
-                xlWorksheetFileNames.Cells[rows, 2].Interior.Color = System.Drawing.Color.FromArgb(333333);
-                xlWorksheetFileNames.Cells[rows, 2].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                xlWorksheetFileNames.Cells[rows, 2].Font.Size = 13;
+                ((Range)xlWorksheetFileNames.Cells[rows, 2]).Interior.Color = System.Drawing.Color.FromArgb(333333);
+                ((Range)xlWorksheetFileNames.Cells[rows, 2]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                ((Range)xlWorksheetFileNames.Cells[rows, 2]).Font.Size = 13;
 
                 Console.WriteLine("Auftrags_Nr.  " + auftragsnr);
                 xlWorksheetFileNames.Cells[rows + 1, 1] = "AuftragsNr.";
-                xlWorksheetFileNames.Cells[rows + 1, 1].Interior.Color = System.Drawing.Color.FromArgb(333333);
-                xlWorksheetFileNames.Cells[rows + 1, 1].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                xlWorksheetFileNames.Cells[rows + 1, 1].Font.Size = 16;
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 1]).Interior.Color = System.Drawing.Color.FromArgb(333333);
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 1]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 1]).Font.Size = 16;
                 xlWorksheetFileNames.Cells[rows + 1, 2] = auftragsnr;
-                xlWorksheetFileNames.Cells[rows + 1, 2].Interior.Color = System.Drawing.Color.FromArgb(333333);
-                xlWorksheetFileNames.Cells[rows + 1, 2].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                xlWorksheetFileNames.Cells[rows + 1, 2].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                xlWorksheetFileNames.Cells[rows + 1, 2].Font.Size = 13;
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 2]).Interior.Color = System.Drawing.Color.FromArgb(333333);
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 2]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 2]).HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 2]).Font.Size = 13;
 
                 Console.WriteLine("Material  " + material);
                 xlWorksheetFileNames.Cells[rows, 7] = "Material";
-                xlWorksheetFileNames.Cells[rows, 7].Interior.Color = System.Drawing.Color.FromArgb(868686);
-                xlWorksheetFileNames.Cells[rows, 7].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                xlWorksheetFileNames.Cells[rows, 7].Font.Size = 16;
-                xlWorksheetFileNames.Cells[rows, 8] = material;
-                xlWorksheetFileNames.Cells[rows, 8].Interior.Color = System.Drawing.Color.FromArgb(868686);
-                xlWorksheetFileNames.Cells[rows, 8].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                xlWorksheetFileNames.Cells[rows, 8].HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
-                xlWorksheetFileNames.Cells[rows, 8].Font.Size = 13;
+                ((Range)xlWorksheetFileNames.Cells[rows, 7]).Interior.Color = System.Drawing.Color.FromArgb(868686);
+                ((Range)xlWorksheetFileNames.Cells[rows, 7]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                ((Range)xlWorksheetFileNames.Cells[rows, 7]).Font.Size = 16;
+                ((Range)xlWorksheetFileNames.Cells[rows, 8]).Value = material;
+                ((Range)xlWorksheetFileNames.Cells[rows, 8]).Interior.Color = System.Drawing.Color.FromArgb(868686);
+                ((Range)xlWorksheetFileNames.Cells[rows, 8]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                ((Range)xlWorksheetFileNames.Cells[rows, 8]).HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                ((Range)xlWorksheetFileNames.Cells[rows, 8]).Font.Size = 13;
 
                 Console.WriteLine("Platine_Dicke  " + plateThick);
                 xlWorksheetFileNames.Cells[rows + 1, 7] = "Dicke";
-                xlWorksheetFileNames.Cells[rows + 1, 7].Interior.Color = System.Drawing.Color.FromArgb(868686);
-                xlWorksheetFileNames.Cells[rows + 1, 7].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                xlWorksheetFileNames.Cells[rows + 1, 7].Font.Size = 16;
-                xlWorksheetFileNames.Cells[rows + 1, 8] = plateThick;
-                xlWorksheetFileNames.Cells[rows + 1, 8].Interior.Color = System.Drawing.Color.FromArgb(868686);
-                xlWorksheetFileNames.Cells[rows + 1, 8].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                xlWorksheetFileNames.Cells[rows + 1, 8].Font.Size = 13;
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 7]).Interior.Color = System.Drawing.Color.FromArgb(868686);
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 7]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 7]).Font.Size = 16;
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 8]).Value = plateThick;
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 8]).Interior.Color = System.Drawing.Color.FromArgb(868686);
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 8]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                ((Range)xlWorksheetFileNames.Cells[rows + 1, 8]).Font.Size = 13;
 
-                xlWorksheetFileNames.Cells[rows + 3, 1] = "Plate-Pos";
-                xlWorksheetFileNames.Cells[rows + 3, 1].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                xlWorksheetFileNames.Cells[rows + 3, 1].Font.Bold = true;
-                xlWorksheetFileNames.Cells[rows + 3, 2] = "PlateDim_X";
-                xlWorksheetFileNames.Cells[rows + 3, 2].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                xlWorksheetFileNames.Cells[rows + 3, 2].Font.Bold = true;
-                xlWorksheetFileNames.Cells[rows + 3, 3] = "PlateDim_Y";
-                xlWorksheetFileNames.Cells[rows + 3, 3].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                xlWorksheetFileNames.Cells[rows + 3, 3].Font.Bold = true;
-                xlWorksheetFileNames.Cells[rows + 3, 4] = "Anzahl";
-                xlWorksheetFileNames.Cells[rows + 3, 4].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                xlWorksheetFileNames.Cells[rows + 3, 4].Font.Bold = true;
-                xlWorksheetFileNames.Cells[rows + 3, 5] = "Material";
-                xlWorksheetFileNames.Cells[rows + 3, 5].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                xlWorksheetFileNames.Cells[rows + 3, 5].Font.Bold = true;
-                xlWorksheetFileNames.Cells[rows + 3, 6] = "Dicke";
-                xlWorksheetFileNames.Cells[rows + 3, 6].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                xlWorksheetFileNames.Cells[rows + 3, 6].Font.Bold = true;
-                xlWorksheetFileNames.Cells[rows + 3, 7] = "Teil-Pos";
-                xlWorksheetFileNames.Cells[rows + 3, 8] = "TeileDim_X";
-                xlWorksheetFileNames.Cells[rows + 3, 9] = "TeileDim_Y";
-                xlWorksheetFileNames.Cells[rows + 3, 10] = "Anzahl";
-                xlWorksheetFileNames.Cells[rows + 3, 11] = "Material";
-                xlWorksheetFileNames.Cells[rows + 3, 12] = "Dicke";
-                xlWorksheetFileNames.Cells[rows + 3, 13] = "Teile-ID";
-                xlWorksheetFileNames.Cells[rows + 3, 14] = "Oberfl";
-                xlWorksheetFileNames.Cells[rows + 3, 15] = "Gewicht-Teil";
-                xlWorksheetFileNames.Cells[rows + 3, 16] = "Gewicht-Gesamt";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 1]).Value = "Plate-Pos";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 1]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 1]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 2]).Value = "PlateDim_X";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 2]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 2]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 3]).Value = "PlateDim_Y";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 3]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 3]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 4]).Value = "Anzahl";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 4]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 4]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 5]).Value = "Material";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 5]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 5]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 6]).Value = "Dicke";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 6]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 6]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 7]).Value = "Teil-Pos";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 7]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 7]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 8]).Value = "TeileDim_X";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 8]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 8]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 9]).Value = "TeileDim_Y";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 9]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 9]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 10]).Value = "Anzahl";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 10]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 10]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 11]).Value = "Material";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 11]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 11]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 12]).Value = "Dicke";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 12]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 12]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 13]).Value = "Teile-ID";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 13]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 13]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 14]).Value = "Oberfl";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 14]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 14]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 15]).Value = "Gewicht-Teil";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 15]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 15]).Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 16]).Value = "Gewicht-Gesamt";
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 16]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[rows + 3, 16]).Font.Bold = true;
                 //xlWorksheetFileNames.Cells[3, 12] = "Bemerkungen";
                 //xlWorksheetFileNames.Cells[3, 13] = "Gravur";
                 xlrange = xlWorksheetFileNames.Range["A5:O5"];//xlWorksheetFileNames.UsedRange;
@@ -1299,47 +1320,47 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
                 foreach (PlateInfo item in list)
                 {
                     xlWorksheetFileNames.Cells[i, 1] = item.PLATE_NUMBER;
-                    xlWorksheetFileNames.Cells[i, 1].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                    xlWorksheetFileNames.Cells[i, 1].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                    xlWorksheetFileNames.Cells[i, 1].Font.Bold = true;
-                    xlWorksheetFileNames.Cells[i, 2] = item.PLATE_SIZE_X;
-                    xlWorksheetFileNames.Cells[i, 2].NumberFormat = "#.0";
-                    xlWorksheetFileNames.Cells[i, 2].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                    xlWorksheetFileNames.Cells[i, 2].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                    xlWorksheetFileNames.Cells[i, 2].Font.Bold = true;
-                    xlWorksheetFileNames.Cells[i, 3] = item.PLATE_SIZE_Y;
-                    xlWorksheetFileNames.Cells[i, 3].NumberFormat = "#.0";
-                    xlWorksheetFileNames.Cells[i, 3].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                    xlWorksheetFileNames.Cells[i, 3].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                    xlWorksheetFileNames.Cells[i, 3].Font.Bold = true;
-                    xlWorksheetFileNames.Cells[i, 4] = item.NUMBER_OF_PLATES;
-                    xlWorksheetFileNames.Cells[i, 4].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                    xlWorksheetFileNames.Cells[i, 4].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                    xlWorksheetFileNames.Cells[i, 4].Font.Bold = true;
-                    xlWorksheetFileNames.Cells[i, 5] = material;
-                    xlWorksheetFileNames.Cells[i, 5].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                    xlWorksheetFileNames.Cells[i, 5].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                    xlWorksheetFileNames.Cells[i, 5].Font.Bold = true;
-                    xlWorksheetFileNames.Cells[i, 6] = plateThick;
-                    xlWorksheetFileNames.Cells[i, 6].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                    xlWorksheetFileNames.Cells[i, 6].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                    xlWorksheetFileNames.Cells[i, 6].Font.Bold = true;
+                    ((Range)xlWorksheetFileNames.Cells[i, 1]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                    ((Range)xlWorksheetFileNames.Cells[i, 1]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                    ((Range)xlWorksheetFileNames.Cells[i, 1]).Font.Bold = true;
+                    ((Range)xlWorksheetFileNames.Cells[i, 2]).Value = item.PLATE_SIZE_X;
+                    ((Range)xlWorksheetFileNames.Cells[i, 2]).NumberFormat = "#.0";
+                    ((Range)xlWorksheetFileNames.Cells[i, 2]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                    ((Range)xlWorksheetFileNames.Cells[i, 2]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                    ((Range)xlWorksheetFileNames.Cells[i, 2]).Font.Bold = true;
+                    ((Range)xlWorksheetFileNames.Cells[i, 3]).Value = item.PLATE_SIZE_Y;
+                    ((Range)xlWorksheetFileNames.Cells[i, 3]).NumberFormat = "#.0";
+                    ((Range)xlWorksheetFileNames.Cells[i, 3]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                    ((Range)xlWorksheetFileNames.Cells[i, 3]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                    ((Range)xlWorksheetFileNames.Cells[i, 3]).Font.Bold = true;
+                    ((Range)xlWorksheetFileNames.Cells[i, 4]).Value = item.NUMBER_OF_PLATES;
+                    ((Range)xlWorksheetFileNames.Cells[i, 4]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                    ((Range)xlWorksheetFileNames.Cells[i, 4]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                    ((Range)xlWorksheetFileNames.Cells[i, 4]).Font.Bold = true;
+                    ((Range)xlWorksheetFileNames.Cells[i, 5]).Value = material;
+                    ((Range)xlWorksheetFileNames.Cells[i, 5]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                    ((Range)xlWorksheetFileNames.Cells[i, 5]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                    ((Range)xlWorksheetFileNames.Cells[i, 5]).Font.Bold = true;
+                    ((Range)xlWorksheetFileNames.Cells[i, 6]).Value = plateThick;
+                    ((Range)xlWorksheetFileNames.Cells[i, 6]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                    ((Range)xlWorksheetFileNames.Cells[i, 6]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                    ((Range)xlWorksheetFileNames.Cells[i, 6]).Font.Bold = true;
                     Console.WriteLine("Platine_Nr.  " + item.PLATE_NUMBER);
                     Console.WriteLine("Platine_X.  " + item.PLATE_SIZE_X);
                     Console.WriteLine("Platine_Y.  " + item.PLATE_SIZE_Y);
                     Console.WriteLine("Anzahl Platinen  " + item.NUMBER_OF_PLATES);
                     i++;
                 }
-                xlWorksheetFileNames.Cells[i, 3] = "Summe:";
-                xlWorksheetFileNames.Cells[i, 3].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbDarkSeaGreen;
-                xlWorksheetFileNames.Cells[i, 3].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbBlack;
-                xlWorksheetFileNames.Cells[i, 3].Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[i, 3]).Value = "Summe:";
+                ((Range)xlWorksheetFileNames.Cells[i, 3]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbDarkSeaGreen;
+                ((Range)xlWorksheetFileNames.Cells[i, 3]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbBlack;
+                ((Range)xlWorksheetFileNames.Cells[i, 3]).Font.Bold = true;
                 i = i - 1;
                 int iirows = rows + 4;
-                xlWorksheetFileNames.Cells[i + 1, 4].Formula = "=Sum(D" + iirows + ":D" + i + ")";
-                xlWorksheetFileNames.Cells[i + 1, 4].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbDarkSeaGreen;
-                xlWorksheetFileNames.Cells[i + 1, 4].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbBlack;
-                xlWorksheetFileNames.Cells[i + 1, 4].Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 4]).Formula = "=Sum(D" + iirows + ":D" + i + ")";
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 4]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbDarkSeaGreen;
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 4]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbBlack;
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 4]).Font.Bold = true;
 
                 i = rows + 4;
 
@@ -1380,7 +1401,7 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 										string[] amount = lineRead.Split("=");
 										Console.WriteLine("PART_SIZE_X  " + amount[1]);
 										xlWorksheetFileNames.Cells[i, 8] = amount[1];
-										xlWorksheetFileNames.Cells[i, 8].NumberFormat = "#.0";
+										((Range)xlWorksheetFileNames.Cells[i, 8]).NumberFormat = "#.0";
 									}
 									if (lineRead.Contains("PART_SIZE_Y"))
 									{
@@ -1388,7 +1409,7 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 										string[] amount = lineRead.Split("=");
 										Console.WriteLine("PART_SIZE_Y  " + amount[1]);
 										xlWorksheetFileNames.Cells[i, 9] = amount[1];
-										xlWorksheetFileNames.Cells[i, 9].NumberFormat = "#.0";
+										((Range)xlWorksheetFileNames.Cells[i, 9]).NumberFormat = "#.0";
 									}
 									if (lineRead.Contains("PART_ACOUNT          ="))
 									{
@@ -1419,7 +1440,7 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 										string[] amount = lineRead.Split("=");
 										Console.WriteLine("PART_WGHT_RE  " + amount[1]);
 										xlWorksheetFileNames.Cells[i, 15] = amount[1];
-                                        xlWorksheetFileNames.Cells[i, 16].Formula = "=Sum(" + partsamount + "*O" + i + ")"; //"=Sum(" + xlWorksheetFileNames.Cells[i, 15] + "*" + xlWorksheetFileNames.Cells[i, 10] + ")";
+                                        ((Range)xlWorksheetFileNames.Cells[i, 16]).Formula = "=Sum(" + partsamount + "*O" + i + ")"; //"=Sum(" + xlWorksheetFileNames.Cells[i, 15] + "*" + xlWorksheetFileNames.Cells[i, 10] + ")";
 
                                     }
                                     xlWorksheetFileNames.Cells[i, 11] = material;
@@ -1455,7 +1476,7 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 										string[] amount = lineRead.Split("=");
 										Console.WriteLine("PART_SIZE_X  " + amount[1]);
 										xlWorksheetFileNames.Cells[i, 8] = amount[1];
-										xlWorksheetFileNames.Cells[i, 8].NumberFormat = "#.0";
+										((Range)xlWorksheetFileNames.Cells[i, 8]).NumberFormat = "#.0";
 									}
 									if (lineRead.Contains("PART_SIZE_Y"))
 									{
@@ -1463,7 +1484,7 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 										string[] amount = lineRead.Split("=");
 										Console.WriteLine("PART_SIZE_Y  " + amount[1]);
 										xlWorksheetFileNames.Cells[i, 9] = amount[1];
-										xlWorksheetFileNames.Cells[i, 9].NumberFormat = "#.0";
+										((Range)xlWorksheetFileNames.Cells[i, 9]).NumberFormat = "#.0";
 									}
 									if (lineRead.Contains("PART_ACOUNT          ="))
 									{
@@ -1493,7 +1514,7 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 										string[] amount = lineRead.Split("=");
 										Console.WriteLine("PART_WGHT_RE  " + amount[1]);
 										xlWorksheetFileNames.Cells[i, 15] = amount[1];
-                                        xlWorksheetFileNames.Cells[i, 16].Formula = "=Sum(" + partsamount + "*O" + i + ")"; //"=Sum(" + xlWorksheetFileNames.Cells[i, 15] + "*" + xlWorksheetFileNames.Cells[i, 10] + ")";
+                                        ((Range)xlWorksheetFileNames.Cells[i, 16]).Formula = "=Sum(" + partsamount + "*O" + i + ")"; //"=Sum(" + xlWorksheetFileNames.Cells[i, 15] + "*" + xlWorksheetFileNames.Cells[i, 10] + ")";
 
                                     }
                                     xlWorksheetFileNames.Cells[i, 11] = material;
@@ -1511,27 +1532,28 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
                     }
                 }
                 xlWorksheetFileNames.Cells[i, 9] = "Summe:";
-                xlWorksheetFileNames.Cells[i, 9].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                xlWorksheetFileNames.Cells[i, 9].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                xlWorksheetFileNames.Cells[i, 9].Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[i, 9]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[i, 9]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                ((Range)xlWorksheetFileNames.Cells[i, 9]).Font.Bold = true;
                 i = i - 1;
                 int irows = rows + 4;
-                xlWorksheetFileNames.Cells[i + 1, 10].Formula = "=Sum(J" + irows + ":J" + i + ")";
-                xlWorksheetFileNames.Cells[i + 1, 10].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                xlWorksheetFileNames.Cells[i + 1, 10].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                xlWorksheetFileNames.Cells[i + 1, 10].Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 10]).Formula = "=Sum(J" + irows + ":J" + i + ")";
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 10]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 10]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 10]).Font.Bold = true;
                 int iFrows = irows - 1;
                 xlWorksheetFileNames.Range["G" + iFrows + ":O" + i].Font.Bold = true;
                 xlWorksheetFileNames.Range["G" + iFrows + ":O" + i].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbDarkSeaGreen;
 
                 xlWorksheetFileNames.Cells[i + 1, 15] = "Summe:";
-                xlWorksheetFileNames.Cells[i + 1, 15].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbFuchsia;
-                xlWorksheetFileNames.Cells[i + 1, 15].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-                xlWorksheetFileNames.Cells[i + 1, 15].Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 15]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbFuchsia;
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 15]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 15]).Font.Bold = true;
 
-                xlWorksheetFileNames.Cells[i + 1, 16].Formula = "=Sum(P" + irows + ":P" + i + ")";
-                xlWorksheetFileNames.Cells[i + 1, 16].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
-                xlWorksheetFileNames.Cells[i + 1, 16].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite; xlWorksheetFileNames.Cells[i + 1, 16].Font.Bold = true;
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 16]).Formula = "=Sum(P" + irows + ":P" + i + ")";
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 16]).Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 16]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                ((Range)xlWorksheetFileNames.Cells[i + 1, 16]).Font.Bold = true;
 
                 xlWorksheetFileNames.Range["P" + iFrows + ":P" + i].Font.Bold = true;
                 xlWorksheetFileNames.Range["P" + iFrows + ":P" + i].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbAzure;
@@ -1647,32 +1669,32 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 
 
         //  Console.WriteLine("Kunde  " + jobinf.JOB_DATA_9);
-        xlWorksheetFileNames.Cells[rows, 1] = "Kunde";
-        xlWorksheetFileNames.Cells[rows, 1].Interior.Color = System.Drawing.Color.FromArgb(333333);
-        xlWorksheetFileNames.Cells[rows, 1].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-        xlWorksheetFileNames.Cells[rows, 1].Font.Size = 16;
+        ((Range)xlWorksheetFileNames.Cells[rows, 1]).Value = "Kunde";
+        ((Range)xlWorksheetFileNames.Cells[rows, 1]).Interior.Color = System.Drawing.Color.FromArgb(333333);
+        ((Range)xlWorksheetFileNames.Cells[rows, 1]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+        ((Range)xlWorksheetFileNames.Cells[rows, 1]).Font.Size = 16;
 
         //     Console.WriteLine("Auftrags_Nr.  " + jobinf.JOB_DATA_2);
-        xlWorksheetFileNames.Cells[rows, 2] = "AuftragsNr.";
-        xlWorksheetFileNames.Cells[rows, 2].Interior.Color = System.Drawing.Color.FromArgb(333333);
-        xlWorksheetFileNames.Cells[rows, 2].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-        xlWorksheetFileNames.Cells[rows, 2].Font.Size = 16;
+        ((Range)xlWorksheetFileNames.Cells[rows, 2]).Value = "AuftragsNr.";
+        ((Range)xlWorksheetFileNames.Cells[rows, 2]).Interior.Color = System.Drawing.Color.FromArgb(333333);
+        ((Range)xlWorksheetFileNames.Cells[rows, 2]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+        ((Range)xlWorksheetFileNames.Cells[rows, 2]).Font.Size = 16;
 
         //       Console.WriteLine("Material  " + jobinf.JOB_MATERIAL_NAME);
-        xlWorksheetFileNames.Cells[rows, 3] = "Material";
-        xlWorksheetFileNames.Cells[rows, 3].Interior.Color = System.Drawing.Color.FromArgb(868686);
-        xlWorksheetFileNames.Cells[rows, 3].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-        xlWorksheetFileNames.Cells[rows, 3].Font.Size = 16;
+        ((Range)xlWorksheetFileNames.Cells[rows, 3]).Value = "Material";
+        ((Range)xlWorksheetFileNames.Cells[rows, 3]).Interior.Color = System.Drawing.Color.FromArgb(868686);
+        ((Range)xlWorksheetFileNames.Cells[rows, 3]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+        ((Range)xlWorksheetFileNames.Cells[rows, 3]).Font.Size = 16;
 
         //      Console.WriteLine("Platine_Dicke  " + jobinf.JOB_THICKNESS);
-        xlWorksheetFileNames.Cells[rows, 4] = "Dicke";
-        xlWorksheetFileNames.Cells[rows, 4].Interior.Color = System.Drawing.Color.FromArgb(868686);
-        xlWorksheetFileNames.Cells[rows, 4].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-        xlWorksheetFileNames.Cells[rows, 4].Font.Size = 16;
-        xlWorksheetFileNames.Cells[rows, 5] = "Progress";
-        xlWorksheetFileNames.Cells[rows, 5].Interior.Color = System.Drawing.Color.FromArgb(868686);
-        xlWorksheetFileNames.Cells[rows, 5].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
-        xlWorksheetFileNames.Cells[rows, 5].Font.Size = 16;
+        ((Range)xlWorksheetFileNames.Cells[rows, 4]).Value = "Dicke";
+        ((Range)xlWorksheetFileNames.Cells[rows, 4]).Interior.Color = System.Drawing.Color.FromArgb(868686);
+        ((Range)xlWorksheetFileNames.Cells[rows, 4]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+        ((Range)xlWorksheetFileNames.Cells[rows, 4]).Font.Size = 16;
+        ((Range)xlWorksheetFileNames.Cells[rows, 5]).Value = "Progress";
+        ((Range)xlWorksheetFileNames.Cells[rows, 5]).Interior.Color = System.Drawing.Color.FromArgb(868686);
+        ((Range)xlWorksheetFileNames.Cells[rows, 5]).Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+        ((Range)xlWorksheetFileNames.Cells[rows, 5]).Font.Size = 16;
         //     }
         // }
         ii = rows + 2;

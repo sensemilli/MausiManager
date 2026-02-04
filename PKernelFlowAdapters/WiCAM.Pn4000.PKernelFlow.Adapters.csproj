@@ -14,7 +14,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.8" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="C:\Users\TBraig\source\repos\sensemilli\MausiManager\PKernelFlow\WiCAM.Pn4000.PKernelFlow.csproj" />
+	  <ProjectReference Include="..\PKernelFlow\WiCAM.Pn4000.PKernelFlow.csproj" />
 	</ItemGroup>
   <ItemGroup>
     <Reference Include="WiCAM.Pn4000.BendModel">
