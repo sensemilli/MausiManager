@@ -231,6 +231,12 @@ namespace WiCAM.Pn4000.JobManager
             else MainWindow.mainWindow.xGravur.IsChecked = false;
             Console.WriteLine("Gravur =   " + MainWindow.mainWindow.xGravur.IsChecked);
 
+            int iHuelle = CheckLineNumberToolBar(pathToFPR, " 1  0  0   0        .0000       20     0     0 HuelleNeu");
+            if (iHuelle == 0)
+                MainWindow.mainWindow.xHuelle.IsChecked = true;
+            else MainWindow.mainWindow.xHuelle.IsChecked = false;
+            Console.WriteLine("Huelle =   " + MainWindow.mainWindow.xHuelle.IsChecked);
+
             int iStanzenInnen = CheckLineNumberToolBar(pathToFPR, " 1  0  0   0        .0000       20     0     0 STANZEN-Innen");
             if (iStanzenInnen == 0)
                 MainWindow.mainWindow.xStanzenInnen.IsChecked = true;

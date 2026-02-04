@@ -25,7 +25,6 @@ using System.Drawing;
 using System.Data;
 using System.Collections;
 using WiCAM.Pn4000.JobManager.ShellClasses;
-using System.Windows.Input;
 using Cursors = System.Windows.Input.Cursors;
 using WiCAM.Pn4000.TechnoTable;
 using System.Windows.Media;
@@ -35,6 +34,7 @@ using System.Globalization;
 using System.Windows.Media.Animation;
 using System.Data.SqlTypes;
 using WiCAM.Pn4000.JobManager.AuftragsHelfer;
+using System.IO.Compression;
 
 namespace WiCAM.Pn4000.JobManager
 {
@@ -146,9 +146,10 @@ namespace WiCAM.Pn4000.JobManager
         }
         #region Methods
 
-        private void InitializeFileSystemObjects()
+        public void InitializeFileSystemObjects()
         {
             var drives = DriveInfo.GetDrives();
+            treeView.Items.Clear();
             DriveInfo
                 .GetDrives()
                 .ToList()
@@ -577,11 +578,14 @@ namespace WiCAM.Pn4000.JobManager
         {
             System.Windows.Controls.TreeView treeView = sender as System.Windows.Controls.TreeView;
             selectedItem = treeView.SelectedItem as FileSystemObjectInfo;
-            int count = selectedItem.FileSystemInfo.FullName.ToString().Count();
-          //  MainWindow.mainWindow.txtAuftragsNummer.Text = selectedItem.FileSystemInfo.FullName.ToString().Remove(0, count - 6);
-            Console.WriteLine(selectedItem.FileSystemInfo.FullName);
-            AddFiles(selectedItem.FileSystemInfo.FullName.ToString());
-
+            int count;
+            if (selectedItem != null)
+            {
+                count = selectedItem.FileSystemInfo.FullName.ToString().Count();
+                //  MainWindow.mainWindow.txtAuftragsNummer.Text = selectedItem.FileSystemInfo.FullName.ToString().Remove(0, count - 6);
+                Console.WriteLine(selectedItem.FileSystemInfo.FullName);
+                AddFiles(selectedItem.FileSystemInfo.FullName.ToString());
+            }
         }
 
         private void FilteredFilesTextChanged(object sender, TextChangedEventArgs e)
@@ -718,9 +722,9 @@ namespace WiCAM.Pn4000.JobManager
                 if (PnPathBuilder.ArDrive == "P:")
                     connectionString = @"Data Source=MUNDAL-APP02\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
                 if (PnPathBuilder.ArDrive == "H:")
-                    connectionString = @"Data Source=DESKTOP-8M8J1J0\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
+                    connectionString = @"Data Source=TOMMY\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
                 if (PnPathBuilder.ArDrive == "C:")
-                    connectionString = @"Data Source=DESKTOP-8M8J1J0\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
+                    connectionString = @"Data Source=TOMMY\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
             data.Remove(row);
             deleteRow("dbo.w_auftragspool", row.mpid);
                

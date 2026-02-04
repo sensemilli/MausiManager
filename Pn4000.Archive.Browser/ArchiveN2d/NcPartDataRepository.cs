@@ -83,11 +83,11 @@ namespace WiCAM.Pn4000.Archive.Browser.ArchiveN2d
 		public List<NcPartInfo> ByDateInterval(DateTime from, DateTime till)
 		{
 			return this._filteredNcParts.FindAll((NcPartInfo x) => {
-				if (x.SDATE.Date < from.Date)
+				if (x.SDate.Date < from.Date)
 				{
 					return false;
 				}
-				return x.SDATE.Date <= till.Date;
+				return x.SDate.Date <= till.Date;
 			});
 		}
 
@@ -102,11 +102,11 @@ namespace WiCAM.Pn4000.Archive.Browser.ArchiveN2d
 				this.MaxDate = DateTime.Today;
 				foreach (NcPartInfo ncPartInfo in ncPartInfos2)
 				{
-					if (ncPartInfo.SDATE <= this.MaxDate)
+					if (ncPartInfo.SDate <= this.MaxDate)
 					{
 						continue;
 					}
-					this.MaxDate = ncPartInfo.SDATE;
+					this.MaxDate = ncPartInfo.SDate;
 				}
 			}
 			return ncPartInfos2;

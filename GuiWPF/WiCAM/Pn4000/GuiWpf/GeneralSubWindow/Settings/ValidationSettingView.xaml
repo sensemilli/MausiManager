@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.GeneralSubWindow.Settings.ValidationSettingView" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI.ViewModels;assembly=WiCAM.Pn4000.PN3D" 
+             xmlns:dd="clr-namespace:WiCAM.Pn4000.PN3D.BendSimulation.Configuration.UI;assembly=WiCAM.Pn4000.PN3D" 
+             xmlns:local="clr-namespace:WiCAM.Pn4000.PN3D.Popup.View;assembly=WiCAM.Pn4000.PN3D" 
+             xmlns:conv="clr-namespace:BendDataBase.WiCAM.Pn4000.pn4.Sym3D.BendSimulation.Converter;assembly=BendDataBase" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+             xmlns:ui="clr-namespace:WiCAM.Pn4000.PN3D.BendSimulation.Configuration.UI;assembly=WiCAM.Pn4000.PN3D" 
+             x:Name="uc" xmlns:settings="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralSubWindow.Settings">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <BooleanToVisibilityConverter x:Key="B2V" />
+      <conv:NumberToStringConverter x:Key="N2S" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <TabControl>
+    <TabItem Header="{DynamicResource l_popup.PopupUnfoldSetting.ValiTabIntrinsic}">
+      <Grid IsSharedSizeScope="True">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="5" />
+          <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
+        <ListView Grid.Column="0" ItemsSource="{Binding IntrinsicTests}" SelectedItem="{Binding SelectedIntrinsicTest}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal">
+                <CheckBox Style="{DynamicResource PnPopupCheckBox}" IsChecked="{Binding IsActive}" />
+                <TextBlock VerticalAlignment="Center" Text="{Binding DescShort}" />
+              </StackPanel>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ListView>
+        <Grid Column="2" Visibility="{Binding VisibilityIntrinsicDetails}">
+          <DockPanel DataContext="{Binding SelectedIntrinsicTest}">
+            <CheckBox DockPanel.Dock="Top" Style="{DynamicResource PnPopupCheckBox}" IsChecked="{Binding IsActive}" Content="{Binding DescShort}" />
+            <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Text="{Binding DescLong}" />
+            <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Parameters}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Grid ToolTip="{Binding DescLong}">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition SharedSizeGroup="descShort" Width="Auto" />
+                      <ColumnDefinition SharedSizeGroup="symbol" Width="Auto" />
+                      <ColumnDefinition SharedSizeGroup="value" Width="Auto" />
+                      <ColumnDefinition SharedSizeGroup="suffix" Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" HorizontalContentAlignment="Right" Content="{Binding DescShort}" />
+                    <Label Grid.Column="1" HorizontalContentAlignment="Right" Content="{Binding Symbol}" />
+                    <TextBox Grid.Column="2" VerticalContentAlignment="Center" MinWidth="50" Style="{DynamicResource PnPopupTextBoxStyle}" Text="{Binding Value, Converter={StaticResource N2S}}" />
+                    <Label Grid.Column="3" Content="{Binding DescSuffix}" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Image Source="{Binding Image}" />
+          </DockPanel>
+        </Grid>
+        <TextBlock Grid.Column="2" Text="{DynamicResource l_popup.PopupUnfoldSetting.ValiIntrinsicHelp}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Visibility="{Binding VisibilityIntrinsicDetailsHint}" />
+      </Grid>
+    </TabItem>
+    <TabItem Header="{DynamicResource l_popup.PopupUnfoldSetting.ValiTabGroups}">
+      <Grid IsSharedSizeScope="True">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="5" />
+          <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock FontSize="15" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0" Text="{DynamicResource l_popup.PopupUnfoldSetting.ValiGroupTitle}" />
+              <Button Padding="5,0" Style="{DynamicResource PnPopupOptionButton}" ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.ValiGroupNew}" Command="{Binding CmdAddNewGroup}">
+                <controls:RadGlyph xmlns:controls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" controls:RadGlyph.Glyph="" controls:RadGlyph.Foreground="#FF000000" controls:RadGlyph.FontSize="16" />
+              </Button>
+            </StackPanel>
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding ValiGroups}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0" AllowDrop="True">
+                      <Button Padding="5,0" IsTabStop="False" Command="{Binding ElementName=uc, Path=DataContext.CmdDeleteGroup}" CommandParameter="{Binding}">
+                        <RadGlyph p23:RadGlyph.Glyph="" p23:RadGlyph.Foreground="#FF000000" p23:RadGlyph.FontSize="16" xmlns:p23="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+                      </Button>
+                      <TextBox MinWidth="100" Text="{Binding Desc}" />
+                    </StackPanel>
+                    <ui:DragDropList IsDragSource="True" IsDropTarget="True" AllowDrop="True" MinHeight="15" Margin="30,0,0,0" ItemsSource="{Binding Macros}" DragSourceCanDragItem="{Binding DragSourceCanDragItem}" />
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </Grid>
+        </ScrollViewer>
+        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+          <ui:DragDropList IsDropTarget="True" IsDragSource="True" AllowDrop="True" ItemsSource="{Binding UnassignedMacros}" />
+        </ScrollViewer>
+      </Grid>
+    </TabItem>
+    <TabItem Header="{DynamicResource l_popup.PopupUnfoldSetting.ValiTabDistances}">
+      <DockPanel>
+        <Grid DockPanel.Dock="Top">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel Grid.Column="0" Orientation="Horizontal">
+            <TextBlock Margin="10,0" Text="{DynamicResource l_popup.PopupUnfoldSetting.ValiDistanceOf}" />
+            <ComboBox MinWidth="100" DisplayMemberPath="Desc" ItemsSource="{Binding ValiGroups}" SelectedItem="{Binding SelectedGroup}" />
+            <TextBlock Margin="10,0" Text="{DynamicResource l_popup.PopupUnfoldSetting.ValiDistanceTo}" />
+          </StackPanel>
+          <StackPanel Grid.Column="2" Orientation="Horizontal" Visibility="{Binding VisibilityDistBending}">
+            <TextBlock>alpha:</TextBlock>
+            <TextBox MinWidth="30" Text="{Binding ValiDistBendingAlpha, Converter={StaticResource N2S}}" />
+            <TextBlock>°</TextBlock>
+          </StackPanel>
+        </Grid>
+        <DataGrid CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" ItemsSource="{Binding SelectedGroup.Params}">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.ValiGroup}" IsReadOnly="True" Binding="{Binding Target.Desc}" />
+            <DataGridTemplateColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.ValiActive}">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <CheckBox HorizontalAlignment="Center" IsChecked="{Binding Active}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTextColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.ValiThickness}" Binding="{Binding Thickness, Converter={StaticResource N2S}}" />
+            <DataGridTextColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.ValiConst}" Binding="{Binding Const, Converter={StaticResource N2S}}" />
+            <DataGridTextColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.ValiConstMin}" Binding="{Binding ConstMin, Converter={StaticResource N2S}}" />
+            <DataGridTextColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.ValiConstMax}" Binding="{Binding ConstMax, Converter={StaticResource N2S}}" />
+            <DataGridTextColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.ValiR}" Binding="{Binding RadiusConcaveBending, Converter={StaticResource N2S}}" />
+          </DataGrid.Columns>
+        </DataGrid>
+      </DockPanel>
+    </TabItem>
+    <TabItem Header="{DynamicResource l_popup.PopupUnfoldSetting.ValiTabHelp}">
+      <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel>
+          <TextBlock TextWrapping="Wrap" Text="{DynamicResource l_popup.PopupUnfoldSetting.ValiHelp1}" />
+          <Image MaxWidth="200" Source="{Binding ImageDistanceAll}" />
+          <TextBlock TextWrapping="Wrap" Text="{DynamicResource l_popup.PopupUnfoldSetting.ValiHelp2}" />
+          <Image MaxWidth="400" Source="{Binding ImageDistanceBendingAll}" />
+          <TextBlock TextWrapping="Wrap" Text="{DynamicResource l_popup.PopupUnfoldSetting.ValiHelp3}" />
+          <Image MaxWidth="400" Source="{Binding ImageDistanceBendingEdge}" />
+          <TextBlock TextWrapping="Wrap" Text="{DynamicResource l_popup.PopupUnfoldSetting.ValiHelp4}" />
+        </StackPanel>
+      </ScrollViewer>
+    </TabItem>
+  </TabControl>
+</UserControl>

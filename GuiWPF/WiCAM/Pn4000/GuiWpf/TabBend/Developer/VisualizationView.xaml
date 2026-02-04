@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.Developer.VisualizationView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.Developer" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+  <Grid>
+    <Grid Visibility="{Binding LogDetailEnumerableVisibility}">
+      <telerik:RadGridView ItemsSource="{Binding LogDetailEnumerable}" />
+    </Grid>
+    <Grid Visibility="{Binding LogDetailModelVisibility}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="1*" />
+      </Grid.RowDefinitions>
+      <Button Grid.Row="0" Command="{Binding CmdRefreshVisibility}">Refresh</Button>
+      <telerik:RadGridView Grid.Row="1" ItemsSource="{Binding LogDetailModel}">
+        <telerik:GridViewDataControl.Columns>
+          <telerik:GridViewCheckBoxColumn Header="eye" EditTriggers="CellClick" AutoSelectOnEdit="True" DataMemberBinding="{Binding Visible}" />
+          <telerik:GridViewDataColumn Header="Desc" DataMemberBinding="{Binding Name}" />
+        </telerik:GridViewDataControl.Columns>
+      </telerik:RadGridView>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application x:Class="WiCAM.Pn4000.JobManager.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager"  StartupUri="MainWindow.xaml">
+<Application x:Class="WiCAM.Pn4000.JobManager.App" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager"  
+             StartupUri="MainWindow.xaml" Startup="Application_Startup" Exit="Application_Exit">
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>

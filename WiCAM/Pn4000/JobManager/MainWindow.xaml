@@ -10,7 +10,7 @@
                      xmlns:tree="clr-namespace:WiCAM.Pn4000.WpfControls.ArchivesControl;assembly=WiCAM.Pn4000.Comon"
                        xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
                        xmlns:mdix="http://materialdesigninxaml.net/winfx/xaml/themes"  Icon="maus.ico"
-                      xmlns:controlsarchive="clr-namespace:WiCAM.Pn4000.ScreenD3D.Controls" 
+                      xmlns:controlsarchive="clr-namespace:WiCAM.Pn4000.ScreenD3D.Controls;assembly=WiCAM.Pn4000.ScreenD3D" 
                                           xmlns:consoleControl="clr-namespace:ConsoleControl.WPF;assembly=ConsoleControl.WPF"
                                                        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                                                                             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -117,16 +117,19 @@
                     <ribbon:RibbonButton Label="{DynamicResource DeleteFilter}" ToolTipTitle="{DynamicResource DeleteFilter}" ToolTipDescription="Key = DeleteFilter" SmallImageSource="maus.ico" LargeImageSource="maus.ico" Command="{Binding FilterDeleteCommand}" />
         </ribbon:RibbonGroup>
         <ribbon:RibbonGroup Header="{DynamicResource GroupJobListActions}">
-          <ribbon:RibbonButton Label="{DynamicResource ButtonDeleteProduced}" SmallImageSource="{StaticResource BitmapJobsDeleteProduced16}" LargeImageSource="{StaticResource BitmapJobsDeleteProduced32}" Command="{Binding DeleteProducedJobsCommand}" />
-          <ribbon:RibbonButton Label="{DynamicResource ButtonStoreProduced}" SmallImageSource="{StaticResource BitmapJobsSaveProduced16}" LargeImageSource="{StaticResource BitmapJobsSaveProduced32}" Command="{Binding SaveProducedJobsCommand}" />
-          <ribbon:RibbonButton Label="{DynamicResource ButtonReloadJobs}" Margin="0,0,15,0" SmallImageSource="{StaticResource BitmapActionReorder16}" LargeImageSource="{StaticResource BitmapActionReorder32}" Command="{Binding ReloadJobsCommand}" />
+          <ribbon:RibbonButton Label="{DynamicResource ButtonDeleteProduced}" SmallImageSource="{StaticResource BitmapJobsDeleteProduced16}" 
+                               LargeImageSource="{StaticResource BitmapJobsDeleteProduced32}" Command="{Binding DeleteProducedJobsCommand}" />
+          <ribbon:RibbonButton Label="{DynamicResource ButtonStoreProduced}" SmallImageSource="{StaticResource BitmapJobsSaveProduced16}" 
+                               LargeImageSource="{StaticResource BitmapJobsSaveProduced32}" Command="{Binding SaveProducedJobsCommand}" />
+          <ribbon:RibbonButton Label="{DynamicResource ButtonReloadJobs}" Margin="0,0,15,0" SmallImageSource="{StaticResource BitmapActionReorder16}"
+                               LargeImageSource="{StaticResource BitmapActionReorder32}" Command="{Binding ReloadJobsCommand}" />
                     <ribbon:RibbonButton Label="{DynamicResource ButtonReloadWithFinishedJobs}" Margin="0,0,15,0"
  SmallImageSource="{StaticResource BitmapActionReorder16}"
  LargeImageSource="{StaticResource BitmapActionReorder32}" Command="{Binding ReloadWithFinishedJobsCommand}"/>
                 </ribbon:RibbonGroup>
         <ribbon:RibbonGroup Header="{DynamicResource GroupJobActions}">
           <ribbon:RibbonButton Label="{DynamicResource ButtonProduce}" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapJobProduce16}" LargeImageSource="{StaticResource BitmapJobProduce32}" Command="{Binding ProduceJobCommand}" />
-          <ribbon:RibbonButton Label="{DynamicResource ButtonJobDelete}" Margin="0,0,15,0" SmallImageSource="{StaticResource BitmapJobDelete16}" LargeImageSource="{StaticResource BitmapJobDelete32}" Command="{Binding DeleteJobCommand}" />
+                    <ribbon:RibbonButton Label="{DynamicResource ButtonJobDelete}" Margin="0,0,15,0" SmallImageSource="{StaticResource BitmapJobDelete16}" LargeImageSource="{StaticResource BitmapJobDelete32}" Command="{Binding DeleteJobCommand}" x:Name="deleteJobButton" />
           <ribbon:RibbonButton Label="{DynamicResource ButtonPrintLabel}" Margin="0,0,15,0" SmallImageSource="{StaticResource BitmapPrintLabel32}" LargeImageSource="{StaticResource BitmapPrintLabel32}" Command="{Binding PrintJobLabelsCommand}" />
         </ribbon:RibbonGroup>
         <ribbon:RibbonGroup Header="{DynamicResource GroupPlateActions}">
@@ -155,7 +158,17 @@
             <TextBox Name="txtBarcodePlate" Grid.Column="1" Grid.Row="2" FontSize="18" Margin="10,0,0,0" />
           </Grid>
         </ribbon:RibbonGroup>
-      </ribbon:RibbonTab>
+                <ribbon:RibbonGroup Header="Export">
+                    <ribbon:RibbonButton Label="Export to Excel" Margin="15,0,0,0" 
+                                 SmallImageSource="{StaticResource BitmapExport32}" 
+                                 LargeImageSource="{StaticResource BitmapExport32}" Command="{Binding ExportCommand}" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="Freigabe">
+                    <ribbon:RibbonButton Label="Freigabe loeschen" Margin="15,0,0,0" 
+                  SmallImageSource="{StaticResource BitmapPlateProduce32}" 
+                  LargeImageSource="{StaticResource BitmapPlateProduce32}" Command="{Binding FreigabeLoeschenCommand}" IsEnabled="True"/>
+                </ribbon:RibbonGroup>
+            </ribbon:RibbonTab>
       <ribbon:RibbonTab Name="ribbonTab04" Header="{DynamicResource PlateInfo}">
         <ribbon:RibbonGroup Header="{DynamicResource Filter}">
           <local:FilterControl x:Name="filterControlPlates" />
@@ -189,8 +202,14 @@
           <ribbon:RibbonButton Label="{DynamicResource ButtonSave}" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapSave16}" LargeImageSource="{StaticResource BitmapSave32}" Command="{Binding SaveSettingsCommand}" />
         </ribbon:RibbonGroup>
       </ribbon:RibbonTab>
-        
+
             <ribbon:RibbonTab x:Name="ribbonTab5" Header="MaterialPool" >
+                <ribbon:RibbonGroup Header="Material Import">
+                    <ribbon:RibbonToggleButton Label="Import from PDF" Margin="0,0,15,0"
+                                               SmallImageSource="{StaticResource BitmapWKZaendern}"
+                                               LargeImageSource="{StaticResource BitmapWKZaendern}" 
+                                               Command="{Binding ReadPDFCommand}" />
+                </ribbon:RibbonGroup>
             </ribbon:RibbonTab>
             <ribbon:RibbonTab x:Name="ribbonTab05" Header="NCArchiv" >
             </ribbon:RibbonTab>
@@ -321,6 +340,7 @@
                     <ribbon:RibbonToggleButton x:Name="xCADdelete" Label="{DynamicResource ButtonCADdelete}" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapCADdelete}" LargeImageSource="{StaticResource BitmapCADdelete}" Command="{Binding CADdeleteCommand}" />
                 </ribbon:RibbonGroup>
                 <ribbon:RibbonGroup Header="{DynamicResource NCactions}">
+                    <ribbon:RibbonToggleButton x:Name="xHuelle" Label="HuelleNeu" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapGravur}"  LargeImageSource="{StaticResource BitmapGravur}" Command="{Binding HuelleNeuCommand}" />
                     <ribbon:RibbonToggleButton x:Name="xGravur" Label="{DynamicResource ButtonGravur}" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapGravur}"  LargeImageSource="{StaticResource BitmapGravur}" Command="{Binding GravurCommand}" />
                     <ribbon:RibbonToggleButton  x:Name="xStanzenInnen"  Label="{DynamicResource ButtonStanzenInnen}" Margin="5,0,0,0" SmallImageSource="{StaticResource BitmapStanzenInnen}" LargeImageSource="{StaticResource BitmapStanzenInnen}" Command="{Binding StanzenInnenCommand}" />
                     <ribbon:RibbonToggleButton x:Name="xKonturAussen"  Label="{DynamicResource ButtonKonturAussen}" Margin="5,0,0,0" SmallImageSource="{StaticResource BitmapKonturAussen}"  LargeImageSource="{StaticResource BitmapKonturAussen}" Command="{Binding KonturAussenCommand}" />
@@ -509,6 +529,52 @@
                     <ribbon:RibbonToggleButton x:Name="xPopUpCheck" Label="ReadPopUps" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapYrichten}" LargeImageSource="{StaticResource BitmapYrichten}" Command="{Binding ReadPopUpsCommand}"  />
 
                 </ribbon:RibbonGroup>
+            </ribbon:RibbonTab>
+            <ribbon:RibbonTab x:Name="ribbonTab10" Header="PNpartToolz">
+                <ribbon:RibbonGroup Header="{DynamicResource Filter}">
+                    <ribbon:RibbonButton Label="{DynamicResource DeleteFilter}" SmallImageSource="{StaticResource BitmapFilterDelete16}" LargeImageSource="{StaticResource BitmapFilterDelete32}" Command="{Binding FilterDeleteCommand}" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="PartWkz">
+                    <ribbon:RibbonToggleButton x:Name="xPW1" Label="PartWkz1" Margin="15,0,0,0" 
+                                               SmallImageSource="{StaticResource BitmapLage}" 
+                                               LargeImageSource="{StaticResource BitmapLage}" 
+                                               Command="{Binding PartEditCmd1}"  />
+                    <ribbon:RibbonTextBox Text="15" x:Name="xPW1from"></ribbon:RibbonTextBox>
+                    <ribbon:RibbonTextBox Text="30" x:Name="xPW1to"></ribbon:RibbonTextBox>
+                    <ribbon:RibbonToggleButton x:Name="xPW2" Label="PNdrive" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapXrichten}" LargeImageSource="{StaticResource BitmapXrichten}" Command="{Binding PNdriveCommand}"  />
+                    <ribbon:RibbonToggleButton x:Name="xMessen" Label="Messen" Margin="15,0,15,0" 
+                                               SmallImageSource="{StaticResource BitmapYrichten}" 
+                                               LargeImageSource="{StaticResource BitmapYrichten}" 
+                                               Command="{Binding MessenCommand}"  />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="DXFtools">
+                    <ribbon:RibbonToggleButton x:Name="xDXFtextEdit" Label="TextAnpassen" Margin="15,0,15,0" 
+                               SmallImageSource="{StaticResource BitmapYrichten}" 
+                               LargeImageSource="{StaticResource BitmapYrichten}" 
+                               Command="{Binding DXFtxtAnpassenCommand}"  />
+                </ribbon:RibbonGroup>
+
+            </ribbon:RibbonTab>
+
+            <ribbon:RibbonTab x:Name="ribbonTab11" Header="ProduktionsPlan">
+                <ribbon:RibbonGroup Header="{DynamicResource Filter}">
+                    <ribbon:RibbonButton Label="{DynamicResource DeleteFilter}" SmallImageSource="{StaticResource BitmapFilterDelete16}" LargeImageSource="{StaticResource BitmapFilterDelete32}" Command="{Binding FilterDeleteCommand}" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="ProduktionsEdit">
+                    <ribbon:RibbonToggleButton x:Name="xProduktionsPlanRead" Label="ProduktionsPlanRead" Margin="15,0,0,0" 
+                                           SmallImageSource="{StaticResource BitmapLage}" 
+                                           LargeImageSource="{StaticResource BitmapLage}" 
+                                           Command="{Binding ProduktionsPlanReadCmd}"  />
+                    <ribbon:RibbonCheckBox x:Name="xFilterVerpackt" Label="Filter Verpackt" Margin="15,0,0,0" 
+                          SmallImageSource="{StaticResource BitmapLage}" 
+                          LargeImageSource="{StaticResource BitmapLage}" 
+                          Command="{Binding FilterVerpacktCmd}"  />
+                    <ribbon:RibbonCheckBox x:Name="xFilterBiegen" Label="Filter Biegen" Margin="15,0,0,0" 
+      SmallImageSource="{StaticResource BitmapLage}" 
+      LargeImageSource="{StaticResource BitmapLage}" 
+      Command="{Binding FilterBiegenCmd}"  />
+                </ribbon:RibbonGroup>
+
             </ribbon:RibbonTab>
         </ribbon:Ribbon>
       
@@ -700,14 +766,17 @@ IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
                             <CheckBox Grid.Row="0" Grid.Column="1" Content="{DynamicResource PLATE_FAVOURITE}" IsChecked="{Binding IsBevorzugtSelected}" />
                         </Grid>
                     </Grid>
+                
                     <DataGrid Name="gridData" Grid.Row="1" IsSynchronizedWithCurrentItem="True" CanUserResizeRows="False" Margin="3,0,3,3" MinRowHeight="19" CanUserDeleteRows="False" 
                               IsReadOnly="True" ClipboardCopyMode="IncludeHeader" Background="#FFF0F0F0" RowDetailsVisibilityMode="Collapsed" CanUserAddRows="False" 
                               CellStyle="{StaticResource StyleDataGridCellSelected}" ItemsSource="{Binding MaterialsCollection}" SelectedItem="{Binding SelectedMaterial}">
+                        
                         <DataGrid.InputBindings>
                             <MouseBinding Gesture="RightClick" Command="{Binding OkCommand}" />
                             <MouseBinding Gesture="LeftDoubleClick" Command="{Binding EditCommand}" />
                         </DataGrid.InputBindings>
                     </DataGrid>
+                    
                     <Grid Grid.Row="2" Margin="5,0,5,0" Background="{Binding DeletedColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -847,5 +916,21 @@ IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
 
 
         </Grid>
+        <Grid x:Name="gridPNpartEdit"  Visibility="Hidden" Grid.Row="1" Grid.Column="0">
+
+            <local:PartEditControl x:Name="partEditControl"/>
+
+
+        </Grid>
+
+        <Grid x:Name="gridProduktionsPlan"  Visibility="Hidden" Grid.Row="1" Grid.Column="0">
+
+            <local:ProduktionsPlanEditControl x:Name="produktionsPlanEditControl"/>
+
+
+        </Grid>
+     
+
+
     </Grid>
 </ribbon:RibbonWindow>

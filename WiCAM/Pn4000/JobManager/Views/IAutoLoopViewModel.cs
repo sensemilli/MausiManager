@@ -31,6 +31,8 @@ namespace WiCAM.Pn4000.JobManager
         public ICommand GleicheDCommand { get; }
         public ICommand CADdeleteCommand { get; }
         public ICommand GravurCommand { get; }
+        public ICommand HuelleNeuCommand { get; }
+ 
         public ICommand StanzenInnenCommand { get; }
         public ICommand KonturAussenCommand { get; }
         public ICommand FlaecheAussenCommand { get; }

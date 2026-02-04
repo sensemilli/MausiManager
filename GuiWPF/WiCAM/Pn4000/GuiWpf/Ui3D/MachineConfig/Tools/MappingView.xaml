@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.Tools.MappingView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:viewModels="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.Tools.ToolViewModels" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:gridView="clr-namespace:WiCAM.Pn4000.WpfControls.GridView;assembly=WiCAM.Pn4000.WpfControls" Background="#00FFFFFF" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" xmlns:tools="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.Tools">
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="0.8" />
+    </Border.Background>
+    <TabControl>
+      <TabItem Header="{DynamicResource l_popup.PopupMachineConfig.MaterialsTab}">
+        <gridView:PnGridViewContainer ShowExport="True">
+          <gridView:PnGridViewContainer.GridView>
+            <telerik:RadGridView ShowColumnFooters="True" GroupRenderMode="Flat" CanUserInsertRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" ItemsSource="{Binding MaterialMappings}">
+              <telerik:GridViewDataControl.Columns>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.MaterialsView.PPID}" DataMemberBinding="{Binding PpId}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:CountFunction Caption="Anzahl " />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.MaterialsView.PPIdentifier}" DataMemberBinding="{Binding PpName}" />
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.MaterialsView.MaterialID}" IsReadOnly="True" DataMemberBinding="{Binding Profile.Id}" />
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.MaterialsView.MaterialName}" IsReadOnly="True" DataMemberBinding="{Binding Profile.Desc}" />
+              </telerik:GridViewDataControl.Columns>
+            </telerik:RadGridView>
+          </gridView:PnGridViewContainer.GridView>
+        </gridView:PnGridViewContainer>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.MappingView.MultiToolMappingeHeader}">
+        <gridView:PnGridViewContainer ShowExport="True">
+          <gridView:PnGridViewContainer.GridView>
+            <telerik:RadGridView ShowColumnFooters="True" GroupRenderMode="Flat" NewRowPosition="Top" AutoGenerateColumns="False" ItemsSource="{Binding MultiToolMappings}" PastingCellClipboardContent="ToolMappings_OnPastingCellClipboardContent">
+              <telerik:GridViewDataControl.Columns>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.MappingView.PPidentifier}" DataMemberBinding="{Binding PpName}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:CountFunction Caption="Anzahl " />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Name="MultiToolIdColumn" Header="{DynamicResource l_popup.MappingView.MultiToolId}" DataMemberBinding="{Binding Profile.Id, Mode=OneWay}">
+                  <telerik:GridViewColumn.CellEditTemplate>
+                    <DataTemplate>
+                      <telerik:RadAutoCompleteBox SelectionMode="Single" DisplayMemberPath="Id" WatermarkContent="{DynamicResource l_popup.Watermark}" TextSearchMode="Contains" AutoCompleteMode="SuggestAppend" NoResultsContent="{DynamicResource l_popup.NoResults}" ItemsSource="{Binding DataContext.FilteredMultiTools, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" SelectedItem="{Binding Profile, Mode=TwoWay}" />
+                    </DataTemplate>
+                  </telerik:GridViewColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Name="MultiToolNameColumn" Header="{DynamicResource l_popup.MappingView.MultiToolName}" DataMemberBinding="{Binding Profile.Desc, Mode=OneWay}">
+                  <telerik:GridViewColumn.CellEditTemplate>
+                    <DataTemplate>
+                      <telerik:RadAutoCompleteBox SelectionMode="Single" DisplayMemberPath="Desc" WatermarkContent="{DynamicResource l_popup.Watermark}" TextSearchMode="Contains" AutoCompleteMode="SuggestAppend" NoResultsContent="{DynamicResource l_popup.NoResults}" ItemsSource="{Binding DataContext.FilteredMultiTools, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" SelectedItem="{Binding Profile, Mode=TwoWay}" />
+                    </DataTemplate>
+                  </telerik:GridViewColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
+              </telerik:GridViewDataControl.Columns>
+            </telerik:RadGridView>
+          </gridView:PnGridViewContainer.GridView>
+        </gridView:PnGridViewContainer>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.MappingView.ToolMappingeHeader}">
+        <gridView:PnGridViewContainer ShowExport="True">
+          <gridView:PnGridViewContainer.GridView>
+            <telerik:RadGridView ShowColumnFooters="True" GroupRenderMode="Flat" NewRowPosition="Top" AutoGenerateColumns="False" ItemsSource="{Binding ToolMappings}" PastingCellClipboardContent="ToolMappings_OnPastingCellClipboardContent">
+              <telerik:GridViewDataControl.Columns>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.MappingView.PPidentifier}" DataMemberBinding="{Binding PpName}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:CountFunction Caption="Anzahl " />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Name="ToolIdColumn" Header="{DynamicResource l_popup.MappingView.ToolId}" DataMemberBinding="{Binding Profile.Id, Mode=OneWay}">
+                  <telerik:GridViewColumn.CellEditTemplate>
+                    <DataTemplate>
+                      <telerik:RadAutoCompleteBox SelectionMode="Single" DisplayMemberPath="Id" WatermarkContent="{DynamicResource l_popup.Watermark}" TextSearchMode="Contains" AutoCompleteMode="SuggestAppend" NoResultsContent="{DynamicResource l_popup.NoResults}" ItemsSource="{Binding DataContext.FilteredTools, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" SelectedItem="{Binding Profile, Mode=TwoWay}" />
+                    </DataTemplate>
+                  </telerik:GridViewColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Name="ToolNameColumn" Header="{DynamicResource l_popup.MappingView.ToolName}" DataMemberBinding="{Binding Profile.Desc, Mode=OneWay}">
+                  <telerik:GridViewColumn.CellEditTemplate>
+                    <DataTemplate>
+                      <telerik:RadAutoCompleteBox SelectionMode="Single" DisplayMemberPath="Desc" WatermarkContent="{DynamicResource l_popup.Watermark}" TextSearchMode="Contains" AutoCompleteMode="SuggestAppend" NoResultsContent="{DynamicResource l_popup.NoResults}" ItemsSource="{Binding DataContext.FilteredTools, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" SelectedItem="{Binding Profile, Mode=TwoWay}" />
+                    </DataTemplate>
+                  </telerik:GridViewColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
+              </telerik:GridViewDataControl.Columns>
+            </telerik:RadGridView>
+          </gridView:PnGridViewContainer.GridView>
+        </gridView:PnGridViewContainer>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.MappingView.MountIdMappingHeader}">
+        <gridView:PnGridViewContainer ShowExport="True">
+          <gridView:PnGridViewContainer.GridView>
+            <telerik:RadGridView ShowColumnFooters="True" GroupRenderMode="Flat" NewRowPosition="Top" AutoGenerateColumns="False" ItemsSource="{Binding MountIdMappings}" PastingCellClipboardContent="MountIdMappings_OnPastingCellClipboardContent">
+              <telerik:GridViewDataControl.Columns>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.MappingView.PPidentifier}" DataMemberBinding="{Binding PpName}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:CountFunction Caption="Anzahl " />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Name="MountIdColumn" Header="{DynamicResource l_popup.MappingView.MountId}" DataMemberBinding="{Binding Profile.Id}">
+                  <telerik:GridViewColumn.CellEditTemplate>
+                    <DataTemplate>
+                      <telerik:RadAutoCompleteBox SelectionMode="Single" DisplayMemberPath="Id" WatermarkContent="{DynamicResource l_popup.Watermark}" TextSearchMode="Contains" AutoCompleteMode="SuggestAppend" NoResultsContent="{DynamicResource l_popup.NoResults}" ItemsSource="{Binding DataContext.FilteredMountIds, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" SelectedItem="{Binding Profile, Mode=TwoWay}" />
+                    </DataTemplate>
+                  </telerik:GridViewColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
+              </telerik:GridViewDataControl.Columns>
+            </telerik:RadGridView>
+          </gridView:PnGridViewContainer.GridView>
+        </gridView:PnGridViewContainer>
+      </TabItem>
+    </TabControl>
+  </Border>
+</UserControl>

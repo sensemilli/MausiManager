@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.SequenceList.BendSequenceListViewOld" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:ui="clr-namespace:WiCAM.Pn4000.PN3D.BendSimulation.Configuration.UI;assembly=WiCAM.Pn4000.PN3D" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.SequenceList" Background="#00FFFFFF">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <BooleanToVisibilityConverter x:Key="B2V" />
+      <Style x:Key="CommonBendStyle" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+              <Border Name="Bd" BorderThickness="3" CornerRadius="5" Margin="2,1,2,1" BorderBrush="{Binding Color}" MouseEnter="Bd_OnMouseEnter" MouseLeave="Bd_OnMouseLeave" MouseRightButtonUp="Bd_OnMouseRightButtonUp">
+                <Border.Background>
+                  <SolidColorBrush Color="White" Opacity="0.7" />
+                </Border.Background>
+                <Grid Background="#00FFFFFF">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <Label Grid.Column="0" BorderThickness="2" BorderBrush="#FF000000" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="{Binding OrderUi}" Background="{Binding Color}" />
+                  <Label Grid.Column="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Content="{Binding MainBendLabel}" />
+                </Grid>
+              </Border>
+              <ControlTemplate.Triggers>
+                <Trigger Property="ListBoxItem.IsSelected" Value="true">
+                  <Setter TargetName="Bd" Property="Border.Background" Value="#FFADD8E6" />
+                </Trigger>
+                <MultiTrigger>
+                  <MultiTrigger.Conditions>
+                    <Condition Property="ListBoxItem.IsSelected" Value="true" />
+                  </MultiTrigger.Conditions>
+                  <Setter TargetName="Bd" Property="Border.Background" Value="#FFADD8E6" />
+                </MultiTrigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+        <Setter Property="UIElement.Opacity" Value="1" />
+        <Style.Triggers>
+          <DataTrigger Value="False" Binding="{Binding CommonBendFace.IsIncluded}">
+            <Setter Property="UIElement.Opacity" Value="0.6" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <DataTemplate x:Key="DragTemplate">
+        <FrameworkTemplate.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type Image}" TargetType="{x:Type Image}">
+              <Setter Property="Width" Value="50" />
+              <Setter Property="Height" Value="50" />
+              <Setter Property="Margin" Value="5" />
+            </Style>
+          </ResourceDictionary>
+        </FrameworkTemplate.Resources>
+        <ListBoxItem Style="{StaticResource CommonBendStyle}" />
+      </DataTemplate>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="0.5" />
+    </Border.Background>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <CheckBox Style="{StaticResource PropertyPanelSectionLabelStyle}" Content="{DynamicResource l_popup.PopupBendSequence.Title}" IsEnabled="{Binding Enabled}" IsChecked="{Binding Expanded}" />
+      <ui:DragDropList Name="BendList" Grid.Row="1" BorderBrush="#00FFFFFF" IsDropTarget="True" IsDragSource="True" DragDropTemplate="{StaticResource DragTemplate}" ItemContainerStyle="{StaticResource CommonBendStyle}" Background="#00FFFFFF" Margin="5,0,5,5" ScrollViewer.VerticalScrollBarVisibility="Auto" Visibility="{Binding Expanded, Converter={StaticResource B2V}}" OrderChangedCommand="{Binding OrderChangedCommand}" ItemsSource="{Binding CommonBendFaces, BindsDirectlyToSource=True}" SelectedItem="{Binding SelectedCommonBendFace}" />
+      <Grid Row="0" Column="1" RowSpan="2" Visibility="{Binding AutoSortVisibility}">
+        <StackPanel Name="AutoSort" DataContext="{Binding SortVm}">
+          <ComboBox Name="AutoSortNewItem" DisplayMemberPath="Description" ItemsSource="{Binding AutoSortListTranslation}" SelectedItem="{Binding SelectedNewTranslation}">
+            <FrameworkElement.ToolTip>
+              <TextBlock Text="{Binding SelectedNewTranslation.DescriptionLong}" />
+            </FrameworkElement.ToolTip>
+            <ItemsControl.ItemContainerStyle>
+              <Style TargetType="{x:Type ComboBoxItem}">
+                <Setter Property="FrameworkElement.ToolTip" Value="{Binding DescriptionLong}" />
+              </Style>
+            </ItemsControl.ItemContainerStyle>
+          </ComboBox>
+          <Button Content="{DynamicResource BendView.BendSequenceView.AutoAddItem}" ToolTip="{DynamicResource BendView.BendSequenceView.AutoAddItemTt}" Style="{DynamicResource PnPopupOptionButton}" Margin="0" Command="{Binding CmdAutoSortAdd}" />
+          <CheckBox Content="{DynamicResource BendView.BendSequenceView.UseGroupParallels}" IsChecked="{Binding GroupParallesInAutoSort}" />
+          <ListView ItemsSource="{Binding AutoSortList}">
+            <ItemsControl.ItemContainerStyle>
+              <Style TargetType="{x:Type ListViewItem}">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+              </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Grid>
+                  <DockPanel>
+                    <Button DockPanel.Dock="Right" MinWidth="15" Style="{DynamicResource PnPopupOptionButton}" Margin="0" CommandParameter="{Binding}" Command="{Binding ElementName=AutoSort, Path=DataContext.CmdDeleteItem}">x</Button>
+                    <ComboBox DisplayMemberPath="Description" SelectedValuePath="SortType" HorizontalAlignment="Stretch" ItemsSource="{Binding ElementName=AutoSort, Path=DataContext.AutoSortListTranslation}" SelectedValue="{Binding SortType}">
+                      <FrameworkElement.ToolTip>
+                        <TextBlock Text="{Binding DescriptionLong}" />
+                      </FrameworkElement.ToolTip>
+                      <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="{x:Type ComboBoxItem}">
+                          <Setter Property="FrameworkElement.ToolTip" Value="{Binding DescriptionLong}" />
+                        </Style>
+                      </ItemsControl.ItemContainerStyle>
+                    </ComboBox>
+                  </DockPanel>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ListView>
+          <Button Content="{DynamicResource BendView.BendSequenceView.AutoClearList}" Style="{DynamicResource PnPopupOptionButton}" Margin="0" Command="{Binding CmdAutoSortClear}" />
+          <Button Content="{DynamicResource BendView.BendSequenceView.AutoDoSort}" ToolTip="{DynamicResource BendView.BendSequenceView.AutoDoSortTt}" Style="{DynamicResource PnPopupOptionButton}" Margin="0" Command="{Binding CmdAutoSortDo}" />
+          <Button Content="{DynamicResource BendView.BendSequenceView.AutoDoSortDefault}" ToolTip="{DynamicResource BendView.BendSequenceView.AutoDoSortDefaultTt}" Style="{DynamicResource PnPopupOptionButton}" Margin="0" Command="{Binding CmdAutoSortDoDefault}" />
+          <Button Content="{DynamicResource BendView.BendSequenceView.StartNewBendSequence}" ToolTip="{DynamicResource BendView.BendSequenceView.StartNewBendSequenceTt}" Style="{DynamicResource PnPopupOptionButton}" Margin="0" Command="{Binding CmdStartNewBendSequence}" />
+        </StackPanel>
+      </Grid>
+      <Grid Row="2" Column="0" ColumnSpan="2" Visibility="{Binding AutoSortVisibility}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" Content="{DynamicResource BendView.BendSequenceView.AcceptChanges}" Style="{DynamicResource PnPopupOptionButton}" Margin="8,-5,0,5" Command="{Binding SortVm.CmdSequenceSave}" />
+        <Button Grid.Column="1" Content="{DynamicResource BendView.BendSequenceView.DiscardChanges}" Style="{DynamicResource PnPopupOptionButton}" Margin="8,-5,0,5" Command="{Binding SortVm.CmdSequenceCancel}" />
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

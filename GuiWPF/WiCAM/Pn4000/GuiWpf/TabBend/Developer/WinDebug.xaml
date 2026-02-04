@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.GuiWpf.TabBend.Developer.WinDebug" x:ClassModifier="internal" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.Developer" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+        Title="WinDebug" Height="200" Width="320" Closing="WinDebug_OnClosing">
+  <telerik:RadDocking>
+    <telerik:RadDocking.DocumentHost>
+            <telerik:RadSplitContainer>
+                <telerik:RadPaneGroup>
+                    <telerik:RadPane Header="Edit Tools">
+            <DockPanel xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+              <CheckBox DockPanel.Dock="Top" Checked="TopMost_OnChecked" Unchecked="TopMost_OnUnchecked">TopMost</CheckBox>
+              <ContentControl Content="{Binding EditToolsView}" />
+            </DockPanel>
+          </telerik:RadPane>
+                    <telerik:RadPane Header="ResultLog">
+            <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1*" />
+              </Grid.RowDefinitions>
+              <telerik:RadButton Grid.Row="0" ButtonBase.Command="{Binding CmdRefreshLogList}">
+                                <telerik:RadGlyph  telerik:RadGlyph.Glyph="" telerik:RadGlyph.Foreground="#FF000000" telerik:RadGlyph.FontSize="20" />
+              </telerik:RadButton>
+              <telerik:RadTreeView Grid.Row="1" ItemsSource="{Binding LogSteps}">
+                <ItemsControl.ItemTemplate>
+                  <HierarchicalDataTemplate ItemsSource="{Binding SubSteps}">
+                                        <telerik:RadExpander telerik:AnimationManager.IsAnimationEnabled="False" HeaderedContentControl.Header="{Binding DescShort}" Initialized="LogStep_OnInitialized" />
+                  </HierarchicalDataTemplate>
+                </ItemsControl.ItemTemplate>
+              </telerik:RadTreeView>
+            </Grid>
+          </telerik:RadPane>
+                    <telerik:RadPane Header="LogDetails">
+            <telerik:RadPropertyGrid AutoExpandGroups="True" NestedPropertiesVisibility="Visible" SearchInNestedProperties="True" RenderMode="Hierarchical" Item="{Binding LogDetail}" AutoGeneratingPropertyDefinition="RadPropertyGrid_OnAutoGeneratingPropertyDefinition" />
+          </telerik:RadPane>
+          <telerik:RadPane Header="Visualization">
+            <local:VisualizationView />
+          </telerik:RadPane>
+        </telerik:RadPaneGroup>
+      </telerik:RadSplitContainer>
+    </telerik:RadDocking.DocumentHost>
+  </telerik:RadDocking>
+</Window>

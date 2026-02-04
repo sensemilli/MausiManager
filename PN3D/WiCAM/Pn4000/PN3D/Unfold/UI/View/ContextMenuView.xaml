@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<views:ScreenControlBaseView x:Class="WiCAM.Pn4000.PN3D.Unfold.UI.View.ContextMenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.PN3D.Unfold.UI.View" xmlns:views="clr-namespace:WiCAM.Pn4000.PN3D.BendSimulation.Configuration.Views" xmlns:viewModels="clr-namespace:WiCAM.Pn4000.PN3D.Unfold.UI.ViewModel" xmlns:popup="clr-namespace:WiCAM.Pn4000.Popup;assembly=WiCAM.Pn4000.Popup" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:enums="clr-namespace:WiCAM.Pn4000.PN3D.Enums" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:enums1="clr-namespace:WiCAM.Pn4000.Contracts.Assembly.Doc.Enums;assembly=WiCAM.Pn4000.Contracts" MouseEnter="UIElement_OnMouseEnter" MouseLeave="UIElement_OnMouseLeave" Background="#00FFFFFF" Opacity="{Binding Opacity}" Height="{Binding DataContext.Height}" Width="{Binding DataContext.Width}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ObjectDataProvider x:Key="liftingAidEnum" MethodName="GetValues" xmlns:system="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="enums1:LiftingAidEnum" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="{Binding DialogOpacity}" />
+    </Border.Background>
+    <Grid Margin="1">
+      <StackPanel Visibility="{Binding Visible}">
+        <Border Margin="2" Height="AUTO" BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+          <telerik:RadToggleSwitchButton CheckedContent="{DynamicResource l_popup.EditBendContextMenu.ForAllBends}" UncheckedContent="{Binding BendNumbersDescription}" IsChecked="{Binding ChangeForAllBends}" />
+        </Border>
+        <Border Margin="2" Height="AUTO" BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+          <Grid Height="AUTO">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width=".55*" />
+              <ColumnDefinition Width=".75*" />
+              <ColumnDefinition Width=".35*" />
+            </Grid.ColumnDefinitions>
+            <Label FontWeight="Bold" Margin="5,0,0,0" Content="{DynamicResource l_popup.EditBendContextMenu.Radius}" Style="{DynamicResource PnPopupLabelForTextBox}" />
+            <popup:TextBoxDouble Name="RadiusTextBox" Min="0.0" Style="{DynamicResource PnPopupTextBoxStyle}" Grid.Column="1" Text="{Binding Radius, UpdateSourceTrigger=PropertyChanged, FallbackValue=0.0}">
+              <UIElement.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding ChangeRadiusCommand}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type popup:TextBoxDouble}}}" />
+              </UIElement.InputBindings>
+            </popup:TextBoxDouble>
+            <Button Content="{DynamicResource l_popup.EditBendContextMenu.Edit}" Style="{DynamicResource PnPopupOptionButton}" Grid.Column="2" Command="{Binding ChangeRadiusCommand}" CommandParameter="{Binding ElementName=RadiusTextBox, Path=Text}" />
+          </Grid>
+        </Border>
+        <Border Margin="2" Height="AUTO" BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+          <Grid Height="AUTO">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="1*" />
+              <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width=".75*" />
+              <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Label FontWeight="Bold" Margin="5,0,0,0" Content="{DynamicResource l_popup.EditBendContextMenu.BendDeduction}" Style="{DynamicResource PnPopupLabelForTextBox}" />
+            <popup:TextBoxDouble Name="DeductionTextBox" Style="{DynamicResource PnPopupTextBoxStyle}" Grid.Column="1" Text="{Binding Deduction, UpdateSourceTrigger=PropertyChanged, FallbackValue=0.0}">
+              <UIElement.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding ChangeDeductionCommand}" CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type popup:TextBoxDouble}}}" />
+              </UIElement.InputBindings>
+            </popup:TextBoxDouble>
+            <Button Content="{DynamicResource l_popup.EditBendContextMenu.Edit}" Style="{DynamicResource PnPopupOptionButton}" Grid.Column="2" Command="{Binding ChangeDeductionCommand}" CommandParameter="{Binding ElementName=DeductionTextBox, Path=Text}" />
+          </Grid>
+        </Border>
+        <Border Margin="2" Height="AUTO" BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+          <Grid Height="AUTO">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1.5*" />
+              <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" FontWeight="Bold" Margin="5,0,0,0" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.EditBendContextMenu.PartTurned}" />
+            <CheckBox Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding PartTurned180Degree}" />
+          </Grid>
+        </Border>
+        <Border Margin="2" Height="AUTO" BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5" Visibility="{Binding SelectFrontLiftingAid}">
+          <Grid Height="AUTO">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="1*" />
+              <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="1.25*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" FontWeight="Bold" Margin="5,0,0,0" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.EditBendContextMenu.UseLeftFrontLiftingAid}" />
+            <Label Grid.Column="0" FontWeight="Bold" Margin="5,0,0,0" Grid.Row="1" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.EditBendContextMenu.UseRightFrontLiftingAid}" />
+            <ComboBox DisplayMemberPath="Name" SelectedValuePath="Value" Grid.Column="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5" Style="{StaticResource PnPopupComboBoxStyle}" SelectedValue="{Binding ActualLeftFrontLiftingAid}" ItemsSource="{Binding LiftingAidOptions}" />
+            <ComboBox DisplayMemberPath="Name" SelectedValuePath="Value" Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5" Style="{StaticResource PnPopupComboBoxStyle}" SelectedValue="{Binding ActualRightFrontLiftingAid}" ItemsSource="{Binding LiftingAidOptions}" />
+          </Grid>
+        </Border>
+        <Border Margin="2" Height="AUTO" BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5" Visibility="{Binding SelectBackLiftingAid}">
+          <Grid Height="AUTO">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="1*" />
+              <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="1.25*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" FontWeight="Bold" Margin="5,0,0,0" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.EditBendContextMenu.UseLeftBackLiftingAid}" />
+            <Label Grid.Column="0" FontWeight="Bold" Margin="5,0,0,0" Grid.Row="1" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.EditBendContextMenu.UseRightBackLiftingAid}" />
+            <ComboBox DisplayMemberPath="Name" SelectedValuePath="Value" Grid.Column="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5" Style="{StaticResource PnPopupComboBoxStyle}" SelectedValue="{Binding ActualLeftBackLiftingAid}" ItemsSource="{Binding LiftingAidOptions}" />
+            <ComboBox DisplayMemberPath="Name" SelectedValuePath="Value" Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5" Style="{StaticResource PnPopupComboBoxStyle}" SelectedValue="{Binding ActualRightBackLiftingAid}" ItemsSource="{Binding LiftingAidOptions}" />
+          </Grid>
+        </Border>
+        <Border Margin="2" Height="AUTO" BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5" Visibility="{Binding SelectAngleMeasurement}">
+          <Grid Height="AUTO">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="1.25*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" FontWeight="Bold" Margin="5,0,0,0" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.EditBendContextMenu.UseAngleMeasurment}" />
+            <CheckBox Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding UseAngleMeasurement}" />
+          </Grid>
+        </Border>
+        <Border Margin="2" Height="AUTO" BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5" Visibility="{Binding HiddenIfMultipleBends}">
+          <Grid Height="AUTO">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="1.25*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" FontWeight="Bold" Margin="5,0,0,0" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.EditBendContextMenu.Comment}" />
+            <TextBox Grid.Column="1" VerticalAlignment="Center" MaxWidth="200" MaxHeight="70" Height="Auto" MinHeight="22" AcceptsReturn="True" Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" />
+          </Grid>
+        </Border>
+        <Border Visibility="Collapsed" Margin="2" Height="AUTO" BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+          <Grid Height="AUTO">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="1.25*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" FontWeight="Bold" Margin="5,0,0,0" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.EditBendContextMenu.ReleasePointUser}" />
+            <telerik:RadWatermarkTextBox Grid.Column="1" VerticalAlignment="Center" WatermarkContent="auto" Text="{Binding ReleasePointUser}" />
+          </Grid>
+        </Border>
+        <Grid Height="AUTO">
+          <StackPanel>
+            <Button Content="{DynamicResource l_popup.EditBendContextMenu.CreateStepBend}" Style="{DynamicResource PnPopupOptionButton}" Command="{Binding CreateStepBendCommand}" Visibility="{Binding CreateStepBendVisibility}" />
+            <Button Content="{DynamicResource l_popup.EditBendContextMenu.EditStepBend}" Style="{DynamicResource PnPopupOptionButton}" Command="{Binding EditStepBendCommand}" Visibility="{Binding EditStepBendVisibility}" />
+          </StackPanel>
+        </Grid>
+        <ItemsControl Margin="3" ItemsSource="{Binding Items}" Visibility="{Binding HiddenIfMultipleBends}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Vertical" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <DataTemplate x:Key="{DataTemplateKey {x:Type viewModels:ContextMenuItemViewModel}}" DataType="{x:Type viewModels:ContextMenuItemViewModel}">
+                <local:ContextMenuItemView />
+              </DataTemplate>
+              <DataTemplate x:Key="{DataTemplateKey {x:Type viewModels:ContextMenuItemBendViewModel}}" DataType="{x:Type viewModels:ContextMenuItemBendViewModel}">
+                <local:ContextMenuItemBendView />
+              </DataTemplate>
+              <DataTemplate x:Key="{DataTemplateKey {x:Type viewModels:ContextMenuItemGoToStepViewModel}}" DataType="{x:Type viewModels:ContextMenuItemGoToStepViewModel}">
+                <local:ContextMenuItemGoToStepView />
+              </DataTemplate>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+        </ItemsControl>
+      </StackPanel>
+      <local:EditToolsAtSelectedBendView Canvas.Left="{Binding Left}" Canvas.Top="{Binding Top}" Width="{Binding Width}" Height="{Binding Height}" DataContext="{Binding SubMenuViewModel}" Visibility="{Binding Path=DataContext.EditToolsVisibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
+      <local:SplitAndCombineBendView Canvas.Left="{Binding Left}" Canvas.Top="{Binding Top}" Width="{Binding Width}" Height="{Binding Height}" DataContext="{Binding SubMenuViewModel}" Visibility="{Binding Path=DataContext.SplitBendVisibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
+    </Grid>
+  </Border>
+</views:ScreenControlBaseView>

@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.BendView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend" xmlns:sequenceList="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.SequenceList" xmlns:generalSubWindow="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralSubWindow" xmlns:controls="clr-namespace:WiCAM.Pn4000.WpfBasics.Controls;assembly=WiCAM.Pn4000.WpfBasics" xmlns:playScreen="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.PlayScreen" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:bendSequenceList="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.BendSequenceList" x:Name="TabBend" Visibility="{Binding Visible}" IsEnabled="{Binding IsEnabled}">
+  <Grid>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="3.5*" />
+        <RowDefinition Height="1*" />
+        <RowDefinition Height="AUTO" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Grid Row="0" Column="0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#5fff" VerticalAlignment="Top">
+          <StackPanel Orientation="Vertical">
+            <Expander ExpandDirection="Up" IsExpanded="{Binding BendSequenceExpanded}" Visibility="{Binding BendSequenceVisibility}">
+              <HeaderedContentControl.Header>
+                <StackPanel Margin="7,0,7,0" Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Visibility="{Binding SubmenuVisibility}">
+                  <controls1:RadToggleSwitchButton FrameworkElement.ToolTip="{DynamicResource l_popup.BendView.SwitchSequenceTableTt}" xmlns:controls1="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" ToggleButton.IsChecked="{Binding SequenceAlternative}" />
+                  <ContentControl Margin="5,2,0,5" Content="{Binding OrderBillboardView}" />
+                  <telerik:RadToggleButton FrameworkElement.Margin="0,2,0,5" ToggleButton.IsThreeState="False" FrameworkElement.ToolTip="{DynamicResource l_popup.BendView.FreezeBendSequenceTt}"  ToggleButton.IsChecked="{Binding FreezeBendSequence}">
+                                        <telerik:RadGlyph telerik:RadGlyph.Foreground="#FF000000"  telerik:RadGlyph.FontSize="20" telerik:RadGlyph.Glyph="{Binding FreezeBendSequenceText}" />
+                  </telerik:RadToggleButton>
+                  <controls:WiButton Key="l_popup.BendView.BendSequence" FrameworkElement.Margin="5,2,0,5" RadGlyph="" Control.Foreground="#FF000000" Control.FontSize="20" ButtonBase.Command="{Binding CmdEditBendSequenceNew}" />
+                  <controls:WiButton Key="l_popup.BendView.EditTools3D" FrameworkElement.Margin="5,2,0,5" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdEditTools3D}" />
+                  <generalSubWindow:IssueView DataContext="{Binding IssueViewModel}" />
+                </StackPanel>
+              </HeaderedContentControl.Header>
+              <Grid>
+                <ContentControl Visibility="{Binding SequenceVisibilityAlternative1}">
+                  <bendSequenceList:BendSequenceListView StorageId="BendSequenceListAll" DataContext="{Binding BendSequenceListViewModel}" />
+                </ContentControl>
+                <ContentControl Visibility="{Binding SequenceVisibilityAlternative2}">
+                  <bendSequenceList:BendSequenceListView StorageId="BendSequenceListCopy" DataContext="{Binding BendSequenceListViewModel}" />
+                </ContentControl>
+              </Grid>
+            </Expander>
+            <Expander Header="" ExpandDirection="Up" IsExpanded="{Binding SubViewExpanded}" Visibility="{Binding SubViewVisibility}">
+              <ContentControl Content="{Binding ActiveSubView}" />
+            </Expander>
+          </StackPanel>
+        </ScrollViewer>
+      </Grid>
+      <Grid Row="2" Column="0" ColumnSpan="4" Visibility="Visible">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="5*" />
+          <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <playScreen:PlayScreenView Grid.Column="1" DataContext="{Binding PlayScreenViewModel}" />
+      </Grid>
+      <Grid Column="3" RowSpan="3">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="170" />
+          <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="1" Margin="0,0,10,0" Content="{Binding OpacityControlView}" />
+      </Grid>
+    </Grid>
+    <Canvas />
+  </Grid>
+</UserControl>

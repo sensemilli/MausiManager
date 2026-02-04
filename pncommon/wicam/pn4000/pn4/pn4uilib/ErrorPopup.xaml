@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Popup x:Class="WiCAM.Pn4000.pn4.pn4UILib.ErrorPopup" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.pn4.pn4UILib" Height="252" Width="400">
+  <Border BorderThickness="1" BorderBrush="#FF000000">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="0" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="30" />
+      </Grid.RowDefinitions>
+      <ListBox Name="InfoList" Grid.Row="1" MouseDoubleClick="InfoList_MouseDoubleClick" />
+      <Button Name="Send" Grid.Row="2" Content="{DynamicResource LogCenterService.errorState.SendData}" Click="Send_Click" />
+    </Grid>
+  </Border>
+</Popup>

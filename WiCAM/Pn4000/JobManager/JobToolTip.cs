@@ -113,6 +113,7 @@ public class JobToolTip : ToolTip
 
 	private static void JobChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
+		if (d!= null)
 		if (d is JobToolTip jobToolTip)
 		{
 			jobToolTip.JobName = jobToolTip.Job.JOB_DATA_1;

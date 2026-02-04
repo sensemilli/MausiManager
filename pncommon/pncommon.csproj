@@ -1,0 +1,87 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>pncommon</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <UseWPF>True</UseWPF>
+	  <UseWindowsForms>True</UseWindowsForms>
+	  <TargetFramework>net9.0-windows</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="wicam\pn4000\pn4\pn4Services\tool.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="wicam\pn4000\pn4\tool.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Contracts">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>C:\u\pn\run\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="pnpi_common">
+      <HintPath>C:\u\pn\run\pnpi_common.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Services.ConfigProviders.Contracts">
+      <HintPath>C:\u\pn\run\WiCAM.Services.ConfigProviders.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Config">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Config.dll</HintPath>
+    </Reference>
+    <Reference Include="pn4.uicontrols">
+      <HintPath>C:\u\pn\run\pn4.uicontrols.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.PKernelFlow.Adapters">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.PKernelFlow.Adapters.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Comon">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Comon.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.WpfControls">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Services.Loggers.Contracts">
+      <HintPath>C:\u\pn\run\WiCAM.Services.Loggers.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="BendDataBase">
+      <HintPath>C:\u\pn\run\BendDataBase.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.GuiContracts">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.GuiContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Encodings">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Encodings.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.ScheduleView">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.ScheduleView.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Services.Loggers">
+      <HintPath>C:\u\pn\run\WiCAM.Services.Loggers.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

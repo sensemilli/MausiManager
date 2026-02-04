@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.GuiWpf.Ui3D.InfoPopupWithCancel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" AllowsTransparency="True" WindowStyle="None" Title="InfoPopupWithCancel" Background="#00FFFFFF" BorderThickness="1" SizeToContent="WidthAndHeight" MinWidth="200" MaxWidth="500" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded" Closed="InfoPopupWithCancel_OnClosed">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Storyboard x:Key="TimeAnimation" RepeatBehavior="Forever">
+        <DoubleAnimation Storyboard.TargetName="TimeGeo" Storyboard.TargetProperty="(Path.RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:2" RepeatBehavior="Forever" />
+      </Storyboard>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="0.8" />
+    </Border.Background>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="130" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <ProgressBar Grid.Row="0" Minimum="0" Maximum="1" Foreground="#106EBE" Background="#FFB0C4DE" Visibility="{Binding ProgressVisibility}" Value="{Binding ProgressUi, Mode=OneWay}" />
+      <Path Name="TimeGeo" RenderTransformOrigin="0.5,0.5" Stretch="Uniform" Width="70" Height="70" Fill="#FFD3D3D3" Stroke="#FF00498A" StrokeThickness="1.5" Data="M16.474981,28.557007 C17.424995,28.557007 18.196998,29.32901 18.196998,30.278015 C18.196998,31.231018 17.424995,32 16.474981,32 C15.524999,32 14.752996,31.231018 14.752996,30.278015 C14.752996,29.32901 15.524999,28.557007 16.474981,28.557007 M26.32499,23.192993 C27.27601,23.192993 28.046001,23.964996 28.046001,24.914001 C28.046001,25.865997 27.27601,26.636993 26.32499,26.636993 C25.374002,26.636993 24.603982,25.865997 24.603982,24.914001 C24.603982,23.964996 25.374002,23.192993 26.32499,23.192993 M5.103975,23.192017 C6.0539877,23.192017 6.8249838,23.963013 6.8249838,24.912994 C6.8249838,25.865997 6.0539877,26.636993 5.103975,26.636993 C4.1539928,26.636993 3.3809824,25.865997 3.3809824,24.912994 C3.3809824,23.963013 4.1539928,23.192017 5.103975,23.192017 M29.767986,14.894989 C30.719005,14.894989 31.490001,15.666992 31.490001,16.615997 C31.490001,17.569 30.719005,18.341003 29.767986,18.341003 C28.818004,18.341003 28.044994,17.569 28.044994,16.615997 C28.044994,15.666992 28.818004,14.894989 29.767986,14.894989 M2.257996,14.360992 C3.5059826,14.360992 4.5149858,15.369019 4.5149858,16.617004 C4.5149858,17.865997 3.5059826,18.873016 2.257996,18.873016 C1.0099794,18.873016 -1.9095933E-07,17.865997 0,16.617004 C-1.9095933E-07,15.369019 1.0099794,14.360992 2.257996,14.360992 M6.143984,4.8680115 C7.6669948,4.8680115 8.9029877,6.1019897 8.9029877,7.6270142 C8.9029877,9.1530151 7.6669948,10.389008 6.143984,10.389008 C4.6189897,10.389008 3.3809824,9.1530151 3.3809824,7.6270142 C3.3809824,6.1019897 4.6189897,4.8680115 6.143984,4.8680115 M26.32499,4.8349915 C27.867992,4.8349915 29.118999,6.0859985 29.118999,7.6289978 C29.118999,9.1719971 27.867992,10.421997 26.32499,10.421997 C24.781991,10.421997 23.530984,9.1719971 23.530984,7.6289978 C23.530984,6.0859985 24.781991,4.8349915 26.32499,4.8349915 M16.474981,0 C18.092994,0 19.402991,1.3099976 19.402991,2.927002 C19.402991,4.5450134 18.092994,5.8529968 16.474981,5.8529968 C14.858983,5.8529968 13.548986,4.5450134 13.548986,2.927002 C13.548986,1.3099976 14.858983,0 16.474981,0">
+        <UIElement.RenderTransform>
+          <RotateTransform Angle="0" />
+        </UIElement.RenderTransform>
+      </Path>
+      <TextBlock Grid.Row="1" TextWrapping="WrapWithOverflow" Margin="10,0" Text="{Binding Message}" />
+      <Button Grid.Row="2" Margin="20,10,20,10" BorderThickness="0" Content="{DynamicResource l_popup.Button5_Cancel}" Command="{Binding CmdCancel}" />
+    </Grid>
+  </Border>
+</Window>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.SnapPointSettings.SnapPointView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.SnapPointSettings" xmlns:controls="clr-namespace:WiCAM.Pn4000.WpfBasics.Controls;assembly=WiCAM.Pn4000.WpfBasics">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="1*" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{DynamicResource SubView.SnapPoints.SnapHeader}" />
+    <CheckBox Grid.Row="1" Grid.Column="0" Content="{DynamicResource SubView.SnapPoints.SnapLeft}" ToolTip="{DynamicResource SubView.SnapPoints.SnapLeftTt}" IsChecked="{Binding SnapLeft}" />
+    <CheckBox Grid.Row="1" Grid.Column="1" Content="{DynamicResource SubView.SnapPoints.SnapCenter}" ToolTip="{DynamicResource SubView.SnapPoints.SnapCenterTt}" IsChecked="{Binding SnapCenter}" />
+    <CheckBox Grid.Row="1" Grid.Column="2" Content="{DynamicResource SubView.SnapPoints.SnapRight}" ToolTip="{DynamicResource SubView.SnapPoints.SnapRightTt}" IsChecked="{Binding SnapRight}" />
+    <CheckBox Grid.Row="2" Grid.Column="0" Content="{DynamicResource SubView.SnapPoints.SnapAdapter}" ToolTip="{DynamicResource SubView.SnapPoints.SnapAdapterTt}" IsChecked="{Binding SnapToAdapters}" />
+    <CheckBox Grid.Row="2" Grid.Column="1" Content="{DynamicResource SubView.SnapPoints.SnapPunch}" ToolTip="{DynamicResource SubView.SnapPoints.SnapPunchTt}" IsChecked="{Binding SnapToPunches}" />
+    <CheckBox Grid.Row="2" Grid.Column="2" Content="{DynamicResource SubView.SnapPoints.SnapDie}" ToolTip="{DynamicResource SubView.SnapPoints.SnapDieTt}" IsChecked="{Binding SnapToDies}" />
+    <CheckBox Grid.Row="3" Grid.Column="0" Content="{DynamicResource SubView.SnapPoints.SnapMachineFrame}" ToolTip="{DynamicResource SubView.SnapPoints.SnapMachineFrameTt}" IsChecked="{Binding SnapToMachine}" />
+    <CheckBox Grid.Row="3" Grid.Column="1" Content="{DynamicResource SubView.SnapPoints.SnapBend}" ToolTip="{DynamicResource SubView.SnapPoints.SnapBendTt}" IsChecked="{Binding SnapToBend}" />
+    <CheckBox Grid.Row="4" Grid.Column="0" Content="{DynamicResource SubView.SnapPoints.SnapTools}" ToolTip="{DynamicResource SubView.SnapPoints.SnapToolsTt}" IsChecked="{Binding SnapToTools}" />
+    <CheckBox Grid.Row="4" Grid.Column="1" Content="{DynamicResource SubView.SnapPoints.SnapAll}" ToolTip="{DynamicResource SubView.SnapPoints.SnapAllTt}" IsChecked="{Binding SnapToAll}" />
+    <TextBlock Grid.Row="5" Grid.ColumnSpan="3" Text="{DynamicResource SubView.SnapPoints.BlockHeader}" />
+    <CheckBox Grid.Row="6" Grid.Column="0" Content="{DynamicResource SubView.SnapPoints.BlockTools}" ToolTip="{DynamicResource SubView.SnapPoints.BlockToolsTt}" IsChecked="{Binding BlockTools}" />
+    <CheckBox Grid.Row="6" Grid.Column="1" Content="{DynamicResource SubView.SnapPoints.BlockCollision}" ToolTip="{DynamicResource SubView.SnapPoints.BlockCollisionTt}" IsChecked="{Binding BlockCollisions}" />
+    <CheckBox Grid.Row="7" Grid.Column="0" Content="{DynamicResource SubView.SnapPoints.MovePieceInSection}" ToolTip="{DynamicResource SubView.SnapPoints.MovePieceInSectionTt}" IsChecked="{Binding MovePieceInSection}" />
+  </Grid>
+</UserControl>

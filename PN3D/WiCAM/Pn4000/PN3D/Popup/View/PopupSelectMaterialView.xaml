@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<popup:PopupBase x:Class="WiCAM.Pn4000.PN3D.Popup.View.PopupSelectMaterialView" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:viewModel="clr-namespace:WiCAM.Pn4000.PN3D.Popup.ViewModel" xmlns:popup="clr-namespace:WiCAM.Pn4000.Popup;assembly=WiCAM.Pn4000.Popup" Template="{DynamicResource PopupControlTemplate}" Style="{DynamicResource PopupStyle}" Title="{DynamicResource l_popup.PopupSelectMaterial.Title}" Height="600" Width="1050" xmlns:view="clr-namespace:WiCAM.Pn4000.PN3D.Popup.View">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="{x:Type DataGrid}" TargetType="{x:Type DataGrid}">
+        <Setter Property="DataGrid.AlternatingRowBackground" Value="#FFF0F0F0" />
+        <Setter Property="ItemsControl.AlternationCount" Value="2" />
+        <Setter Property="DataGrid.VerticalGridLinesBrush" Value="#FFB0B0B0" />
+        <Setter Property="DataGrid.HorizontalGridLinesBrush" Value="#FFB0B0B0" />
+      </Style>
+      <Style x:Key="StyleDataGridCellSelected" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+        <Style.Triggers>
+          <Trigger Property="DataGridCell.IsSelected" Value="true">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+          </Trigger>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Self}}" />
+              <Condition Value="False" Binding="{Binding Path=IsKeyboardFocusWithin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" />
+            </MultiDataTrigger.Conditions>
+            <MultiDataTrigger.Setters>
+              <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+              <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+              <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+            </MultiDataTrigger.Setters>
+          </MultiDataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="#00FFFFFF" />
+        <Setter Property="BorderBrush" Value="#00FFFFFF" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type DataGridCell}">
+              <Border BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="{TemplateBinding Control.BorderThickness}" Background="{TemplateBinding Control.Background}" SnapsToDevicePixels="True">
+                <ContentPresenter ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" Content="{TemplateBinding ContentControl.Content}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+              </Border>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+          <Trigger Property="DataGridCell.IsSelected" Value="True">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+          </Trigger>
+          <Trigger Property="UIElement.IsKeyboardFocusWithin" Value="True">
+            <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey ResourceId=FocusBorderBrushKey, TypeInTargetAssembly={x:Type DataGrid}}}" />
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="3">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="10*" />
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0" BorderBrush="#FF696969" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+      <Grid Margin="5,3,5,2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" MinWidth="50" />
+          <ColumnDefinition Width="Auto" MinWidth="150" />
+          <ColumnDefinition Width="Auto" MinWidth="50" />
+          <ColumnDefinition Width="Auto" MinWidth="150" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Content="{DynamicResource l_popup.PopupSelectMaterial.Thickness}" Style="{DynamicResource PnPopupLabelForTextBox}" />
+        <Label Grid.Column="1" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding ThicknessFilter}" />
+        <Label Grid.Column="2" Content="{Binding InitialSelectedMaterial.Number}" />
+        <Label Grid.Column="3" Content="{Binding InitialSelectedMaterial.Name}" />
+      </Grid>
+    </Border>
+    <telerik:RadGridView Name="MaterialTable" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,3,0,0" AutoGenerateColumns="False" EnableRowVirtualization="True" CanUserInsertRows="False" ScrollViewer.VerticalScrollBarVisibility="Visible" IsReadOnly="True" SelectionMode="Single" VirtualizingPanel.IsVirtualizing="True" xmlns:controls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Data" IsSynchronizedWithCurrentItem="True" MergedCellsStyle="{StaticResource StyleDataGridCellSelected}" FrozenColumnCount="1" ItemsSource="{Binding Materials}" SelectedItem="{Binding SelectedMaterial}">
+      <telerik:EventToCommandBehavior.EventBindings>
+        <telerik:EventBinding EventName="MouseDoubleClick" PassEventArgsToCommand="True" Command="{Binding SelectDoubleClick}" />
+      </telerik:EventToCommandBehavior.EventBindings>
+      <telerik:GridViewDataControl.Columns>
+        <telerik:GridViewDataColumn Name="ColumnNumber" Header="{DynamicResource l_popup.PopupSelectMaterial.MaterialNumber}" Width="AUTO" DataMemberBinding="{Binding Number}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMaterial.MaterialName}" Width="AUTO" DataMemberBinding="{Binding Name}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMaterial.MaterialGroupName}" Width="AUTO" DataMemberBinding="{Binding MaterialGroupName}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMaterial.Material3DGroupName}" Width="AUTO" DataMemberBinding="{Binding MaterialGroupForBendDeductionName}" />
+        <telerik:GridViewDataColumn Name="ColumnThicknessMin" Header="{DynamicResource l_popup.PopupSelectMaterial.ThicknessMin}" Width="AUTO" DataMemberBinding="{Binding ThicknessMin}" />
+        <telerik:GridViewDataColumn Name="ColumnThicknessMax" Header="{DynamicResource l_popup.PopupSelectMaterial.ThicknessMax}" Width="AUTO" DataMemberBinding="{Binding ThicknessMax}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMaterial.Description}" Width="AUTO" DataMemberBinding="{Binding Description}" />
+      </telerik:GridViewDataControl.Columns>
+    </telerik:RadGridView>
+  </Grid>
+</popup:PopupBase>

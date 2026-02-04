@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.BasicControls.PnStatusBarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.BasicControls">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="LocalInfoPaneBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Border.CornerRadius" Value="2" />
+        <Setter Property="BorderBrush" Value="#FFB9C9DA" />
+        <Style.Triggers>
+          <EventTrigger RoutedEvent="Border.MouseEnter">
+            <EventTrigger.Actions>
+              <BeginStoryboard>
+                <Storyboard>
+                  <ColorAnimation Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)" To="Black" Duration="0:0:0.2" />
+                </Storyboard>
+              </BeginStoryboard>
+            </EventTrigger.Actions>
+          </EventTrigger>
+          <EventTrigger RoutedEvent="Border.MouseLeave">
+            <EventTrigger.Actions>
+              <BeginStoryboard>
+                <Storyboard>
+                  <ColorAnimation Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)" To="#FFB9C9DA" Duration="0:0:0.2" />
+                </Storyboard>
+              </BeginStoryboard>
+            </EventTrigger.Actions>
+          </EventTrigger>
+        </Style.Triggers>
+      </Style>
+      <StackPanel x:Key="ToolTipStackPanel" Orientation="Vertical" Grid.IsSharedSizeScope="True">
+        <ItemsControl ItemsSource="{Binding Items, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+      </StackPanel>
+      <Style x:Key="{x:Type ToolTip}" TargetType="{x:Type ToolTip}">
+        <Setter Property="Background" Value="{DynamicResource Pn4Toolbars.ToolbarTrayBackgroundColorBrush}" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border Style="{StaticResource LocalInfoPaneBorderStyle}" ToolTipService.HasDropShadow="True" ToolTipService.ShowDuration="1000000" Background="{Binding FillBrush, RelativeSource={RelativeSource AncestorType=UserControl}}" ToolTipService.Placement="{Binding ItemsPlacement, RelativeSource={RelativeSource AncestorType=UserControl}}" ToolTipService.IsEnabled="{Binding ToolTipVisibility, RelativeSource={RelativeSource AncestorType=UserControl}}">
+    <TextBlock Padding="4" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{Binding TextBrush, RelativeSource={RelativeSource AncestorType=UserControl}}" Text="{Binding Info, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+    <FrameworkElement.ToolTip>
+      <ContentPresenter Content="{DynamicResource ToolTipStackPanel}" />
+    </FrameworkElement.ToolTip>
+  </Border>
+</UserControl>

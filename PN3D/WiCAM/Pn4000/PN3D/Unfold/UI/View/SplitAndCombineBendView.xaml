@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<views:ScreenControlBaseView x:Class="WiCAM.Pn4000.PN3D.Unfold.UI.View.SplitAndCombineBendView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:views="clr-namespace:WiCAM.Pn4000.PN3D.BendSimulation.Configuration.Views" xmlns:viewModels="clr-namespace:WiCAM.Pn4000.PN3D.Unfold.UI.ViewModel" MouseEnter="UIElement_OnMouseEnter" MouseLeave="UIElement_OnMouseLeave" Background="#00FFFFFF" xmlns:view="clr-namespace:WiCAM.Pn4000.PN3D.Unfold.UI.View" Width="{Binding Width}" Height="{Binding Height}" Opacity="{Binding Opacity}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <BooleanToVisibilityConverter x:Key="B2V" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="AUTO" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
+    <TextBlock Text="{DynamicResource l_popup.SplitAndCombineBends.HeadLine}" Grid.Row="0" FontSize="15" TextDecorations="Underline" HorizontalAlignment="Center" FontWeight="Bold" />
+    <ListBox Background="#00FFFFFF" BorderBrush="#00FFFFFF" Margin="3" Grid.Row="1" ItemsSource="{Binding Items}">
+      <ItemsControl.ItemContainerStyle>
+        <Style TargetType="{x:Type ListBoxItem}">
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                <Grid MouseEnter="Bend_OnMouseEnter" MouseLeave="Bend_OnMouseLeave">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="1*" />
+                  </Grid.RowDefinitions>
+                  <Border Name="Bd" Grid.Row="1" Margin="2,1,2,1" BorderThickness="1" CornerRadius="3.5" BorderBrush="{Binding Color}">
+                    <Border.Background>
+                      <SolidColorBrush Color="White" Opacity="0.7" />
+                    </Border.Background>
+                    <Grid Background="#00FFFFFF">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="AUTO" />
+                        <ColumnDefinition Width="AUTO" />
+                        <ColumnDefinition Width="AUTO" />
+                      </Grid.ColumnDefinitions>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="AUTO" />
+                        <RowDefinition Height="AUTO" />
+                      </Grid.RowDefinitions>
+                      <Label Background="#00FFFFFF" ContentStringFormat="R: {0:F2}mm" Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Content="{Binding Radius}" />
+                      <Label Background="#00FFFFFF" ContentStringFormat="A: {0:F2}°" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Content="{Binding AngleDeg}" />
+                      <Label Background="#00FFFFFF" ContentStringFormat="L: {0:F2}mm" Grid.Row="0" Grid.Column="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Content="{Binding TotalLength}" />
+                    </Grid>
+                  </Border>
+                  <Button Background="#00FFFFFF" BorderThickness="0" Grid.Row="0" Height="AUTO" Width="30" Command="{Binding Path=DataContext.SplitOrCombineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Visibility="{Binding IsNotFirstItem, Converter={StaticResource B2V}}">
+                    <ContentControl.Content>
+                      <Grid Width="AUTO" Height="AUTO" Margin="0,-10,0,-10">
+                        <telerik:RadGlyph Glyph="" FontSize="25" ToolTip="{DynamicResource l_popup.SplitAndCombineBends.SplitBendTip}" Visibility="{Binding IsCombined, Converter={StaticResource B2V}}" />
+                        <telerik:RadGlyph Glyph="" FontSize="25" ToolTip="{DynamicResource l_popup.SplitAndCombineBends.CombineBendTip}" Visibility="{Binding IsSplitted, Converter={StaticResource B2V}}" />
+                      </Grid>
+                    </ContentControl.Content>
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                          <Trigger Property="UIElement.IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="#FFFF0000" />
+                          </Trigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </Button>
+                </Grid>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+    </ListBox>
+  </Grid>
+</views:ScreenControlBaseView>

@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<views:ScreenControlBaseView x:Class="WiCAM.Pn4000.PN3D.Unfold.UI.View.EditToolsAtSelectedBendView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.PN3D.Unfold.UI.View" xmlns:views="clr-namespace:WiCAM.Pn4000.PN3D.BendSimulation.Configuration.Views" xmlns:viewModels="clr-namespace:WiCAM.Pn4000.PN3D.Unfold.UI.ViewModel" xmlns:ui1="clr-namespace:WiCAM.Pn4000.PN3D.BendSimulation.Configuration.UI" xmlns:converter="clr-namespace:WiCAM.Pn4000.PN3D.Converter" MouseEnter="UIElement_OnMouseEnter" MouseLeave="UIElement_OnMouseLeave" Background="#00FFFFFF" Width="{Binding Width}" Height="{Binding Height}" Opacity="{Binding Opacity}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <converter:IntToColorConverter x:Key="ColorConverter" />
+      <Style x:Key="GroupToolStyleListBox" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+              <Border Name="Bd" Background="#A0E0E0E0" Margin="1" CornerRadius="4.5" BorderThickness="2" BorderBrush="#A0E0E0E0">
+                <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="5*" />
+                  </Grid.RowDefinitions>
+                  <StackPanel>
+                    <Grid>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="AUTO" />
+                      </Grid.RowDefinitions>
+                      <TextBlock Grid.Row="0" TextWrapping="WrapWithOverflow" FontSize="12" TextAlignment="Center" Margin="3,3,3,0" Text="{Binding Profile.Name}" />
+                    </Grid>
+                  </StackPanel>
+                  <ContentControl Grid.Row="1" Margin="3,2,3,3" Content="{Binding ImageProfile}" />
+                </Grid>
+              </Border>
+              <ControlTemplate.Triggers>
+                <Trigger Property="ListBoxItem.IsSelected" Value="True">
+                  <Setter TargetName="Bd" Property="Panel.Background" Value="#A826A0DF" />
+                  <Setter TargetName="Bd" Property="Border.BorderBrush">
+                    <Setter.Value>
+                      <SolidColorBrush>LightSteelBlue</SolidColorBrush>
+                    </Setter.Value>
+                  </Setter>
+                </Trigger>
+                <Trigger Property="UIElement.IsMouseOver" Value="True">
+                  <Setter TargetName="Bd" Property="Panel.Background" Value="#FFB0C4DE" />
+                  <Setter TargetName="Bd" Property="Border.BorderBrush">
+                    <Setter.Value>
+                      <SolidColorBrush />
+                    </Setter.Value>
+                  </Setter>
+                </Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+      <DataTemplate x:Key="DragTemplate">
+        <FrameworkTemplate.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type Image}" TargetType="{x:Type Image}">
+              <Setter Property="Width" Value="50" />
+              <Setter Property="Height" Value="50" />
+              <Setter Property="Margin" Value="5" />
+            </Style>
+          </ResourceDictionary>
+        </FrameworkTemplate.Resources>
+        <ListBoxItem Style="{StaticResource GroupToolStyleListBox}" />
+      </DataTemplate>
+      <Style x:Key="DragDropPanel" TargetType="{x:Type ListBox}">
+        <Setter Property="Background" Value="#00FFFFFF" />
+        <Setter Property="BorderBrush" Value="#FF808080" />
+        <Setter Property="ItemsPanel">
+          <Setter.Value>
+            <ItemsPanelTemplate>
+              <WrapPanel Background="#00FFFFFF" FlowDirection="LeftToRight" ItemWidth="100" ItemHeight="AUTO" />
+            </ItemsPanelTemplate>
+          </Setter.Value>
+        </Setter>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ItemTemplate">
+          <Setter.Value>
+            <DataTemplate>
+              <Border Name="Bd" Background="#00FFFFFF" Margin="1">
+                <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="5*" />
+                  </Grid.RowDefinitions>
+                  <StackPanel>
+                    <Grid>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="AUTO" />
+                        <RowDefinition Height="AUTO" />
+                      </Grid.RowDefinitions>
+                      <Border Visibility="Collapsed" CornerRadius="3" Margin="5,5,5,0" Background="{Binding Profile.Priority, Converter={StaticResource ColorConverter}}">
+                        <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="1" Margin="0,7,0,5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{Binding Profile.Priority}" />
+                      </Border>
+                      <TextBlock Grid.Row="1" TextWrapping="WrapWithOverflow" FontSize="12" TextAlignment="Center" Margin="3,3,3,0" Text="{Binding Profile.Name}" />
+                    </Grid>
+                  </StackPanel>
+                  <ContentControl Grid.Row="1" Margin="3,2,3,3" Content="{Binding ImageProfile}" />
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="0.5" />
+    </Border.Background>
+    <Grid Margin="3">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="0.15*" />
+        <RowDefinition Height="1*" />
+        <RowDefinition Height="1*" />
+        <RowDefinition Height="0.1*" />
+        <RowDefinition Height="0.125*" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1.1*" />
+        <ColumnDefinition Width="1.1*" />
+      </Grid.ColumnDefinitions>
+      <Border Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="#FFA9A9A9" CornerRadius="3.5">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+          </Grid.ColumnDefinitions>
+          <Label Content="Preferred Profile: " Margin="0,3,3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+          <ComboBox Grid.Column="1" Margin="0,3,3,3" MinWidth="100" ItemsSource="{Binding PreferredProfiles}" SelectedItem="{Binding SelectedPreferredProfile}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                  </Grid.ColumnDefinitions>
+                  <Label Content="{Binding PunchGroupName}" />
+                  <Label Grid.Column="1" Content="{Binding DieGroupName}" />
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ComboBox>
+        </Grid>
+      </Border>
+      <ContentPresenter Grid.Row="1" Grid.Column="0" Content="{Binding ImagePunch}" />
+      <ContentPresenter Grid.Row="2" Grid.Column="0" Content="{Binding ImageDie}" />
+      <Grid Row="1" Column="1">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+        <ComboBox Margin="0,3,3,0" Grid.Row="0" MinWidth="100" DisplayMemberPath="Name" VerticalContentAlignment="Center" SelectedItem="{Binding SelectedPunchGroup}" ItemsSource="{Binding ToolBase.PunchGroups}" />
+        <ui1:DragDropList Margin="0,3,3,0" Grid.Row="1" ItemContainerStyle="{DynamicResource GroupToolStyleListBox}" Style="{DynamicResource DragDropPanel}" Background="#00FFFFFF" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedPunchGroupViewModel}" ItemsSource="{Binding PunchGroupTools, BindsDirectlyToSource=True}" />
+      </Grid>
+      <Grid Row="2" Column="1">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+        <ComboBox Margin="0,3,3,0" Grid.Row="0" MinWidth="100" DisplayMemberPath="Name" VerticalContentAlignment="Center" SelectedItem="{Binding SelectedDieGroup}" ItemsSource="{Binding ToolBase.DieGroups}" />
+        <ui1:DragDropList Margin="0,3,3,0" Grid.Row="1" ItemContainerStyle="{DynamicResource GroupToolStyleListBox}" Style="{DynamicResource DragDropPanel}" Background="#00FFFFFF" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedDieGroupViewModel}" ItemsSource="{Binding DieGroupTools, BindsDirectlyToSource=True}" />
+      </Grid>
+      <Grid Column="1" Row="3">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="AUTO" />
+          <RowDefinition Height="AUTO" />
+        </Grid.RowDefinitions>
+        <CheckBox Content="{DynamicResource l_popup.EditToolsAtBend.ApplyToAllBends}" Grid.Row="0" VerticalContentAlignment="Center" IsChecked="{Binding ApplyToAllBends}" />
+        <CheckBox Content="{DynamicResource l_popup.EditToolsAtBend.ApplyToAllStepBends}" Grid.Row="1" VerticalContentAlignment="Center" IsChecked="{Binding ApplyToAllStepBends}" Visibility="{Binding ApplyToStepBendVisibility}" />
+      </Grid>
+      <Button Content="{DynamicResource l_popup.EditToolsAtBend.OK}" Grid.Row="4" Grid.Column="1" Style="{DynamicResource PnPopupOptionButton}" Margin="3,3,3,0" Height="32" Command="{Binding OKCommand}" />
+    </Grid>
+  </Border>
+</views:ScreenControlBaseView>

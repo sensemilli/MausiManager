@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.FingerView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig" xmlns:controls="clr-namespace:WiCAM.Pn4000.WpfBasics.Controls;assembly=WiCAM.Pn4000.WpfBasics" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="PartRowStyle" TargetType="{x:Type telerik:GridViewRow}">
+        <EventSetter Event="MouseEnter" Handler="EventSetter_MouseEnter" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="0.8" />
+    </Border.Background>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Grid Row="0" Column="0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="0" Grid.Column="0" Margin="0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Content="{Binding Screen3D}" />
+        <Label Grid.Row="1" Grid.Column="0" Margin="7,-5,0,0" Content="{Binding HoveredFaceName}" />
+      </Grid>
+      <Grid Row="0" Column="1">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <controls:WiGridView Grid.Row="0" SelectionMode="Single" ShowColumnFooters="True" GroupRenderMode="Flat" CanUserInsertRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" ItemsSource="{Binding Combinations}" SelectedItem="{Binding SelectedCombination}" MouseLeave="EventSetter_MouseLeave">
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <Style x:Key="{x:Type telerik:GridViewRow}" BasedOn="{StaticResource PartRowStyle}" TargetType="{x:Type telerik:GridViewRow}" />
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <telerik:GridViewDataControl.Columns>
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.LeftFingerView.ID}" IsReadOnly="True" DataMemberBinding="{Binding Id}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.LeftFingerView.PpId}" DataMemberBinding="{Binding PpId}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.LeftFingerView.FaceCount}" IsReadOnly="True" DataMemberBinding="{Binding FaceCount}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.LeftFingerView.IconFile}" DataMemberBinding="{Binding IconPath}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.LeftFingerView.Faces}" IsReadOnly="True" DataMemberBinding="{Binding Faces}" />
+          </telerik:GridViewDataControl.Columns>
+        </controls:WiGridView>
+        <controls1:RadExpander Grid.Row="1" xmlns:animation="clr-namespace:Telerik.Windows.Controls.Animation;assembly=Telerik.Windows.Controls" animation:AnimationManager.IsAnimationEnabled="False" xmlns:controls1="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls">
+          <StackPanel Orientation="Horizontal">
+            <controls:WiButton ContentControl.Content="{DynamicResource l_popup.LeftFingerView.AlignFace}" FrameworkElement.Margin="0,0,10,0" FrameworkElement.MinWidth="100" Click="AlignFace_Click" />
+            <controls:WiTextBox FrameworkElement.MinWidth="100" TextBox.TextAlignment="Right" FrameworkElement.Margin="1" TextBox.Text="{Binding AlignY}" />
+          </StackPanel>
+        </controls1:RadExpander>
+      </Grid>
+      <Grid Row="0" Column="2">
+        <controls:WiTextBlock Text="{DynamicResource l_popup.LeftFingerView.NoIcon}" />
+        <Image VerticalAlignment="Center" HorizontalAlignment="Center" MaxHeight="200" MaxWidth="200" Source="{Binding Image}" />
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

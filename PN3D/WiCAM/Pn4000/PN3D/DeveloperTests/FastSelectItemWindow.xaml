@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.PN3D.DeveloperTests.FastSelectItemWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Title="Double Click - selection" Height="300" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Topmost="True" xmlns:developertests="clr-namespace:WiCAM.Pn4000.PN3D.DeveloperTests;assembly=WiCAM.Pn4000.PN3D">
+  <Grid>
+    <ListBox Name="List" MouseDoubleClick="List_MouseDoubleClick" />
+  </Grid>
+</Window>

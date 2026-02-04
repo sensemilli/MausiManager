@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabViewer3D.Viewer3dView" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabViewer3D" Visibility="{Binding Visible}">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="200" MinWidth="20" />
+      <ColumnDefinition Width="5" />
+      <ColumnDefinition Width="1*" />
+    </Grid.ColumnDefinitions>
+    <GridSplitter Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Stretch" />
+    <Grid Row="0" Column="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="1*" />
+      </Grid.ColumnDefinitions>
+      <Button Grid.Column="0" Margin="0" Style="{DynamicResource PnPopupOptionButton}" ToolTip="{DynamicResource l_popup.Viewer3d.CollapseAllTt}" Command="{Binding CmdCollapseAll}" Visibility="{Binding VisibleAnyObjects}">&lt;&lt;</Button>
+      <Button Grid.Column="1" Margin="0" Style="{DynamicResource PnPopupOptionButton}" ToolTip="{DynamicResource l_popup.Viewer3d.ExpandAllTt}" Command="{Binding CmdExpandAll}" Visibility="{Binding VisibleAnyObjects}">&gt;&gt;</Button>
+    </Grid>
+    <TreeView Grid.Column="0" Grid.Row="1" Background="#dfff" ItemsSource="{Binding HierarchicList}">
+      <!-- Fix: Replace EventSetter with TreeView.SelectedItemChanged -->
+      <TreeView.Resources>
+        <Style TargetType="TreeViewItem">
+          <EventSetter Event="Selected" Handler="TreeViewSelectedItemChanged" />
+        </Style>
+      </TreeView.Resources>
+      <ItemsControl.ItemContainerStyle>
+        <Style TargetType="{x:Type TreeViewItem}">
+          <Setter Property="TreeViewItem.IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+          <Setter Property="TreeViewItem.IsSelected" Value="{Binding IsSelectedByTreeView, Mode=TwoWay}" />
+          <Setter Property="FontWeight" Value="Normal" />
+          <Style.Triggers>
+            <Trigger Property="TreeViewItem.IsSelected" Value="True">
+              <Setter Property="FontWeight" Value="Bold" />
+            </Trigger>
+          </Style.Triggers>
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+      <ItemsControl.ItemTemplate>
+        <HierarchicalDataTemplate DataType="{x:Type local:HierarchicNode}" ItemsSource="{Binding SubNodes}">
+          <StackPanel Orientation="Horizontal" Background="{Binding Background}" MouseEnter="TreeViewItemMouseEnter" MouseLeave="TreeViewItemMouseLeave">
+            <CheckBox VerticalAlignment="Center" IsChecked="{Binding Visible}" />
+            <TextBlock VerticalAlignment="Center" Foreground="#FF000000" Text="{Binding Desc}" />
+          </StackPanel>
+        </HierarchicalDataTemplate>
+      </ItemsControl.ItemTemplate>
+    </TreeView>
+  </Grid>
+</UserControl>

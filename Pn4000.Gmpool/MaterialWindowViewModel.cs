@@ -1,3 +1,4 @@
+using Microsoft.Office.Core;
 using Microsoft.Win32;
 using System;
 using System.Collections;
@@ -5,8 +6,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +20,10 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Tesseract;
+using UglyToad.PdfPig;
+using UglyToad.PdfPig.Content;
+using UglyToad.PdfPig.XObjects;
 using WiCAM.Pn4000.Archive;
 using WiCAM.Pn4000.Autoloop;
 using WiCAM.Pn4000.Common;
@@ -25,6 +34,9 @@ using WiCAM.Pn4000.JobManager;
 using WiCAM.Pn4000.Materials;
 using WiCAM.Pn4000.WpfControls;
 using WiCAM.Pn4000.WpfControls.CadgeoViewer;
+using Brush = System.Windows.Media.Brush;
+using Brushes = System.Windows.Media.Brushes;
+using Page = UglyToad.PdfPig.Content.Page;
 
 namespace WiCAM.Pn4000.Gmpool
 {
@@ -85,8 +97,9 @@ namespace WiCAM.Pn4000.Gmpool
 		private ICommand _enterCommand;
 
 		private ICommand _okCommand;
+        private ICommand _ReadPDFCommand;
 
-		private ICommand _cancelCommand;
+        private ICommand _cancelCommand;
 
 		private ICommand _copyCommand;
 
@@ -107,8 +120,14 @@ namespace WiCAM.Pn4000.Gmpool
 		private ICommand _addRestPlateCommand;
 
 		private ICommand _restorePlateCommand;
+        private string _artikel;
+        public bool savedData;
+        private int imageIndex;
+        private string amountline;
+        public static MaterialWindowViewModel _MaterialWindowViewModel;
 
-		public FrameworkElement ActiveView
+
+        public FrameworkElement ActiveView
 		{
 			get
 			{
@@ -347,8 +366,19 @@ namespace WiCAM.Pn4000.Gmpool
 				return this._okCommand;
 			}
 		}
+        public ICommand ReadPDFCommand
+        {
+            get
+            {
+                if (this._ReadPDFCommand == null)
+                {
+                    this._ReadPDFCommand = new RelayCommand((object x) => this.ReadPDF(), (object x) => true);
+                }
+                return this._ReadPDFCommand;
+            }
+        }
 
-		public Visibility RestoreButtonVisibility
+        public Visibility RestoreButtonVisibility
 		{
 			get
 			{
@@ -477,6 +507,7 @@ namespace WiCAM.Pn4000.Gmpool
 
 		public MaterialWindowViewModel()
 		{
+            _MaterialWindowViewModel = this;
 
             this.MaterialsCollection = new ObservableCollection<StockMaterialInfo>();
 			this._filterHelper = new FilterHelper<StockMaterialInfo>();
@@ -729,7 +760,7 @@ namespace WiCAM.Pn4000.Gmpool
 			{
 				return;
 			}
-		//	this.Ok();
+			this.Ok();
 		}
 
 		private void FillList(IEnumerable<StockMaterialInfo> list)
@@ -778,10 +809,10 @@ namespace WiCAM.Pn4000.Gmpool
 				}
 				string path = ((Binding)((DataGridBoundColumn)boundColumn).Binding).Path.Path;
 				string str = StringResourceHelper.Instance.FindString(cppConfigurationLineInfo.Key);
-				if (!this._view.filter.FieldNames.ContainsKey(path))
-				{
-					this._view.filter.FieldNames.Add(path, str);
-				}
+			////	if (!this._view.filter.FieldNames.ContainsKey(path))
+			////	{
+			//		this._view.filter.FieldNames.Add(path, str);
+			//	}
 				if (boundColumn.Visibility != Visibility.Visible)
 				{
 					continue;
@@ -832,12 +863,188 @@ namespace WiCAM.Pn4000.Gmpool
 				Logger.Error("GMPOOL write error!");
 			}
 			this.WriteErg0File();
-			
-            //this._view.DialogResult = new bool?(true);
-            //this._view.Close();
+
+			//this._view.DialogResult = new bool?(true);
+			//this._view.Close();
+			Bitmap nitti = new Bitmap(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\palette.jpg");
+			var text = GetText(nitti);
+			Console.WriteLine(text);
+        }
+        private void ReadPDF()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "PDF files (*.pdf)|*.pdf";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+                Runny(filePath);
+
+            }
         }
 
-		private void RestorePlate()
+        public async Task Runny(string filePath)
+        {
+            using (var document = PdfDocument.Open(filePath))
+            {
+                imageIndex = 1;
+
+                foreach (var page in document.GetPages())
+                {
+
+                    foreach (var image in page.GetImages())
+                    {
+                        savedData = false;
+                        Add();
+                        await waitAsync(image, page);
+                        savedData = true;
+
+                    }
+                }
+            }
+        }
+
+        public async Task waitAsync(IPdfImage image, Page page)
+        {
+            if (!image.TryGetBytes(out var b))
+            {
+                b = image.RawBytes;
+
+            }
+            var type = string.Empty;
+            switch (image)
+            {
+                case XObjectImage ximg:
+                    type = "XObject";
+                    break;
+                case InlineImage inline:
+                    type = "Inline";
+                    break;
+            }
+            image.TryGetPng(out byte[] bytess);
+            Bitmap bitmapp = new Bitmap(new MemoryStream(bytess));
+            bitmapp.Save(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\DOC" + imageIndex + ".png");
+            Console.WriteLine($"Image with {b.Count} bytes of type '{type}' on page {page.Number}. Location: {image.Bounds}.");
+            var ocrtxt = GetText(bitmapp);
+            string aLine, aParagraph = null;
+            int iLine = 0;
+            int iFound = 0;
+            StringReader strReader = new StringReader(ocrtxt);
+            while (true)
+            {
+
+                aLine = strReader.ReadLine();
+                if (aLine != null)
+                {
+                    if (aLine.Contains("Menge ME 2"))
+                    {
+                        iFound = iLine;
+                    }
+                    if (iLine >= iFound + 1 && iLine <= iFound + 10)
+                    {
+                        aParagraph = aParagraph + aLine + " " + "\n";
+                        if (aLine.Contains("S355MC"))
+                        {
+                            amountline = aLine;
+                            EditControlViewModel._EditControlViewModel.SelectedItem.MatNumber = 5;
+                            EditControlViewModel._EditControlViewModel.SelectedItem.MaterialName = "1.0355";
+                        }
+                        if (aLine.Contains(" mm "))
+                            _artikel = aLine;
+                        if (aLine.Contains("Mat"))
+                            EditControlViewModel._EditControlViewModel.SelectedItem.Bezeichnung = aLine.Replace("MatNr.:", "");
+                        if (aLine.Contains("Bestellnummer"))
+                            EditControlViewModel._EditControlViewModel.SelectedItem.IdentNr = aLine.Replace("Bestellnummer:", "");
+                        if (aLine.Contains("Lieferant"))
+                            EditControlViewModel._EditControlViewModel.SelectedItem.IdentNr = EditControlViewModel._EditControlViewModel.SelectedItem.IdentNr + " - " + aLine.Replace("Lieferantencharge:", "");
+                        if (aLine.Contains("Auftrag"))
+                            EditControlViewModel._EditControlViewModel.SelectedItem.Bezeichnung = EditControlViewModel._EditControlViewModel.SelectedItem.Bezeichnung + " - " + aLine.Replace("für Auftrag:", "");
+                        if (aLine.Contains("Gesamt"))
+                        {
+                            string[] splitweight = aLine.Split(' ');
+                            EditControlViewModel._EditControlViewModel.SelectedItem.Res3 = splitweight[1].Replace(".", "");
+                        }
+                    }
+                }
+                else
+                {
+                    aParagraph = aParagraph + "\n";
+                    break;
+                }
+
+                iLine++;
+            }
+            //EditControlViewModel._EditControlViewModel.SelectedItem.PlName = _artikel;
+            EditControlViewModel._EditControlViewModel.SelectedItem.ArNumber = 90;
+            double thick = Convert.ToDouble(_artikel.Remove(1));
+            string[] splitartikel = _artikel.Split('x');
+
+            foreach (var (item, index) in splitartikel.Select((item, index) => (item, index)))
+            {
+                if (index == 0)
+                {
+                    Console.WriteLine(item);
+                    string item2 = item.Trim();
+                    EditControlViewModel._EditControlViewModel.SelectedItem.PlName = item2;
+                    EditControlViewModel._EditControlViewModel.SelectedItem.PlThick = item2;
+                    //	EditControlViewModel._EditControlViewModel.SelectedItem.PlLength = item;
+                }
+                else if (index == 1)
+                {
+                    Console.WriteLine(item);
+                    string item2 = item.Trim();
+                    item2 = item2.Replace(".", "");
+                    EditControlViewModel._EditControlViewModel.SelectedItem.PlName = item2 + "-" + EditControlViewModel._EditControlViewModel.SelectedItem.PlName;
+                    EditControlViewModel._EditControlViewModel.SelectedItem.MaxY = item2;
+                }
+                else if (index == 2)
+                {
+                    Console.WriteLine(item.Remove(6));
+                    string item2 = item.Remove(6);
+                    item2 = item2.Trim();
+                    item2 = item2.Replace(".", "");
+                    EditControlViewModel._EditControlViewModel.SelectedItem.PlName = "N-" + item2 + "-" + EditControlViewModel._EditControlViewModel.SelectedItem.PlName;
+                    EditControlViewModel._EditControlViewModel.SelectedItem.MaxX = item2;
+                }
+            }
+            string date = DateTime.Now.ToString("yyyyMMdd");
+            EditControlViewModel._EditControlViewModel.SelectedItem.ErstellungsDatum = int.Parse(date);
+            Console.WriteLine(date);
+            int amountpos = amountline.IndexOf("ST");
+            string amount = amountline.Substring(amountpos - 3, 2);
+            Console.WriteLine(amountpos);
+            amount = amount.Trim();
+            EditControlViewModel._EditControlViewModel.SelectedItem.Amount = int.Parse(amount);
+            //   Ok();
+            Console.WriteLine("Modified text:\n\n{0}", aParagraph);
+            imageIndex++;
+
+            await WaitForConditionAsync(() => savedData, CancellationToken.None);
+        }
+        public string GetText(Bitmap imgsource)
+        {
+            var ocrtext = string.Empty;
+            using (var engine = new TesseractEngine(@"C:\Program Files\Tesseract-OCR\tessdata", "deu", (Tesseract.EngineMode)EngineMode.Default))
+            {
+                using (var img = PixConverter.ToPix(imgsource))
+                {
+                    using (var page = engine.Process(img))
+                    {
+                        ocrtext = page.GetText();
+                    }
+                }
+            }
+            return ocrtext;
+        }
+        private static async Task WaitForConditionAsync(Func<bool> condition, CancellationToken cancellationToken)
+        {
+            while (!condition())
+            {
+                Console.WriteLine("Waiting for condition to be true...");
+                await Task.Delay(1000, cancellationToken); // Polling interval
+            }
+        }
+        private void RestorePlate()
 		{
 			this.SelectedMaterial.IsDeleted = false;
 			WiCAM.Pn4000.Materials.DataManager.Instance.UpdateMaterial(this.SelectedMaterial);
@@ -1002,7 +1209,7 @@ namespace WiCAM.Pn4000.Gmpool
 
 		private void UpdateFilterNames()
 		{
-			this._view.filter.InitializeControl(typeof(StockMaterialInfo), IniFileHelper.Instance.MaterialsColumns);
+		//	this._view.filter.InitializeControl(typeof(StockMaterialInfo), IniFileHelper.Instance.MaterialsColumns);
 			this._view.filter.DataFilterCriteria = this._filterCriteria;
 		}
 

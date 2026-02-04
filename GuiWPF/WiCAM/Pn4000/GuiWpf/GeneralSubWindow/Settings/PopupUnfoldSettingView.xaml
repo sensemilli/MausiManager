@@ -1,0 +1,863 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<src1:PopupBase x:Class="WiCAM.Pn4000.GuiWpf.GeneralSubWindow.Settings.PopupUnfoldSettingView" 
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:src1="clr-namespace:WiCAM.Pn4000.Popup;assembly=WiCAM.Pn4000.Popup" 
+                xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralSubWindow.Settings" 
+                xmlns:views="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI.Views"
+                xmlns:info="clr-namespace:WiCAM.Pn4000.PN3D.Popup.Information;assembly=WiCAM.Pn4000.PN3D" 
+                xmlns:info1="clr-namespace:WiCAM.Pn4000.Popup.Information;assembly=WiCAM.Pn4000.Popup" 
+                xmlns:vm="clr-namespace:WiCAM.Pn4000.PN3D.Popup.ViewModel;assembly=WiCAM.Pn4000.PN3D" 
+                xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                xmlns:gridView="clr-namespace:WiCAM.Pn4000.WpfControls.GridView;assembly=WiCAM.Pn4000.WpfControls"
+                xmlns:information="clr-namespace:WiCAM.Pn4000.PN3D.Popup.Information;assembly=WiCAM.Pn4000.PN3D"
+                xmlns:viewModel="clr-namespace:WiCAM.Pn4000.PN3D.Popup.ViewModel;assembly=WiCAM.Pn4000.PN3D" 
+                Template="{DynamicResource PopupControlTemplate}" Style="{DynamicResource PopupStyle}"
+                Title="{DynamicResource l_popup.PopupUnfoldSetting.Title}" Height="750" Width="550">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <BooleanToVisibilityConverter x:Key="B2V" />
+      <information:PurchasedPartsTypeConverter x:Key="converterPurchasedPartsType" />
+      <information:PurchasedPartsTypeListConverter x:Key="converterPurchasedPartsTypeList" />
+      <info1:CfgColor2BrushConverter x:Key="converterCfgColor2Brush" />
+      <info1:PnColor2BrushConverer x:Key="converterPnColor2Brush" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <TabControl TabStripPlacement="Left">
+      <TabItem Header="{DynamicResource l_popup.PopupUnfoldSetting.tabDisassembly}" Padding="15">
+        <ScrollViewer>
+          <StackPanel Orientation="Vertical" Margin="10">
+            <TextBlock Style="{DynamicResource PnPopupHeaderText}" Text="{DynamicResource l_popup.PopupUnfoldSetting.DisassemblyOptions}" />
+            <StackPanel Orientation="Vertical" Margin="20,5,0,5">
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_AnalyzeParallel}" IsChecked="{Binding general3DConfig.P3D_AnalyzeParallel}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_AnalyzeBackground}" IsChecked="{Binding general3DConfig.P3D_AnalyzeBackground}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_IncludeHiddenParts}" IsChecked="{Binding general3DConfig.P3D_IncludeHiddenParts}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_ImportPartCountHidden}" IsChecked="{Binding general3DConfig.P3D_ImportPartCountHidden}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_ImportPartCountSuppressed}" IsChecked="{Binding general3DConfig.P3D_ImportPartCountSuppressed}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_InventorIgnoreUnfoldPart}" IsChecked="{Binding general3DConfig.P3D_InventorIgnoreUnfoldPart}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_Ignore1DParts}" IsChecked="{Binding general3DConfig.P3D_Ignore1DParts}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_TestTypeOfPart}" IsChecked="{Binding general3DConfig.P3D_TestTypeOfPart}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_UseAssemblyName}" IsChecked="{Binding general3DConfig.P3D_UseAssemblyName}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_PartExportMode}" IsChecked="{Binding general3DConfig.P3D_PartExportMode}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_ObjExportModeOriginal}" IsChecked="{Binding general3DConfig.P3D_ObjExportMode}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_ObjExportModeUnfold}" IsChecked="{Binding general3DConfig.P3D_ObjExportModeUnfoldModel}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_ObjExportModeModified}" IsChecked="{Binding general3DConfig.P3D_ObjExportModeModifiedModel}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_ObjExportModeReconstructed}" IsChecked="{Binding general3DConfig.P3D_ObjExportModeReconstructedModel}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_GlbExportModeOriginal}" IsChecked="{Binding general3DConfig.P3D_GlbExportModel}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_GlbExportModeUnfold}" IsChecked="{Binding general3DConfig.P3D_GlbExportModeUnfoldModel}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_GlbExportModeModified}" IsChecked="{Binding general3DConfig.P3D_GlbExportModeModifiedModel}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_GlbExportModeReconstructed}" IsChecked="{Binding general3DConfig.P3D_GlbExportModeReconstructedModel}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_ValidationAuto}" IsChecked="{Binding ValidationViewModel.AutoValidationOnFileLoaded}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.ReconstructBendsAutoAfterImport}" IsChecked="{Binding ReconstructBendsAutoAfterImport}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.DetectPurchasedParts}" IsChecked="{Binding IsDetectionPrefabricatedPartsByNameActive}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.SearchSpecialVisibleFaceColor}" IsChecked="{Binding SearchSpecialVisibleFaceColor}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.UseIdsAs2DPartNames}" IsChecked="{Binding general3DConfig.P3D_UseIdsAs2DPartNames}" />
+              <StackPanel Orientation="Horizontal" Margin="25,0" Visibility="{Binding SpecialVisibleFaceColorVisible}">
+                <Button Margin="5" Height="25" MinWidth="200" Command="{Binding SpecialVisibleFaceColor.ColorChangeCommand}">
+                  <TextBlock Text="{DynamicResource l_popup.PopupUnfoldSetting.SpecialVisibleFaceColor}" Margin="5,0" />
+                </Button>
+                <Rectangle Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Left" Fill="{Binding SpecialVisibleFaceColor.Color, Converter={StaticResource converterCfgColor2Brush}}" />
+                <Button Margin="5" Visibility="Collapsed" Height="25" MinWidth="80">
+                  <controls:RadGlyph xmlns:controls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" controls:RadGlyph.Glyph="" controls:RadGlyph.Foreground="#FF000000" controls:RadGlyph.FontSize="16" FrameworkElement.ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.SpecialVisibleFaceColorPipetteTt}" />
+                </Button>
+              </StackPanel>
+            </StackPanel>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.PopupUnfoldSetting.tabReconstruct}" Padding="15" Visibility="Visible">
+        <ScrollViewer>
+          <StackPanel Orientation="Vertical" Margin="10">
+            <TextBlock Style="{DynamicResource PnPopupHeaderText}" Text="{DynamicResource l_popup.PopupUnfoldSetting.ReconstructOptions}" />
+            <StackPanel Orientation="Vertical" Margin="20,5,0,5">
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.ReconstructBendsAutoAfterImport}" IsChecked="{Binding ReconstructBendsAutoAfterImport}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.ReconstructAllBends}" IsChecked="{Binding ReconstructBendsConfig.ReconstructAllBends}" />
+            </StackPanel>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.PopupUnfoldSetting.tabValidation}" Padding="15" Visibility="Visible">
+        <local:ValidationSettingView DataContext="{Binding ValidationViewModel}" />
+      </TabItem>
+      <TabItem Name="TabPurchasedPart" Header="{DynamicResource l_popup.PopupUnfoldSetting.PurchasedParts}" Padding="15">
+        <Grid Margin="5">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <FrameworkElement Name="dummyElement" Visibility="Collapsed" />
+          <WrapPanel Grid.Row="0">
+            <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.DetectPurchasedParts}" VerticalAlignment="Center" IsChecked="{Binding IsDetectionPrefabricatedPartsByNameActive}" />
+            <CheckBox Style="{DynamicResource PnPopupCheckBox}" Content="{DynamicResource l_popup.PopupUnfoldSetting.IgnoreNonHorizontalAssignedPp}" ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.IgnoreNonHorizontalAssignedPpTt}" VerticalAlignment="Center" Margin="20,0" IsChecked="{Binding IgnoreNonHorizontalPlaneConnectedPp}" />
+            <Button ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.PurchasedPartImportTt}" Command="{Binding CmdImportPrefabricatedParts}">
+              <RadGlyph p21:RadGlyph.Glyph="" p21:RadGlyph.Foreground="#FF000000" p21:RadGlyph.FontSize="16" xmlns:p21="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+            </Button>
+            <Button ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.DeleteAllPrefabricatedPartsTt}" Margin="20,0" Command="{Binding CmdDeleteAll}">
+              <RadGlyph p21:RadGlyph.Glyph="" p21:RadGlyph.Foreground="#FFFF0000" p21:RadGlyph.FontSize="16" xmlns:p21="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+            </Button>
+            <Button ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.ResetPrefabricatedPartsTt}" Command="{Binding CmdResetPrefabricatedParts}">
+              <RadGlyph p21:RadGlyph.Glyph="" p21:RadGlyph.Foreground="#FF000000" p21:RadGlyph.FontSize="16" xmlns:p21="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+            </Button>
+          </WrapPanel>
+          <telerik:RadGridView Name="GridPrefabricatedParts" Grid.Row="1" AutoGenerateColumns="False" SelectionMode="Single" GroupRenderMode="Flat" ShowColumnFooters="True" NewRowPosition="Top" FrozenColumnCount="1" RightFrozenColumnCount="1" RightFrozenColumnsSplitterVisibility="Visible" ItemsSource="{Binding PurchasedPartList}" PreparedCellForEdit="GridView_PreparedCellForEdit">
+            <telerik:GridViewDataControl.Columns>
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.PartName}" DataMemberBinding="{Binding NameBinding}">
+                <telerik:GridViewColumn.AggregateFunctions>
+                  <telerik:CountFunction Caption="Anzahl:" />
+                </telerik:GridViewColumn.AggregateFunctions>
+              </telerik:GridViewDataColumn>
+              <telerik:GridViewComboBoxColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.SearchType}" DisplayMemberPath="Desc" SelectedValueMemberPath="Value" EditTriggers="CellClick,Default" DataMemberBinding="{Binding NameSearchTypeBinding}" ItemsSource="{Binding NameSearchTypes}">
+                <telerik:GridViewBoundColumnBase.EditorStyle>
+                  <Style TargetType="{x:Type telerik:RadComboBox}">
+                    <Setter Property="telerik:RadComboBox.OpenDropDownOnFocus" Value="True" />
+                    <Setter Property="telerik:RadComboBox.CanAutocompleteSelectItems" Value="True" />
+                  </Style>
+                </telerik:GridViewBoundColumnBase.EditorStyle>
+              </telerik:GridViewComboBoxColumn>
+              <telerik:GridViewComboBoxColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.Type}" DisplayMemberPath="Desc" SelectedValueMemberPath="Index" EditTriggers="CellClick,Default" DataMemberBinding="{Binding Type}" ItemsSource="{Binding PurchasedPartTypeList}">
+                <telerik:GridViewBoundColumnBase.EditorStyle>
+                  <Style TargetType="{x:Type telerik:RadComboBox}">
+                    <Setter Property="telerik:RadComboBox.OpenDropDownOnFocus" Value="True" />
+                    <Setter Property="telerik:RadComboBox.CanAutocompleteSelectItems" Value="True" />
+                  </Style>
+                </telerik:GridViewBoundColumnBase.EditorStyle>
+              </telerik:GridViewComboBoxColumn>
+              <telerik:GridViewCheckBoxColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.IgnoreAtCollision}" EditTriggers="CellClick,Default" AutoSelectOnEdit="True" DataMemberBinding="{Binding IgnoreAtCollision}" />
+              <telerik:GridViewDataColumn>
+                <telerik:GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <controls:RadButton FrameworkElement.Cursor="Hand" Control.Foreground="#FFFF0000" xmlns:controls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" ButtonBase.Command="{Binding Path=DataContext.CmdDeleteRow, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type telerik:RadGridView}}}" ButtonBase.CommandParameter="{Binding}">
+                      <controls:RadGlyph controls:RadGlyph.Glyph="" />
+                    </controls:RadButton>
+                  </DataTemplate>
+                </telerik:GridViewColumn.CellTemplate>
+              </telerik:GridViewDataColumn>
+            </telerik:GridViewDataControl.Columns>
+          </telerik:RadGridView>
+          <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+            <Label VerticalContentAlignment="Center" Content="{DynamicResource l_popup.PopupUnfoldSetting.PurchasedPartType}" />
+            <Button ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.PurchasedPartTypeNew}" Command="{Binding CmdAddNewPurchasedPartType}">
+              <RadGlyph p21:RadGlyph.Glyph="" p21:RadGlyph.Foreground="#FF000000" p21:RadGlyph.FontSize="16" xmlns:p21="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+            </Button>
+          </StackPanel>
+          <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding PurchasedPartTypeList}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Orientation="Horizontal" Margin="0" AllowDrop="True">
+                    <Button Padding="5,0" IsTabStop="False" Command="{Binding ElementName=TabPurchasedPart, Path=DataContext.CmdDeletePurchasedPartType}" CommandParameter="{Binding}">
+                      <RadGlyph p25:RadGlyph.Glyph="" p25:RadGlyph.Foreground="#FF000000" p25:RadGlyph.FontSize="16" xmlns:p25="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+                    </Button>
+                    <TextBox MinWidth="100" Text="{Binding Desc}" />
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+          <Grid Row="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="10" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.MaxDistOfPurchasePartsToSheetMetal}" />
+            <TextBox Grid.Column="2" Text="{Binding MaxDistOfPurchasePartsToSheetMetalUI}" />
+            <Label Grid.Column="3" Content="{Binding MaxDistOfPurchasePartsToSheetMetalUnit}" />
+          </Grid>
+        </Grid>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.PopupUnfoldSetting.Colors3D}" Padding="15">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Orientation="Vertical" Margin="0">
+            <GroupBox Header="{DynamicResource l_popup.PnInterfaceSettings._3DPartColorSettings}" Margin="10">
+              <StackPanel>
+                <Grid Visibility="Collapsed" IsSharedSizeScope="True">
+                  <ItemsControl ItemsSource="{Binding PartColors3D}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Grid Margin="25,0">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                          </Grid.ColumnDefinitions>
+                          <Grid.RowDefinitions>
+                            <RowDefinition />
+                          </Grid.RowDefinitions>
+                          <Button Grid.Column="0" Margin="5" Height="25" Style="{DynamicResource PnPopupOptionButton}" MinWidth="200" Command="{Binding ColorChangeCommand}">
+                            <TextBlock Margin="5,0" Text="{Binding Desc}" />
+                          </Button>
+                          <Rectangle Grid.Column="1" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Left" Fill="{Binding Color, Converter={StaticResource converterCfgColor2Brush}}" />
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </Grid>
+                <ItemsControl ItemsSource="{Binding PartColors3D}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Grid Margin="25,0">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                          <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Margin="5" Height="25" Style="{DynamicResource PnPopupOptionButton}" MinWidth="200" Width="300" Command="{Binding ColorChangeCommand}">
+                          <TextBlock Margin="5,0" Text="{Binding Desc}" />
+                        </Button>
+                        <Rectangle Grid.Column="1" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Left" Fill="{Binding Color, Converter={StaticResource converterCfgColor2Brush}}" />
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <WrapPanel FlowDirection="LeftToRight" />
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                </ItemsControl>
+              </StackPanel>
+            </GroupBox>
+            <GroupBox Header="{DynamicResource l_popup.PnInterfaceSettings._3DMacroColorSettings}" Margin="10">
+              <StackPanel>
+                <Grid Visibility="Collapsed" IsSharedSizeScope="True">
+                  <ItemsControl ItemsSource="{Binding MacroColors3D}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Grid Margin="25,0">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                          </Grid.ColumnDefinitions>
+                          <Grid.RowDefinitions>
+                            <RowDefinition />
+                          </Grid.RowDefinitions>
+                          <Button Grid.Column="0" Margin="5" Height="25" Style="{DynamicResource PnPopupOptionButton}" MinWidth="200" Command="{Binding ColorChangeCommand}">
+                            <TextBlock Margin="5,0" Text="{Binding Desc}" />
+                          </Button>
+                          <Rectangle Grid.Column="1" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Left" Fill="{Binding Color, Converter={StaticResource converterCfgColor2Brush}}" />
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </Grid>
+                <ItemsControl ItemsSource="{Binding MacroColors3D}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Grid Margin="25,0">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                          <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Margin="5" Height="25" Style="{DynamicResource PnPopupOptionButton}" MinWidth="200" Width="300" Command="{Binding ColorChangeCommand}">
+                          <TextBlock Margin="5,0" Text="{Binding Desc}" />
+                        </Button>
+                        <Rectangle Grid.Column="1" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Left" Fill="{Binding Color, Converter={StaticResource converterCfgColor2Brush}}" />
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <WrapPanel FlowDirection="LeftToRight" />
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                </ItemsControl>
+              </StackPanel>
+            </GroupBox>
+            <GroupBox Header="{DynamicResource l_popup.PnInterfaceSettings._3DMachineColorSettings}" Margin="10">
+              <StackPanel>
+                <Grid Visibility="Collapsed" IsSharedSizeScope="True">
+                  <ItemsControl ItemsSource="{Binding MachineColors3D}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Grid Margin="25,0">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                          </Grid.ColumnDefinitions>
+                          <Grid.RowDefinitions>
+                            <RowDefinition />
+                          </Grid.RowDefinitions>
+                          <Button Grid.Column="0" Margin="5" Height="25" Style="{DynamicResource PnPopupOptionButton}" MinWidth="200" Command="{Binding ColorChangeCommand}">
+                            <TextBlock Margin="5,0" Text="{Binding Desc}" />
+                          </Button>
+                          <Rectangle Grid.Column="1" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Left" Fill="{Binding Color, Converter={StaticResource converterCfgColor2Brush}}" />
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </Grid>
+                <ItemsControl ItemsSource="{Binding MachineColors3D}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Grid Margin="25,0">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="20" />
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                          <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <CheckBox Grid.Column="0" IsChecked="{Binding Overwrite}" Visibility="{Binding OverwriteOptionVisibility}" />
+                        <Button Grid.Column="1" Margin="5" Height="25" Style="{DynamicResource PnPopupOptionButton}" MinWidth="200" Width="300" IsEnabled="{Binding Overwrite}" Command="{Binding ColorChangeCommand}">
+                          <TextBlock Margin="5,0" Text="{Binding Desc}" />
+                        </Button>
+                        <Rectangle Grid.Column="2" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Left" IsEnabled="{Binding Overwrite}" Fill="{Binding Color, Converter={StaticResource converterCfgColor2Brush}}" />
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <WrapPanel FlowDirection="LeftToRight" />
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                </ItemsControl>
+              </StackPanel>
+            </GroupBox>
+            <GroupBox Header="{DynamicResource l_popup.PnInterfaceSettings._3DEditOrderColorSettings}" Margin="10">
+              <StackPanel>
+                <Grid Visibility="Collapsed" IsSharedSizeScope="True">
+                  <ItemsControl ItemsSource="{Binding EditOrderColors3D}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Grid Margin="25,0">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                          </Grid.ColumnDefinitions>
+                          <Grid.RowDefinitions>
+                            <RowDefinition />
+                          </Grid.RowDefinitions>
+                          <Button Grid.Column="0" Margin="5" Height="25" Style="{DynamicResource PnPopupOptionButton}" MinWidth="200" Command="{Binding ColorChangeCommand}">
+                            <TextBlock Margin="5,0" Text="{Binding Desc}" />
+                          </Button>
+                          <Rectangle Grid.Column="1" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Left" Fill="{Binding Color, Converter={StaticResource converterCfgColor2Brush}}" />
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </Grid>
+                <ItemsControl ItemsSource="{Binding EditOrderColors3D}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Grid Margin="25,0">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="20" />
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                          <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <CheckBox Grid.Column="0" IsChecked="{Binding Overwrite}" Visibility="{Binding OverwriteOptionVisibility}" />
+                        <Button Grid.Column="1" Margin="5" Height="25" Style="{DynamicResource PnPopupOptionButton}" MinWidth="200" Width="300" IsEnabled="{Binding Overwrite}" Command="{Binding ColorChangeCommand}">
+                          <TextBlock Margin="5,0" Text="{Binding Desc}" />
+                        </Button>
+                        <Rectangle Grid.Column="2" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Left" IsEnabled="{Binding Overwrite}" Fill="{Binding Color, Converter={StaticResource converterCfgColor2Brush}}" />
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <WrapPanel FlowDirection="LeftToRight" />
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                </ItemsControl>
+              </StackPanel>
+            </GroupBox>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.PnInterfaceSettings.MacroSettings}" Padding="15">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Orientation="Vertical" Margin="10">
+            <TextBlock Style="{DynamicResource PnPopupHeaderText}" Text="{DynamicResource l_popup.PnInterfaceSettings.MacroColorSettings2D}" />
+            <Grid Margin="25,5,5,5">
+              <WrapPanel FlowDirection="LeftToRight">
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="0" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.BaseColorPn}" Command="{Binding BaseColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="0" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding BaseColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="0" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding BaseColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="1" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.TubeCutColorPn}" Command="{Binding TubeCutColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="1" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding TubeCutColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="1" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding TubeCutColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="2" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.BendPosColorPn}" Command="{Binding BendPosColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="2" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding BendPosColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="2" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding BendPosColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="3" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.BendNegColorPn}" Command="{Binding BendNegColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="3" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding BendNegColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="3" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding BendNegColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="4" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.MacroPosColorPn}" Command="{Binding MacroPosColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="4" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding MacroPosColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="4" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding MacroPosColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="5" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.MacroNegColorPn}" Command="{Binding MacroNegColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="5" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding MacroNegColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="5" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding MacroNegColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="6" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.DeepeningPosColorPn}" Command="{Binding DeepeningPosColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="6" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding DeepeningPosColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="6" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding DeepeningPosColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="7" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.DeepeningNegColorPn}" Command="{Binding DeepeningNegColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="7" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding DeepeningNegColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="7" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding DeepeningNegColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="8" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.BlindHoleSideColorPn}" Command="{Binding BlindHoleSideColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="8" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding BlindHoleSideColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="8" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding BlindHoleSideColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="9" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.EmbossedPosColorPn}" Command="{Binding EmbossedPosColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="9" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding EmbossedPosColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="9" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding EmbossedPosColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="10" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.EmbStampPosColorPn}" Command="{Binding EmbStampPosColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="10" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding EmbStampPosColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="10" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding EmbStampPosColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="11" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.EmbStampNegColorPn}" Command="{Binding EmbStampNegColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="11" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding EmbStampNegColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="11" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding EmbStampNegColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Button Width="200" Grid.Column="0" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.EmbStampSpecialColorPn}" Command="{Binding EmbStampSpecialColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding EmbStampSpecialColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding EmbStampSpecialColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="12" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.PurchasedPartsPosColorPn}" Command="{Binding PurchasedPartsPosColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="12" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding PurchasedPartsPosColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="12" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding PurchasedPartsPosColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="13" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.PurchasedPartsNegColorPn}" Command="{Binding PurchasedPartsNegColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="13" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding PurchasedPartsNegColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="13" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding PurchasedPartsNegColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="14" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.CutOutMarkerColorPn}" Command="{Binding CutOutMarkerColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="14" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding CutOutMarkerColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="14" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding CutOutMarkerColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="8" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.ChamferPosColorPn}" Command="{Binding ChamferPosColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="8" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding ChamferPosColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="8" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding ChamferPosColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Button Width="200" Grid.Column="0" Grid.Row="8" Margin="5" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PnInterfaceSettings.ChamferNegColorPn}" Command="{Binding ChamferNegColorPnCommand}" />
+                  <Rectangle Grid.Column="1" Grid.Row="8" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding ChamferNegColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="8" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding ChamferNegColorPn}" />
+                </Grid>
+                <Grid Margin="25,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Label Width="200" Grid.Column="0" Grid.Row="15" Margin="5" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.PnInterfaceSettings.UnknownMacroPosColorPn}" HorizontalAlignment="Center" />
+                  <Rectangle Grid.Column="1" Grid.Row="15" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding UnknownMacroPosColorPn, Converter={StaticResource converterPnColor2Brush}}" />
+                  <Label Width="30" Grid.Column="2" Grid.Row="15" Margin="3" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding UnknownMacroPosColorPn}" />
+                </Grid>
+              </WrapPanel>
+            </Grid>
+            <TextBlock Style="{DynamicResource PnPopupHeaderText}" Text="{DynamicResource l_popup.PnInterfaceSettings.MacroTextSettings2D}" />
+            <Grid Margin="25,5,5,5">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Label Grid.Column="0" Grid.Row="0" Margin="3" Content="{DynamicResource l_popup.PnInterfaceSettings.MacroEmbossedToolSuffix}" Style="{DynamicResource PnPopupLabelForTextBox}" />
+              <src1:TextBoxString Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" MaxLength="3" Height="26" MinWidth="40" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding macro3DConfig.MacroEmbossedToolSuffix}" />
+            </Grid>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.PnInterfaceSettings.UnfoldSettings}" Padding="15">
+        <ScrollViewer>
+          <StackPanel Orientation="Vertical" Margin="10">
+            <TextBlock Style="{DynamicResource PnPopupHeaderText}" Text="{DynamicResource l_popup.PopupUnfoldSetting.UnfoldOptions}" />
+            <StackPanel Orientation="Vertical" Margin="20,5,0,5">
+              <CheckBox Name="DefaultMachineBox" Style="{DynamicResource PnPopupCheckBox}" Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_UseDefaultMachine}" IsChecked="{Binding general3DConfig.P3D_UseDefaultMachine}" />
+              <Grid Visibility="{Binding IsChecked, ElementName=DefaultMachineBox, Converter={StaticResource B2V}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Label Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_DefaultMachine}" Grid.Column="0" Style="{DynamicResource PnPopupLabelForTextBox}" />
+                <ComboBox Grid.Column="1" MinWidth="150" ItemsSource="{Binding Machines}" SelectedItem="{Binding SelectedMachine}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock TextAlignment="Center" Text="{Binding MachineNo}" />
+                        <TextBlock Margin="5,0,0,0" TextAlignment="Center" Text="{Binding Name}" />
+                      </StackPanel>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ComboBox>
+              </Grid>
+              <CheckBox Name="UseDINUnfoldBox" Style="{DynamicResource PnPopupCheckBox}" Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_UseDINUnfold}" IsChecked="{Binding general3DConfig.P3D_UseDINUnfold}" />
+              <CheckBox Style="{DynamicResource PnPopupCheckBox}" Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_ExportInfoFile}" IsChecked="{Binding general3DConfig.P3D_ExportInfoFile}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_Apply2DOrientateMinArea}" ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.P3D_Apply2DOrientateMinAreaTt}" IsChecked="{Binding general3DConfig.P3D_Apply2DOrientateMinArea}" />
+              <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_WarningNoKFactor}" IsChecked="{Binding general3DConfig.P3D_WarningNoKFactor}" />
+            </StackPanel>
+            <TextBlock Style="{DynamicResource PnPopupFreeText}" Text="{DynamicResource l_popup.PopupUnfoldSetting.P3D_ReliefWidthForBendsWithIncreadesRadius}" />
+            <StackPanel Orientation="Vertical" Margin="20,5,0,5">
+              <Grid>
+                <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_ShowCutOutMrakersIn2D}" IsChecked="{Binding general3DConfig.P3D_Mark_ReliefIn2D}" />
+              </Grid>
+              <Grid>
+                <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_HideCutOutMrakersIn2D}" IsChecked="{Binding general3DConfig.P3D_Hide_ReliefIn2D}" />
+              </Grid>
+              <Grid ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.P3D_CutOutInfoAsNotificationTt}">
+                <CheckBox Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_CutOutInfoAsNotification}" IsChecked="{Binding general3DConfig.P3D_ReliefInfoAsNotification}" />
+              </Grid>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_DefaultReliefWidth}" />
+                <src1:TextBoxDouble Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" Min="0.01" Max="100" Height="26" VerticalAlignment="Top" Text="{Binding general3DConfig.P3D_Default_ReliefWidth}" />
+                <Label Content="{DynamicResource l_popup.PopupUnfoldSetting.P3D_mm}" Grid.Column="2" />
+              </Grid>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="20,5,0,5" Visibility="Collapsed">
+              <CheckBox Style="{DynamicResource PnPopupCheckBox}" Content="{DynamicResource l_popup.PopupUnfoldSetting.IgnoreBendTable}" IsChecked="{Binding general3DConfig.P3D_IgnoreBendTable}" />
+              <Grid Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.DefaultKFactor}" />
+                <src1:TextBoxDouble Name="Int2TextBox" Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" Min="0.001" Max="0.999" Height="26" VerticalAlignment="Top" Text="{Binding general3DConfig.P3D_Default_KFactor}" />
+              </Grid>
+            </StackPanel>
+            <TextBlock Style="{DynamicResource PnPopupFreeText}" Text="{DynamicResource l_popup.PopupUnfoldSetting.DefaultTubeKFactorInfo}" />
+            <StackPanel Orientation="Vertical" Margin="20,5,0,5">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.DefaultTubeKFactor}" />
+                <src1:TextBoxDouble Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" Min="0.0" Max="1.0" Height="26" VerticalAlignment="Top" Text="{Binding general3DConfig.P3D_Default_Tube_KFactor}" />
+              </Grid>
+            </StackPanel>
+            <TextBlock Style="{DynamicResource PnPopupFreeText}" Text="{DynamicResource l_popup.PopupUnfoldSetting.RadiusToleranceInfo}" />
+            <StackPanel Orientation="Vertical" Margin="20,5,0,5">
+              <Grid Margin="0,0,0,1">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.RadiusToleranceConstante}" />
+                <src1:TextBoxDouble Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" Min="0.0" Height="26" VerticalAlignment="Top" Text="{Binding general3DConfig.P3D_RadiusToleranceConstante}" />
+                <Label Content="" Grid.Column="2" />
+              </Grid>
+              <Grid Margin="0,0,0,1">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.RadiusToleranceRadius}" />
+                <src1:TextBoxDouble Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" Min="0.0" Height="26" VerticalAlignment="Top" Text="{Binding general3DConfig.P3D_RadiusToleranceRadius}" />
+                <Label Content="{DynamicResource l_popup.PopupUnfoldSetting.RadiusToleranceRadiusAddOn}" Grid.Column="2" />
+              </Grid>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.RadiusToleranceThickness}" />
+                <src1:TextBoxDouble Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" Min="0.0" Height="26" VerticalAlignment="Top" Text="{Binding general3DConfig.P3D_RadiusToleranceThickness}" />
+                <Label Content="{DynamicResource l_popup.PopupUnfoldSetting.RadiusToleranceThicknessAddOn}" Grid.Column="2" />
+              </Grid>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{DynamicResource PnPopupFreeText}" Text="{DynamicResource l_popup.PopupUnfoldSetting.TotalTolerance}" />
+              </Grid>
+            </StackPanel>
+            <TextBlock Style="{DynamicResource PnPopupFreeText}" Text="{DynamicResource l_popup.PopupUnfoldSetting.BendOptions}" />
+            <StackPanel Orientation="Vertical" Margin="20,5,0,5">
+              <Grid Margin="0,0,0,1">
+                <CheckBox Style="{DynamicResource PnPopupCheckBox}" Content="{DynamicResource l_popup.PopupUnfoldSetting.IgnoreSelfCollision}" IsChecked="{Binding general3DConfig.P3D_IgnoreSelfCollision}" />
+              </Grid>
+            </StackPanel>
+            <TextBlock Style="{DynamicResource PnPopupFreeText}" Text="{DynamicResource l_popup.PopupUnfoldSetting.StepBendOptions}" />
+            <StackPanel Orientation="Vertical" Margin="20,5,0,5">
+              <Grid Margin="0,0,0,1">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="3*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.MinStepBendRadius}" />
+                <src1:TextBoxDouble Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" Min="0.0" Height="26" VerticalAlignment="Top" Text="{Binding general3DConfig.P3D_MinStepBendRadius}" />
+                <Label Content="" Grid.Column="2" />
+              </Grid>
+              <Grid Margin="0,0,0,1">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="3*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.MaxStepBendRadius}" />
+                <src1:TextBoxDouble Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" Min="0.0" Height="26" VerticalAlignment="Top" Text="{Binding general3DConfig.P3D_MaxStepBendRadius}" />
+              </Grid>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="3*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.WithoutMachineRadiusFactor}" />
+                <src1:TextBoxDouble Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" Min="0.0" Height="26" VerticalAlignment="Top" Text="{Binding general3DConfig.P3D_StepBendWithoutMachineRadiusFactor}" />
+                <Label Content="{DynamicResource l_popup.PopupUnfoldSetting.RadiusToleranceThicknessAddOn}" Grid.Column="2" />
+              </Grid>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="3*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.WithoutMachineBendLengthFactor}" />
+                <src1:TextBoxDouble Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" Min="0.0" Height="26" VerticalAlignment="Top" Text="{Binding general3DConfig.P3D_StepBendWithoutMachineMinBendLengthFactor}" />
+                <Label Content="{DynamicResource l_popup.PopupUnfoldSetting.RadiusToleranceThicknessAddOn}" Grid.Column="2" />
+              </Grid>
+              <Grid Margin="0,0,0,1">
+                <CheckBox Style="{DynamicResource PnPopupCheckBox}" Content="{DynamicResource l_popup.PopupUnfoldSetting.PreferWaveToolOverStepBend}" IsChecked="{Binding general3DConfig.P3D_PreferWaveToolOverStepBend}" />
+              </Grid>
+            </StackPanel>
+            <TextBlock Style="{DynamicResource PnPopupFreeText}" Text="{DynamicResource l_popup.PopupUnfoldSetting.ToolValidationOptions}" />
+            <StackPanel Orientation="Vertical" Margin="20,5,0,5">
+              <Grid Margin="0,0,0,1" ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.ToolSafetyDistanceOptionTt}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.ToolSafetyDistanceOption}" />
+                <src1:TextBoxDouble Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" Min="0.0" Height="26" VerticalAlignment="Top" Text="{Binding simValidationConfig.SafetyDistance}" />
+                <Label Content="{DynamicResource l_popup.PopupUnfoldSetting.ToolSafetyDistanceOptionSuffix}" Grid.Column="2" />
+              </Grid>
+            </StackPanel>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.PnInterfaceSettings.Legend3d}" Padding="15">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+          </Grid.RowDefinitions>
+          <WrapPanel Grid.Row="0">
+            <CheckBox Content="{DynamicResource l_popup.PnInterfaceSettings.Legend3d.CheckBeforeSave}" ToolTip="{DynamicResource l_popup.PnInterfaceSettings.Legend3d.CheckBeforeSaveTt}" IsChecked="{Binding LegendCheckBeforeSave}" />
+            <CheckBox Content="{DynamicResource l_popup.PnInterfaceSettings.Legend3d.CheckBeforePp}" ToolTip="{DynamicResource l_popup.PnInterfaceSettings.Legend3d.CheckBeforePpTt}" IsChecked="{Binding LegendCheckBeforePp}" />
+          </WrapPanel>
+          <gridView:PnGridViewContainer Grid.Row="1">
+            <gridView:PnGridViewContainer.GridView>
+              <telerik:RadGridView AutoGenerateColumns="False" NewRowPosition="Top" RightFrozenColumnCount="1" RightFrozenColumnsSplitterVisibility="Visible" ItemsSource="{Binding LegendEntries}">
+                <telerik:GridViewDataControl.Columns>
+                  <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PnInterfaceSettings.Legend3d.No}" DataMemberBinding="{Binding No}" />
+                  <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PnInterfaceSettings.Legend3d.Desc}" DataMemberBinding="{Binding Desc}" />
+                  <telerik:GridViewCheckBoxColumn Header="{DynamicResource l_popup.PnInterfaceSettings.Legend3d.Required}" EditTriggers="CellClick" AutoSelectOnEdit="True" DataMemberBinding="{Binding Required}" />
+                  <telerik:GridViewDataColumn>
+                    <telerik:GridViewColumn.CellTemplate>
+                      <DataTemplate>
+                                                <telerik:RadButton FrameworkElement.Cursor="Hand" Control.Foreground="#FFFF0000" ButtonBase.Command="{Binding Path=DataContext.CmdDeleteRow, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type telerik:RadGridView}}}" ButtonBase.CommandParameter="{Binding}" >
+                                                    <telerik:RadGlyph telerik:RadGlyph.Glyph="" />
+                        </telerik:RadButton>
+                      </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
+                  </telerik:GridViewDataColumn>
+                </telerik:GridViewDataControl.Columns>
+              </telerik:RadGridView>
+            </gridView:PnGridViewContainer.GridView>
+          </gridView:PnGridViewContainer>
+        </Grid>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.PopupUnfoldSetting.MacroConfig}" Padding="15">
+        <local:MacroConfigView DataContext="{Binding MacroConfigViewModel}" />
+      </TabItem>
+    </TabControl>
+  </Grid>
+</src1:PopupBase>

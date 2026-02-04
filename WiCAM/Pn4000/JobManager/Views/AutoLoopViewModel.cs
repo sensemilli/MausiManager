@@ -61,6 +61,7 @@ namespace WiCAM.Pn4000.JobManager
         private ICommand _XrichtenCommand;
         private ICommand _LageCommand;
         private ICommand _ShowLeftFlyoutCommandMain;
+        private ICommand _HuelleNeuCommand;
 
         public static AutoLoopViewModel Instance
         {
@@ -375,6 +376,27 @@ namespace WiCAM.Pn4000.JobManager
 
             Console.WriteLine("Gravur1 =  " + MainWindow.mainWindow.xGravur.IsChecked);
         }
+
+        public ICommand HuelleNeuCommand
+        {
+            get
+            {
+                if (this._HuelleNeuCommand == null)
+                    this._HuelleNeuCommand = (ICommand)new RelayCommand((Action<object>)(x => this.RibbonButtonHuelle_Click()), (Predicate<object>)(x => true));
+                return this._HuelleNeuCommand;
+            }
+        }
+
+        private void RibbonButtonHuelle_Click()
+        {
+            Console.WriteLine("HuelleNeu =  " + AutoLoopControl._AutoLoopControl.pathToFPR);
+            if (MainWindow.mainWindow.xHuelle.IsChecked == true)
+                Console.WriteLine(AutoLoopControl._AutoLoopControl.FindLineNumberFPR(AutoLoopControl._AutoLoopControl.pathToFPR, " 1  0  0   0        .0000       20     0     0 HuelleNeu", " 1  0  0   0        .0000       20     0     0 HuelleNeu", " 1  1  0   0        .0000       20     0     0 HuelleNeu"));
+            else Console.WriteLine(AutoLoopControl._AutoLoopControl.FindLineNumberFPR(AutoLoopControl._AutoLoopControl.pathToFPR, " 1  1  0   0        .0000       20     0     0 HuelleNeu", " 1  1  0   0        .0000       20     0     0 HuelleNeu", " 1  0  0   0        .0000       20     0     0 HuelleNeu"));
+
+            Console.WriteLine("HuelleNeu =  " + MainWindow.mainWindow.xHuelle.IsChecked);
+        }
+
 
 
 

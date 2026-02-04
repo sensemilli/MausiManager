@@ -25,8 +25,11 @@ namespace WiCAM.Pn4000.ScreenD3D.Controls.Base
     protected ViewModelBase() => this.IsNotifyEnabled = true;
 
     public event PropertyChangedEventHandler PropertyChanged;
+        public void MouseEnterCommand() => Navigate3DViewModel.NaviModel.Opacity = 1.0;
 
-    protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        public void MouseLeaveCommand() => Navigate3DViewModel.NaviModel.Opacity = 0.6;
+
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
     {
       if (!this.IsNotifyEnabled || this.PropertyChanged == null)
         return;

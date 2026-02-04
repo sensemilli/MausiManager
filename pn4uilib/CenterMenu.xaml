@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.pn4.pn4UILib.CenterMenu" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="CenterMenu" Height="150" Width="250" Topmost="False" ShowInTaskbar="False" MinHeight="150" MinWidth="200" SnapsToDevicePixels="True" UseLayoutRounding="True" WindowStartupLocation="CenterOwner" WindowStyle="None" Background="{DynamicResource PnPopup.WindowBrush}" xmlns:pn4uilib="clr-namespace:WiCAM.Pn4000.pn4.pn4UILib;assembly=pn4" Closing="Window_Closing" MouseDown="Window_MouseDown" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown">
+  <Grid Name="grid0">
+    <Grid.RowDefinitions>
+      <RowDefinition Name="row0" Height="Auto" />
+      <RowDefinition Name="row1" Height="*" />
+    </Grid.RowDefinitions>
+    <Grid Row="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Name="c21" Width="*" />
+        <ColumnDefinition Width="50" />
+      </Grid.ColumnDefinitions>
+      <TabControl Name="tabControl1" Grid.Column="0" Height="23" VerticalAlignment="Top" SelectionChanged="tabControl1_SelectionChanged" MouseDoubleClick="tabControl1_MouseDoubleClick" SizeChanged="tabControl1_SizeChanged">
+        <TabItem Name="tabItem1" Header="1" />
+        <TabItem Name="tabItem2" Header="2" />
+        <TabItem Name="tabItem3" Header="3" />
+        <TabItem Name="tabItem4" Header="4" />
+        <TabItem Name="tabItem5" Header="5" />
+      </TabControl>
+      <Border Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource Pn4Ribbon.RibbonBorderBrush}">
+        <Grid>
+          <Button Name="button1" Style="{DynamicResource PnPopupSmallButton}" Background="#00FFFFFF" BorderBrush="#00FFFFFF" Content="X" Height="20" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="24" Click="button1_Click" />
+          <Button Name="button2" Style="{DynamicResource PnPopupSmallButton}" Background="#00FFFFFF" BorderBrush="#00FFFFFF" Content="B" Height="20" HorizontalAlignment="Right" Margin="0,0,22,0" VerticalAlignment="Top" Width="24" Click="button2_Click" />
+        </Grid>
+      </Border>
+    </Grid>
+    <Border Grid.Row="1" BorderThickness="1,0,1,1" BorderBrush="{DynamicResource Pn4Ribbon.RibbonBorderBrush}">
+      <Canvas Name="canvas1" Background="{DynamicResource Pn4Toolbars.ToolbarTrayBackgroundColorBrush}" PreviewMouseMove="canvas1_PreviewMouseMove" />
+    </Border>
+  </Grid>
+</Window>

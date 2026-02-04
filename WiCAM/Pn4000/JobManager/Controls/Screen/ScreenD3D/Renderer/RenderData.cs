@@ -46,7 +46,7 @@ namespace WiCAM.Pn4000.ScreenD3D.Renderer
     internal bool IsFirstFrame = true;
     internal DeviceEx Device9Ex;
     internal SharpDX.Direct3D9.Device Device9;
-    internal SharpDX.Direct3D11.Device Device11;
+    public SharpDX.Direct3D11.Device Device11;
     internal Texture SharedBackBufferAsD3D9;
     internal Texture2D TextureBackBuffer;
     internal Texture2D RenderTexture;

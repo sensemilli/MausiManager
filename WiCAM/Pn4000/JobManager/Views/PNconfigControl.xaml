@@ -13,26 +13,28 @@
              xmlns:helpers="clr-namespace:WiCAM.Pn4000.JobManager.Helpers">
     <UserControl.Resources>
         <local:BorderHeightConverter x:Key="converterImageHeight"/>
-     
+
     </UserControl.Resources>
 
     <Grid >
-       
-        
+
+
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="40" MaxHeight="40" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="600" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <ComboBox Width="400" x:Name="comboBoxSelMachine"/>
+            <ComboBox Width="400" x:Name="comboBoxSelMachine" SelectionChanged="comboBoxSelMachine_SelectionChanged"/>
         </Grid>
         <Grid Grid.Row="1">
-            <ListView x:Name="listeMaschinen" />
+            <DataGrid x:Name="listeMaschinen" MouseDoubleClick="listeMaschinen_MouseDoubleClick" >
+
+            </DataGrid>
         </Grid>
         <!--   <ListView.View>                <GridView>                    <GridViewColumn/>                </GridView>            </ListView.View> -->
         <Grid Grid.Row="2">
-            <ListView x:Name="listePopup"/>
+            <DataGrid x:Name="listePopup" MouseDoubleClick="listePopup_MouseDoubleClick" />
         </Grid>
     </Grid>
 

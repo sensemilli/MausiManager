@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabUnfold.UnfoldView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabUnfold" xmlns:view="clr-namespace:WiCAM.Pn4000.PN3D.Unfold.UI.View;assembly=WiCAM.Pn4000.PN3D" xmlns:generalSubWindow="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralSubWindow" Visibility="{Binding Visible}">
+  <Grid>
+    <WrapPanel>
+      <local:ValidationView Visibility="{Binding Path=DataContext.ValidationVisibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DataContext="{Binding ValidationViewModel}" />
+      <generalSubWindow:IssueView DataContext="{Binding IssueViewModel}" />
+    </WrapPanel>
+    <Canvas>
+      <view:ContextMenuView Canvas.Left="{Binding Left}" Canvas.Top="{Binding Top}" DataContext="{Binding ContextMenuViewModel}" Visibility="{Binding Path=DataContext.ContextMenuViewModelVisibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
+      <view:ContextMenuStepBendWithoutMachineView Canvas.Left="{Binding Left}" Canvas.Top="{Binding Top}" DataContext="{Binding ContextMenuStepBendWithoutMachineViewModel}" Visibility="{Binding Path=DataContext.ContextMenuStepBendWithoutMachineViewVisibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
+    </Canvas>
+  </Grid>
+</UserControl>

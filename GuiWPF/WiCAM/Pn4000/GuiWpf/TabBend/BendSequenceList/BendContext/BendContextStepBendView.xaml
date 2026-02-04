@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.BendSequenceList.BendContext.BendContextStepBendView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.BendSequenceList.BendContext" xmlns:controls="clr-namespace:WiCAM.Pn4000.WpfBasics.Controls;assembly=WiCAM.Pn4000.WpfBasics">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" MinWidth="50" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource l_popup.EditStepBendContextMenu.NumberOfSteps}" VerticalAlignment="Center" />
+    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Amount}" />
+    <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource l_popup.EditStepBendContextMenu.Radius}" VerticalAlignment="Center" />
+    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RadiusUi}" />
+    <CheckBox Grid.Row="2" Grid.ColumnSpan="2" Content="{DynamicResource l_popup.EditStepBendContextMenu.BendDeductionByUser}" IsChecked="{Binding UseUserBendDeduction}" />
+    <TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource l_popup.EditStepBendContextMenu.BendDeductionMiddle}" VerticalAlignment="Center" />
+    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding BendDeductionMiddle}" IsEnabled="{Binding UseUserBendDeduction}" />
+    <TextBlock Grid.Row="4" Grid.Column="0" Text="{DynamicResource l_popup.EditStepBendContextMenu.BendDeductionStartEnd}" VerticalAlignment="Center" />
+    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding BendDeductionStartEnd}" IsEnabled="{Binding UseUserBendDeduction}" />
+    <controls:WiButton Grid.Row="5" Grid.ColumnSpan="2" Key="l_popup.EditStepBendContextMenu.Ok" ButtonBase.Command="{Binding CmdCommit}" />
+    <controls:WiButton Grid.Row="6" Grid.ColumnSpan="2" Key="l_popup.EditStepBendContextMenu.TurnOffStepBend" ButtonBase.Command="{Binding CmdTurnOffStepBend}" />
+  </Grid>
+</UserControl>

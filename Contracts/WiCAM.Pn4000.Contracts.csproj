@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>WiCAM.Pn4000.Contracts</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="WiCAM.Pn4000.BendModel">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Services">
+      <HintPath>..\..\..\..\..\..\..\u\pn\run\WiCAM.Pn4000.BendModel.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Jobdata">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Jobdata.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>C:\u\pn\run\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>C:\u\pn\run\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.PN3D">
+      <HintPath>..\..\..\..\..\..\..\u\pn\run\WiCAM.Pn4000.PN3D.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Services.ConfigProviders.Contracts">
+      <HintPath>C:\u\pn\run\WiCAM.Services.ConfigProviders.Contracts.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

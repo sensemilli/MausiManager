@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.PN3D.Popup.View.PopupMaterialMappingView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.PN3D.Popup.View" xmlns:vm="clr-namespace:WiCAM.Pn4000.PN3D.Popup.ViewModel" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" Title="{DynamicResource l_popup.PopupMaterialMappingView.Title}" Height="450" Width="800" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Icon="/tool.ico" SnapsToDevicePixels="True">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="40" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="1*" />
+    </Grid.ColumnDefinitions>
+    <telerik:RadGridView Grid.Row="0" Grid.ColumnSpan="2" CanUserDeleteRows="False" CanUserInsertRows="False" ShowGroupPanel="False" AutoGenerateColumns="False" ItemsSource="{Binding Mappings}">
+      <telerik:GridViewDataControl.Columns>
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupMaterialMappingView.MatImport}" IsReadOnly="True" DataMemberBinding="{Binding MatImport}" />
+        <telerik:GridViewComboBoxColumn Header="{DynamicResource l_popup.PopupMaterialMappingView.MatPn}" DisplayMemberPath="Value" SelectedValueMemberPath="Key" DataMemberBinding="{Binding MatPn}" ItemsSource="{Binding MatMapping}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupMaterialMappingView.EntryCount}" IsReadOnly="True" DataMemberBinding="{Binding Count}" />
+      </telerik:GridViewDataControl.Columns>
+    </telerik:RadGridView>
+    <Button Grid.Row="1" Grid.Column="0" Margin="25,5,25,5" Content="{DynamicResource l_popup.PopupMaterialMappingView.CancelImport}" Click="Cancel_Click" />
+    <Button Grid.Row="1" Grid.Column="1" Margin="25,5,25,5" Content="{DynamicResource l_popup.PopupMaterialMappingView.ContinueImport}" Click="Continue_Click" />
+  </Grid>
+</Window>

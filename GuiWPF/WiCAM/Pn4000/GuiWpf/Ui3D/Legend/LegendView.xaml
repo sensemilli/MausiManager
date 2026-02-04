@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<popup:PopupBase x:Class="WiCAM.Pn4000.GuiWpf.Ui3D.Legend.LegendView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.Legend" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:popup="clr-namespace:WiCAM.Pn4000.Popup;assembly=WiCAM.Pn4000.Popup" xmlns:gridView="clr-namespace:WiCAM.Pn4000.WpfControls.GridView;assembly=WiCAM.Pn4000.WpfControls">
+  <Grid>
+    <gridView:PnGridViewContainer>
+      <gridView:PnGridViewContainer.GridView>
+        <telerik:RadGridView AutoGenerateColumns="False" ItemsSource="{Binding Entries}">
+          <telerik:GridViewDataControl.Columns>
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.Legend3D.No}" DataMemberBinding="{Binding No}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.Legend3D.Desc}" DataMemberBinding="{Binding Desc}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.Legend3D.Value}" DataMemberBinding="{Binding Value}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.Legend3D.Type}" DataMemberBinding="{Binding Type}" />
+          </telerik:GridViewDataControl.Columns>
+        </telerik:RadGridView>
+      </gridView:PnGridViewContainer.GridView>
+    </gridView:PnGridViewContainer>
+  </Grid>
+</popup:PopupBase>

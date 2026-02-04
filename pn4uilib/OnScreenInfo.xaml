@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.pn4.pn4UILib.OnScreenInfo" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.pn4.pn4UILib" Title="OnScreenInfo" Focusable="False" Visibility="Hidden" ShowActivated="False" FocusManager.IsFocusScope="False" ShowInTaskbar="False" Background="#00FFFFFF" Opacity="0.7" Width="150" Height="150" WindowStyle="None" AllowsTransparency="True" IsHitTestVisible="False" Loaded="Window_Loaded">
+  <Border Name="MainBorder" BorderThickness="1" BorderBrush="#FF000000" CornerRadius="3" Background="#FFFFFFFF">
+    <StackPanel Name="DataPanel" Orientation="Vertical" />
+  </Border>
+</Window>

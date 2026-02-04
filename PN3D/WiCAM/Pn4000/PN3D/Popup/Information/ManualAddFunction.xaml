@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.PN3D.Popup.Information.ManualAddFunction" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.PN3D.Popup.Information" xmlns:pn4Services1="clr-namespace:WiCAM.Pn4000.pn4.pn4Services;assembly=pncommon" Title="" Height="224" Width="300" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" ResizeMode="NoResize">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <pn4Services1:LanguageTextMsg2Int x:Key="MSG2INTConv" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Name="grid1">
+    <Button Name="button6" Content="OK" Height="23" HorizontalAlignment="Left" Margin="59,142,0,0" VerticalAlignment="Top" Width="75" Click="button6_Click" />
+    <Button Name="button7" Height="23" HorizontalAlignment="Right" IsCancel="True" Margin="0,142,63,0" VerticalAlignment="Top" Width="75" Content="{Binding Converter={StaticResource MSG2INTConv}, ConverterParameter=Cancel}" />
+    <Label Name="label1" Height="28" HorizontalAlignment="Left" Margin="22,26,0,0" VerticalAlignment="Top" Content="{Binding Converter={StaticResource MSG2INTConv}, ConverterParameter=Function Group}" />
+    <Label Name="label2" Height="28" HorizontalAlignment="Left" Margin="22,60,0,0" VerticalAlignment="Top" Content="{Binding Converter={StaticResource MSG2INTConv}, ConverterParameter=Function Name}" />
+    <Label Name="label3" Height="28" HorizontalAlignment="Left" Margin="22,94,0,0" VerticalAlignment="Top" Content="{Binding Converter={StaticResource MSG2INTConv}, ConverterParameter=Label}" />
+    <TextBox Name="textBox3" Height="23" HorizontalAlignment="Left" Margin="140,26,0,0" VerticalAlignment="Top" Width="120" Text="{Binding Path=FunctionGroup}" PreviewTextInput="textBox3_PreviewTextInput" />
+    <TextBox Name="textBox1" Height="23" HorizontalAlignment="Left" Margin="140,65,0,0" VerticalAlignment="Top" Width="120" Text="{Binding Path=FunctionName}" />
+    <TextBox Name="textBox2" Height="23" HorizontalAlignment="Left" Margin="140,99,0,0" VerticalAlignment="Top" Width="120" Text="{Binding Path=Label}" />
+  </Grid>
+</Window>

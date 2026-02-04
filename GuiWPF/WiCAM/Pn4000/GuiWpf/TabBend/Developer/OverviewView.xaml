@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.Developer.OverviewView" x:ClassModifier="internal" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.Developer" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:entities="clr-namespace:WiCAM.Pn4000.ToolCalculationGuiWpf.EditTools.Entities">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="0*" />
+    </Grid.ColumnDefinitions>
+    <WrapPanel Grid.Row="0" Grid.ColumnSpan="2">
+      <Button Command="{Binding CmdRefresh}">Refresh</Button>
+      <Button Command="{Binding CmdCurrentCalculationCancel}">Cancel</Button>
+      <Button Command="{Binding CmdCurrentCalculationContinue}">Continue</Button>
+      <telerik:RadToggleButton FrameworkElement.MinWidth="50" ContentControl.Content="Log" ToggleButton.IsChecked="{Binding LogActive}" />
+      <telerik:RadToggleButton FrameworkElement.MinWidth="50" ContentControl.Content="Pausing" ToggleButton.IsChecked="{Binding PauseDuringCommands}"  />
+      <TextBlock Text="{Binding CurrentCalculationInfo}" />
+    </WrapPanel>
+  </Grid>
+</UserControl>

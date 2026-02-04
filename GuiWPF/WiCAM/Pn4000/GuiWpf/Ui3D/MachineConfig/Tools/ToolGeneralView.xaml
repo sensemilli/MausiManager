@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.Tools.ToolGeneralView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:ui="clr-namespace:WiCAM.Pn4000.GuiWpf.UiBasic" xmlns:converter="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D" xmlns:toolViewModels="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.Tools.ToolViewModels" Background="#00FFFFFF" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" xmlns:tools="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.Tools" IsVisibleChanged="UserControl_IsVisibleChanged">
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="0.8" />
+    </Border.Background>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="1*" />
+      </Grid.RowDefinitions>
+      <telerik:RadGridView Name="ToolLists" BorderBrush="#FFA9A9A9" Background="#FFF5F5F5" Grid.Row="1" Grid.Column="0" Margin="5" AutoGenerateColumns="False" GroupRenderMode="Flat" xmlns:controls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Data" IsSynchronizedWithCurrentItem="True" FrozenColumnCount="2" SelectionMode="Extended" ItemsSource="{Binding MachineTools.AllToolLists}" SelectionChanged="Selector_OnSelectionChanged">
+        <telerik:GridViewDataControl.Columns>
+          <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolGeneralView.ID}" Width="auto" IsReadOnly="True" DataMemberBinding="{Binding ID}" />
+          <telerik:GridViewCheckBoxColumn Header="{DynamicResource l_popup.ToolGeneralView.UsedByMachine}" Width="AUTO" AutoSelectOnEdit="True" EditTriggers="CellClick" DataMemberBinding="{Binding UsedByMachine}" />
+          <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolGeneralView.Description}" Width="1*" DataMemberBinding="{Binding Description}" />
+        </telerik:GridViewDataControl.Columns>
+      </telerik:RadGridView>
+    </Grid>
+  </Border>
+</UserControl>

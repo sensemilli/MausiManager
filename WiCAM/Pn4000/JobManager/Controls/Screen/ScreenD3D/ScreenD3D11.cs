@@ -4,6 +4,8 @@
 // MVID: 42974AD7-DECE-42B8-A268-FDDC3C570A12
 // Assembly location: C:\u\pn\run\WiCAM.Pn4000.ScreenD3D.dll
 
+using ControlzEx.Standard;
+using Microsoft.Office.Interop.Excel;
 using SharpDX;
 using System;
 using System.Collections.Generic;
@@ -12,11 +14,14 @@ using System.Windows.Interop;
 using WiCAM.Pn4000.BendModel;
 using WiCAM.Pn4000.BendModel.Base;
 using WiCAM.Pn4000.BendModel.GeometryTools;
+using WiCAM.Pn4000.JobManager;
 using WiCAM.Pn4000.ScreenD3D.Controls;
 using WiCAM.Pn4000.ScreenD3D.Controls.Base;
 using WiCAM.Pn4000.ScreenD3D.Renderer;
 using WiCAM.Pn4000.ScreenD3D.Renderer.Nodes;
 using WiCAM.Pn4000.ScreenD3D.Renderer.RenderTasks;
+using Line = WiCAM.Pn4000.BendModel.Base.Line;
+using Model = WiCAM.Pn4000.BendModel.Model;
 
 namespace WiCAM.Pn4000.ScreenD3D
 {
@@ -26,8 +31,8 @@ namespace WiCAM.Pn4000.ScreenD3D
     private WiCAM.Pn4000.ScreenD3D.Renderer.Renderer _renderer;
     private RenderThread _renderThread;
     private TripodControl _tripodControl;
-
-    public WiCAM.Pn4000.ScreenD3D.Renderer.Renderer Renderer => this._renderer;
+       
+        public WiCAM.Pn4000.ScreenD3D.Renderer.Renderer Renderer => this._renderer;
 
     public ProjectionType ProjectionType
     {
@@ -108,8 +113,24 @@ namespace WiCAM.Pn4000.ScreenD3D
         return;
       this.Render(true, action);
     }
+        internal void AddModel(AnyCAD.Foundation.TopoShape topoShape)
+        {
+            //   RenderTask renderTask = new RenderTask();
+        
+           this.AddModel(topoShape, (Model)null, true, (Action<RenderTaskResult>)null);
 
-    public void AddModel(Model model) => this.AddModel(model, (Model) null, true, (Action<RenderTaskResult>) null);
+            this.Render(true);
+        }
+
+        private void AddModel(AnyCAD.Foundation.TopoShape topoShape, Model parent, bool render, Action<RenderTaskResult> action)
+        {
+            this._renderThread.Enqueue((RenderTaskBase)new AddModelTask(topoShape, parent, render ? action : (Action<RenderTaskResult>)null));
+            if (!render)
+                return;
+            this.Render(true, action);
+        }
+
+        public void AddModel(Model model) => this.AddModel(model, (Model) null, true, (Action<RenderTaskResult>) null);
 
     public void AddModel(Model model, bool render) => this.AddModel(model, (Model) null, render, (Action<RenderTaskResult>) null);
 
@@ -679,5 +700,7 @@ namespace WiCAM.Pn4000.ScreenD3D
     {
       this._renderThread.Enqueue((RenderTaskBase) new ScreenshotTask(this._renderThread.RenderData, targetPath, action, border, width, height));
     }
-  }
+
+     
+    }
 }

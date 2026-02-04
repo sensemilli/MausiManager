@@ -18,7 +18,9 @@ namespace WiCAM.Pn4000.Archive.Browser.Classes.Geo3D
 
 		public Model3DGroup @group;
 
-		private GeometryModel3D GeometryModel;
+        public ModelVisual3D modelVisual3D { get; private set; }
+
+        private GeometryModel3D GeometryModel;
 
 		public double y_rot;
 
@@ -90,7 +92,7 @@ namespace WiCAM.Pn4000.Archive.Browser.Classes.Geo3D
 			double num4 = -(num + (modelBoundary2 - num) / 2);
 			double num5 = -(modelBoundary1 + (num2 - modelBoundary1) / 2);
 			this.@group = new Model3DGroup();
-			ModelVisual3D modelVisual3D = new ModelVisual3D();
+			 modelVisual3D = new ModelVisual3D();
 			foreach (PartInfo part in this.Parts)
 			{
 				Color orangeRed = Colors.OrangeRed;

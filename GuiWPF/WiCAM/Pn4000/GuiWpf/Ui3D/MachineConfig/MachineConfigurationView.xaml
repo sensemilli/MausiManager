@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.MachineConfigurationView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:views1="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI.Views;assembly=WiCAM.Pn4000.PN3D" xmlns:viewModel="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig" xmlns:tools="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.Tools" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:subBendTable="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.SubBendTable" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#00FFFFFF" Loaded="UserControl_Loaded">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type TabItem}">
+              <Border Name="Panel" BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="3" Height="35">
+                <Border.Background>
+                  <SolidColorBrush Color="WhiteSmoke" Opacity="0.7" />
+                </Border.Background>
+                <Grid Background="#00FFFFFF">
+                  <ContentPresenter Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="10,2" />
+                </Grid>
+              </Border>
+              <ControlTemplate.Triggers>
+                <Trigger Property="TabItem.IsSelected" Value="True">
+                  <Setter TargetName="Panel" Property="Border.Background" Value="#FFD3D3D3" />
+                  <Setter TargetName="Panel" Property="UIElement.Opacity" Value="0.7" />
+                </Trigger>
+                <Trigger Property="TabItem.IsSelected" Value="False">
+                  <Setter TargetName="Panel" Property="Border.Background" Value="#FFF5F5F5" />
+                  <Setter TargetName="Panel" Property="UIElement.Opacity" Value="0.7" />
+                </Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5" Margin="5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="{Binding DialogOpacity, FallbackValue=0.8}" />
+    </Border.Background>
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#00FFFFFF" Margin="5">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TabControl BorderThickness="0" TabStripPlacement="Left" Margin="0" Background="#00FFFFFF" SelectedItem="{Binding SelectedTab}" SelectionChanged="TabControl_SelectionChanged">
+        <TabItem Name="BendTableTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.BendTableTab}" Padding="0,10" Width="160">
+          <subBendTable:BendTableView x:Name="BendTableTabView" Visibility="Hidden" Margin="0" DataContext="{Binding BendTableViewModel}" />
+        </TabItem>
+        <TabItem Name="MachineTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.MachineTab}" Padding="0,10" Width="160">
+          <viewModel:MachineConfigView x:Name="MachineTabView" Visibility="Hidden" Margin="0" DataContext="{Binding MachineConfigViewModel}" />
+        </TabItem>
+        <TabItem Name="ToolsTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.ToolsTab}" Padding="0,10" Width="160">
+          <TabControl Name="TabControlTools" Visibility="Hidden" Background="#00FFFFFF" BorderThickness="0" SelectedItem="{Binding SelectedToolsTab}">
+            <TabItem Name="ToolsGeneralTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.GeneralTab}">
+              <tools:ToolGeneralView DataContext="{Binding ToolGeneralViewModel}" />
+            </TabItem>
+            <TabItem Name="GroupsTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.GroupsTab}">
+              <tools:MachineToolsGroupsView DataContext="{Binding MachineToolsGroupsViewModel}" />
+            </TabItem>
+            <TabItem Name="PunchesTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.PunchesTab}">
+              <tools:MachineToolsUpperToolsView DataContext="{Binding UpperToolsViewModel}" />
+            </TabItem>
+            <TabItem Name="DiesTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.DiesTab}">
+              <tools:MachineToolsLowerToolsView DataContext="{Binding LowerToolsViewModel}" />
+            </TabItem>
+            <TabItem Name="DieExtensionTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.DieExtensionsTab}">
+              <tools:MachineToolsLowerToolExtensionsView DataContext="{Binding LowerToolExtensionsViewModel}" />
+            </TabItem>
+            <TabItem Name="UpperAdaptersTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.UpperAdaptersTab}">
+              <tools:MachineToolsUpperAdaptersView Margin="0" DataContext="{Binding UpperAdapterViewModel}" />
+            </TabItem>
+            <TabItem Name="LowerAdaptersTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.LowerAdaptersTab}">
+              <tools:MachineToolsLowerAdaptersView Margin="0" DataContext="{Binding LowerAdapterViewModel}" />
+            </TabItem>
+            <TabItem Name="PreferredToolsTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.PreferredProfilesTab}">
+              <tools:PreferredProfilesView Margin="0" DataContext="{Binding PreferredProfilesViewModel}" />
+            </TabItem>
+            <TabItem Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.AssignAliasTab}">
+              <tools:AssignAliasView Margin="0" DataContext="{Binding AssignAliasViewModel}" />
+            </TabItem>
+          </TabControl>
+        </TabItem>
+        <TabItem Name="FingerStopsTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.FingerStopsTab}" Padding="0,10" Width="160">
+          <TabControl Name="FingerStopsTabView" Visibility="Hidden" Background="#00FFFFFF" BorderThickness="0">
+            <TabItem Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.GeneralTab}">
+              <viewModel:FingerStopGeneralView Margin="0" DataContext="{Binding FingerStopGeneralViewModel}" />
+            </TabItem>
+            <TabItem Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.LeftFingerTab}">
+              <viewModel:FingerView Margin="0" DataContext="{Binding LeftFingerViewModel}" />
+            </TabItem>
+            <TabItem Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.RightFingerTab}">
+              <viewModel:FingerView Margin="0" DataContext="{Binding RightFingerViewModel}" />
+            </TabItem>
+          </TabControl>
+        </TabItem>
+        <TabItem Name="MappingTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.MappingTab}" Padding="0,10" Width="160">
+          <tools:MappingView x:Name="MappingTabView" Visibility="Hidden" Margin="0" DataContext="{Binding MappingViewModel}" />
+        </TabItem>
+        <TabItem Name="BendSequenceTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.BendSequenceTab}" Padding="0,10" Width="160">
+          <views1:BendSequenceEditorView Name="BendSequenceTabView" Visibility="Hidden" Margin="0" DataContext="{Binding BendSequenceEditorViewModel}" />
+        </TabItem>
+        <TabItem Name="PostProcessorTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.PostProcessorTab}" Padding="0,10" Width="160">
+          <viewModel:PPSettingsView x:Name="PostProcessorTabView" Visibility="Hidden" Margin="0" DataContext="{Binding PPSettingsViewModel}" />
+        </TabItem>
+        <TabItem Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.PostProcessorSpecificTab}" Padding="0,10" Width="160">
+          <viewModel:PPSettingsSpecificView Margin="0" DataContext="{Binding PPSettingsViewModel}" />
+        </TabItem>
+        <TabItem Style="{DynamicResource TabItemStyle}" Visibility="Collapsed" Header="{DynamicResource l_popup.PopupMachineConfig.UnfoldTab}" Padding="0,10" Width="160">
+          <telerik:RadPropertyGrid Item="{Binding MachineUnfoldSettingsViewModel.Settings}" />
+        </TabItem>
+        <TabItem Name="CrowningTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.CrowningTab}" Padding="0,10" Width="160">
+          <viewModel:CrowningView x:Name="CrowningTabView" Visibility="Visible" Margin="0" DataContext="{Binding CrowningViewModel}" />
+        </TabItem>
+        <TabItem Name="PressForceHemTab" Style="{DynamicResource TabItemStyle}" Header="{DynamicResource l_popup.PopupMachineConfig.PressForceHemTab}" Padding="0,10" Width="160">
+          <viewModel:PressForceHemView x:Name="PressForceHemView" Visibility="Visible" Margin="0" DataContext="{Binding PressForceHemViewModel}" />
+        </TabItem>
+      </TabControl>
+      <Grid Column="1" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#00FFFFFF">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+          <Button Style="{DynamicResource PnPopupOptionButton}" Margin="10,0,10,5" Height="25" Content="{DynamicResource l_popup.PopupSelectMachine.Delete}" Command="{Binding DeleteCommand}" IsEnabled="{Binding IsDeleteButtonEnabled}" Visibility="{Binding DeleteButtonVisibility}" />
+          <Button Style="{DynamicResource PnPopupOptionButton}" Margin="10,0,10,5" Height="25" Content="{DynamicResource l_popup.PopupSelectMachine.Add}" Command="{Binding AddCommand}" IsEnabled="{Binding IsAddNewButtonEnabled}" Visibility="{Binding AddButtonVisibility}" />
+          <Button Style="{DynamicResource PnPopupOptionButton}" Margin="10,0,10,5" Height="25" Content="{DynamicResource l_popup.PopupSelectMachine.Copy}" Command="{Binding CopyCommand}" IsEnabled="{Binding IsCopyButtonEnabled}" Visibility="{Binding CopyButtonVisibility}" />
+          <Button Style="{DynamicResource PnPopupOptionButton}" Margin="10,0,10,5" Height="25" Content="{DynamicResource l_popup.PopupSelectMachine.Edit}" Command="{Binding EditCommand}" IsEnabled="{Binding IsEditButtonEnabled}" Visibility="{Binding EditButtonVisibility}" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
+          <Button Style="{DynamicResource PnPopupOptionButton}" Margin="10,762,10,0" Height="25" Content="{DynamicResource l_popup.PopupMachineConfig.Cancel}" Command="{Binding CancelCommand}" IsEnabled="{Binding IsCancelButtonEnabled}" />
+          <Button Style="{DynamicResource PnPopupOptionButton}" Margin="10,5,10,5" Height="25" Content="{DynamicResource l_popup.PopupMachineConfig.Ok}" Command="{Binding OkCommand}" IsEnabled="{Binding IsOkButtonEnabled}" />
+        </StackPanel>
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

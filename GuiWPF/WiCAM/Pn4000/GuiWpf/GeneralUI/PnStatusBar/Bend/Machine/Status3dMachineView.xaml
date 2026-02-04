@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.Bend.Machine.Status3dMachineView" 
+             x:ClassModifier="internal" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.Bend.Machine" 
+             xmlns:basicControls="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.BasicControls">
+  <basicControls:PnStatusBarControl Info="{Binding Header}">
+    <basicControls:PnStatusBarControl.Items>
+      <basicControls:PnStatusBarItemControl Label="{Binding DescPressBrakeDataName, Mode=OneWay}" Info="{Binding BendMachine.Name, Mode=OneWay}" />
+      <basicControls:PnStatusBarItemControl Label="{Binding DescMachineNo, Mode=OneWay}" Info="{Binding BendMachine.MachineNo, Mode=OneWay}" />
+      <basicControls:PnStatusBarItemControl Label="{Binding DescPunchName, Mode=OneWay}" Info="{Binding PunchName, Mode=OneWay}" />
+      <basicControls:PnStatusBarItemControl Label="{Binding DescPunchRadius, Mode=OneWay}" Info="{Binding PunchRadius, Mode=OneWay}" />
+      <basicControls:PnStatusBarItemControl Label="{Binding DescDieName, Mode=OneWay}" Info="{Binding DieName, Mode=OneWay}" />
+      <basicControls:PnStatusBarItemControl Label="{Binding DescVWidth, Mode=OneWay}" Info="{Binding VWidth, Mode=OneWay}" />
+      <basicControls:PnStatusBarItemControl Label="{Binding DescVAngle, Mode=OneWay}" Info="{Binding VAngle, Mode=OneWay}" />
+      <basicControls:PnStatusBarItemControl Label="{Binding DescCornerRadius, Mode=OneWay}" Info="{Binding CornerRadius, Mode=OneWay}" />
+    </basicControls:PnStatusBarControl.Items>
+  </basicControls:PnStatusBarControl>
+</UserControl>

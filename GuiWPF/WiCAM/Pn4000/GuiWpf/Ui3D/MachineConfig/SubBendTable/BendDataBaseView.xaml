@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.SubBendTable.BendDataBaseView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:viewModels="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.SubBendTable" xmlns:gridView="clr-namespace:WiCAM.Pn4000.WpfControls.GridView;assembly=WiCAM.Pn4000.WpfControls" xmlns:ui3D="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D" Background="#00FFFFFF" IsVisibleChanged="UserControl_IsVisibleChanged">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <ui3D:BoolToColorConverter x:Key="BoolToColorConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="0.8" />
+    </Border.Background>
+    <Grid>
+      <Grid Visibility="{Binding SelectPreferredProfileNotVisible}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="10*" />
+          <RowDefinition Height="AUTO" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1.7*" />
+          <ColumnDefinition Width="5" />
+          <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Stretch" />
+        <gridView:PnGridViewContainer Name="elementViewContainer" Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#FFA9A9A9" Background="#FFF5F5F5" Margin="5">
+          <gridView:PnGridViewContainer.GridView>
+            <telerik:RadGridView HorizontalContentAlignment="Left" ValidatesOnDataErrors="InEditMode" ValidationType="Default" SelectionMode="Extended" AutoGenerateColumns="False" RightFrozenColumnsSplitterVisibility="Visible" EnableColumnVirtualization="True" EnableRowVirtualization="True" xmlns:controls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Data" IsSynchronizedWithCurrentItem="True" ShowColumnFooters="True" GroupRenderMode="Flat" IsBusy="{Binding ItemsLoading}" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Selector_OnSelectionChanged">
+              <UIElement.InputBindings>
+                <KeyBinding Key="Delete" Command="{Binding KeyDownDelete}" />
+              </UIElement.InputBindings>
+              <telerik:GridViewDataControl.Columns>
+                <telerik:GridViewComboBoxColumn SelectedValueMemberPath="Name" DisplayMemberPath="Name" Header="{DynamicResource l_popup.PopupBendZoneData.MaterialGroup}" Width="AUTO" ItemsSource="{Binding Material3DGroups}" DataMemberBinding="{Binding Material3DGroup}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:CountFunction Caption="Count:  " ResultFormatString="{}{0:#,0}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewComboBoxColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupBendZoneData.Thickness}" FilterMemberPath="ThicknessDouble" Width="AUTO" SortMemberPath="ThicknessDouble" DataMemberBinding="{Binding VisualThickness}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:MinFunction Caption="Min:  " SourceField="ThicknessDouble" ResultFormatString="{}{0:#,0.###}" />
+                    <telerik:MaxFunction Caption="Max:  " SourceField="ThicknessDouble" ResultFormatString="{}{0:#,0.###}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupBendZoneData.Angle}" FilterMemberPath="AngleDouble" Width="AUTO" SortMemberPath="AngleDouble" DataMemberBinding="{Binding VisualAngle}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:MinFunction Caption="Min:  " SourceField="AngleDouble" ResultFormatString="{}{0:#,0.###}" />
+                    <telerik:MaxFunction Caption="Max:  " SourceField="AngleDouble" ResultFormatString="{}{0:#,0.###}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupBendZoneData.Radius}" FilterMemberPath="RadiusDouble" Width="AUTO" SortMemberPath="RadiusDouble" DataMemberBinding="{Binding VisualRadius}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:MinFunction Caption="Min:  " SourceField="RadiusDouble" ResultFormatString="{}{0:#,0.###}" />
+                    <telerik:MaxFunction Caption="Max:  " SourceField="RadiusDouble" ResultFormatString="{}{0:#,0.###}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupBendZoneData.KFactorShort}" FilterMemberPath="KFactorDouble" SortMemberPath="KFactorDouble" Width="AUTO" DataMemberBinding="{Binding VisualKFactor}">
+                  <telerik:GridViewColumn.HeaderCellStyle>
+                    <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
+                      <Setter Property="ToolTipService.ToolTip" Value="{Binding DataContext.KfImage, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                    </Style>
+                  </telerik:GridViewColumn.HeaderCellStyle>
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:MinFunction Caption="Min:  " SourceField="KFactorDouble" ResultFormatString="{}{0:#,0.#####}" />
+                    <telerik:MaxFunction Caption="Max:  " SourceField="KFactorDouble" ResultFormatString="{}{0:#,0.#####}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupBendZoneData.BAShort}" FilterMemberPath="BaDouble" SortMemberPath="BaDouble" Width="AUTO" DataMemberBinding="{Binding VisualBa}">
+                  <telerik:GridViewColumn.HeaderCellStyle>
+                    <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
+                      <Setter Property="ToolTipService.ToolTip" Value="{Binding DataContext.BaImage, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                    </Style>
+                  </telerik:GridViewColumn.HeaderCellStyle>
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:MinFunction Caption="Min:  " SourceField="BaDouble" ResultFormatString="{}{0:#,0.#####}" />
+                    <telerik:MaxFunction Caption="Max:  " SourceField="BaDouble" ResultFormatString="{}{0:#,0.#####}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupBendZoneData.BDShort}" FilterMemberPath="BdDouble" SortMemberPath="BdDouble" Width="AUTO" DataMemberBinding="{Binding VisualBd}">
+                  <telerik:GridViewColumn.HeaderCellStyle>
+                    <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
+                      <Setter Property="ToolTipService.ToolTip" Value="{Binding DataContext.BdImage, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                    </Style>
+                  </telerik:GridViewColumn.HeaderCellStyle>
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:MinFunction Caption="Min:  " SourceField="BdDouble" ResultFormatString="{}{0:#,0.#####}" />
+                    <telerik:MaxFunction Caption="Max:  " SourceField="BdDouble" ResultFormatString="{}{0:#,0.#####}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupBendZoneData.DinShort}" FilterMemberPath="DinDouble" SortMemberPath="DinDouble" Width="AUTO" DataMemberBinding="{Binding VisualDin}">
+                  <telerik:GridViewColumn.HeaderCellStyle>
+                    <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
+                      <Setter Property="ToolTipService.ToolTip" Value="{Binding DataContext.DinImage, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                    </Style>
+                  </telerik:GridViewColumn.HeaderCellStyle>
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:MinFunction Caption="Min:  " SourceField="DinDouble" ResultFormatString="{}{0:#,0.#####}" />
+                    <telerik:MaxFunction Caption="Max:  " SourceField="DinDouble" ResultFormatString="{}{0:#,0.#####}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupBendZoneData.VWidth}" FilterMemberPath="VWidthDouble" SortMemberPath="VWidthDouble" Width="AUTO" DataMemberBinding="{Binding VWidth}" IsVisible="{Binding MachineIsSelected}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:MinFunction Caption="Min:  " SourceField="VWidthDouble" ResultFormatString="{}{0:#,0.###}" />
+                    <telerik:MaxFunction Caption="Max:  " SourceField="VWidthDouble" ResultFormatString="{}{0:#,0.###}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupBendZoneData.CornerRadius}" FilterMemberPath="CornerRadiusDouble" SortMemberPath="CornerRadiusDouble" Width="AUTO" DataMemberBinding="{Binding CornerRadius}" IsVisible="{Binding MachineIsSelected}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:MinFunction Caption="Min:  " SourceField="CornerRadiusDouble" ResultFormatString="{}{0:#,0.###}" />
+                    <telerik:MaxFunction Caption="Max:  " SourceField="CornerRadiusDouble" ResultFormatString="{}{0:#,0.###}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupBendZoneData.VAngle}" FilterMemberPath="VAngleDouble" SortMemberPath="VAngleDouble" Width="AUTO" DataMemberBinding="{Binding VAngle}" IsVisible="{Binding MachineIsSelected}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:MinFunction Caption="Min:  " SourceField="VAngleDouble" ResultFormatString="{}{0:#,0.###}" />
+                    <telerik:MaxFunction Caption="Max:  " SourceField="VAngleDouble" ResultFormatString="{}{0:#,0.###}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupBendZoneData.PunchRadius}" FilterMemberPath="PunchRadiusDouble" SortMemberPath="PunchRadiusDouble" Width="AUTO" DataMemberBinding="{Binding PunchRadius}" IsVisible="{Binding MachineIsSelected}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:MinFunction Caption="Min:  " SourceField="PunchRadiusDouble" ResultFormatString="{}{0:#,0.###}" />
+                    <telerik:MaxFunction Caption="Max:  " SourceField="PunchRadiusDouble" ResultFormatString="{}{0:#,0.###}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupBendZoneData.SpringBack}" Width="AUTO" DataMemberBinding="{Binding SpringBackDeg}" IsVisible="{Binding MachineIsSelected}">
+                  <telerik:GridViewColumn.AggregateFunctions>
+                    <telerik:MinFunction Caption="Min:  " ResultFormatString="{}{0:#,0.###}" />
+                    <telerik:MaxFunction Caption="Max:  " ResultFormatString="{}{0:#,0.###}" />
+                  </telerik:GridViewColumn.AggregateFunctions>
+                </telerik:GridViewDataColumn>
+              </telerik:GridViewDataControl.Columns>
+            </telerik:RadGridView>
+          </gridView:PnGridViewContainer.GridView>
+        </gridView:PnGridViewContainer>
+        <Grid Row="1">
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <viewModels:EnumBooleanConverter x:Key="enumBooleanConverter" />
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Margin="10,0,0,0" Text="{DynamicResource l_popup.PopupBendZoneData.FixedValue}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14" FontWeight="Bold" TextDecorations="Underline" />
+          <WrapPanel Grid.Row="1" Grid.Column="0" Margin="5,2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <RadioButton Content="{DynamicResource l_popup.PopupBendZoneData.KFactor}" VerticalContentAlignment="Center" GroupName="FavouritValue" IsChecked="{Binding Path=MainBendTabelValue, Converter={StaticResource enumBooleanConverter}, ConverterParameter=KFactor}" />
+            <RadioButton Content="{DynamicResource l_popup.PopupBendZoneData.BA}" Margin="5,0,0,0" VerticalContentAlignment="Center" GroupName="FavouritValue" IsChecked="{Binding Path=MainBendTabelValue, Converter={StaticResource enumBooleanConverter}, ConverterParameter=BA}" />
+            <RadioButton Content="{DynamicResource l_popup.PopupBendZoneData.BD}" Margin="5,0,0,0" VerticalContentAlignment="Center" GroupName="FavouritValue" IsChecked="{Binding Path=MainBendTabelValue, Converter={StaticResource enumBooleanConverter}, ConverterParameter=BD}" />
+            <RadioButton Content="{DynamicResource l_popup.PopupBendZoneData.DinLength}" Margin="5,0,0,0" VerticalContentAlignment="Center" GroupName="FavouritValue" IsChecked="{Binding Path=MainBendTabelValue, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Din}" />
+          </WrapPanel>
+          <WrapPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5,2" Orientation="Horizontal" HorizontalAlignment="Right" IsEnabled="{Binding SingleSelected}">
+            <Button Margin="0,3,3,3" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PopupBendZoneData.SelectPreferredTools}" Grid.ColumnSpan="2" Command="{Binding SelectToolSetCommand}" IsEnabled="{Binding IsSelectToolSetButtonEnabled}" />
+            <Button Margin="0,3,3,3" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.PopupBendZoneData.ClearPreferredTools}" Grid.ColumnSpan="2" Command="{Binding ClearToolSetCommand}" IsEnabled="{Binding IsSelectToolSetButtonEnabled}" />
+          </WrapPanel>
+        </Grid>
+        <Grid Row="0" Column="2" RowSpan="2">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Grid.Row="0" Grid.Column="0" BorderThickness="1,0,0,0" BorderBrush="#FFA9A9A9" CornerRadius="0">
+            <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Content="{Binding HeightMap}" />
+          </Border>
+        </Grid>
+      </Grid>
+      <Grid Margin="0,0,0,-0.349" Row="0" RowSpan="3" ColumnSpan="2" Column="0" Background="#00FFFFFF" Visibility="{Binding SelectPreferredProfileVisible}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="0.5*" />
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <TextBlock Style="{DynamicResource PnPopupHeaderText}" Text="{DynamicResource l_popup.PopupSelectMachine.DefaultToolsLabel}" TextDecorations="Underline" FontWeight="Bold" FontSize="25" TextAlignment="Center" Grid.ColumnSpan="2" />
+        <Border Margin="10,42,10,5" BorderBrush="#00FFFFFF" BorderThickness="1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
+          <telerik:RadGridView BorderBrush="#FFA9A9A9" BorderThickness="1" Background="#00FFFFFF" CanUserDeleteRows="False" CanUserInsertRows="False" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" ItemsSource="{Binding FittingProfiles}" SelectedItem="{Binding ProfileToUse}">
+            <telerik:GridViewDataControl.Columns>
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.ID}" Width="AUTO" DataMemberBinding="{Binding Id}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.Material3DGroupName}" Width="AUTO" DataMemberBinding="{Binding Material3DGroupName}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.Material3DGroupId}" Width="AUTO" DataMemberBinding="{Binding Material3DGroupID}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.SheetThickness}" Width="AUTO" DataMemberBinding="{Binding Thickness}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.PunchProfileId}" Width="AUTO" DataMemberBinding="{Binding PunchGroupId}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.PunchProfileName}" Width="AUTO" DataMemberBinding="{Binding PunchGroupName}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.PunchRadius}" Width="AUTO" DataMemberBinding="{Binding PunchRadius}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.DieProfileId}" Width="AUTO" DataMemberBinding="{Binding DieGroupId}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.DieProfileName}" Width="AUTO" DataMemberBinding="{Binding DieGroupName}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.DieOpeningWidth}" Width="AUTO" DataMemberBinding="{Binding VWidth}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.DieOpeningAngle}" Width="AUTO" DataMemberBinding="{Binding VAngle}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.DieCornerRadius}" Width="AUTO" DataMemberBinding="{Binding CornerRadius}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PreferredToolsView.MinRadius}" Width="AUTO" DataMemberBinding="{Binding MinRadius}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PreferredToolsView.MaxRadius}" Width="AUTO" DataMemberBinding="{Binding MaxRadius}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PreferredToolsView.MinAngle}" Width="AUTO" DataMemberBinding="{Binding MinAngle}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PreferredToolsView.MaxAngle}" Width="AUTO" DataMemberBinding="{Binding MaxAngle}" />
+            </telerik:GridViewDataControl.Columns>
+          </telerik:RadGridView>
+        </Border>
+        <Border Margin="10,0,10,9" BorderBrush="#FFA9A9A9" BorderThickness="1" Grid.Row="2" CornerRadius="7.5">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="0.5*" />
+              <ColumnDefinition Width="0.5*" />
+              <ColumnDefinition Width="0.5*" />
+              <ColumnDefinition Width="0.5*" />
+              <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="1.7*" />
+              <RowDefinition Height="1*" />
+              <RowDefinition Height="1*" />
+              <RowDefinition Height="1*" />
+              <RowDefinition Height="1*" />
+              <RowDefinition Height="1*" />
+              <RowDefinition Height="1*" />
+              <RowDefinition Height="1*" />
+              <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <TextBlock Style="{DynamicResource PnPopupHeaderText}" Text="{DynamicResource l_popup.PopupSelectMachine.PunchLabel}" FontSize="23" TextDecorations="Underline" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" />
+            <TextBlock Style="{DynamicResource PnPopupHeaderText}" Text="{DynamicResource l_popup.PopupSelectMachine.DieLabel}" FontSize="23" TextDecorations="Underline" FontWeight="Bold" TextAlignment="Center" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" />
+            <Label Style="{DynamicResource PnPopupLabelForTextBox}" HorizontalContentAlignment="Right" Content="{DynamicResource l_popup.PopupSelectMachine.PunchProfileName}" Grid.Row="1" Grid.Column="1" />
+            <Label Style="{DynamicResource PnPopupLabelForTextBox}" HorizontalContentAlignment="Right" Content="{DynamicResource l_popup.PopupSelectMachine.DieProfileName}" Grid.Column="3" Grid.Row="1" />
+            <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Row="1" Grid.Column="2" Content="{Binding PrimaryPunch.Name}" />
+            <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="4" Grid.Row="1" Content="{Binding PrimaryDie.Name}" />
+            <Label Style="{DynamicResource PnPopupLabelForTextBox}" HorizontalContentAlignment="Right" Content="{DynamicResource l_popup.PopupSelectMachine.PunchRadius}" Grid.Row="2" Grid.Column="1" />
+            <Label Style="{DynamicResource PnPopupLabelForTextBox}" HorizontalContentAlignment="Right" Content="{DynamicResource l_popup.PopupSelectMachine.DieOpeningWidth}" Grid.Column="3" Grid.Row="2" />
+            <Label Style="{DynamicResource PnPopupLabelForTextBox}" HorizontalContentAlignment="Right" Content="{DynamicResource l_popup.PopupSelectMachine.DieOpeningAngle}" Grid.Column="3" Grid.Row="3" />
+            <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Row="2" Grid.Column="2" Content="{Binding PrimaryPunch.Radius}" />
+            <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="4" Grid.Row="2" Content="{Binding PrimaryDie.VWidth}" />
+            <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="4" Grid.Row="3" Content="{Binding PrimaryDie.VAngle}" />
+            <ContentControl Background="#FFADFF2F" Margin="10,0,0,10" Grid.Row="1" Grid.RowSpan="8" Grid.Column="0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Content="{Binding ImagePunchProfile}" />
+            <ContentControl Grid.Column="5" Grid.Row="1" Margin="0,0,10,10" Grid.RowSpan="8" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Content="{Binding ImageDieProfile}" />
+          </Grid>
+        </Border>
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

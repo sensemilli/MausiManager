@@ -23,6 +23,7 @@ using WiCAM.Pn4000.BendModel.Base;
 using WiCAM.Pn4000.BendModel.GeometryGenerators;
 using WiCAM.Pn4000.BendModel.GeometryTools;
 using WiCAM.Pn4000.Config.DataStructures;
+using WiCAM.Pn4000.JobManager;
 using WiCAM.Pn4000.ScreenD3D.Controls.Base;
 using WiCAM.Pn4000.ScreenD3D.Controls.InteractionsModes;
 using WiCAM.Pn4000.ScreenD3D.Renderer;
@@ -32,7 +33,7 @@ using WiCAM.Services.ConfigProviders.Contracts;
 
 namespace WiCAM.Pn4000.ScreenD3D.Controls
 {
-  public partial class Screen3D : UserControl, IDisposable, IScreenshotScreen, IComponentConnector
+  public partial class Screen3D : UserControl, IScreenD3D11, IDisposable, IScreenshotScreen, IComponentConnector
   {
     private IConfigProvider _configProvider;
     private int _surfWidth;
@@ -42,7 +43,15 @@ namespace WiCAM.Pn4000.ScreenD3D.Controls
     private IInteractionsMode _interactionMode;
 
 
-    public ScreenD3D11 ScreenD3D { get; private set; }
+        public Screen3D _Screen3D { get; private set; }
+
+        public void Init(Screen3D screen)
+        {
+
+            _Screen3D = screen;
+        }
+
+        public ScreenD3D11 ScreenD3D { get;  set; }
 
     public bool MouseWheelInverted { get; set; }
 

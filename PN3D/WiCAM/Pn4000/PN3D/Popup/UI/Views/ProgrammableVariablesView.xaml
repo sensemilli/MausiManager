@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.PN3D.Popup.UI.Views.ProgrammableVariablesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:info="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI.Information" 
+             xmlns:viewmodels="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI.ViewModels" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:information="clr-namespace:WiCAM.Pn4000.PN3D.Popup.Information"
+             xmlns:gridView="clr-namespace:WiCAM.Pn4000.WpfControls.GridView;assembly=WiCAM.Pn4000.WpfControls" 
+             Background="#00FFFFFF" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" 
+             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" xmlns:views="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI.Views">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <info:BdsmExampleEnumConverter x:Key="converterExampleEnum" />
+      <info:BdsmExampleEnumListConverter x:Key="converterExampleEnumList" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5" Margin="5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="0.8" />
+    </Border.Background>
+    <Grid Background="#00FFFFFF">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <FrameworkElement Name="dummyElement" Visibility="Collapsed" />
+      <gridView:PnGridViewContainer gridView:PnGridViewContainer.ShowExport="True">
+        <gridView:PnGridViewContainer.GridView>
+          <telerik:RadGridView AutoGenerateColumns="False" CanUserInsertRows="False" CanUserDeleteRows="False" BorderThickness="0" Margin="5" GroupRenderMode="Flat" FrozenColumnCount="1" ItemsSource="{Binding DB}">
+            <telerik:GridViewDataControl.Columns>
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.ID}" IsReadOnly="True" DataMemberBinding="{Binding ID}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.Angle}" IsReadOnly="True" DataMemberBinding="{Binding BendLine.BendInfo.AngleDeg}" IsVisible="{Binding DataContext.VB.AngleDegVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.Length}" IsReadOnly="True" DataMemberBinding="{Binding BendLine.CommonBendFace.LengthWithGaps}" IsVisible="{Binding DataContext.VB.LengthWithGapsVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.Radius}" IsReadOnly="True" DataMemberBinding="{Binding BendLine.BendInfo.Radius}" IsVisible="{Binding DataContext.VB.RadiusVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.CloseSpeed}" DataMemberBinding="{Binding Clamp.CloseVelocity}" IsVisible="{Binding DataContext.VB.CloseVelocityVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.SpeedChangePos}" DataMemberBinding="{Binding Clamp.MutePoint}" IsVisible="{Binding DataContext.VB.MutePointVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.MaxForce}" DataMemberBinding="{Binding Bend.PressForce}" IsVisible="{Binding DataContext.VB.PressForceVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.ForceCalculated}" DataMemberBinding="{Binding Bend.PressForceCalculated}" IsVisible="{Binding DataContext.VB.PressForceVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.PressSpeed}" DataMemberBinding="{Binding Bend.BendVelocity}" IsVisible="{Binding DataContext.VB.BendVelocityVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.LowerDeadPoint}" DataMemberBinding="{Binding Bend.LowerDeadPoint}" IsVisible="{Binding DataContext.VB.LowerDeadPointVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.WaitTimeOverBend}" DataMemberBinding="{Binding Bend.HoldTimePress}" IsVisible="{Binding DataContext.VB.HoldTimePressVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.RelaxSpeed}" DataMemberBinding="{Binding Relaxation.RelaxationVelocity}" IsVisible="{Binding DataContext.VB.RelaxationVelocityVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.UpperDeadPoint}" DataMemberBinding="{Binding Relaxation.OpeningDistance}" IsVisible="{Binding DataContext.VB.ReleasePointVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.OverbendAngle}" DataMemberBinding="{Binding Relaxation.OverBendAngle}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.LeftStopFace}" DataMemberBinding="{Binding SetStop.FingerStopIdLeft}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.RightStopFace}" DataMemberBinding="{Binding SetStop.FingerStopIdRight}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.R1}" DataMemberBinding="{Binding SetStop.RAxisPositionLeftStop}" IsVisible="{Binding DataContext.VB.RAxisPositionLeftStopVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.R2}" DataMemberBinding="{Binding SetStop.RAxisPositionRightStop}" IsVisible="{Binding DataContext.VB.RAxisPositionRightStopVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.X1}" DataMemberBinding="{Binding SetStop.XAxisPositionLeftStop}" IsVisible="{Binding DataContext.VB.XAxisPositionLeftStopVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.X2}" DataMemberBinding="{Binding SetStop.XAxisPositionRightStop}" IsVisible="{Binding DataContext.VB.XAxisPositionRightStopVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.Z1}" DataMemberBinding="{Binding SetStop.ZAxisPositionLeftStop}" IsVisible="{Binding DataContext.VB.ZAxisPositionLeftStopVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.Z2}" DataMemberBinding="{Binding SetStop.ZAxisPositionRightStop}" IsVisible="{Binding DataContext.VB.ZAxisPositionRightStopVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.RetractionX1}" DataMemberBinding="{Binding SetStop.LeftRetractionX}" IsVisible="{Binding DataContext.VB.XAxisRetractionLeftStopVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.RetractionX2}" DataMemberBinding="{Binding SetStop.RightRetractionX}" IsVisible="{Binding DataContext.VB.XAxisRetractionRightStopVisibility, Source={x:Reference dummyElement}}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupProgrammableVariablesView.WAxis}" DataMemberBinding="{Binding WAxisPos}" IsVisible="{Binding DataContext.VB.WAxisVisibility, Source={x:Reference dummyElement}}" />
+            </telerik:GridViewDataControl.Columns>
+          </telerik:RadGridView>
+        </gridView:PnGridViewContainer.GridView>
+      </gridView:PnGridViewContainer>
+      <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Margin="0" HorizontalAlignment="Stretch">
+        <Button Margin="5,1,5,3" Height="25" MinWidth="100" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.Button5_Cancel}" Command="{Binding Button5_CancelClick}" />
+        <Button Margin="5,1,5,3" Height="25" MinWidth="100" Style="{DynamicResource PnPopupOptionButton}" Content="{DynamicResource l_popup.Button16_Ok}" Command="{Binding Button16_OkClick}" IsEnabled="{Binding IsOkButtonEnabled}" />
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

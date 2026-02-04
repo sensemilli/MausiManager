@@ -8,7 +8,7 @@
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
   <PropertyGroup>
-    <LangVersion>11.0</LangVersion>
+    <LangVersion>12.0</LangVersion>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
@@ -17,7 +17,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <IncludeSymbols>True</IncludeSymbols>
     <StartupObject>WiCAM.Pn4000.JobManager.App</StartupObject>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <ApplicationIcon>maus.ico</ApplicationIcon>
   </PropertyGroup>
@@ -54,11 +54,56 @@
     <Resource Include="**\*.xml;**\*.xsl;**\*.xslt;**\*.txt;**\*.bmp;**\*.ico;**\*.cur;**\*.gif;**\*.jpeg;**\*.jpe;**\*.jpg;**\*.png;**\*.dib;**\*.tiff;**\*.tif;**\*.inf;**\*.compositefont;**\*.otf;**\*.ttf;**\*.ttc;**\*.tte" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="BendDoc\**" />
     <Compile Remove="ConsoleControl\**" />
+    <Compile Remove="Contracts\**" />
+    <Compile Remove="GuiWPF\**" />
+    <Compile Remove="lib\**" />
+    <Compile Remove="PKernelFlowAdapters\**" />
+    <Compile Remove="PKernelFlow\**" />
+    <Compile Remove="PN3D\**" />
+    <Compile Remove="pncommon\**" />
+    <Compile Remove="WiCAM\Pn4000\JobManager\Controls\Screen\**" />
+    <EmbeddedResource Remove="BendDoc\**" />
     <EmbeddedResource Remove="ConsoleControl\**" />
+    <EmbeddedResource Remove="Contracts\**" />
+    <EmbeddedResource Remove="GuiWPF\**" />
+    <EmbeddedResource Remove="lib\**" />
+    <EmbeddedResource Remove="PKernelFlowAdapters\**" />
+    <EmbeddedResource Remove="PKernelFlow\**" />
+    <EmbeddedResource Remove="PN3D\**" />
+    <EmbeddedResource Remove="pncommon\**" />
+    <EmbeddedResource Remove="WiCAM\Pn4000\JobManager\Controls\Screen\**" />
+    <None Remove="BendDoc\**" />
     <None Remove="ConsoleControl\**" />
+    <None Remove="Contracts\**" />
+    <None Remove="GuiWPF\**" />
+    <None Remove="lib\**" />
+    <None Remove="PKernelFlowAdapters\**" />
+    <None Remove="PKernelFlow\**" />
+    <None Remove="PN3D\**" />
+    <None Remove="pncommon\**" />
+    <None Remove="WiCAM\Pn4000\JobManager\Controls\Screen\**" />
+    <Page Remove="BendDoc\**" />
     <Page Remove="ConsoleControl\**" />
+    <Page Remove="Contracts\**" />
+    <Page Remove="GuiWPF\**" />
+    <Page Remove="lib\**" />
+    <Page Remove="PKernelFlowAdapters\**" />
+    <Page Remove="PKernelFlow\**" />
+    <Page Remove="PN3D\**" />
+    <Page Remove="pncommon\**" />
+    <Page Remove="WiCAM\Pn4000\JobManager\Controls\Screen\**" />
+    <Resource Remove="BendDoc\**" />
     <Resource Remove="ConsoleControl\**" />
+    <Resource Remove="Contracts\**" />
+    <Resource Remove="GuiWPF\**" />
+    <Resource Remove="lib\**" />
+    <Resource Remove="PKernelFlowAdapters\**" />
+    <Resource Remove="PKernelFlow\**" />
+    <Resource Remove="PN3D\**" />
+    <Resource Remove="pncommon\**" />
+    <Resource Remove="WiCAM\Pn4000\JobManager\Controls\Screen\**" />
   </ItemGroup>
   <ItemGroup>
   
@@ -144,11 +189,16 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro.IconPacks" Version="5.0.0" />
+    <PackageReference Include="AnyCAD.QuickSolid.NET" Version="2025.8.13.1900" />
+    <PackageReference Include="AnyCAD.Rapid.NET" Version="2025.8.13.1900" />
+    <PackageReference Include="AnyCAD.Simulate.NET" Version="2025.8.13.1900" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.4" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="6.1.0" />
     <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.2.1" />
     <PackageReference Include="MicrosoftOfficeCore" Version="15.0.0" NoWarn="NU1701" />
-    <PackageReference Include="MaterialDesignThemes" Version="5.1.1-ci680" />
-    <PackageReference Include="MaterialDesignThemes.MahApps" Version="3.1.1-ci680" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
     <PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" />
     <PackageReference Include="SharpDX.Direct3D10" Version="4.2.0" />
@@ -157,45 +207,169 @@
     <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
     <PackageReference Include="ShowMeTheXAML" Version="2.0.0" />
     <PackageReference Include="Simple.Wpf.Terminal" Version="2.3.57" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.8" />
+    <PackageReference Include="Tesseract" Version="5.2.0" />
+    <PackageReference Include="Tesseract.Drawing" Version="5.2.0" />
+    <PackageReference Include="UglyToad.PdfPig" Version="1.7.0-custom-5" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Extensions.DependencyInjection">
-      <HintPath>P:\u\pn\run\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    <Reference Include="AnyCAD.Exchange.Net">
+      <HintPath>lib\AnyCAD.Exchange.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-      <HintPath>P:\u\pn\run\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    <Reference Include="AnyCAD.Foundation.Net">
+      <HintPath>lib\AnyCAD.Foundation.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="AnyCAD.Presentation.Net">
+      <HintPath>lib\AnyCAD.Presentation.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="BendDataBase">
+      <HintPath>C:\u\pn\run\BendDataBase.dll</HintPath>
+    </Reference>
+    <Reference Include="BendDataSourceModel">
+      <HintPath>C:\u\pn\run\BendDataSourceModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>C:\u\pn\run\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>C:\u\pn\run\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>C:\u\pn\run\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection">
+      <HintPath>C:\u\pn\run\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.Extensions.Options">
+      <HintPath>C:\u\pn\run\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="pn4.uicontrols">
+      <HintPath>C:\u\pn\run\pn4.uicontrols.dll</HintPath>
+    </Reference>
+    <Reference Include="PowerCollections">
+      <HintPath>C:\u\pn\run\PowerCollections.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Docking">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Data.dll</HintPath>
     </Reference>
     <Reference Include="WiCAM.Apis.Clients.PnApiClient">
-      <HintPath>Librarys\WiCAM.Apis.Clients.PnApiClient.dll</HintPath>
+      <HintPath>C:\u\pn\run\WiCAM.Apis.Clients.PnApiClient.dll</HintPath>
     </Reference>
     <Reference Include="WiCAM.Apis.CoraAdapters">
-      <HintPath>Librarys\WiCAM.Apis.CoraAdapters.dll</HintPath>
+      <HintPath>C:\u\pn\run\WiCAM.Apis.CoraAdapters.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Apis.CoraAdapters.DependencyInjection">
+      <HintPath>..\..\..\..\..\..\u\pn\run\WiCAM.Apis.CoraAdapters.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Archives">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Archives.dll</HintPath>
     </Reference>
     <Reference Include="WiCAM.Pn4000.BendModel">
-      <HintPath>Librarys\WiCAM.Pn4000.BendModel.dll</HintPath>
+		<HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Loader">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Loader.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Services">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Validation">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Writer">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Writer.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendTable">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendTable.dll</HintPath>
     </Reference>
     <Reference Include="WiCAM.Pn4000.Comon">
-      <HintPath>Librarys\WiCAM.Pn4000.Comon.dll</HintPath>
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Comon.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Config">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Config.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.DependencyInjection">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="WiCAM.Pn4000.Encodings">
-      <HintPath>Librarys\WiCAM.Pn4000.Encodings.dll</HintPath>
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Encodings.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.FingerStopCalculation">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.FingerStopCalculation.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.FingerStopCalculationMediator">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.FingerStopCalculationMediator.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.GuiContracts">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.GuiContracts.dll</HintPath>
     </Reference>
     <Reference Include="WiCAM.Pn4000.Jobdata">
-      <HintPath>Librarys\WiCAM.Pn4000.Jobdata.dll</HintPath>
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Jobdata.dll</HintPath>
     </Reference>
-    <Reference Include="WiCAM.Pn4000.PN3D">
-      <HintPath>Librarys\WiCAM.Pn4000.PN3D.dll</HintPath>
+    <Reference Include="WiCAM.Pn4000.MachineAndTools">
+      <HintPath>..\..\..\..\..\..\u\pn\run\WiCAM.Pn4000.MachineAndTools.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Materials">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Materials.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.PartsReader">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.PartsReader.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.PN4000.PnPathService">
+      <HintPath>C:\u\pn\run\WiCAM.PN4000.PnPathService.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Popup">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Popup.dll</HintPath>
     </Reference>
     <Reference Include="WiCAM.Pn4000.SchachtelBasis">
-      <HintPath>Librarys\WiCAM.Pn4000.SchachtelBasis.dll</HintPath>
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.SchachtelBasis.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Screen">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Screen.dll</HintPath>
     </Reference>
     <Reference Include="WiCAM.Pn4000.ScreenControls">
-      <HintPath>Librarys\WiCAM.Pn4000.ScreenControls.dll</HintPath>
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ScreenControls.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ScreenD3D">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ScreenD3D.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.PN4000.SpatialStarters">
+      <HintPath>C:\u\pn\run\WiCAM.PN4000.SpatialStarters.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ToolCalculation">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ToolCalculation.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ToolCalculationMediator">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ToolCalculationMediator.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.WpfBasics">
+      <HintPath>..\..\..\..\..\..\u\pn\run\WiCAM.Pn4000.WpfBasics.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.XEvents">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.XEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Services.ConfigProviders">
+      <HintPath>C:\u\pn\run\WiCAM.Services.ConfigProviders.dll</HintPath>
     </Reference>
     <Reference Include="WiCAM.Services.ConfigProviders.Contracts">
-      <HintPath>Librarys\WiCAM.Services.ConfigProviders.Contracts.dll</HintPath>
+      <HintPath>C:\u\pn\run\WiCAM.Services.ConfigProviders.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Services.Loggers">
+      <HintPath>C:\u\pn\run\WiCAM.Services.Loggers.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Services.Loggers.Contracts">
+      <HintPath>C:\u\pn\run\WiCAM.Services.Loggers.Contracts.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +403,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.8" />
+	</ItemGroup>
   <ItemGroup>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -280,10 +457,21 @@
     <EditorConfigFiles Include="resources\images\save_16.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="BendDoc\WiCAM.Pn4000.BendDoc.csproj" />
     <ProjectReference Include="ConsoleControl\ConsoleControl.WPF\ConsoleControl.WPF.csproj" />
+    <ProjectReference Include="Contracts\WiCAM.Pn4000.Contracts.csproj" />
+    <ProjectReference Include="GuiWPF\WiCAM.Pn4000.GuiWpf.csproj" />
+    <ProjectReference Include="PKernelFlowAdapters\WiCAM.Pn4000.PKernelFlow.Adapters.csproj" />
+    <ProjectReference Include="PN3D\WiCAM.Pn4000.PN3D.csproj" />
+    <ProjectReference Include="pncommon\pncommon.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Doc3DThings\" />
+    <Folder Include="pn4uilib\partpane\" />
   </ItemGroup>
 </Project>

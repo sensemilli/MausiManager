@@ -1,0 +1,313 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>WiCAM.Pn4000.GuiWpf</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <UseWPF>True</UseWPF>
+	  <UseWindowsForms>True</UseWindowsForms>
+	  <TargetFramework>net9.0-windows</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Contracts\WiCAM.Pn4000.Contracts.csproj" />
+    <ProjectReference Include="..\PKernelFlowAdapters\WiCAM.Pn4000.PKernelFlow.Adapters.csproj" />
+    <ProjectReference Include="..\PKernelFlow\WiCAM.Pn4000.PKernelFlow.csproj" />
+    <ProjectReference Include="..\PN3D\WiCAM.Pn4000.PN3D.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="BendDataBase">
+      <HintPath>C:\u\pn\run\BendDataBase.dll</HintPath>
+    </Reference>
+    <Reference Include="BendDataSourceModel">
+      <HintPath>C:\u\pn\run\BendDataSourceModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.Abstractions">
+      <HintPath>C:\u\pn\run\Microsoft.EntityFrameworkCore.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>C:\u\pn\run\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="pn4.uicontrols">
+      <HintPath>C:\u\pn\run\pn4.uicontrols.dll</HintPath>
+    </Reference>
+    <Reference Include="pncommon">
+      <HintPath>C:\u\pn\run\pncommon.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Mathematics">
+      <HintPath>C:\u\pn\run\SharpDX.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Documents.SpreadsheetStreaming">
+      <HintPath>C:\u\pn\run\Telerik.Documents.SpreadsheetStreaming.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Pivot.Core">
+      <HintPath>C:\u\pn\run\Telerik.Pivot.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Pivot.DataProviders.Adomd">
+      <HintPath>C:\u\pn\run\Telerik.Pivot.DataProviders.Adomd.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Pivot.DataProviders.Queryable">
+      <HintPath>C:\u\pn\run\Telerik.Pivot.DataProviders.Queryable.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Pivot.DataProviders.Xmla">
+      <HintPath>C:\u\pn\run\Telerik.Pivot.DataProviders.Xmla.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting">
+      <HintPath>C:\u\pn\run\Telerik.Reporting.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.OpenXmlRendering.2.7.2">
+      <HintPath>C:\u\pn\run\Telerik.Reporting.OpenXmlRendering.2.7.2.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.WebServiceDataSource">
+      <HintPath>C:\u\pn\run\Telerik.Reporting.WebServiceDataSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.ReportViewer.Wpf">
+      <HintPath>C:\u\pn\run\Telerik.ReportViewer.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.ReportViewer.Wpf.Themes">
+      <HintPath>C:\u\pn\run\Telerik.ReportViewer.Wpf.Themes.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Cloud">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Cloud.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Cloud.Controls">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Cloud.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Chart">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Chart.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Chart.Direct2D">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Chart.Direct2D.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Charting">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.ConversationalUI">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.ConversationalUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Data">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.DataServices">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.DataServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.DataVisualization">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Diagrams">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Diagrams.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Diagrams.Extensions">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Diagrams.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Diagrams.Ribbon">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Diagrams.Ribbon.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Docking">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.EntityFrameworkCore">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Expressions">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Expressions.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.FileDialogs">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.FileDialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.FixedDocumentViewers">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.FixedDocumentViewers.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.FixedDocumentViewersUI">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.FixedDocumentViewersUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GanttView">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.GanttView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView.Export">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.GridView.Export.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView.SpreadsheetStreamingExport">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.GridView.SpreadsheetStreamingExport.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.ImageEditor">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.ImageEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Media">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Pivot">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Pivot.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.PivotFieldList">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.PivotFieldList.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.RibbonView">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.RibbonView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.RichTextBox">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.RichTextBox.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.ScheduleView">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.ScheduleView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Spreadsheet">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Spreadsheet.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.SpreadsheetUI">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.SpreadsheetUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.SyntaxEditor">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.SyntaxEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.VirtualGrid">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.VirtualGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Diagrams.Core">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Diagrams.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.CMapUtils">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Documents.CMapUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Core">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Documents.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Fixed">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Documents.Fixed.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Documents.Flow.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow.FormatProviders.Doc">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Documents.Flow.FormatProviders.Doc.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow.FormatProviders.Pdf">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Documents.Flow.FormatProviders.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Proofing">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Documents.Proofing.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Xls">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Xls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.MediaFoundation">
+      <HintPath>C:\u\pn\run\Telerik.Windows.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.PersistenceFramework">
+      <HintPath>C:\u\pn\run\Telerik.Windows.PersistenceFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Scheduling.Core">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Scheduling.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.SyntaxEditor.Core">
+      <HintPath>C:\u\pn\run\Telerik.Windows.SyntaxEditor.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip.Extensions">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Zip.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Loader">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Loader.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Services">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Validation">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Writer">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Writer.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendSimulation">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendSimulation.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendTable">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendTable.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Comon">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Comon.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Config">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Config.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Encodings">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Encodings.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.FingerStopCalculationMediator">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.FingerStopCalculationMediator.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.GuiContracts">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.GuiContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.MachineAndTools">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.MachineAndTools.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.MdbImporter">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.MdbImporter.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Popup">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Popup.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Screen">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Screen.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ScreenControls">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ScreenControls.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ScreenD3D">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ScreenD3D.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ToolCalculation">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ToolCalculation.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ToolCalculationGuiWpf">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ToolCalculationGuiWpf.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ToolCalculationMediator">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ToolCalculationMediator.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.WpfBasics">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.WpfBasics.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.WpfControls">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.WpfDSTV">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.WpfDSTV.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Services.ConfigProviders.Contracts">
+      <HintPath>C:\u\pn\run\WiCAM.Services.ConfigProviders.Contracts.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

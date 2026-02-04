@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.GuiWpf.L26.L26View" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:l26="clr-namespace:WiCAM.Pn4000.GuiWpf.L26" xmlns:sys="clr-namespace:System;assembly=System.Runtime" x:Name="L26Configuration" Title="{DynamicResource l_popup.TrumpfL26.Configuration}" Height="300" Width="600">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TabControl Name="L26Tabs" Grid.Row="0">
+      <TabItem Header="{DynamicResource l_popup.TrumpfL26.OverviewTab}">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.WorkspaceName}" />
+          <TextBox Grid.Row="0" Grid.Column="1" Width="250" Text="{Binding WorkspaceName}" />
+          <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.MachineNumber}" />
+          <TextBox Grid.Row="1" Grid.Column="1" Width="250" Text="{Binding MachineNumber}" />
+        </Grid>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.TrumpfL26.ImportTab}">
+        <Grid>
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.ImportPath}" />
+          <TextBox Grid.Row="0" Grid.Column="1" Width="250" Text="{Binding ImportXmlFolderPath}" />
+          <Button Grid.Row="0" Grid.Column="2" Width="25" Margin="5" Command="{Binding OpenFileImportExplorer}">...</Button>
+          <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.JobForLst}" />
+          <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding UseJobForLstPath}" />
+          <Label Grid.Row="2" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.SpecificLstPath}" IsEnabled="{Binding UseJobForLstPathEnabled}" />
+          <CheckBox Name="UseSpecificLstPath" Grid.Row="2" Grid.Column="1" IsChecked="{Binding UseSpecificLstPath}" IsEnabled="{Binding UseJobForLstPathEnabled}" />
+          <Label Grid.Row="3" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.ImportLstPath}" IsEnabled="{Binding SpecifyLstPath}" />
+          <TextBox Grid.Row="3" Grid.Column="1" Width="250" Text="{Binding ImportLstFolderPath}" IsEnabled="{Binding SpecifyLstPath}" />
+          <Button Grid.Row="3" Grid.Column="2" Width="25" Margin="5" Command="{Binding OpenFileImportExplorer}" IsEnabled="{Binding SpecifyLstPath}">...</Button>
+        </Grid>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.TrumpfL26.ExportTab}">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.ExportPath}" />
+          <TextBox Grid.Row="0" Grid.Column="1" Width="250" Text="{Binding ExportXmlFolderPath}" />
+          <Button Grid.Row="0" Grid.Column="2" Width="25" Margin="5" Command="{Binding OpenFileExportExplorer}">...</Button>
+          <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.UseSamePath}" />
+          <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding UseSamePathForGeos}" />
+          <Label Grid.Row="2" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.ExportGeoPath}" IsEnabled="{Binding UseSamePathForGeosVisibility}" />
+          <TextBox Grid.Row="2" Grid.Column="1" Width="250" Text="{Binding ExportGeoFolderPath}" IsEnabled="{Binding UseSamePathForGeosVisibility}" />
+          <Button Grid.Row="2" Grid.Column="2" Width="25" Margin="5" Command="{Binding OpenFileGeoExplorer}" IsEnabled="{Binding UseSamePathForGeosVisibility}">...</Button>
+        </Grid>
+      </TabItem>
+      <TabItem Header="{DynamicResource l_popup.TrumpfL26.MaterialTab}">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.UseMappingTable}" />
+          <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding UseMappingTable}" />
+          <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.MappingTablePath}" IsEnabled="{Binding UseMappingTableVisibility}" />
+          <TextBox Grid.Row="1" Grid.Column="1" Width="250" Text="{Binding MappingTablePath}" IsEnabled="{Binding UseMappingTableVisibility}" />
+          <Button Grid.Row="1" Grid.Column="2" Width="25" Margin="5" Command="{Binding OpenMappingTablePathExplorer}" IsEnabled="{Binding UseMappingTableVisibility}">...</Button>
+          <Label Grid.Row="2" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.SameMaterial}" />
+          <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding UseSameMaterials}" />
+          <Label Grid.Row="3" Grid.Column="0" Content="{DynamicResource l_popup.TrumpfL26.MaterialEnum}" IsEnabled="{Binding UseSameMaterialsVisibility}" />
+          <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Remarks}" SelectedValue="{Binding SelectedRemark, Mode=TwoWay}" IsEnabled="{Binding UseSameMaterialsVisibility}" />
+        </Grid>
+      </TabItem>
+    </TabControl>
+    <Grid Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Button Grid.Column="1" Margin="5" Content="{DynamicResource l_popup.TrumpfL26.Save}" Command="{Binding Save, Mode=OneWay}" CommandParameter="{Binding ElementName=L26Configuration}" />
+      <Button Grid.Column="2" Margin="5" Content="{DynamicResource l_popup.TrumpfL26.Cancel}" Command="{Binding Cancel}" CommandParameter="{Binding ElementName=L26Configuration}" />
+    </Grid>
+  </Grid>
+</Window>

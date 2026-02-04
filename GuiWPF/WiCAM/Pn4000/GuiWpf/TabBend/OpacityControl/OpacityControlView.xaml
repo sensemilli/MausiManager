@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.OpacityControl.OpacityControlView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns:opacityControl="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.OpacityControl" Background="#00FFFFFF" Opacity="0.7" MinHeight="100">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
+    <ItemsControl ItemsSource="{Binding ProfileSelections}" Visibility="{Binding ProfileControlVisibility}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel MaxWidth="160" HorizontalAlignment="Right" />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <telerik:RadToggleButton ToggleButton.IsThreeState="False" ButtonBase.Command="{Binding SelectThisProfileCommand}" ToggleButton.IsChecked="{Binding Checked}">
+            <telerik:RadGlyph telerik:RadGlyph.Glyph="" telerik:RadGlyph.FontSize="20" FrameworkElement.MinWidth="30" />
+          </telerik:RadToggleButton>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <Expander Grid.Row="1" FlowDirection="RightToLeft" HorizontalContentAlignment="Right" IsExpanded="{Binding ExpanderExpanded}">
+      <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" FlowDirection="LeftToRight" VerticalAlignment="Top" HorizontalAlignment="Left">
+        <StackPanel Orientation="Vertical" Background="#FFFFFFFF" VerticalAlignment="Top" HorizontalAlignment="Right">
+          <Grid HorizontalAlignment="Stretch" Margin="0,7,0,7">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="auto" />
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button ToolTip="{DynamicResource OpacityControl.RemoveProfileTt}" Margin="5,0" MinWidth="50" Grid.Column="0" Command="{Binding RemoveProfileCommand}" Visibility="{Binding ProfileControlVisibility}">
+              <telerik:RadGlyph telerik:RadGlyph.Glyph="" telerik:RadGlyph.Foreground="#FFFF0000" telerik:RadGlyph.FontSize="20" />
+            </Button>
+            <Button ToolTip="{DynamicResource OpacityControl.AddProfileTt}" MinWidth="50" Margin="5,0" Grid.Column="1" Command="{Binding AddProfileCommand}" Visibility="{Binding ProfileControlVisibility}">
+              <telerik:RadGlyph telerik:RadGlyph.Glyph="" telerik:RadGlyph.Foreground="#FF008000" telerik:RadGlyph.FontSize="20" />
+            </Button>
+            <Separator Grid.Column="2" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+            <Button ToolTip="{DynamicResource OpacityControl.SaveCameraState}" Margin="5,0" MinWidth="50" Grid.Column="3" Command="{Binding SaveCameraStateCommand}" Visibility="{Binding ProfileControlVisibility}">
+              <telerik:RadGlyph telerik:RadGlyph.Glyph="" telerik:RadGlyph.Foreground="#FF000000" telerik:RadGlyph.FontSize="20" />
+            </Button>
+            <Button ToolTip="{DynamicResource OpacityControl.EraseCameraState}" Margin="5,0" MinWidth="50" Grid.Column="4" Command="{Binding EraseCameraStateCommand}" Visibility="{Binding ProfileControlVisibility}">
+              <telerik:RadGlyph telerik:RadGlyph.Glyph="" telerik:RadGlyph.Foreground="#FF000000" telerik:RadGlyph.FontSize="20" />
+            </Button>
+          </Grid>
+          <ItemsControl Grid.IsSharedSizeScope="True" ItemsSource="{Binding OpacityFilters}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Grid HorizontalAlignment="Center" Margin="0,7,0,7">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="description" />
+                    <ColumnDefinition Width="80" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.Column="0" HorizontalAlignment="Right" Margin="10,0" Text="{Binding Tag}" />
+                  <Slider Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Stretch" IsSnapToTickEnabled="False" Maximum="1" TickPlacement="BottomRight" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" Value="{Binding Opacity, Mode=TwoWay}" />
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </ScrollViewer>
+    </Expander>
+  </Grid>
+</UserControl>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.Developer.EditToolsMainView" x:ClassModifier="internal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.Developer" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+  <telerik:RadDocking >
+    <telerik:RadDocking.DocumentHost>
+            <telerik:RadSplitContainer>
+                <telerik:RadSplitContainer Orientation="Vertical">
+                    <telerik:RadPaneGroup>
+                        <telerik:RadPane Header="Structure">
+              <local:OverviewView DataContext="{Binding OverviewVm}" />
+            </telerik:RadPane>
+                        <telerik:RadPane Header="Properties">
+              <telerik:RadPropertyGrid Grid.Row="1" Grid.Column="1" NestedPropertiesVisibility="Visible" Item="{Binding OverviewVm.SelectedItem}" />
+            </telerik:RadPane>
+          </telerik:RadPaneGroup>
+        </telerik:RadSplitContainer>
+      </telerik:RadSplitContainer>
+    </telerik:RadDocking.DocumentHost>
+  </telerik:RadDocking>
+</UserControl>

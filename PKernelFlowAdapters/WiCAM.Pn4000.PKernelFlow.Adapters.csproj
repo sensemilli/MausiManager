@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>WiCAM.Pn4000.PKernelFlow.Adapters</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>net9.0-windows</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup />
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.8" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="C:\Users\TBraig\source\repos\sensemilli\MausiManager\PKernelFlow\WiCAM.Pn4000.PKernelFlow.csproj" />
+	</ItemGroup>
+  <ItemGroup>
+    <Reference Include="WiCAM.Pn4000.BendModel">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Contracts">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Encodings">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Encodings.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

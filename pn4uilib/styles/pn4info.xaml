@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:WiCAM.Pn4000.pn4.pn4UILib">
+  <Style x:Key="InfoPaneBorderStyle" TargetType="{x:Type Border}">
+    <Setter Property="Margin" Value="3" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="Border.CornerRadius" Value="2" />
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+    <Style.Triggers>
+      <EventTrigger RoutedEvent="Border.MouseEnter">
+        <EventTrigger.Actions>
+          <BeginStoryboard>
+            <Storyboard>
+              <ColorAnimation Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)" To="Black" Duration="0:0:0.2" />
+            </Storyboard>
+          </BeginStoryboard>
+        </EventTrigger.Actions>
+      </EventTrigger>
+      <EventTrigger RoutedEvent="Border.MouseLeave">
+        <EventTrigger.Actions>
+          <BeginStoryboard>
+            <Storyboard>
+              <ColorAnimation Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)" To="#FFB9C9DA" Duration="0:0:0.2" />
+            </Storyboard>
+          </BeginStoryboard>
+        </EventTrigger.Actions>
+      </EventTrigger>
+    </Style.Triggers>
+  </Style>
+</ResourceDictionary>

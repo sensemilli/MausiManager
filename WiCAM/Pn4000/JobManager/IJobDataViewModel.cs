@@ -36,8 +36,10 @@ public interface IJobDataViewModel : IViewModel, IMachineStateObserver, IFilter,
 	ICommand PrintPlateLabelsCommand { get; }
 
 	ICommand PrintPartLabelsCommand { get; }
+    ICommand ExportCommand { get; }
+	ICommand FreigabeLoeschenCommand { get; }
 
-	void LoadJobs();
+    void LoadJobs();
 
 	void SaveSettings();
 

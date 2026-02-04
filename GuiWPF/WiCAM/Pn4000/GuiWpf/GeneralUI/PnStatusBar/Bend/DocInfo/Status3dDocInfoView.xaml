@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.Bend.DocInfo.Status3dDocInfoView" 
+             x:ClassModifier="internal" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.Bend.DocInfo" 
+             xmlns:basicControls="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.BasicControls">
+  <basicControls:PnStatusBarControl Info="{Binding ModelName, Mode=OneWay}">
+    <basicControls:PnStatusBarControl.Items>
+      <basicControls:PnStatusBarItemControl Label="{Binding DescName, Mode=OneWay}" Info="{Binding ModelName, Mode=OneWay}" />
+      <basicControls:PnStatusBarItemControl Label="{DynamicResource PnInfoFields3D.Base.PNumber}" Info="{Binding NamePp, Mode=OneWay}" />
+      <basicControls:PnStatusBarItemControl Label="{DynamicResource PnInfoFields3D.Base.ArchivNo}" Info="{Binding ArchiveNumber, Mode=OneWay}" />
+      <basicControls:PnStatusBarItemControl Label="{DynamicResource PnInfoFields3D.Base.ArchivName}" Info="{Binding ArchiveFile, Mode=OneWay}" />
+    </basicControls:PnStatusBarControl.Items>
+  </basicControls:PnStatusBarControl>
+</UserControl>

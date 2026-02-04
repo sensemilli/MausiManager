@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.SubTabs.MachineGeometryConfigView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:viewModels="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.SubTabs" xmlns:popup="clr-namespace:WiCAM.Pn4000.Popup;assembly=WiCAM.Pn4000.Popup" xmlns:ui="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:bendModel="clr-namespace:WiCAM.Pn4000.BendModel;assembly=WiCAM.Pn4000.BendModel" xmlns:bendTools="clr-namespace:WiCAM.Pn4000.BendModel.BendTools;assembly=WiCAM.Pn4000.BendModel" Background="#FFF5F5F5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="1*" />
+    </Grid.ColumnDefinitions>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="1*" />
+        <RowDefinition Height="1*" />
+      </Grid.RowDefinitions>
+      <popup:ListViewPopup Name="LbAssembly" ScrollViewer.VerticalScrollBarVisibility="AUTO" ScrollViewer.HorizontalScrollBarVisibility="Auto" IsSynchronizedWithCurrentItem="True" Margin="10,10,10,0" ItemsSource="{Binding Assembly}" SelectedItem="{Binding SelectedAssemblyPart}">
+        <ListView.View>
+          <GridView AllowsColumnReorder="False">
+            <GridViewColumn Header="{DynamicResource l_popup.MachineGeometryView.PartRole}" Width="AUTO" DisplayMemberBinding="{Binding PartRole}" />
+            <GridViewColumn Header="{DynamicResource l_popup.MachineGeometryView.FileName}" Width="AUTO" DisplayMemberBinding="{Binding GeoFileName3D}" />
+          </GridView>
+        </ListView.View>
+      </popup:ListViewPopup>
+      <Grid Row="1" Margin="10">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineGeometryView.PartRole}" />
+        <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineGeometryView.FileName}" Grid.Row="1" />
+        <ComboBox Grid.Column="1" ItemsSource="{Binding Roles}" SelectedItem="{Binding SelectedAssemblyPart.PartRole}" />
+        <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedAssemblyPart.GeoFileName3D}">
+          <UIElement.InputBindings>
+            <MouseBinding MouseAction="LeftClick" Command="{Binding DataContext.SelectPathCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding SelectedItem, ElementName=LbAssembly}" />
+          </UIElement.InputBindings>
+        </TextBox>
+      </Grid>
+    </Grid>
+    <ContentControl Grid.Column="1" Margin="0,0,1,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Content="{Binding ImageMachine}" />
+  </Grid>
+</UserControl>

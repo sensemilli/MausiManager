@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.EditTools.EditToolsViewFloating" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.EditTools" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:controls="clr-namespace:WiCAM.Pn4000.WpfBasics.Controls;assembly=WiCAM.Pn4000.WpfBasics">
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+    <Grid Name="gEditTools" IsSharedSizeScope="True" Margin="0, -10, 0, 0">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <Style x:Key="{x:Type Grid}" TargetType="{x:Type Grid}">
+            <Setter Property="Margin" Value="0, 10, 0, 0" />
+          </Style>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" MaxWidth="300" />
+      </Grid.ColumnDefinitions>
+      <Grid Name="gSelectionMode" Row="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+                <telerik:RadToggleButton Grid.Column="0" FrameworkElement.MinWidth="30" ContentControl.Content="{DynamicResource l_popup.EditTools.SelectionMode.ToolPiece}" FrameworkElement.ToolTip="{DynamicResource l_popup.EditTools.SelectionMode.ToolPieceTt}"  ToggleButton.IsChecked="{Binding IsSelectionModeToolPiece}" />
+                <telerik:RadToggleButton Grid.Column="1" FrameworkElement.MinWidth="30" ContentControl.Content="{DynamicResource l_popup.EditTools.SelectionMode.Section}" FrameworkElement.ToolTip="{DynamicResource l_popup.EditTools.SelectionMode.SectionTt}" ToggleButton.IsChecked="{Binding IsSelectionModeToolSection}" />
+                <telerik:RadToggleButton Grid.Column="2" FrameworkElement.MinWidth="30" ContentControl.Content="{DynamicResource l_popup.EditTools.SelectionMode.Cluster}" FrameworkElement.ToolTip="{DynamicResource l_popup.EditTools.SelectionMode.ClusterTt}" ToggleButton.IsChecked="{Binding IsSelectionModeCluster}" />
+        <controls:WiButton Grid.Column="4" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.NewSection" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdNewSection}" />
+        <controls:WiButton Grid.Column="5" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.SectionReplace" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdSectionReplace}" />
+      </Grid>
+      <Grid Name="gUndo" Row="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+                <telerik:RadSplitButton Grid.Row="0" Grid.Column="0" FrameworkElement.MinWidth="50" FrameworkElement.ToolTip="{DynamicResource l_popup.EditTools.UndoTt}" telerik:RadSplitButton.Command="{Binding CmdUndo}">
+          <ContentControl.Content>
+                        <telerik:RadGlyph telerik:RadGlyph.Glyph="" />
+          </ContentControl.Content>
+                    <telerik:RadSplitButton.DropDownContent>
+            <ItemsControl ItemsSource="{Binding UndoHistory}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Button HorizontalContentAlignment="Left" Content="{Binding Desc}" ToolTip="{Binding Tooltip}" Command="{Binding Cmd}" />
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </telerik:RadSplitButton.DropDownContent>
+        </telerik:RadSplitButton>
+                <telerik:RadSplitButton Grid.Row="0" Grid.Column="1" FrameworkElement.MinWidth="50" FrameworkElement.ToolTip="{DynamicResource l_popup.EditTools.RedoTt}" telerik:RadSplitButton.Command="{Binding CmdRedo}" >
+          <ContentControl.Content>
+                        <telerik:RadGlyph telerik:RadGlyph.Glyph="" />
+          </ContentControl.Content>
+          <telerik:RadSplitButton.DropDownContent>
+            <ItemsControl ItemsSource="{Binding RedoHistory}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Button HorizontalContentAlignment="Left" Content="{Binding Desc}" ToolTip="{Binding Tooltip}" Command="{Binding Cmd}" />
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </telerik:RadSplitButton.DropDownContent>
+        </telerik:RadSplitButton>
+      </Grid>
+      <Grid Name="gEditPiece" Row="2" Margin="0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <controls:WiButton Grid.Row="0" Grid.Column="0" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.CenterTools" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdCenterTools}" />
+        <controls:WiButton Grid.Row="0" Grid.Column="1" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.NewSectionForBend.CalculateSections" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdNewSectionForBends}" />
+        <controls:WiButton Grid.Row="0" Grid.Column="2" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.NewSectionForBend.Prettify" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdPrettify}" />
+        <controls:WiTextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" TextAlignment="Center" Background="#afff" ToolTip="{DynamicResource l_popup.EditTools.ToolNameTt}">
+          <Run Text="{Binding ToolName, Mode=OneWay}" />
+        </controls:WiTextBlock>
+        <controls:WiButton Grid.Row="2" Grid.Column="0" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.FlipTools" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdFlipTools}" />
+        <controls:WiTextBox Grid.Row="2" Grid.Column="1" telerik:RadWatermarkTextBox.Label="{DynamicResource l_popup.EditTools.AdjustSectionLength.Value}" FrameworkElement.ToolTip="{DynamicResource l_popup.EditTools.AdjustSectionLength.ValueTt}" p11:RadWatermarkTextBox.AdditionalContent="{Binding UnitLength}" TextBox.Text="{Binding AdjustSectionLengthUi}" KeyUp="SectionLengthAlignCenter" GotFocus="UIElement_OnGotFocus" xmlns:p11="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+        <controls:WiButton Grid.Row="2" Grid.Column="2" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.DeleteTools" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdDeleteTools}" />
+        <controls:WiButton Grid.Row="3" Grid.Column="0" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.AdjustSectionLength.ExtendLeft" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdAdjustSectionLengthLeft}" />
+        <controls:WiButton Grid.Row="3" Grid.Column="1" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.AdjustSectionLength.ExtendCenter" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdAdjustSectionLengthCenter}" />
+        <controls:WiButton Grid.Row="3" Grid.Column="2" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.AdjustSectionLength.ExtendRight" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdAdjustSectionLengthRight}" />
+        <controls:WiButton Grid.Row="4" Grid.Column="0" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.Move.Left" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdMoveLeft}" />
+        <controls:WiTextBox Grid.Row="4" Grid.Column="1" FrameworkElement.MinWidth="50" FrameworkElement.ToolTip="{DynamicResource l_popup.EditTools.Move.DistanceTt}" p11:RadWatermarkTextBox.AdditionalContent="{Binding UnitLength}" TextBox.Text="{Binding MoveDistanceUi}" KeyUp="UIElement_OnKeyUp" GotFocus="UIElement_OnGotFocus" xmlns:p11="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+        <controls:WiButton Grid.Row="4" Grid.Column="2" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.Move.Right" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdMoveRight}" />
+        <controls:WiButton Grid.Row="5" Grid.Column="0" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.Move.Up" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdMoveUp}" />
+        <controls:WiTextBox Grid.Row="5" Grid.Column="1" p11:RadWatermarkTextBox.Label="{DynamicResource l_popup.EditTools.GlobalPosition}" FrameworkElement.ToolTip="{DynamicResource l_popup.EditTools.GlobalPositionTt}" p11:RadWatermarkTextBox.AdditionalContent="{Binding UnitLength}" TextBox.Text="{Binding GlobalPositionUi}" KeyUp="UIElement_OnKeyUp" GotFocus="UIElement_OnGotFocus" xmlns:p11="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+        <controls:WiButton Grid.Row="5" Grid.Column="2" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.Move.Down" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdMoveDown}" />
+      </Grid>
+      <Grid Name="gGaps" Row="3" Margin="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Name="Col41" Width="Auto" />
+          <ColumnDefinition Name="Col42" Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <controls:WiTextBox Grid.Column="0" p11:RadWatermarkTextBox.Label="{DynamicResource l_popup.EditTools.Gap.Left}" TextBox.Text="{Binding GapLeftUi}" p11:RadWatermarkTextBox.AdditionalContent="{Binding UnitLength}" KeyUp="UIElement_OnKeyUp" GotFocus="UIElement_OnGotFocus" xmlns:p11="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+        <controls:WiTextBox Grid.Column="1" p11:RadWatermarkTextBox.Label="{DynamicResource l_popup.EditTools.Gap.Right}" TextBox.Text="{Binding GapRightUi}" p11:RadWatermarkTextBox.AdditionalContent="{Binding UnitLength}" KeyUp="UIElement_OnKeyUp" GotFocus="UIElement_OnGotFocus" xmlns:p11="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+      </Grid>
+      <Grid Name="gSetup" Row="4">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <controls:WiComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" MinWidth="100" DisplayMemberPath="Desc" SelectedValuePath="Setup" ItemsSource="{Binding ToolSetups}" SelectedValue="{Binding SelectedSetup}" />
+        <controls:WiButton Grid.Row="1" Grid.Column="0" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.DeleteToolSetup" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdDeleteToolSetup}" />
+        <controls:WiButton Grid.Row="1" Grid.Column="1" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.LoadToolSetups" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdLoadToolSetups}" />
+        <controls:WiButton Grid.Row="1" Grid.Column="2" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.SaveToolSetups" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdSaveToolSetups}" />
+      </Grid>
+      <Grid Name="gMsc" Row="5">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <controls:WiButton Grid.Column="0" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.ExtractToolPieces" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdExtractToolPieces}" />
+        <controls:WiButton Grid.Row="0" Grid.Column="1" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.MergeToolSections" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdMergeToolSections}" />
+        <controls:WiButton Grid.Row="0" Grid.Column="2" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.AssignSelectedBendsToLocalTools" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdAssignBendsToLocalSections}" />
+        <controls:WiButton Grid.Row="1" Grid.Column="0" FrameworkElement.MinWidth="50" Key="l_popup.EditTools.CmdAssignAndMoveBendsToSections" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdAssignAndMoveBendsToSections}" />
+        <controls:WiComboBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" DisplayMemberPath="TypeName" MinWidth="50" ItemsSource="{Binding AllAvailableSensorDisks, Mode=OneWay}" SelectedValue="{Binding SelectedSensorDisk}" Visibility="{Binding SensorDiskVisibility, Mode=OneWay}" />
+      </Grid>
+    </Grid>
+  </ScrollViewer>
+</UserControl>

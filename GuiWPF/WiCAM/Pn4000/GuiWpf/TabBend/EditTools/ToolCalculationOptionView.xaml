@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.EditTools.ToolCalculationOptionView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.EditTools" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:controls="clr-namespace:WiCAM.Pn4000.WpfBasics.Controls;assembly=WiCAM.Pn4000.WpfBasics" xmlns:toolCalculation="clr-namespace:WiCAM.Pn4000.Contracts.ToolCalculation;assembly=WiCAM.Pn4000.Contracts" x:Name="ThisToolCalculationOptionViewControl">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
+    <WrapPanel Grid.Row="0">
+      <controls:WiButton Key="ToolCalcSettings.Calculate" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdOk}" />
+      <controls:WiButton Key="ToolCalcSettings.Save" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdSave}" />
+      <controls:WiButton Key="ToolCalcSettings.Close" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdCancel}" />
+      <telerik:RadComboBox DisplayMemberPath="Desc" ItemsSource="{Binding Profiles}" SelectedValue="{Binding SelectedProfile}" />
+      <controls:WiButton Key="ToolCalcSettings.DeleteProfile" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdDelete}" />
+      <controls:WiButton Key="ToolCalcSettings.CloneProfile" Control.Foreground="#FF000000" Control.FontSize="20" RadGlyph="" ButtonBase.Command="{Binding CmdAdd}" />
+    </WrapPanel>
+    <telerik:RadPropertyGrid Grid.Row="1" EditMode="Default" RenderMode="Flat" Item="{Binding SelectedProfile.Data}" AutoGeneratingPropertyDefinition="RadPropertyGrid_OnAutoGeneratingPropertyDefinition" BeginningEdit="RadPropertyGrid_OnBeginningEdit" EditEnded="RadPropertyGrid_OnEditEnded">
+      <telerik:RadPropertyGrid.PropertyDefinitions>
+        <telerik:PropertyDefinition DisplayName="{DynamicResource ToolCalcSettings.Prop.DefaultSortingStrategy}" Description="{DynamicResource ToolCalcSettings.Prop.DefaultSortingStrategyTt}" GroupName="{DynamicResource ToolCalcSettings.Prop.DefaultSortingStrategyGroup}" Binding="{Binding DefaultSortingStrategy}">
+          <telerik:PropertyDefinition.EditorTemplate>
+            <DataTemplate>
+              <telerik:RadComboBox DisplayMemberPath="Desc" SelectedValuePath="Value" SelectedValue="{Binding DefaultSortingStrategy}" ItemsSource="{Binding Path=DataContext.AllToolPieceSortingStrategies, Source={x:Reference ThisToolCalculationOptionViewControl}}" />
+            </DataTemplate>
+          </telerik:PropertyDefinition.EditorTemplate>
+        </telerik:PropertyDefinition>
+        <telerik:PropertyDefinition DisplayName="{DynamicResource ToolCalcSettings.Prop.ProfileOrder}" Description="{DynamicResource ToolCalcSettings.Prop.ProfileOrderTt}" GroupName="{DynamicResource ToolCalcSettings.Prop.ProfileOrderGroup}" Binding="{Binding ProfileOrder}">
+          <telerik:PropertyDefinition.EditorTemplate>
+            <DataTemplate>
+              <telerik:RadComboBox DisplayMemberPath="Desc" SelectedValuePath="Value" ItemsSource="{Binding Path=DataContext.AllProfileOrders, Source={x:Reference ThisToolCalculationOptionViewControl}}" SelectedValue="{Binding ProfileOrder}" />
+            </DataTemplate>
+          </telerik:PropertyDefinition.EditorTemplate>
+        </telerik:PropertyDefinition>
+      </telerik:RadPropertyGrid.PropertyDefinitions>
+    </telerik:RadPropertyGrid>
+  </Grid>
+</UserControl>

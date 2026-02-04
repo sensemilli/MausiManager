@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="/WiCAM.Pn4000.Popup;Component/Resources/PopupCommon.xaml" />
+    <ResourceDictionary Source="/WiCAM.Pn4000.Popup;Component/Resources/PopupRightStyle.xaml" />
+    <ResourceDictionary Source="/pn4;Component/pn4_translation.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

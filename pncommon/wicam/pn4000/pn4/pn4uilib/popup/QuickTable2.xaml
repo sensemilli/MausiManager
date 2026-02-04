@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.pn4.pn4UILib.Popup.QuickTable2" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.pn4.pn4UILib.Popup" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:pncontrols="clr-namespace:WiCAM.Pn4000.WpfControls.GridView;assembly=WiCAM.Pn4000.WpfControls">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="{x:Type telerik:GridViewRow}" TargetType="{x:Type telerik:GridViewRow}">
+        <Setter Property="IsEnabled" Value="{Binding IsForEnabled}" />
+        <Setter Property="FrameworkElement.ToolTip" Value="{Binding RecordToolTip}" />
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+        <Style.Triggers>
+          <Trigger Property="IsEnabled" Value="False">
+            <Setter Property="Foreground" Value="{Binding FontBrush}" />
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="{x:Type telerik:GridViewCell}" TargetType="{x:Type telerik:GridViewCell}">
+        <Style.Triggers>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="True" Binding="{Binding IsColored}" />
+              <Condition Value="False" Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Background" Value="{Binding ConstBrush}" />
+            <Setter Property="Foreground" Value="{Binding FontBrush}" />
+            <Setter Property="BorderBrush" Value="{Binding FontBrush}" />
+          </MultiDataTrigger>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="True" Binding="{Binding IsColored}" />
+              <Condition Value="True" Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+          </MultiDataTrigger>
+          <DataTrigger Value="False" Binding="{Binding IsSelectable}">
+            <Setter Property="Background" Value="#FFF5F5F5" />
+            <Setter Property="Foreground" Value="#FF000000" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <pncontrols:PnGridViewContainer Name="DataViewContainter" />
+  </Grid>
+</UserControl>

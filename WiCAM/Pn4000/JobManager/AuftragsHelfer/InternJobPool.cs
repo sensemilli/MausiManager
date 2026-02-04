@@ -34,9 +34,9 @@ namespace WiCAM.Pn4000.JobManager.AuftragsHelfer
             if (PnPathBuilder.ArDrive == "P:")
                 connectionString = @"Data Source=MUNDAL-APP02\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
             //if (PnPathBuilder.ArDrive == "H:")
-            //    connectionString = @"Data Source=DESKTOP-8M8J1J0\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
+            //    connectionString = @"Data Source=TOMMY\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
             if (PnPathBuilder.ArDrive == "C:")
-                connectionString = @"Data Source=DESKTOP-8M8J1J0\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
+                connectionString = @"Data Source=TOMMY\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
             SqlConnection connection = new SqlConnection(connectionString);
 
             connection.Open();
@@ -179,9 +179,9 @@ namespace WiCAM.Pn4000.JobManager.AuftragsHelfer
             if (PnPathBuilder.ArDrive == "P:")
                 connectionString = @"Data Source=MUNDAL-APP02\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
             //if (PnPathBuilder.ArDrive == "H:")
-            //    connectionString = @"Data Source=DESKTOP-8M8J1J0\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
+            //    connectionString = @"Data Source=TOMMY\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
             if (PnPathBuilder.ArDrive == "C:")
-                connectionString = @"Data Source=DESKTOP-8M8J1J0\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
+                connectionString = @"Data Source=TOMMY\WSQL;Initial Catalog=wicam; User ID=wicam; Password=wicamLeitstand";
             SqlConnection connection = new SqlConnection(connectionString);
 
             connection.Open();

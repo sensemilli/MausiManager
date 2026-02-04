@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.Assembly.AssemblyView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+             xmlns:information="clr-namespace:WiCAM.Pn4000.PN3D.Popup.Information;assembly=WiCAM.Pn4000.PN3D" 
+             xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.Assembly"
+             xmlns:viewLoading="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI.Views;assembly=WiCAM.Pn4000.PN3D"
+             xmlns:gridView="clr-namespace:WiCAM.Pn4000.WpfControls.GridView;assembly=WiCAM.Pn4000.WpfControls"
+             xmlns:ui3D="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D" x:Name="ThisUserControl">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="PartRowStyle" TargetType="{x:Type telerik:GridViewRow}">
+        <Style.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Foreground" Value="#FF000000" />
+            </Style>
+          </ResourceDictionary>
+        </Style.Resources>
+        <Setter xmlns:controls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Data" 
+                Property="controls:RadRowItem.IsSelected" Value="{Binding IsMouseSelectedBinding, Mode=TwoWay}" />
+        <Setter Property="Background" Value="{Binding BackgroundCol}" />
+        <Setter Property="telerik:GridViewRow.SelectedBackground" Value="{Binding BackgroundCol}" />
+        <Setter Property="telerik:GridViewRow.MouseOverBackground" Value="{Binding BackgroundCol}" />
+        <Setter Property="Foreground" Value="#FF000000" />
+        <Setter Property="FrameworkElement.ToolTip">
+          <Setter.Value>
+            <ToolTip>
+              <StackPanel>
+                <Label Content="{Binding NameAssembly}" />
+                <Label Margin="0,-8" Content="{Binding NameGeometry}" />
+                <Label>
+                  <TextBlock>
+                    <Run Text="{Binding NodesVm.Count, Mode=OneWay}" /> <Run>x</Run> <Run Text="{Binding PartType, Mode=OneWay}" /></TextBlock>
+                </Label>
+                <Label Margin="0,-8" Content="{Binding DisplaySize, Mode=OneWay}" />
+                <Image Height="300" Width="300" Stretch="Uniform" Source="{Binding ImageData}" />
+              </StackPanel>
+            </ToolTip>
+          </Setter.Value>
+        </Setter>
+        <EventSetter Event="MouseEnter" Handler="EventSetter_MouseEnter" />
+        <EventSetter Event="MouseLeave" Handler="EventSetter_MouseLeave" />
+      </Style>
+      <DataTemplate x:Key="PartRowDetailTemplate">
+        <ItemsControl Background="#FFF5F5F5" ItemsSource="{Binding PurchasedParts}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Border BorderBrush="#FFFFFF00" BorderThickness="2" Margin="50,0,0,0" Background="{Binding BackgroundCol}">
+                <StackPanel Orientation="Horizontal">
+                  <Image Height="50" Width="50" Stretch="Uniform" Source="{Binding ImageData}" />
+                  <StackPanel>
+                    <Label Content="{Binding NameAssembly}" />
+                    <Label Margin="0,-8" Content="{Binding NameGeometry}" />
+                    <Label>
+                      <TextBlock>
+                        <Run Text="{Binding NodesVm.Count, Mode=OneWay}" /> <Run>x</Run> <Run Text="{Binding PartType, Mode=OneWay}" /></TextBlock>
+                    </Label>
+                    <Label Margin="0,-8,0,0" Content="{Binding DisplaySize, Mode=OneWay}" />
+                  </StackPanel>
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </DataTemplate>
+      <SolidColorBrush x:Key="LightGreenBrush" Color="#FFBBDC8D" />
+      <SolidColorBrush x:Key="AccentBlueBrush" Color="#800099BC" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <telerik:RadDocking Name="Docking" KeyDown="UIElement_OnKeyDown">
+      <telerik:RadDocking.DocumentHost>
+                <telerik:RadSplitContainer>
+                    <telerik:RadPaneGroup>
+                        <telerik:RadPane Header="{DynamicResource l_popup.PopupDisassembly.Tab3dScreen}" CanUserClose="False" telerik:RadDocking.SerializationTag="AssemblyTab3D" >
+              <ContentControl Content="{Binding ImageAssembly3D}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+            </telerik:RadPane>
+                        <telerik:RadPane Name="PaneMaterialAssignment" Header="{DynamicResource l_popup.PopupDisassembly.TabMaterialAssignment}">
+              <telerik:RadGridView AutoGenerateColumns="False" SelectionMode="Extended" ShowGroupPanel="False" ItemsSource="{Binding MaterialAsignments}">
+                <telerik:GridViewDataControl.Columns>
+                  <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupMaterialAlliance.PartsCount}" IsReadOnly="True" DataMemberBinding="{Binding PartsCount}" />
+                  <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupMaterialAlliance.CADFileName}" IsReadOnly="True" DataMemberBinding="{Binding MatImport}" />
+                  <telerik:GridViewComboBoxColumn Header="{DynamicResource l_popup.PopupMaterialAlliance.PnMaterial}" FilterMemberPath="MatWicam.Desc" DisplayMemberPath="Desc" EditTriggers="CellClick,Default" DataMemberBinding="{Binding MatWicam}" ItemsSource="{Binding WicamMaterialList}">
+                    <telerik:GridViewBoundColumnBase.EditorStyle>
+                      <Style TargetType="{x:Type telerik:RadComboBox}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+                        <Setter Property="telerik:RadComboBox.OpenDropDownOnFocus" Value="True" />
+                      </Style>
+                    </telerik:GridViewBoundColumnBase.EditorStyle>
+                  </telerik:GridViewComboBoxColumn>
+                </telerik:GridViewDataControl.Columns>
+                <!--Unknown connection ID: 5-->
+              </telerik:RadGridView>
+            </telerik:RadPane>
+          </telerik:RadPaneGroup>
+        </telerik:RadSplitContainer>
+      </telerik:RadDocking.DocumentHost>
+            <telerik:RadSplitContainer InitialPosition="DockedRight" Orientation="Vertical" telerik:DockingPanel.InitialSize="800,400" >
+                <telerik:RadPaneGroup telerik:DockingPanel.InitialSize="50,50" telerik:ProportionalStackPanel.RelativeSize="30, 30" Visibility="Visible">
+                    <telerik:RadPane Header="{DynamicResource l_popup.PopupDisassembly.TabLoadingStatus}" CanUserClose="False" telerik:RadDocking.SerializationTag="AssemblyTabLoadingStatus" telerik:DockingPanel.InitialSize="50,50" PaneHeaderVisibility="Collapsed" IsHidden="{Binding AssemblyLoadingHidden}">
+            <Border Background="{StaticResource AccentBlueBrush}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+              <DockPanel>
+                <Button DockPanel.Dock="Bottom" Content="{DynamicResource l_popup.Button5_Cancel}" Command="{Binding CmdCancel}" />
+                <Label DockPanel.Dock="Bottom" HorizontalContentAlignment="Center" Content="{Binding AssemblyLoadingInfo}" />
+                <ui3D:LoadingView />
+              </DockPanel>
+            </Border>
+          </telerik:RadPane>
+        </telerik:RadPaneGroup>
+                <telerik:RadSplitContainer Orientation="Horizontal" telerik:ProportionalStackPanel.RelativeSize="200, 200">
+                    <telerik:RadPaneGroup ScrollViewer.HorizontalScrollBarVisibility="Auto" DropDownDisplayMode="Visible" TabStripPlacement="Top" AllowDragReorder="False">
+                        <telerik:RadPane Header="{DynamicResource l_popup.PopupDisassembly.TabListShort}" CanUserClose="False" telerik:RadDocking.SerializationTag="AssemblyTabPartList">
+              <Border xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+                <gridView:PnGridViewContainer Name="GridContainer1" ShowExport="False" StorageId="AssemblyViewPartList1">
+                  <gridView:PnGridViewContainer.GridView>
+                    <telerik:RadGridView IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended" IsSynchronizedWithCurrentItem="False" EnableLostFocusSelectedState="False" RowDetailsVisibilityMode="VisibleWhenSelected" EnableRowVirtualization="False" GroupRenderMode="Flat" RowDetailsTemplate="{StaticResource PartRowDetailTemplate}" ItemsSource="{Binding ListParts}" MouseDoubleClick="PartList_OnMouseDoubleClick" Loaded="ScrollIntoViewElement_OnLoaded">
+                      <FrameworkElement.Resources>
+                        <ResourceDictionary>
+                          <Style x:Key="{x:Type telerik:GridViewRow}" BasedOn="{StaticResource PartRowStyle}" TargetType="{x:Type telerik:GridViewRow}" />
+                        </ResourceDictionary>
+                      </FrameworkElement.Resources>
+                      <telerik:GridViewDataControl.Columns>
+                        <telerik:GridViewImageColumn Header="{DynamicResource l_popup.PopupDisassembly.Icon}" ImageStretch="Uniform" ImageWidth="22" ImageHeight="22" IsFilterable="False" DataMemberBinding="{Binding ImageData}" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding Visible}">
+                          <telerik:GridViewBoundColumnBase.Header>
+                                                        <telerik:RadGlyph  telerik:RadGlyph.Glyph="">
+                              <telerik:RadContextMenu.ContextMenu>
+                                <telerik:RadContextMenu>
+                                  <telerik:RadMenuItem Header="{DynamicResource l_popup.PopupDisassembly.ScreenVisibility.Transparent}">
+                                    <!--Unknown connection ID: 8-->
+                                  </telerik:RadMenuItem>
+                                  <telerik:RadMenuItem Header="{DynamicResource l_popup.PopupDisassembly.ScreenVisibility.SemiTransparent}">
+                                    <!--Unknown connection ID: 9-->
+                                  </telerik:RadMenuItem>
+                                  <telerik:RadMenuItem Header="{DynamicResource l_popup.PopupDisassembly.ScreenVisibility.Opaque}">
+                                    <!--Unknown connection ID: 10-->
+                                  </telerik:RadMenuItem>
+                                </telerik:RadContextMenu>
+                              </telerik:RadContextMenu.ContextMenu>
+                            </telerik:RadGlyph>
+                          </telerik:GridViewBoundColumnBase.Header>
+                          <telerik:GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                              <CheckBox IsThreeState="True" IsChecked="{Binding Visible}">
+                                <telerik:RadContextMenu.ContextMenu>
+                                  <telerik:RadContextMenu>
+                                    <telerik:RadMenuItem Header="{DynamicResource l_popup.PopupDisassembly.ScreenVisibility.AllOtherTransparent}">
+                                      <!--Unknown connection ID: 11-->
+                                    </telerik:RadMenuItem>
+                                    <telerik:RadMenuItem Header="{DynamicResource l_popup.PopupDisassembly.ScreenVisibility.AllOtherSemiTransparent}">
+                                      <!--Unknown connection ID: 12-->
+                                    </telerik:RadMenuItem>
+                                  </telerik:RadContextMenu>
+                                </telerik:RadContextMenu.ContextMenu>
+                              </CheckBox>
+                            </DataTemplate>
+                          </telerik:GridViewColumn.CellTemplate>
+                        </telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupDisassembly.Id}" DataMemberBinding="{Binding Id}" />
+                        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupDisassembly.Amount}" DataMemberBinding="{Binding PartCount}" />
+                        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupDisassembly.Type}" Width="150" DataMemberBinding="{Binding PartType}" />
+                        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupDisassembly.AssemblyName}" Width="200" DataMemberBinding="{Binding NameAssembly}" />
+                        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupDisassembly.GeometryName}" Width="200" DataMemberBinding="{Binding NameGeometry}" />
+                        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupDisassembly.Size}" Width="170" DataMemberBinding="{Binding DisplaySize}" />
+                        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupDisassembly.AdditionalInfo}" DataMemberBinding="{Binding PurchasedParts.Count}" />
+                        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupDisassembly.SavedArchive}" DataMemberBinding="{Binding SavedArchiv}" />
+                        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupDisassembly.DocState}" DataMemberBinding="{Binding DocState}" />
+                        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupDisassembly.MaterialByUser}" DataMemberBinding="{Binding PnMaterialByUser}" />
+                        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupDisassembly.KFactorWarnings}" DataMemberBinding="{Binding KFactorWarnings}" />
+                      </telerik:GridViewDataControl.Columns>
+                    </telerik:RadGridView>
+                  </gridView:PnGridViewContainer.GridView>
+                </gridView:PnGridViewContainer>
+              </Border>
+            </telerik:RadPane>
+                        <telerik:RadPane Header="{DynamicResource l_popup.PopupDisassembly.TabListClassic}" CanUserClose="False" telerik:RadDocking.SerializationTag="AssemblyTabClassicList">
+              <Border xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+                <telerik:RadGridView Name="GridClassic" IsReadOnly="True" AutoGenerateColumns="False" SelectionMode="Extended" IsSynchronizedWithCurrentItem="False" EnableLostFocusSelectedState="False" EnableRowVirtualization="False" RowDetailsVisibilityMode="VisibleWhenSelected" RowDetailsTemplate="{StaticResource PartRowDetailTemplate}" ItemsSource="{Binding ListParts}" MouseDoubleClick="PartList_OnMouseDoubleClick" Loaded="ScrollIntoViewElement_OnLoaded">
+                  <FrameworkElement.Resources>
+                    <ResourceDictionary>
+                      <Style x:Key="{x:Type telerik:GridViewRow}" BasedOn="{StaticResource PartRowStyle}" TargetType="{x:Type telerik:GridViewRow}" />
+                    </ResourceDictionary>
+                  </FrameworkElement.Resources>
+                  <telerik:GridViewDataControl.Columns>
+                    <telerik:GridViewImageColumn Name="GridClassicType" Header="Type" ImageStretch="Uniform" ImageWidth="70" ImageHeight="70" IsFilterable="True" FilterMemberPath="PartType" SortMemberPath="PartType" DataMemberBinding="{Binding ImageData}" />
+                    <telerik:GridViewDataColumn Name="GridClassicName" Header="Name" Width="250" DataMemberBinding="{Binding NameDisplay}">
+                      <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                          <StackPanel>
+                            <Label FontWeight="Bold" Content="{Binding NameDisplayWithCount}" />
+                            <Label Margin="0,-14" FontSize="11" Foreground="#FF808080" Content="{Binding PartType}" />
+                            <Label FontSize="11" Foreground="#FF808080" Content="{Binding DisplaySize}" />
+                            <Label Margin="0,-14,0,0" FontSize="11" Foreground="#FF808080" Content="{Binding DescAdditionalElements}" />
+                          </StackPanel>
+                        </DataTemplate>
+                      </telerik:GridViewColumn.CellTemplate>
+                    </telerik:GridViewDataColumn>
+                  </telerik:GridViewDataControl.Columns>
+                </telerik:RadGridView>
+              </Border>
+            </telerik:RadPane>
+          </telerik:RadPaneGroup>
+                    <telerik:RadPaneGroup>
+                        <telerik:RadPane Header="{DynamicResource l_popup.PopupDisassembly.TabProperties}" CanUserClose="False" telerik:RadDocking.SerializationTag="AssemblyTabProperties">
+              <Border xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+                <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
+                  <telerik:RadPropertyGrid Grid.Row="0" AutoGeneratePropertyDefinitions="False" LabelColumnWidth="120" MaxWidth="99999" IsGrouped="True" Item="{Binding CurrentPropertyPart}">
+                    <telerik:RadPropertyGrid.PropertyDefinitions>
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.PartID}" Description="{DynamicResource l_popup.PopupDisassembly.PartIDTt}" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupGeneral}" OrderIndex="0" IsReadOnly="True" Binding="{Binding Part.ID}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.AssemblyName}" Description="{DynamicResource l_popup.PopupDisassembly.AssemblyNameTt}" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupGeneral}" OrderIndex="0" IsReadOnly="True" Binding="{Binding NameAssembly}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.GeometryName}" Description="{DynamicResource l_popup.PopupDisassembly.GeometryNameTt}" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupGeneral}" IsReadOnly="True" Binding="{Binding NameGeometry}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.OriginalMaterialName}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupGeneral}" IsReadOnly="True" Binding="{Binding Part.OriginalMaterialName}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.InstancesNumber}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupGeneral}" IsReadOnly="True" Binding="{Binding PartCount}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.Material}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupSettings}" Binding="{Binding MaterialId}">
+                        <telerik:PropertyDefinition.EditorTemplate>
+                          <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                              <telerik:RadComboBox DisplayMemberPath="Name" SelectedValuePath="Number" ItemsSource="{Binding Materials}" SelectedValue="{Binding MaterialId}" />
+                              <DockPanel>
+                                                                <telerik:RadGlyph telerik:RadGlyph.Glyph="" telerik:RadGlyph.Foreground="#FFFF8C00" telerik:RadGlyph.FontSize="20" FrameworkElement.ToolTip="{DynamicResource l_popup.PopupDisassembly.MaterialFallback}" UIElement.Visibility="{Binding MaterialFallbackVisibility}"/>
+                                <Button Content="{DynamicResource l_popup.PopupDisassembly.MaterialSaveAll}" ToolTip="{DynamicResource l_popup.PopupDisassembly.MaterialSaveAllTT}" CommandParameter="{Binding}" Command="{Binding CmdApplyMaterialToAll}" />
+                              </DockPanel>
+                            </StackPanel>
+                          </DataTemplate>
+                        </telerik:PropertyDefinition.EditorTemplate>
+                      </telerik:PropertyDefinition>
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.Type}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupAnalyzeDetails}" IsReadOnly="True" Binding="{Binding PartType}">
+                        <telerik:PropertyDefinition.EditorTemplate>
+                          <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                              <TextBlock Text="{Binding PartType}" />
+                              <CheckBox Content="{DynamicResource l_popup.PopupDisassembly.TypeSmallPart}" IsChecked="{Binding PartTypeSmallPart}" />
+                            </StackPanel>
+                          </DataTemplate>
+                        </telerik:PropertyDefinition.EditorTemplate>
+                      </telerik:PropertyDefinition>
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.Dimension}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupAnalyzeDetails}" IsReadOnly="True" Binding="{Binding Dimension}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.Size}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupAnalyzeDetails}" IsReadOnly="True" Binding="{Binding DisplaySize}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.Thickness}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupAnalyzeDetails}" IsReadOnly="True" Binding="{Binding Thickness}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.BendsCount}" Description="{DynamicResource l_popup.PopupDisassembly.BendsCountTt}" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupAnalyzeDetails}" IsReadOnly="True" Binding="{Binding BendCount}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.PurchasedPart}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupSettings}">
+                        <telerik:PropertyDefinition.EditorTemplate>
+                          <DataTemplate>
+                            <StackPanel Orientation="Vertical" Background="#FFFFFFFF">
+                              <telerik:RadComboBox HorizontalAlignment="Stretch" DisplayMemberPath="Desc" SelectedValuePath="Value" ItemsSource="{Binding PurchasedPartTypes}" SelectedValue="{Binding PurchasedPartTypeId}" />
+                              <StackPanel Orientation="Horizontal">
+                                <CheckBox VerticalContentAlignment="Center" Content="{DynamicResource l_popup.PopupDisassembly.PurchasedPartIgnoreCollision}" IsChecked="{Binding PurchasedPartIgnoreCollision}" Visibility="{Binding VisibilityPurchasedPartIgnoreCollision}" />
+                                <Button Content="{DynamicResource l_popup.PopupDisassembly.SavePurchasedPartDefault}" Command="{Binding CmdSavePurchasedPartSetting}" />
+                              </StackPanel>
+                            </StackPanel>
+                          </DataTemplate>
+                        </telerik:PropertyDefinition.EditorTemplate>
+                      </telerik:PropertyDefinition>
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.ActionsOnPart}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupSettings}">
+                        <telerik:PropertyDefinition.EditorTemplate>
+                          <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                              <Button Height="30" Width="90" Content="{DynamicResource l_popup.PopupDisassembly.ExportSTEP}" Command="{Binding CmdExportStep}" />
+                              <Button Height="30" Width="90" Content="{DynamicResource l_popup.PopupDisassembly.Delete}" Command="{Binding CmdDelete}" />
+                            </StackPanel>
+                          </DataTemplate>
+                        </telerik:PropertyDefinition.EditorTemplate>
+                      </telerik:PropertyDefinition>
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.MachineBend}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupProductionInfo}" IsReadOnly="True" Binding="{Binding BendMachineDesc}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.DocState}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupProductionInfo}" IsReadOnly="True" Binding="{Binding DocState}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.ValidationGeometry}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupProductionInfo}" IsReadOnly="True" Binding="{Binding ValidationGeoErrors, Mode=OneWay}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.SavedArchive}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupProductionInfo}" IsReadOnly="True" Binding="{Binding SavedArchiv}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.PpName}" Description="" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupProductionInfo}" IsReadOnly="True" Binding="{Binding PPName}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.NumberCutouts}" Description="{DynamicResource l_popup.PopupDisassembly.NumberCutoutsTt}" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupProductionInfo}" IsReadOnly="True" Binding="{Binding NumberCutouts}" />
+                      <telerik:PropertyDefinition DisplayName="{DynamicResource l_popup.PopupDisassembly.KFactorWarnings}" Description="{DynamicResource l_popup.PopupDisassembly.KFactorWarningsTt}" GroupName="{DynamicResource l_popup.PopupDisassembly.GroupProductionInfo}" IsReadOnly="True" Binding="{Binding KFactorWarnings}" />
+                    </telerik:RadPropertyGrid.PropertyDefinitions>
+                  </telerik:RadPropertyGrid>
+                  <Button Grid.Row="1" Content="{DynamicResource l_popup.PopupDisassembly.Open}" Command="{Binding CmdOpenSelectedParts}" />
+                  <Button Grid.Row="2" Content="{DynamicResource l_popup.Button5_Cancel}" Command="{Binding CmdCancel}" />
+                </Grid>
+              </Border>
+            </telerik:RadPane>
+          </telerik:RadPaneGroup>
+        </telerik:RadSplitContainer>
+      </telerik:RadSplitContainer>
+    </telerik:RadDocking>
+  </Grid>
+</UserControl>

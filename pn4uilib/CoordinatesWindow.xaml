@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.pn4.pn4UILib.CoordinatesWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.pn4.pn4UILib" Title="CoordinatesWindow" Focusable="False" ShowActivated="False" FocusManager.IsFocusScope="False" ShowInTaskbar="False" Background="#00FFFFFF" Height="25" Width="150" WindowStyle="None" AllowsTransparency="True" Opacity="0.6" MouseEnter="Window_MouseEnter" MouseLeave="Window_MouseLeave">
+  <Border BorderThickness="1" BorderBrush="#FFD3D3D3" CornerRadius="3" Background="#FF000000">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Button Name="close" Visibility="Collapsed" Style="{DynamicResource ToolBarButtonBaseStyle1}" Click="close_Click">
+        <ContentControl.Content>
+          <Grid Width="15" Height="15" RenderTransform="1,0,0,1,0,1">
+            <Path Data="M0,0 L8,7 M8,0 L0,7" Width="8" Height="7" VerticalAlignment="Center" HorizontalAlignment="Center" StrokeThickness="1.5" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
+          </Grid>
+        </ContentControl.Content>
+      </Button>
+      <TextBlock Name="text" Grid.Column="1" Foreground="#FFFFFFFF" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" Padding="0,0,5,0">10.1212, 20.3433</TextBlock>
+    </Grid>
+  </Border>
+</Window>

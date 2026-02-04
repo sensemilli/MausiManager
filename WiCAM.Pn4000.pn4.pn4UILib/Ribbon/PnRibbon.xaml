@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.pn4.pn4UILib.Ribbon.PnRibbon" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:uibuttons="clr-namespace:WiCAM.Pn4000.pn4.uicontrols.Buttons;assembly=pn4.uicontrols" SnapsToDevicePixels="True" Background="#00FFFFFF" xmlns:ribbon="clr-namespace:WiCAM.Pn4000.pn4.pn4UILib.Ribbon;assembly=WiCAM.Pn4000.GuiWpf" PreviewMouseUp="UserControl_PreviewMouseUp" PreviewMouseDoubleClick="UserControl_PreviewMouseDoubleClick" SizeChanged="UserControl_SizeChanged" PreviewKeyDown="UserControl_PreviewKeyDown">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="23" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0" Style="{DynamicResource ButtonsRibbonZoneStyle}">
+      <StackPanel Name="RibbonButtonsZone" Orientation="Horizontal" />
+    </Border>
+    <Border Name="MainRibbonZone" Grid.Row="1" Style="{DynamicResource MainRibbonZoneStyle}" />
+  </Grid>
+</UserControl>

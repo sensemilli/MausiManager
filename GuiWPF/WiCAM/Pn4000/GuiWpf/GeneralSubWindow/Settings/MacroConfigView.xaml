@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.GeneralSubWindow.Settings.MacroConfigView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralSubWindow.Settings"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+             xmlns:information="clr-namespace:WiCAM.Pn4000.Popup.Information;assembly=WiCAM.Pn4000.Popup">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <BooleanToVisibilityConverter x:Key="B2V" />
+      <information:PnColor2BrushConverer x:Key="ConverterPnColor2Brush" />
+      <information:CfgColor2BrushConverter x:Key="ConverterCfgColor2Brush" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <ScrollViewer>
+    <StackPanel Orientation="Vertical" Margin="10">
+      <TextBlock Text="{DynamicResource l_popup.PopupUnfoldSetting.MacroOptions}" Style="{DynamicResource PnPopupHeaderText}" />
+      <StackPanel Orientation="Vertical" Margin="20,5,0,5">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <CheckBox Name="ShowChamferLineBox" Content="{DynamicResource l_popup.PopupUnfoldSetting.ShowChamferLines}" IsThreeState="False" Grid.Row="0" Grid.Column="0" IsChecked="{Binding ShowChamferLineValue}" />
+          <Button Grid.Row="0" Grid.Column="3" Command="{Binding CmdResetShowChamferLine}">
+                        <telerik:RadGlyph  telerik:RadGlyph.Glyph="" />
+          </Button>
+          <Grid Margin="25,5,5,5" Row="1" Column="0" ColumnSpan="4" Visibility="{Binding IsChecked, ElementName=ShowChamferLineBox, Converter={StaticResource B2V}}">
+            <WrapPanel FlowDirection="LeftToRight">
+              <Grid Margin="25,0">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Width="200" Margin="5" Content="{DynamicResource l_popup.PnInterfaceSettings.ChamferPosColorPn}" Command="{Binding ChamferPosColorPnCommand}" />
+                <Rectangle Grid.Column="1" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding ChamferPosColorPn, Converter={StaticResource ConverterPnColor2Brush}}" />
+                <Label Grid.Column="2" Width="30" Margin="3" Content="{Binding ChamferPosColorPn}" />
+              </Grid>
+              <Grid Margin="25,0">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="grBtn" />
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="rectangle" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Width="200" Margin="5" Content="{DynamicResource l_popup.PnInterfaceSettings.ChamferNegColorPn}" Command="{Binding ChamferNegColorPnCommand}" />
+                <Rectangle Grid.Column="1" Width="50" Margin="5" Stroke="#FF000000" HorizontalAlignment="Center" Fill="{Binding ChamferNegColorPn, Converter={StaticResource ConverterPnColor2Brush}}" />
+                <Label Grid.Column="2" Width="30" Margin="3" Content="{Binding ChamferNegColorPn}" />
+              </Grid>
+            </WrapPanel>
+          </Grid>
+          <Label Grid.Row="2" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.CounterSinkMaxRadius}" ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.CounterSinkMaxRadiusToolTip}" />
+          <TextBox Grid.Row="2" Grid.Column="1" Height="26" VerticalAlignment="Top" Text="{Binding CounterSinkMaxRadiusConverted}" />
+          <Label Grid.Row="2" Grid.Column="2" Content="{Binding Unit}" />
+          <Button Grid.Row="2" Grid.Column="3" Command="{Binding CmdResetCounterSinkMaxRadius}">
+                        <telerik:RadGlyph telerik:RadGlyph.Glyph="" />
+          </Button>
+          <Label Grid.Row="3" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.TwoSidedCounterSinkMaxRadius}" ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.TwoSidedCounterSinkMaxRadiusToolTip}" />
+          <TextBox Grid.Row="3" Grid.Column="1" Height="26" VerticalAlignment="Top" Text="{Binding TwoSidedCounterSinkMaxRadiusConverted}" />
+          <Label Grid.Row="3" Grid.Column="2" Content="{Binding Unit}" />
+          <Button Grid.Row="3" Grid.Column="3" Command="{Binding CmdResetTwoSidedCounterSinkMaxRadius}">
+                        <telerik:RadGlyph telerik:RadGlyph.Glyph="" />
+          </Button>
+          <Label Grid.Row="4" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.BlindHoleMaxRadius}" ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.BlindHoleMaxRadiusToolTip}" />
+          <TextBox Grid.Row="4" Grid.Column="1" Height="26" VerticalAlignment="Top" Text="{Binding BlindHoleMaxRadiusConverted}" />
+          <Label Grid.Row="4" Grid.Column="2" Content="{Binding Unit}" />
+          <Button Grid.Row="4" Grid.Column="3" Command="{Binding CmdResetBlindHoleMaxRadius}">
+                        <telerik:RadGlyph telerik:RadGlyph.Glyph="" />
+          </Button>
+          <Label Grid.Row="5" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.DeepeningMinDepth}" />
+          <TextBox Grid.Row="5" Grid.Column="1" Height="26" VerticalAlignment="Top" Text="{Binding DeepeningMinDepthConverted}" />
+          <Label Grid.Row="5" Grid.Column="2" Content="{Binding Unit}" />
+          <Button Grid.Row="5" Grid.Column="3" Command="{Binding CmdResetDeepeningMinDepth}">
+                        <telerik:RadGlyph telerik:RadGlyph.Glyph=""  />
+          </Button>
+          <Label Grid.Row="6" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.DeepeningMaxDepth}" />
+          <TextBox Grid.Row="6" Grid.Column="1" Height="26" VerticalAlignment="Top" Text="{Binding DeepeningMaxDepthConverted}" />
+          <Label Grid.Row="6" Grid.Column="2" Content="{Binding Unit}" />
+          <Button Grid.Row="6" Grid.Column="3" Command="{Binding CmdResetDeepeningMaxDepth}">
+                        <telerik:RadGlyph telerik:RadGlyph.Glyph=""  />
+          </Button>
+          <Label Grid.Row="7" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.BlindHoleMinDepth}" />
+          <TextBox Grid.Row="7" Grid.Column="1" Height="26" VerticalAlignment="Top" Text="{Binding BlindHoleMinDepthConverted}" />
+          <Label Grid.Row="7" Grid.Column="2" Content="{Binding Unit}" />
+          <Button Grid.Row="7" Grid.Column="3" Command="{Binding CmdResetBlindHoleMinDepth}">
+                        <telerik:RadGlyph telerik:RadGlyph.Glyph="" />
+          </Button>
+          <CheckBox Name="ShowDeepeningLevelsBox" Grid.Row="8" Grid.Column="0" IsThreeState="False" Content="{DynamicResource l_popup.PopupUnfoldSetting.DeepeningColorList}" IsChecked="{Binding ShowDeepeningLevelsValue}" />
+          <telerik:RadGridView Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" NewRowPosition="Bottom" GroupRenderMode="Flat" CanUserSortColumns="False" CanUserGroupColumns="False" ShowGroupPanel="False" AutoGenerateColumns="False" RightFrozenColumnCount="1" RightFrozenColumnsSplitterVisibility="Visible" Visibility="{Binding IsChecked, ElementName=ShowDeepeningLevelsBox, Converter={StaticResource B2V}}" ItemsSource="{Binding DeepeningLevels}">
+            <telerik:GridViewDataControl.SortDescriptors>
+              <telerik:SortDescriptor Member="DeepeningDepth" SortDirection="Ascending" />
+            </telerik:GridViewDataControl.SortDescriptors>
+            <telerik:GridViewDataControl.Columns>
+              <telerik:GridViewDataColumn Header="Level" IsReadOnly="True" DataMemberBinding="{Binding Level}" />
+              <telerik:GridViewDataColumn Header="{Binding MaxDepthHeader}" DataMemberBinding="{Binding DeepeningDepthConverted}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.Color3D}" DataMemberBinding="{Binding Color3D}">
+                <telerik:GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                                        <telerik:RadButton Control.BorderBrush="#FF000000"  ButtonBase.Command="{Binding Color3D.ColorChangeCommand}" Control.Background="{Binding Path=Color3D.Color, Converter={StaticResource ConverterCfgColor2Brush}}" />
+                  </DataTemplate>
+                </telerik:GridViewColumn.CellTemplate>
+              </telerik:GridViewDataColumn>
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.ColorPositive2D}" DataMemberBinding="{Binding DeepeningPosColorPn}">
+                <telerik:GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                                        <telerik:RadButton Control.BorderBrush="#FF000000" ButtonBase.Command="{Binding DeepeningLevelPosColorPnCommand}" ContentControl.Content="{Binding DeepeningPosColorPn}" Control.Background="{Binding Path=DeepeningPosColorPn, Converter={StaticResource ConverterPnColor2Brush}}"  />
+                  </DataTemplate>
+                </telerik:GridViewColumn.CellTemplate>
+              </telerik:GridViewDataColumn>
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupUnfoldSetting.ColorNegative2D}" DataMemberBinding="{Binding DeepeningNegColorPn}">
+                <telerik:GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                                        <telerik:RadButton Control.BorderBrush="#FF000000" ButtonBase.Command="{Binding DeepeningLevelNegColorPnCommand}" ContentControl.Content="{Binding DeepeningNegColorPn}" Control.Background="{Binding Path=DeepeningNegColorPn, Converter={StaticResource ConverterPnColor2Brush}}"  />
+                  </DataTemplate>
+                </telerik:GridViewColumn.CellTemplate>
+              </telerik:GridViewDataColumn>
+              <telerik:GridViewDataColumn>
+                <telerik:GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                                        <telerik:RadButton FrameworkElement.Cursor="Hand" Control.Foreground="#FFFF0000" ButtonBase.Command="{Binding DeepeningLevelDeleteRowCommand}">
+                                            <telerik:RadGlyph telerik:RadGlyph.Glyph=""  />
+                    </telerik:RadButton>
+                  </DataTemplate>
+                </telerik:GridViewColumn.CellTemplate>
+              </telerik:GridViewDataColumn>
+            </telerik:GridViewDataControl.Columns>
+          </telerik:RadGridView>
+          <Label Grid.Row="10" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldSetting.BorderTolerableOrthogonalOffset}" ToolTip="{DynamicResource l_popup.PopupUnfoldSetting.BorderTolerableOrthogonalOffsetToolTip}" />
+          <TextBox Grid.Row="10" Grid.Column="1" Height="26" VerticalAlignment="Top" Text="{Binding BorderTolerableOrthogonalOffsetConverted}" />
+          <Label Grid.Row="10" Grid.Column="2" Content="{Binding AngleUnit}" />
+          <Button Grid.Row="10" Grid.Column="3" Command="{Binding CmdResetBorderTolerableOrthogonalOffset}">
+            <RadGlyph p13:RadGlyph.Glyph="" xmlns:p13="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+          </Button>
+          <CheckBox Name="ExportCounterSinkAngle" Content="{DynamicResource l_popup.PopupUnfoldSetting.ExportCounterSinkAngle}" IsThreeState="False" Grid.Row="11" Grid.Column="0" IsChecked="{Binding ExportCounterSinkAngleValue}" />
+          <Button Grid.Row="11" Grid.Column="3" Command="{Binding CmdResetExportCounterSinkAngle}">
+            <RadGlyph p13:RadGlyph.Glyph="" xmlns:p13="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+          </Button>
+          <CheckBox Name="DetectLances" Content="{DynamicResource l_popup.PopupUnfoldSetting.DetectLances}" IsThreeState="False" Grid.Row="12" Grid.Column="0" IsChecked="{Binding DetectLancesValue}" />
+          <Button Grid.Row="12" Grid.Column="3" Command="{Binding CmdResetDetectLances}">
+            <RadGlyph p13:RadGlyph.Glyph="" xmlns:p13="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+          </Button>
+        </Grid>
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

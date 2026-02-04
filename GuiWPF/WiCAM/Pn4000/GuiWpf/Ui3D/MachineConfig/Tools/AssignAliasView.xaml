@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.Tools.AssignAliasView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.Tools" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:controls="clr-namespace:WiCAM.Pn4000.WpfBasics.Controls;assembly=WiCAM.Pn4000.WpfBasics">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*" />
+      <RowDefinition Height="5" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="1*" />
+    </Grid.ColumnDefinitions>
+    <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+    <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" HorizontalAlignment="Stretch" />
+    <TextBlock Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" HorizontalAlignment="Stretch" Margin="5,0" />
+    <StackPanel Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center">
+      <Button Command="{Binding CmdSelectCurrentItem}">Auswählen</Button>
+      <Button Command="{Binding CmdAssignMultiToolCurrentItem}">Verknüpfe Multitool</Button>
+      <Button Command="{Binding CmdAssignAliasToolCurrentItem}">Verknüpfe Alias</Button>
+      <Button Command="{Binding CmdNewMultiToolCurrentItem}">Neu Multitool</Button>
+      <Button Command="{Binding CmdNewAliasToolCurrentItem}">Neu Alias</Button>
+    </StackPanel>
+    <controls:WiGridView Grid.Row="0" Grid.Column="0" AutoScrollSelectedItemIntoView="True" ItemsSource="{Binding AllToolProfiles}" SelectedItem="{Binding SelectedToolProfileByUser}">
+      <telerik:GridViewDataControl.Columns>
+        <telerik:GridViewDataColumn IsReadOnly="True" Header="{DynamicResource l_popup.AdapterView.ID}" Width="AUTO" DataMemberBinding="{Binding ID}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.AdapterView.Name}" Width="AUTO" DataMemberBinding="{Binding Name}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.ToolProfileType}" Width="AUTO" DataMemberBinding="{Binding ToolType}" />
+        <telerik:GridViewComboBoxColumn Header="{DynamicResource l_popup.DiesView.GroupID}" Width="AUTO" FilterMemberPath="GroupID" GroupMemberPath="GroupID" SortMemberPath="GroupID" DisplayMemberPath="ID" DataMemberBinding="{Binding Group}" ItemsSource="{Binding ToolConfigModel.LowerGroups}" />
+        <telerik:GridViewComboBoxColumn Header="{DynamicResource l_popup.DiesView.GroupName}" Width="AUTO" FilterMemberPath="GroupName" SortMemberPath="GroupName" GroupMemberPath="GroupName" DisplayMemberPath="Name" EditTriggers="CellClick,F2,TextInput" DataMemberBinding="{Binding Group}" ItemsSource="{Binding ToolConfigModel.LowerGroups}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolID}" Width="AUTO" DataMemberBinding="{Binding MultiTool.ID}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolName}" Width="AUTO" DataMemberBinding="{Binding MultiTool.Name}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolAliasID}" Width="AUTO" DataMemberBinding="{Binding MultiTool.AliasMultiToolViewModel.Id}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolProfileAmountWithAlias}" Width="AUTO" DataMemberBinding="{Binding MultiTool.ToolProfileAmountWithAlias}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.AdapterView.WorkingHeight}" Width="AUTO" DataMemberBinding="{Binding WorkingHeight}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.AdapterView.GeometryFile}" Width="AUTO" DataMemberBinding="{Binding MultiTool.GeometryFile}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.AdapterView.MaxAllowableToolForcePerLengthUnit}" Width="AUTO" DataFormatString="{}{0:0.###}" DataMemberBinding="{Binding MaxAllowableToolForcePerLengthUnit}" />
+        <telerik:GridViewCheckBoxColumn Header="{DynamicResource l_popup.ToolsView.FlippedByDefault}" Width="AUTO" AutoSelectOnEdit="True" EditTriggers="CellClick" DataMemberBinding="{Binding FlippedByDefault}" />
+        <telerik:GridViewCheckBoxColumn Header="{DynamicResource l_popup.AdapterView.Implemented}" Width="AUTO" AutoSelectOnEdit="True" EditTriggers="CellClick" DataMemberBinding="{Binding Implemented}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MountTypeID}" Width="AUTO" DataMemberBinding="{Binding MountTypeID}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MountTypeChildID}" Width="AUTO" DataMemberBinding="{Binding MountTypeChildID}" />
+      </telerik:GridViewDataControl.Columns>
+    </controls:WiGridView>
+    <controls:WiGridView Grid.Row="0" Grid.Column="2" AutoScrollSelectedItemIntoView="True" AutoGenerateColumns="False" ItemsSource="{Binding AllToolPieces}" SelectedItem="{Binding SelectedToolPieceByUser}">
+      <telerik:GridViewDataControl.Columns>
+        <telerik:GridViewDataColumn IsReadOnly="True" Header="{DynamicResource l_popup.DiesView.ID}" Width="AUTO" DataMemberBinding="{Binding ID}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.DiesView.Length}" Width="AUTO" DataMemberBinding="{Binding Length}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.DiesView.Amount}" Width="AUTO" DataMemberBinding="{Binding Amount}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.TotalAmount}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding TotalAmount}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.PieceAliasID}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding AliasIds}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.PieceAliasAmount}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding AliasConnectedPieceAmount}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolID}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding MultiTool.ID}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolName}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding MultiTool.Name}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolAliasID}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding MultiTool.AliasMultiToolViewModel.Id}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.DiesView.GeometryFile}" DataMemberBinding="{Binding GeometryFile}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.DiesView.MaxAllowableToolForce}" Width="AUTO" DataMemberBinding="{Binding MaxAllowableToolForce}" />
+      </telerik:GridViewDataControl.Columns>
+    </controls:WiGridView>
+    <controls:WiGridView Grid.Row="2" Grid.Column="0" AutoScrollSelectedItemIntoView="True" ItemsSource="{Binding InterestingToolProfiles}" SelectedItem="{Binding SelectedToolProfileByUser}">
+      <telerik:GridViewDataControl.Columns>
+        <telerik:GridViewDataColumn IsReadOnly="True" Header="{DynamicResource l_popup.AdapterView.ID}" Width="AUTO" DataMemberBinding="{Binding ID}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.AdapterView.Name}" Width="AUTO" DataMemberBinding="{Binding Name}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.ToolProfileType}" Width="AUTO" DataMemberBinding="{Binding ToolType}" />
+        <telerik:GridViewComboBoxColumn Header="{DynamicResource l_popup.DiesView.GroupID}" Width="AUTO" FilterMemberPath="GroupID" GroupMemberPath="GroupID" SortMemberPath="GroupID" DisplayMemberPath="ID" DataMemberBinding="{Binding Group}" ItemsSource="{Binding ToolConfigModel.LowerGroups}" />
+        <telerik:GridViewComboBoxColumn Header="{DynamicResource l_popup.DiesView.GroupName}" Width="AUTO" FilterMemberPath="GroupName" SortMemberPath="GroupName" GroupMemberPath="GroupName" DisplayMemberPath="Name" EditTriggers="CellClick,F2,TextInput" DataMemberBinding="{Binding Group}" ItemsSource="{Binding ToolConfigModel.LowerGroups}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolID}" Width="AUTO" DataMemberBinding="{Binding MultiTool.ID}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolName}" Width="AUTO" DataMemberBinding="{Binding MultiTool.Name}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolAliasID}" Width="AUTO" DataMemberBinding="{Binding MultiTool.AliasMultiToolViewModel.Id}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolProfileAmountWithAlias}" Width="AUTO" DataMemberBinding="{Binding MultiTool.ToolProfileAmountWithAlias}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.AdapterView.WorkingHeight}" Width="AUTO" DataMemberBinding="{Binding WorkingHeight}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.AdapterView.GeometryFile}" Width="AUTO" DataMemberBinding="{Binding MultiTool.GeometryFile}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.AdapterView.MaxAllowableToolForcePerLengthUnit}" Width="AUTO" DataFormatString="{}{0:0.###}" DataMemberBinding="{Binding MaxAllowableToolForcePerLengthUnit}" />
+        <telerik:GridViewCheckBoxColumn Header="{DynamicResource l_popup.ToolsView.FlippedByDefault}" Width="AUTO" AutoSelectOnEdit="True" EditTriggers="CellClick" DataMemberBinding="{Binding FlippedByDefault}" />
+        <telerik:GridViewCheckBoxColumn Header="{DynamicResource l_popup.AdapterView.Implemented}" Width="AUTO" AutoSelectOnEdit="True" EditTriggers="CellClick" DataMemberBinding="{Binding Implemented}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MountTypeID}" Width="AUTO" DataMemberBinding="{Binding MountTypeID}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MountTypeChildID}" Width="AUTO" DataMemberBinding="{Binding MountTypeChildID}" />
+      </telerik:GridViewDataControl.Columns>
+    </controls:WiGridView>
+    <controls:WiGridView Grid.Row="2" Grid.Column="2" AutoScrollSelectedItemIntoView="True" AutoGenerateColumns="False" ItemsSource="{Binding InterestingToolPieces}" SelectedItem="{Binding SelectedToolPieceByUser}">
+      <telerik:GridViewDataControl.Columns>
+        <telerik:GridViewDataColumn IsReadOnly="True" Header="{DynamicResource l_popup.DiesView.ID}" Width="AUTO" DataMemberBinding="{Binding ID}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.DiesView.Length}" Width="AUTO" DataMemberBinding="{Binding Length}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.DiesView.Amount}" Width="AUTO" DataMemberBinding="{Binding Amount}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.TotalAmount}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding TotalAmount}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.PieceAliasID}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding AliasIds}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.PieceAliasAmount}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding AliasConnectedPieceAmount}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolID}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding MultiTool.ID}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolName}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding MultiTool.Name}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.ToolsView.MultiToolAliasID}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding MultiTool.AliasMultiToolViewModel.Id}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.DiesView.GeometryFile}" DataMemberBinding="{Binding GeometryFile}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.DiesView.MaxAllowableToolForce}" Width="AUTO" DataMemberBinding="{Binding MaxAllowableToolForce}" />
+      </telerik:GridViewDataControl.Columns>
+    </controls:WiGridView>
+  </Grid>
+</UserControl>

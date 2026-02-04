@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.pn4.pn4Services.PnDebug" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WiCAM.Pn4000.pn4.pn4Services"
+        Title="PN4000 Debug System" Height="300" Width="596" Topmost="True" 
+        Closing="Window_Closing" Loaded="Window_Loaded" KeyDown="Window_KeyDown">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="26" />
+    </Grid.RowDefinitions>
+    <StackPanel Name="toolBar1" Orientation="Horizontal" Grid.Row="1" Height="30" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top">
+      <Label Name="count_label" Background="#FFFFE4C4">0/0</Label>
+      <Separator />
+      <Button Name="button1" Content="Clean" Click="button1_Click" />
+      <Button Name="button2" Content="Hide" Visibility="Collapsed" Click="button2_Click" />
+      <Button Name="button3" Content="Copy" Click="button3_Click" />
+      <Separator Visibility="Collapsed" />
+      <Button Name="buttont1" Content="1" Visibility="Collapsed" Click="buttont1_Click" />
+      <Button Name="buttont2" Content="2" Visibility="Collapsed" Click="buttont2_Click" />
+      <Button Name="buttont3" Content="3" Visibility="Collapsed" Click="buttont3_Click" />
+      <Separator />
+      <CheckBox Name="monitoring_active_checkbox" Content="Efficiency" Click="CheckBox_Click" />
+      <Button Name="button4" Content="SysInfo" Click="button4_Click" />
+      <Button Content="MemDisk" Visibility="Collapsed" Click="Button_Click_1" />
+      <Button Content="StressTest" Visibility="Collapsed" Click="Button_Click_2" />
+      <Separator />
+      <Button Name="clbutton" Click="clbutton_Click">Color</Button>
+    </StackPanel>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Name="MonitoringColumn" Width="0" />
+      </Grid.ColumnDefinitions>
+      <DockPanel LastChildFill="True" Grid.Column="0">
+        <ListBox Name="list1" FontFamily="Courier New" SelectionMode="Extended" Background="#FFFFFFFF" Foreground="#FF000000" />
+      </DockPanel>
+      <StackPanel Orientation="Vertical" Grid.Column="1" Background="#FF008000">
+        <Label Foreground="#FFF5F5F5">Private Memory Size</Label>
+        <Label Name="totmem_label" Foreground="#FFFFFFFF" FontWeight="Bold">O (+O) KB</Label>
+        <Separator />
+        <Label Foreground="#FFF5F5F5">Menaged Memory Size</Label>
+        <Label Name="menmem_label" Foreground="#FFFFFFFF" FontWeight="Bold">O (+O) KB</Label>
+        <Separator />
+        <Label Name="mouse_label" Foreground="#FFFFFFFF" FontWeight="Bold" Visibility="Collapsed">x= y=</Label>
+        <Separator />
+        <Button Click="Button_Click">Reset</Button>
+        <Separator />
+        <CheckBox Name="optional_debug1" Foreground="#FFFFFFFF" Visibility="Collapsed" Click="optional_debug1_Click">Debug CommandToPn4000</CheckBox>
+        <CheckBox Name="optional_debug2" Foreground="#FFFFFFFF" Visibility="Collapsed" Click="optional_debug2_Click">Debug OnInterfaceCallback</CheckBox>
+        <CheckBox Name="optional_debug3" Foreground="#FFFFFFFF" Visibility="Collapsed" Click="optional_debug3_Click">Debug OnEnviromentCallback</CheckBox>
+        <CheckBox Name="optional_debug4" Foreground="#FFFFFFFF" Visibility="Collapsed" Click="optional_debug4_Click">Debug OnRunExternalCallback</CheckBox>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>

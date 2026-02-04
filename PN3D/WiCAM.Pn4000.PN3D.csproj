@@ -1,0 +1,132 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>WiCAM.Pn4000.PN3D</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <UseWPF>True</UseWPF>
+	  <UseWindowsForms>True</UseWindowsForms>
+	  <TargetFramework>net9.0-windows</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="tool.ico" />
+    <None Remove="WiCAM\Pn4000\PN3D\Popup\View\tool.ico" />
+    <EmbeddedResource Include="tool.ico" LogicalName="tool.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\TBraig\source\repos\sensemilli\MausiManager\Contracts\WiCAM.Pn4000.Contracts.csproj" />
+    <ProjectReference Include="C:\Users\TBraig\source\repos\sensemilli\MausiManager\PKernelFlowAdapters\WiCAM.Pn4000.PKernelFlow.Adapters.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>C:\u\pn\run\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="pncommon">
+      <HintPath>C:\u\pn\run\pncommon.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.WpfControls">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Services.ConfigProviders.Contracts">
+      <HintPath>C:\u\pn\run\WiCAM.Services.ConfigProviders.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ScreenD3D">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ScreenD3D.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Config">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Config.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Popup">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Popup.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.GuiContracts">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.GuiContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Comon">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Comon.dll</HintPath>
+    </Reference>
+    <Reference Include="BendDataBase">
+      <HintPath>C:\u\pn\run\BendDataBase.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendTable">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendTable.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Data">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="PPInterface">
+      <HintPath>C:\u\pn\run\PPInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="BendDataSourceModel">
+      <HintPath>C:\u\pn\run\BendDataSourceModel.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ConfigMachine">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ConfigMachine.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Validation">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ToolCalculationMediator">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ToolCalculationMediator.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendSimulation">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendSimulation.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Loader">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Loader.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Archives">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Archives.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.PartsReader">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.PartsReader.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Screen">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Screen.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\u\pn\run\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Writer">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Writer.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input">
+      <HintPath>C:\u\pn\run\Telerik.Windows.Controls.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ModelConverter">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ModelConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Encodings">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Encodings.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Reporting">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Reporting.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>C:\u\pn\run\MathNet.Numerics.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="WiCAM\Pn4000\PN3D\Popup\View\tool.ico" />
+  </ItemGroup>
+</Project>

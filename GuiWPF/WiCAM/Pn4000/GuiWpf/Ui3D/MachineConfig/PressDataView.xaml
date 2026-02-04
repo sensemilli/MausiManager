@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig.PressDataView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:viewModels="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D.MachineConfig" xmlns:enum="clr-namespace:BendDataBase.WiCAM.Pn4000.pn4.Sym3D.BendSimulation.PnConfig.Machine;assembly=BendDataBase" xmlns:popup="clr-namespace:WiCAM.Pn4000.Popup;assembly=WiCAM.Pn4000.Popup" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:machine="clr-namespace:BendDataBase.WiCAM.Pn4000.pn4.Sym3D.BendSimulation.PnConfig.Machine;assembly=WiCAM.Pn4000.Contracts" xmlns:enums="clr-namespace:WiCAM.Pn4000.Contracts.MachineBend.Enums;assembly=WiCAM.Pn4000.Contracts" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="uc" Background="#00FFFFFF" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <enum:EnumBooleanConverter x:Key="enumConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="2*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="0" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.Name}" Grid.Row="1" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.Manufacturer}" Grid.Row="2" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.Type}" Grid.Row="3" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.MinPressForce}" Grid.Row="4" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.MaxPressForce}" Grid.Row="5" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.LimitPressForceToMaxPressForceOfTools}" Grid.Row="6" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.Length}" Grid.Row="7" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.TotalLength}" Grid.Row="8" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.TotalHeight}" Grid.Row="9" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.FootToggleCount}" Grid.Row="10" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.FootToggle}" Grid.Row="11" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.MinBeamOpeningHeight}" Grid.Row="12" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.SafetyOffsetBeamOpeningHeight}" Grid.Row="13" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.StepChangeDefault}" Grid.Row="14" Grid.Column="0" ToolTip="{DynamicResource l_popup.MachineConfigView.StepChangeDefaultTt}" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.MutePosition}" Grid.Row="15" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.ClampPosition}" Grid.Row="16" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.UseAngleMeassurement}" Grid.Row="17" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.FrontLiftingAid}" Grid.Row="18" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.BackLiftingAid}" Grid.Row="19" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.AntiDeflectionSystem}" Grid.Row="20" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.BendTable}" Grid.Row="21" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.BendSequenceList}" Grid.Row="22" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.Version}" Grid.Row="23" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.ControllerType}" Grid.Row="24" Grid.Column="0" />
+    <Label Style="{DynamicResource PnPopupLabelForTextBox}" Content="{DynamicResource l_popup.MachineConfigView.VWidthType}" Grid.Row="25" Grid.Column="0" />
+    <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Text="{Binding Name}" />
+    <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Text="{Binding Manufacturer}" />
+    <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" Text="{Binding Type}" />
+    <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" Text="{Binding PressForceMin}" />
+    <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" Text="{Binding PressForceMax}" />
+    <CheckBox Style="{DynamicResource PnPopupCheckBox}" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding LimitPressForceToMaxPressForceOfTools}" />
+    <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" VerticalAlignment="Center" Grid.Row="7" Grid.Column="1" Text="{Binding Length}" />
+    <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" VerticalAlignment="Center" Grid.Row="8" Grid.Column="1" Text="{Binding TotalLength}" />
+    <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" VerticalAlignment="Center" Grid.Row="9" Grid.Column="1" Text="{Binding TotalHeight}" />
+    <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" VerticalAlignment="Center" Grid.Row="10" Grid.Column="1" Text="{Binding FootToggleCount}" />
+    <telerik:RadComboBox Grid.Row="11" Grid.Column="1" SelectedValuePath="Value" DisplayMemberPath="Desc" VerticalAlignment="Center" Margin="1" HorizontalAlignment="Stretch" SelectedValue="{Binding FootToggleDefault}" ItemsSource="{Binding ElementName=uc, Path=DataContext.FootToggleDescriptions}" />
+    <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" VerticalAlignment="Center" Grid.Row="12" Grid.Column="1" Text="{Binding MinBeamOpeningHeight}" />
+    <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" VerticalAlignment="Center" Grid.Row="13" Grid.Column="1" Text="{Binding SafetyOffsetBeamOpeningHeight}" />
+    <telerik:RadComboBox Grid.Row="14" Grid.Column="1" SelectedValuePath="Value" DisplayMemberPath="Desc" SelectedValue="{Binding StepChangeDefault}" ItemsSource="{Binding StepChangeDescriptions}" />
+    <popup:TextBoxDouble Min="0.0" Grid.Row="15" Grid.Column="1" Style="{DynamicResource PnPopupTextBoxStyle}" Text="{Binding DefaultMachineSpeedChangePosition, FallbackValue=0.0}" />
+    <Grid Row="16" Column="1" VerticalAlignment="Center">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="0.5*" />
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="0.5*" />
+      </Grid.ColumnDefinitions>
+      <RadioButton Grid.Column="0" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{DynamicResource l_popup.MachineConfigView.ClampPositionAbs}" GroupName="ClampPositionOption" IsChecked="{Binding ClampPositionOption, Converter={StaticResource enumConverter}, ConverterParameter={x:Static enums:ClampPositionOptions.Absolut}}" />
+      <TextBox Grid.Column="1" Margin="5,0" Text="{Binding AbsolutClampPosition}" IsEnabled="{Binding ClampPositionOption, Converter={StaticResource enumConverter}, ConverterParameter={x:Static enums:ClampPositionOptions.Absolut}}" />
+      <RadioButton Grid.Column="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{DynamicResource l_popup.MachineConfigView.ClampPositionPercent}" GroupName="ClampPositionOption" Margin="25,0,0,0" IsChecked="{Binding ClampPositionOption, Converter={StaticResource enumConverter}, ConverterParameter={x:Static enums:ClampPositionOptions.Percent}}" />
+      <TextBox Grid.Column="3" Margin="5,0" Text="{Binding DefaultClampingPositionFactor}" IsEnabled="{Binding ClampPositionOption, Converter={StaticResource enumConverter}, ConverterParameter={x:Static enums:ClampPositionOptions.Percent}}" />
+    </Grid>
+    <CheckBox Name="angleMeasurmentcb" Style="{StaticResource PnPopupCheckBox}" Grid.Row="17" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding UseAngleMeasurement}" />
+    <CheckBox Style="{DynamicResource PnPopupCheckBox}" Grid.Row="18" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding FrontLiftingAid}" />
+    <CheckBox Style="{StaticResource PnPopupCheckBox}" Grid.Row="19" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding BackLiftingAid}" />
+    <CheckBox Style="{StaticResource PnPopupCheckBox}" Grid.Row="20" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding AntiDeflectionSystem}" />
+    <Grid Row="21" Column="1" VerticalAlignment="Center">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="1*" />
+      </Grid.ColumnDefinitions>
+      <RadioButton Grid.Column="0" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{DynamicResource l_popup.MachineConfigView.UseMachineBendTable}" GroupName="GlobalBendTable" IsChecked="{Binding UseGlobalBendTable, Converter={StaticResource enumConverter}, ConverterParameter={x:Static machine:BendTableOptions.Machine}}" />
+      <RadioButton Grid.Column="1" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{DynamicResource l_popup.MachineConfigView.UseGlobalBendTable}" GroupName="GlobalBendTable" Margin="25,0,0,0" IsChecked="{Binding UseGlobalBendTable, Converter={StaticResource enumConverter}, ConverterParameter={x:Static machine:BendTableOptions.Global}}" />
+    </Grid>
+    <Grid Row="22" Column="1" VerticalAlignment="Center">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="1*" />
+      </Grid.ColumnDefinitions>
+      <RadioButton Grid.Column="0" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{DynamicResource l_popup.MachineConfigView.UseMachineBendSequenceList}" GroupName="GlobalBendSequenceList" IsChecked="{Binding UseGlobalBendSequenceList, Converter={StaticResource enumConverter}, ConverterParameter={x:Static machine:BendTableOptions.Machine}}" />
+      <RadioButton Grid.Column="1" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{DynamicResource l_popup.MachineConfigView.UseGlobalBendSequenceList}" GroupName="GlobalBendSequenceList" Margin="25,0,0,0" IsChecked="{Binding UseGlobalBendSequenceList, Converter={StaticResource enumConverter}, ConverterParameter={x:Static machine:BendTableOptions.Global}}" />
+    </Grid>
+    <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" VerticalAlignment="Center" Grid.Row="23" Grid.Column="1" Text="{Binding Version}" />
+    <telerik:RadComboBox Grid.Row="24" Grid.Column="1" SelectedValuePath="Value" DisplayMemberPath="Desc" VerticalAlignment="Center" Margin="1" HorizontalAlignment="Stretch" SelectedValue="{Binding ControlerType}" ItemsSource="{Binding ControlerTypesColl}" />
+    <telerik:RadComboBox Grid.Row="25" Grid.Column="1" SelectedValuePath="Value" DisplayMemberPath="Desc" VerticalAlignment="Center" Margin="1" HorizontalAlignment="Stretch" SelectedValue="{Binding DefaultVWidthType}" ItemsSource="{Binding VWidthTypesColl}" />
+  </Grid>
+</UserControl>

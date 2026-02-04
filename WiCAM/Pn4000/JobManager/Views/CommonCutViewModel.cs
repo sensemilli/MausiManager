@@ -27,6 +27,8 @@ using WiCAM.Pn4000.TechnoTable;
 using System.Windows.Controls.Ribbon;
 using Microsoft.Office.Interop.Excel;
 
+using iTextSharp.text.pdf.parser;
+
 namespace WiCAM.Pn4000.JobManager
 {
     public class CommonCutViewModel :
@@ -387,9 +389,11 @@ namespace WiCAM.Pn4000.JobManager
         {
             Console.WriteLine("ButtonSechundsiebzigzusechsundsiebzigzweiCommand");
             Logger.Info("ButtonSechundsiebzigzusechsundsiebzigzweiCommand : {0}", (object)DateTime.Now.ToString("s"));
-            CommonCutControl._CommonCutControl.Click76zu762Button();
+            //  CommonCutControl._CommonCutControl.Click76zu762Button();
+   
+          
         }
-
+       
         public ICommand WLASTCommand
         {
             get

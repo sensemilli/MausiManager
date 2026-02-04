@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.PN3D.Popup.View.PopupSelectFilesForImportView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:viewModel="clr-namespace:WiCAM.Pn4000.PN3D.Popup.ViewModel" Style="{DynamicResource PopupStyle}" Title="PopupSelectFilesForImportView" Height="450" Width="800" xmlns:view="clr-namespace:WiCAM.Pn4000.PN3D.Popup.View">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*" />
+      <RowDefinition Height="2*" />
+      <RowDefinition Height="2*" />
+      <RowDefinition Height="2*" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="3*" />
+      <ColumnDefinition Width="3*" />
+      <ColumnDefinition Width="1*" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Text="Select Data for Import" Grid.ColumnSpan="3" Margin="10" FontSize="20" FontWeight="Bold" TextDecorations="Underline" TextAlignment="Center" />
+    <Grid Background="#00FFFFFF" ColumnSpan="2" Margin="10,10,5,15" Row="1" RowSpan="3">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="1*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="AUTO" />
+        <RowDefinition Height="AUTO" />
+        <RowDefinition Height="AUTO" />
+        <RowDefinition Height="AUTO" />
+      </Grid.RowDefinitions>
+      <TextBlock Style="{DynamicResource PnPopupFreeText}" Text="Data Source" Grid.Row="0" Grid.Column="0" FontWeight="Bold" TextDecorations="Underline" Margin="0,0,74,0" />
+      <TextBlock Style="{DynamicResource PnPopupFreeText}" Text="Geometry Source" Grid.Row="0" Grid.Column="2" FontWeight="Bold" TextDecorations="Underline" Margin="18,0,50,0" />
+      <ListBox MinWidth="150" Background="#00FFFFFF" Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="0,0,10,5" ItemsSource="{Binding SelectedImportObject.DataSourceFiles}" />
+      <Button Content="Select" MaxHeight="25" Width="45" Margin="107,0,0,0" Command="{Binding Path=DataContext.SelectFileCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+      <Label Style="{DynamicResource PnPopupLabelForTextBox}" MinWidth="150" Background="#00FFFFFF" Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="18,0,0,41" Content="{Binding SelectedImportObject.GeometrySourceFolder}" />
+      <Button Content="Select" MaxHeight="25" Grid.Column="2" Width="45" Margin="131,0,0,0" Command="{Binding Path=DataContext.SelectGeometrySourceFolderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+    </Grid>
+    <Grid ColumnSpan="2" Margin="10,95,10,10" Row="3" RowSpan="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="AUTO" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="AUTO" />
+      </Grid.RowDefinitions>
+      <Button Content="Select" MaxHeight="25" Margin="40,10,30,0" Height="32" VerticalAlignment="Top" Grid.Column="1" Command="{Binding DataContext.SelectGeometryTargetFolderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+      <TextBlock Style="{DynamicResource PnPopupFreeText}" Text="Geometry Target" FontWeight="Bold" TextDecorations="Underline" Margin="10,10,10,0" Height="32" VerticalAlignment="Top" />
+      <Label Style="{DynamicResource PnPopupLabelForTextBox}" MinWidth="150" Background="#00FFFFFF" Grid.Column="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="0,10,10,0" HorizontalAlignment="Right" Height="32" VerticalAlignment="Top" Content="{Binding SelectedImportObject.GeometryTargetFolder}" />
+    </Grid>
+    <StackPanel Grid.Column="2" Grid.Row="4">
+      <Button Content="OK" Margin="2,2,2,0" Command="{Binding Button16_OkClick}" />
+      <Button Content="Cancel" Margin="2,2,2,0" Command="{Binding Button5_CancelClick}" />
+    </StackPanel>
+  </Grid>
+</Window>

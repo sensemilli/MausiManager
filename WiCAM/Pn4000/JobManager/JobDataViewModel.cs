@@ -97,6 +97,11 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 
 	private bool _isUpdateFromPart;
     private ICommand _reloadWithFinishedJobsCommand;
+    private string partsamount;
+    private int ii;
+    private bool exporting;
+    private ICommand _exportCommand;
+    private RelayCommand _freigabeLoeschenCommand;
 
     public IView View { get; private set; }
 
@@ -425,8 +430,22 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 			return _jobOpenCommand;
 		}
 	}
-
-	public ICommand PrintJobLabelsCommand
+    public ICommand ExportCommand
+    {
+        get
+        {
+            if (_exportCommand == null)
+            {
+                _exportCommand = new RelayCommand((Action<object>)delegate
+                {
+                    exporting = true;
+                    LoadJobs();
+                });
+            }
+            return _exportCommand;
+        }
+    }
+    public ICommand PrintJobLabelsCommand
 	{
 		get
 		{
@@ -471,7 +490,37 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 		}
 	}
 
-	private void ShowSumOfParts(object data)
+    public ICommand FreigabeLoeschenCommand
+    {
+        get
+        {
+            if (_freigabeLoeschenCommand == null)
+            {
+                _freigabeLoeschenCommand = new RelayCommand(delegate
+                {
+                    UnblockDeleteJob();
+                }, (object x) => true);
+            }
+            return _freigabeLoeschenCommand;
+        }
+    }
+
+    private void UnblockDeleteJob()
+    {
+		if (!_settings.IsJobDeleteEnabled)
+			{
+			_settings.IsJobDeleteEnabled = true;
+			MessageHelper.Information("Freigabe zum Löschen von Jobs wurde erteilt.");
+		}
+		else
+		{
+			_settings.IsJobDeleteEnabled = false;
+            MessageHelper.Information("Freigabe zum Löschen von Jobs wurde entfernt.");
+        }
+        CommandManager.InvalidateRequerySuggested();
+    }
+
+    private void ShowSumOfParts(object data)
 	{
 		if (data is IList listOfParts)
 		{
@@ -530,7 +579,20 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 		return flag;
 	}
 
-	private void DeleteProducedJobs()
+    private bool CanDeleteJobSave(bool flag)
+    {
+        if (flag)
+        {
+           _settings.IsJobDeleteEnabled = true;
+        }
+		else
+		{
+		   _settings.IsJobDeleteEnabled = false;
+        }
+		return flag;
+    }
+
+    private void DeleteProducedJobs()
 	{
 		Logger.Info("DeleteProducedJobs");
 		if (MessageHelper.Question(FindStringResource("MsgAskDeleteProducedJobs")) == MessageBoxResult.Yes)
@@ -1072,7 +1134,8 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 		JobStrategyHelper jobStrategyHelper = new JobStrategyHelper();
 		_strategy = jobStrategyHelper.CreateReadStrategies(_settings);
 		_stateManager.AttachImageObserver(this);
-	}
+		_settings.IsJobDeleteEnabled = false;
+    }
 
     public ICommand AddToBlechOptCommand
     {
@@ -1221,7 +1284,8 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
                 xlWorksheetFileNames.Cells[rows + 3, 12] = "Dicke";
                 xlWorksheetFileNames.Cells[rows + 3, 13] = "Teile-ID";
                 xlWorksheetFileNames.Cells[rows + 3, 14] = "Oberfl";
-                xlWorksheetFileNames.Cells[rows + 3, 15] = "Gewicht";
+                xlWorksheetFileNames.Cells[rows + 3, 15] = "Gewicht-Teil";
+                xlWorksheetFileNames.Cells[rows + 3, 16] = "Gewicht-Gesamt";
                 //xlWorksheetFileNames.Cells[3, 12] = "Bemerkungen";
                 //xlWorksheetFileNames.Cells[3, 13] = "Gravur";
                 xlrange = xlWorksheetFileNames.Range["A5:O5"];//xlWorksheetFileNames.UsedRange;
@@ -1297,71 +1361,153 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 
                         if (iForFiles < 10)
                         {
-                            var linesReadPart = File.ReadLines(arguments + "\\PART_" + "00" + iForFiles.ToString() + ".DAT");
-                            foreach (var lineRead in linesReadPart)
-                            {
-                                if (lineRead.Contains("PART_NUMBER          ="))
-                                {
-                                    //  Console.WriteLine(lineRead);
-                                    string[] amount = lineRead.Split("=");
-                                    Console.WriteLine("PART_NUMBER  " + amount[1]);
-                                    xlWorksheetFileNames.Cells[i, 7] = amount[1];
-                                }
-                                //   Console.WriteLine(lineRead);
-                                if (lineRead.Contains("PART_SIZE_X"))
-                                {
-                                    //  Console.WriteLine(lineRead);
-                                    string[] amount = lineRead.Split("=");
-                                    Console.WriteLine("PART_SIZE_X  " + amount[1]);
-                                    xlWorksheetFileNames.Cells[i, 8] = amount[1];
-                                    xlWorksheetFileNames.Cells[i, 8].NumberFormat = "#.0";
-                                }
-                                if (lineRead.Contains("PART_SIZE_Y"))
-                                {
-                                    //  Console.WriteLine(lineRead);
-                                    string[] amount = lineRead.Split("=");
-                                    Console.WriteLine("PART_SIZE_Y  " + amount[1]);
-                                    xlWorksheetFileNames.Cells[i, 9] = amount[1];
-                                    xlWorksheetFileNames.Cells[i, 9].NumberFormat = "#.0";
-                                }
-                                if (lineRead.Contains("PART_ACOUNT          ="))
-                                {
-                                    //  Console.WriteLine(lineRead);
-                                    string[] amount = lineRead.Split("=");
-                                    Console.WriteLine("PART_ACOUNT  " + amount[1]);
-                                    xlWorksheetFileNames.Cells[i, 10] = amount[1];
-                                }
-                                if (lineRead.Contains("PART_NAME            ="))
-                                {
-                                    //  Console.WriteLine(lineRead);
-                                    string[] amount = lineRead.Split("=");
-                                    Console.WriteLine("PART_NAME  " + amount[1]);
-                                    xlWorksheetFileNames.Cells[i, 13] = amount[1];
-                                }
-                                if (lineRead.Contains("PART_REMARK          ="))
-                                {
-                                    //  Console.WriteLine(lineRead);
-                                    string[] amount = lineRead.Split("=");
-                                    Console.WriteLine("Oberfl  " + amount[1]);
-                                    xlWorksheetFileNames.Cells[i, 14] = amount[1];
-                                }
-                                if (lineRead.Contains("PART_WGHT_RE         ="))
-                                {
-                                    //  Console.WriteLine(lineRead);
-                                    string[] amount = lineRead.Split("=");
-                                    Console.WriteLine("PART_WGHT_RE  " + amount[1]);
-                                    xlWorksheetFileNames.Cells[i, 15] = amount[1];
-                                }
-                                xlWorksheetFileNames.Cells[i, 11] = material;
-                                xlWorksheetFileNames.Cells[i, 12] = plateThick;
+							if (File.Exists(arguments + "\\PART_" + "00" + iForFiles.ToString() + ".DAT"))
+							{
+								var linesReadPart = File.ReadLines(arguments + "\\PART_" + "00" + iForFiles.ToString() + ".DAT");
+								foreach (var lineRead in linesReadPart)
+								{
+									if (lineRead.Contains("PART_NUMBER          ="))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("PART_NUMBER  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 7] = amount[1];
+									}
+									//   Console.WriteLine(lineRead);
+									if (lineRead.Contains("PART_SIZE_X"))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("PART_SIZE_X  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 8] = amount[1];
+										xlWorksheetFileNames.Cells[i, 8].NumberFormat = "#.0";
+									}
+									if (lineRead.Contains("PART_SIZE_Y"))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("PART_SIZE_Y  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 9] = amount[1];
+										xlWorksheetFileNames.Cells[i, 9].NumberFormat = "#.0";
+									}
+									if (lineRead.Contains("PART_ACOUNT          ="))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("PART_ACOUNT  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 10] = amount[1];
+                                        partsamount = amount[1];
 
-                            }
-                            Console.WriteLine("Nr " + iForFiles + "  " + Path.GetFileName(file));
-                            Console.WriteLine(linesReadPart);
-                            //     xlWorksheetFileNames.Cells[iForFiles + 1, 1] = Path.GetFileNameWithoutExtension(file);
-                            iForFiles++;
-                            i++;
+                                    }
+                                    if (lineRead.Contains("PART_NAME            ="))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("PART_NAME  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 13] = amount[1];
+									}
+									if (lineRead.Contains("PART_REMARK          ="))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("Oberfl  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 14] = amount[1];
+									}
+									if (lineRead.Contains("PART_WGHT_RE         ="))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("PART_WGHT_RE  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 15] = amount[1];
+                                        xlWorksheetFileNames.Cells[i, 16].Formula = "=Sum(" + partsamount + "*O" + i + ")"; //"=Sum(" + xlWorksheetFileNames.Cells[i, 15] + "*" + xlWorksheetFileNames.Cells[i, 10] + ")";
+
+                                    }
+                                    xlWorksheetFileNames.Cells[i, 11] = material;
+									xlWorksheetFileNames.Cells[i, 12] = plateThick;
+
+								}
+								Console.WriteLine("Nr " + iForFiles + "  " + Path.GetFileName(file));
+								Console.WriteLine(linesReadPart);
+								//     xlWorksheetFileNames.Cells[iForFiles + 1, 1] = Path.GetFileNameWithoutExtension(file);
+								iForFiles++;
+								i++;
+							}
                         }
+
+                        if (iForFiles >= 10)
+                        {
+							if (File.Exists(arguments + "\\PART_" + "0" + iForFiles.ToString() + ".DAT"))
+							{
+								var linesReadPart = File.ReadLines(arguments + "\\PART_" + "0" + iForFiles.ToString() + ".DAT");
+								foreach (var lineRead in linesReadPart)
+								{
+									if (lineRead.Contains("PART_NUMBER          ="))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("PART_NUMBER  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 7] = amount[1];
+									}
+									//   Console.WriteLine(lineRead);
+									if (lineRead.Contains("PART_SIZE_X"))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("PART_SIZE_X  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 8] = amount[1];
+										xlWorksheetFileNames.Cells[i, 8].NumberFormat = "#.0";
+									}
+									if (lineRead.Contains("PART_SIZE_Y"))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("PART_SIZE_Y  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 9] = amount[1];
+										xlWorksheetFileNames.Cells[i, 9].NumberFormat = "#.0";
+									}
+									if (lineRead.Contains("PART_ACOUNT          ="))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("PART_ACOUNT  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 10] = amount[1];
+                                        partsamount = amount[1];
+                                    }
+                                    if (lineRead.Contains("PART_NAME            ="))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("PART_NAME  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 13] = amount[1];
+									}
+									if (lineRead.Contains("PART_REMARK          ="))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("Oberfl  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 14] = amount[1];
+									}
+									if (lineRead.Contains("PART_WGHT_RE         ="))
+									{
+										//  Console.WriteLine(lineRead);
+										string[] amount = lineRead.Split("=");
+										Console.WriteLine("PART_WGHT_RE  " + amount[1]);
+										xlWorksheetFileNames.Cells[i, 15] = amount[1];
+                                        xlWorksheetFileNames.Cells[i, 16].Formula = "=Sum(" + partsamount + "*O" + i + ")"; //"=Sum(" + xlWorksheetFileNames.Cells[i, 15] + "*" + xlWorksheetFileNames.Cells[i, 10] + ")";
+
+                                    }
+                                    xlWorksheetFileNames.Cells[i, 11] = material;
+									xlWorksheetFileNames.Cells[i, 12] = plateThick;
+
+								}
+								Console.WriteLine("Nr " + iForFiles + "  " + Path.GetFileName(file));
+								Console.WriteLine(linesReadPart);
+								//     xlWorksheetFileNames.Cells[iForFiles + 1, 1] = Path.GetFileNameWithoutExtension(file);
+								iForFiles++;
+								i++;
+							}
+                        }
+
                     }
                 }
                 xlWorksheetFileNames.Cells[i, 9] = "Summe:";
@@ -1377,6 +1523,18 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
                 int iFrows = irows - 1;
                 xlWorksheetFileNames.Range["G" + iFrows + ":O" + i].Font.Bold = true;
                 xlWorksheetFileNames.Range["G" + iFrows + ":O" + i].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbDarkSeaGreen;
+
+                xlWorksheetFileNames.Cells[i + 1, 15] = "Summe:";
+                xlWorksheetFileNames.Cells[i + 1, 15].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbFuchsia;
+                xlWorksheetFileNames.Cells[i + 1, 15].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+                xlWorksheetFileNames.Cells[i + 1, 15].Font.Bold = true;
+
+                xlWorksheetFileNames.Cells[i + 1, 16].Formula = "=Sum(P" + irows + ":P" + i + ")";
+                xlWorksheetFileNames.Cells[i + 1, 16].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbCadetBlue;
+                xlWorksheetFileNames.Cells[i + 1, 16].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite; xlWorksheetFileNames.Cells[i + 1, 16].Font.Bold = true;
+
+                xlWorksheetFileNames.Range["P" + iFrows + ":P" + i].Font.Bold = true;
+                xlWorksheetFileNames.Range["P" + iFrows + ":P" + i].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbAzure;
 
                 xlWorksheetFileNames.Columns.AutoFit();
                 xlWorksheetFileNames.Rows.AutoFit();
@@ -1426,6 +1584,122 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 
             // Process.Start("explorer.exe", arguments);
         }
+    }
+
+    private void JobsExport(List<JobInfo> list3)
+    {
+        FolderBrowserDialog dlg = new FolderBrowserDialog();
+        Console.WriteLine("jobsexport");
+        foreach (var jobinf in list3)
+        {
+            Console.WriteLine(jobinf.JOB_DATA_2);
+            Console.WriteLine(jobinf.JOB_DATA_9);
+            Console.WriteLine(jobinf.JOB_MATERIAL_NAME);
+            Console.WriteLine(jobinf.JOB_THICKNESS);
+            Console.WriteLine(jobinf.JOB_PROGRESS);
+            Console.WriteLine(jobinf.JOB_COST_PUNCHING);
+        }
+        //if (!AuftragsDataControl.selectedItem.FileSystemInfo.FullName.ToString().Contains("\\"))
+        //{
+        //    dlg.InitialDirectory = Path.GetDirectoryName(path: "X:\\Kunden\\");
+        //}
+        //else
+        Microsoft.Office.Interop.Excel._Worksheet xlWorksheetFileNames = null;
+        Microsoft.Office.Interop.Excel.Workbook xlWorkbookFileNames = null;
+        string AuftragOptDirectory = Path.GetDirectoryName(path: "X:\\Kunden\\Kanterei\\AuftragOptDirectory\\");
+        //   dlg.InitialDirectory = Path.GetDirectoryName(path: "X:\\Kunden\\");
+
+        // Show open file dialog box
+        //    DialogResult result = dlg.ShowDialog();
+        // AuftragOptDirectory = dlg.SelectedPath;
+
+        // Process open file dialog box results
+        //    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dlg.SelectedPath))
+        //   {
+        // Open document
+
+        Console.WriteLine("AuftragOpt =  " + AuftragOptDirectory);
+        Microsoft.Office.Interop.Excel.Application xlAppFileNames = new Microsoft.Office.Interop.Excel.Application();
+        object misValue = System.Reflection.Missing.Value;
+
+        if (!File.Exists(AuftragOptDirectory + "\\AuftragOpt.xlsx"))
+        {
+            xlWorkbookFileNames = xlAppFileNames.Workbooks.Add(misValue);
+        }
+        else
+        {
+            xlWorkbookFileNames = xlAppFileNames.Workbooks.Open(AuftragOptDirectory + "\\AuftragOpt.xlsx");
+
+        }
+        //Excel._Worksheet xlWorksheetFileNames = xlWorkbookFileNames.Sheets[1];
+        xlWorksheetFileNames = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbookFileNames.Worksheets.get_Item(1);
+        xlAppFileNames.Visible = true;
+        Microsoft.Office.Interop.Excel.Range range = xlWorksheetFileNames.UsedRange;
+        int rows = range.Rows.Count;
+        Console.WriteLine("Creating Header  " + rows);
+        if (!File.Exists(AuftragOptDirectory + "\\AuftragOpt.xlsx"))
+        {
+            rows = rows + 1;
+        }
+        else
+        { rows = rows + 3; }
+
+
+
+        //  Console.WriteLine("Kunde  " + jobinf.JOB_DATA_9);
+        xlWorksheetFileNames.Cells[rows, 1] = "Kunde";
+        xlWorksheetFileNames.Cells[rows, 1].Interior.Color = System.Drawing.Color.FromArgb(333333);
+        xlWorksheetFileNames.Cells[rows, 1].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+        xlWorksheetFileNames.Cells[rows, 1].Font.Size = 16;
+
+        //     Console.WriteLine("Auftrags_Nr.  " + jobinf.JOB_DATA_2);
+        xlWorksheetFileNames.Cells[rows, 2] = "AuftragsNr.";
+        xlWorksheetFileNames.Cells[rows, 2].Interior.Color = System.Drawing.Color.FromArgb(333333);
+        xlWorksheetFileNames.Cells[rows, 2].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+        xlWorksheetFileNames.Cells[rows, 2].Font.Size = 16;
+
+        //       Console.WriteLine("Material  " + jobinf.JOB_MATERIAL_NAME);
+        xlWorksheetFileNames.Cells[rows, 3] = "Material";
+        xlWorksheetFileNames.Cells[rows, 3].Interior.Color = System.Drawing.Color.FromArgb(868686);
+        xlWorksheetFileNames.Cells[rows, 3].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+        xlWorksheetFileNames.Cells[rows, 3].Font.Size = 16;
+
+        //      Console.WriteLine("Platine_Dicke  " + jobinf.JOB_THICKNESS);
+        xlWorksheetFileNames.Cells[rows, 4] = "Dicke";
+        xlWorksheetFileNames.Cells[rows, 4].Interior.Color = System.Drawing.Color.FromArgb(868686);
+        xlWorksheetFileNames.Cells[rows, 4].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+        xlWorksheetFileNames.Cells[rows, 4].Font.Size = 16;
+        xlWorksheetFileNames.Cells[rows, 5] = "Progress";
+        xlWorksheetFileNames.Cells[rows, 5].Interior.Color = System.Drawing.Color.FromArgb(868686);
+        xlWorksheetFileNames.Cells[rows, 5].Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbWhite;
+        xlWorksheetFileNames.Cells[rows, 5].Font.Size = 16;
+        //     }
+        // }
+        ii = rows + 2;
+        foreach (var jobinf in list3)
+        {
+            xlWorksheetFileNames.Cells[ii, 1] = jobinf.JOB_DATA_9;
+            Console.WriteLine(jobinf.JOB_DATA_9);
+            xlWorksheetFileNames.Cells[ii, 2] = jobinf.JOB_DATA_2;
+            Console.WriteLine(jobinf.JOB_DATA_2);
+            xlWorksheetFileNames.Cells[ii, 3] = jobinf.JOB_MATERIAL_NAME;
+            Console.WriteLine(jobinf.JOB_MATERIAL_NAME);
+            xlWorksheetFileNames.Cells[ii, 4] = jobinf.JOB_THICKNESS;
+            Console.WriteLine(jobinf.JOB_THICKNESS);
+            xlWorksheetFileNames.Cells[ii, 5] = jobinf.JOB_PROGRESS;
+            Console.WriteLine(jobinf.JOB_PROGRESS);
+            Console.WriteLine(jobinf.JOB_COST_PUNCHING);
+            ii++;
+        }
+
+        xlWorksheetFileNames.Range["A3" + ":E" + ii].Font.Size = 14;
+        xlWorksheetFileNames.Range["A3" + ":E" + ii].Font.Bold = true;
+        xlWorksheetFileNames.Range["A3" + ":E" + ii].Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbAzure;
+        xlWorksheetFileNames.Columns.AutoFit();
+        xlWorksheetFileNames.Rows.AutoFit();
+
+        xlWorkbookFileNames.SaveAs(AuftragOptDirectory + "\\AuftragOpt.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, misValue, misValue, misValue, misValue, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+
     }
 
     private GridLength CreateHeight(int value)
@@ -1794,7 +2068,12 @@ public class JobDataViewModel : ViewModelBase, IJobDataViewModel, IViewModel, IM
 		ReadJobsAmount = 0;
 		List<JobInfo> list3 = result.ToList();
 		list3.Sort((JobInfo x, JobInfo y) => y.DATE.CompareTo(x.DATE));
-		return list3;
+        if (exporting)
+        {
+            JobsExport(list3);
+            exporting = false;
+        }
+        return list3;
 	}
 
 	private void JobChanged(List<JobInfo> jobs)

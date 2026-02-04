@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using WiCAM.Pn4000.Common;
 using WiCAM.Pn4000.Dat;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WiCAM.Pn4000.JobManager;
 
@@ -32,11 +33,15 @@ public class JobStrategyHelper
 		foreach (KeyValuePair<PropertyInfo, ObligatoryAttribute> availableAttribute in customAttributeHelper.AvailableAttributes)
 		{
 			string key = availableAttribute.Key.Name;
-			if ((datKeyAttribute = customAttributeHelper2.FindAttribute(availableAttribute.Key)) != null)
+            Console.WriteLine(key);
+
+            if ((datKeyAttribute = customAttributeHelper2.FindAttribute(availableAttribute.Key)) != null)
 			{
 				key = datKeyAttribute.Key;
-			}
-			CppConfigurationLineInfo cppConfigurationLineInfo = null;
+                Console.WriteLine(key);
+
+            }
+            CppConfigurationLineInfo cppConfigurationLineInfo = null;
 			if ((cppConfigurationLineInfo = configuration.Find((CppConfigurationLineInfo x) => x.Key.Equals(key, StringComparison.CurrentCultureIgnoreCase))) != null)
 			{
 				list.Remove(cppConfigurationLineInfo);
@@ -52,7 +57,7 @@ public class JobStrategyHelper
 			{
 				propertyInfo = FindPropertyByAttributeKeyValue(customAttributeHelper2, item.Key);
 				text = item.Key;
-			}
+            }
 			else
 			{
 				text = propertyInfo.Name;

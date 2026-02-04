@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WiCAM.Pn4000.PN3D", "WiCAM.Pn4000.PN3D.csproj", "{80B3AE0C-2670-F1A1-4F73-8DE73FD8628D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80B3AE0C-2670-F1A1-4F73-8DE73FD8628D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80B3AE0C-2670-F1A1-4F73-8DE73FD8628D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80B3AE0C-2670-F1A1-4F73-8DE73FD8628D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80B3AE0C-2670-F1A1-4F73-8DE73FD8628D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14B8E004-61B1-471A-8494-BA4D84AF4558}
+	EndGlobalSection
+EndGlobal

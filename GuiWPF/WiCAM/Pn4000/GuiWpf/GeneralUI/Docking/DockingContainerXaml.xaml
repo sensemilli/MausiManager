@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.GeneralUI.Docking.DockingContainerXaml" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+             xmlns:docking="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralUI.Docking">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="ToolWindowTitleButtonStyle" xmlns:controls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" TargetType="{x:Type controls:RadToggleButton}">
+        <Setter Property="Control.Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type controls:RadToggleButton}">
+              <Border Name="border" BorderBrush="{TemplateBinding Control.BorderBrush}" Background="{TemplateBinding Control.Background}" BorderThickness="1">
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <ControlTemplate.Triggers>
+                <Trigger Property="UIElement.IsMouseOver" Value="true">
+                  <Setter TargetName="border" Value="{DynamicResource RibbonButton.MouseOver.Border}" Property="Border.BorderBrush" />
+                  <Setter TargetName="border" Value="{DynamicResource RibbonButton.MouseOver.Background}" Property="Border.Background" />
+                </Trigger>
+                <Trigger Property="ButtonBase.IsPressed" Value="true">
+                  <Setter TargetName="border" Value="{DynamicResource RibbonButton.Pressed.Background}" Property="Border.Background" />
+                  <Setter TargetName="border" Value="{DynamicResource RibbonButton.Pressed.Border}" Property="Border.BorderBrush" />
+                </Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+      <DataTemplate x:Key="MyHeaderTemplate">
+        <StackPanel>
+          <TextBlock Text="Custom Header" />
+        </StackPanel>
+      </DataTemplate>
+      <DataTemplate x:Key="MyTitleTemplate">
+        <Grid Initialized="OnTitleInitialized">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <ContentPresenter Grid.Column="0" Margin="0,0,10,0" Content="{Binding Title}" />
+          <TextBlock Name="ForegroundProvider" Grid.Column="1" Text="" Visibility="Collapsed" />
+          <telerik:RadToggleButton Grid.Column="2" Control.Background="#00FFFFFF" Control.BorderBrush="#00FFFFFF" FrameworkElement.Style="{StaticResource ToolWindowTitleButtonStyle}" ButtonBase.Command="{Binding ToggleTransparencyCommand}" Control.Foreground="{Binding ElementName=ForegroundProvider, Path=Foreground, Mode=OneWay}" >
+                        <telerik:RadGlyph FrameworkElement.Margin="2, 0, 2, 0" telerik:RadGlyph.Glyph="{Binding TransparencyGlyph}"  />
+          </telerik:RadToggleButton>
+                    <telerik:RadToggleButton Grid.Column="3" Control.Background="#00FFFFFF" Control.BorderBrush="#00FFFFFF" FrameworkElement.Style="{StaticResource ToolWindowTitleButtonStyle}" ButtonBase.Command="{Binding TogglePinCommand}" Control.Foreground="{Binding ElementName=ForegroundProvider, Path=Foreground, Mode=OneWay}" >
+                        <telerik:RadGlyph FrameworkElement.Margin="2, 0, 2, 0" telerik:RadGlyph.Glyph="{Binding PinGlyph}" />
+          </telerik:RadToggleButton>
+        </Grid>
+      </DataTemplate>
+      <Style x:Key="MyToolWindowStyle" TargetType="{x:Type telerik:ToolWindow}">
+        <Setter Property="HeaderTemplate" Value="{StaticResource MyTitleTemplate}" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+    <telerik:RadDocking Name="DockingContainer" RetainPaneSizeMode="DockingAndFloating" CanAutoHideAreaExceedScreen="True" HasDocumentHost="True" Margin="0" Background="{x:Null}" Loaded="RadDocking_Loaded" >
+    <telerik:RadDocking.DocumentHost>
+      <Grid Name="ChildContainer" />
+    </telerik:RadDocking.DocumentHost>
+  </telerik:RadDocking>
+</UserControl>

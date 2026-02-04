@@ -70,15 +70,14 @@ namespace WiCAM.Pn4000.JobManager
                 xlWorksheetFileNames.Cells[3, 2] = "Pos";
                 xlWorksheetFileNames.Cells[3, 3] = "Baugruppe";
                 xlWorksheetFileNames.Cells[3, 4] = "Artikel";
-                xlWorksheetFileNames.Cells[3, 5] = "Anzahl-Einzelteile";
-                xlWorksheetFileNames.Cells[3, 6] = "Anzahl";
-                xlWorksheetFileNames.Cells[3, 7] = "Länge";
-                xlWorksheetFileNames.Cells[3, 8] = "Breite";
-                xlWorksheetFileNames.Cells[3, 9] = "Dicke";
-                xlWorksheetFileNames.Cells[3, 10] = "Material";
-                xlWorksheetFileNames.Cells[3, 11] = "Oberfläche";
-                xlWorksheetFileNames.Cells[3, 12] = "Bemerkungen";
-                xlWorksheetFileNames.Cells[3, 13] = "Gravur";
+                xlWorksheetFileNames.Cells[3, 5] = "Anzahl";
+                xlWorksheetFileNames.Cells[3, 6] = "Länge";
+                xlWorksheetFileNames.Cells[3, 7] = "Breite";
+                xlWorksheetFileNames.Cells[3, 8] = "Dicke";
+                xlWorksheetFileNames.Cells[3, 9] = "Material";
+                xlWorksheetFileNames.Cells[3, 10] = "Oberfläche";
+                xlWorksheetFileNames.Cells[3, 11] = "Bemerkungen";
+                xlWorksheetFileNames.Cells[3, 12] = "Gravur";
                 xlrange = xlWorksheetFileNames.UsedRange;
                 xlrange.AutoFilter(1, "", Microsoft.Office.Interop.Excel.XlAutoFilterOperator.xlFilterValues, Type.Missing, true);
                 xlWorksheetFileNames.Cells[1, 1] = MainWindow.mainWindow.txtKundenName.Text;
@@ -114,7 +113,53 @@ namespace WiCAM.Pn4000.JobManager
                     if (resulting == true)
                     {
                         Console.WriteLine("Nr " + iForFiles + "  " + Path.GetFileName(file));
+                        string suchtext = "";
+                        string[] splitsuchtext = null;
+                        string[] dxfFile = File.ReadAllLines(file);
+                        int i = 0;
+                        
+                        string anzahl = "";
+                        string dicke = "";
+                        string material = "";
+                        char ue = 'ü';
+                       foreach (var dxfLine in dxfFile)
+                        {
+                            int spliti = 0;
+                            if (dxfLine.Contains("Arial"))
+                            {
+                                if (dxfFile[i - 14].ToString().Contains("TXT_YELLOW"))
+                                {
+                                    suchtext = dxfFile[i - 2].ToString();
+                                    Console.WriteLine(suchtext);
+                                }
+                                splitsuchtext = suchtext.Split(' ');
+                                foreach (var split in splitsuchtext)
+                                {
+                                    if (split.Contains("St") && (split.Contains("ck")))
+                                    {
+                                        anzahl = splitsuchtext[spliti-1];
+                                        Console.WriteLine(anzahl);
+                                    }
+                                    if (split.Contains("Alu"))
+                                        material = split;
+                                    if (split.Contains("Stahl"))
+                                        material = split;
+                                    if (split.Contains("Edel"))
+                                        material = split;
+
+                                    spliti++;
+                                }
+                                dicke = splitsuchtext[splitsuchtext.Length - 1];
+                            //    material = splitsuchtext[splitsuchtext.Length - 2];
+                            }
+                            i++;
+                        }
+                        
                         xlWorksheetFileNames.Cells[iForFiles+1, 1] = Path.GetFileNameWithoutExtension(file);
+                        xlWorksheetFileNames.Cells[iForFiles + 1, 2] = suchtext;
+                        xlWorksheetFileNames.Cells[iForFiles + 1, 5] = anzahl;
+                        xlWorksheetFileNames.Cells[iForFiles + 1, 8] = dicke;
+                        xlWorksheetFileNames.Cells[iForFiles + 1, 9] = material;
                         iForFiles++;
                     }
                 }
@@ -426,7 +471,7 @@ namespace WiCAM.Pn4000.JobManager
 
             for (int i = 4; i <= rowCount; i++)
             {
-                if (Convert.ToString(xlWorksheet.Cells[i, 4].Value).Contains("Summe"))
+                if (Convert.ToString(xlWorksheet.Cells[i, 1].Value).Contains("ende"))
                 {
                     AuftragsDataControl._AuftragsDataControl.TextAuftrag.Text = PartsOrderData[0].Auftrag;
                     AuftragsDataControl._AuftragsDataControl.TextKunde.Text = PartsOrderData[0].Kunde;
@@ -546,7 +591,7 @@ namespace WiCAM.Pn4000.JobManager
 
             for (int i = 4; i <= rowCount; i++)
             {
-                if (Convert.ToString(xlWorksheet.Cells[i, 4].Value).Contains("Summe"))
+                if (Convert.ToString(xlWorksheet.Cells[i, 1].Value).Contains("ende"))
                 {
                     AuftragsDataControl._AuftragsDataControl.TextAuftrag.Text = PartsOrderData[0].Auftrag;
                     AuftragsDataControl._AuftragsDataControl.TextKunde.Text = PartsOrderData[0].Kunde;

@@ -21,15 +21,23 @@ namespace WiCAM.Pn4000.ScreenD3D.Renderer.RenderTasks
     public Model Model { get; }
 
     public Model Parent { get; }
+        public AnyCAD.Foundation.TopoShape TopoShape { get; }
 
-    public AddModelTask(Model model, Model parent, Action<RenderTaskResult> callback)
+        public AddModelTask(Model model, Model parent, Action<RenderTaskResult> callback)
       : base(callback)
     {
       this.Model = model;
       this.Parent = parent;
     }
 
-    public override void Execute(WiCAM.Pn4000.ScreenD3D.Renderer.Renderer renderer)
+        public AddModelTask(AnyCAD.Foundation.TopoShape topoShape, Model parent, Action<RenderTaskResult> callback)
+              : base(callback)
+        {
+            TopoShape = topoShape;
+            this.Parent = parent;
+        }
+
+        public override void Execute(WiCAM.Pn4000.ScreenD3D.Renderer.Renderer renderer)
     {
       try
       {

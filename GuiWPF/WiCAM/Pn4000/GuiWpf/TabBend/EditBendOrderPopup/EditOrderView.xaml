@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.EditBendOrderPopup.EditOrderView" x:ClassModifier="internal" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:sequenceList="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.SequenceList" xmlns:generalSubWindow="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralSubWindow" xmlns:controls="clr-namespace:WiCAM.Pn4000.WpfBasics.Controls;assembly=WiCAM.Pn4000.WpfBasics" xmlns:playScreen="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.PlayScreen" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:bendSequenceList="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.BendSequenceList" xmlns:editBendOrderPopup="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.EditBendOrderPopup" xmlns:information="clr-namespace:WiCAM.Pn4000.Popup.Information;assembly=WiCAM.Pn4000.Popup" xmlns:dragDrop="clr-namespace:WiCAM.Pn4000.WpfControls.DragDrop;assembly=WiCAM.Pn4000.WpfControls" xmlns:gridView="clr-namespace:WiCAM.Pn4000.WpfControls.GridView;assembly=WiCAM.Pn4000.WpfControls" xmlns:tabBend="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="1.0" Background="#FFF5F5F5" Padding="5 5 5 5" Visibility="{Binding IsVisible}" IsEnabled="{Binding IsEnabled}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="PartRowStyle" TargetType="{x:Type telerik:GridViewRow}">
+        <Style.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Foreground" Value="#FF000000" />
+            </Style>
+          </ResourceDictionary>
+        </Style.Resources>
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="#FF000000" />
+        <Setter xmlns:dragdrop="clr-namespace:Telerik.Windows.DragDrop;assembly=Telerik.Windows.Controls" Property="dragdrop:DragDropManager.AllowDrag" Value="True" />
+                <Setter  xmlns:dragdrop="clr-namespace:Telerik.Windows.DragDrop;assembly=Telerik.Windows.Controls" Property="dragdrop:DragDropManager.TouchDragTrigger" Value="TapAndHold" />
+        <EventSetter Event="MouseEnter" Handler="OnMouseEnterOuter" />
+        <EventSetter Event="MouseLeave" Handler="OnMouseLeaveOuter" />
+      </Style>
+      <information:CfgColor2BrushConverter x:Key="ConverterCfgColor2Brush" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <UIElement.InputBindings>
+    <KeyBinding Key="Z" Modifiers="Control" Command="{Binding CmdUndo}" />
+  </UIElement.InputBindings>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <ContentControl Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="4" Content="{Binding Screen}">
+      <Control.Background>
+        <SolidColorBrush Color="WhiteSmoke" Opacity="0.8" />
+      </Control.Background>
+    </ContentControl>
+    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+      <ComboBox DisplayMemberPath="Value" SelectedValuePath="Key" Margin="5" ItemsSource="{Binding Options}" SelectedValue="{Binding SelectedOption, Mode=TwoWay}" />
+      <CheckBox Content="{DynamicResource l_popup.BendView.EditOrder.ManualMode}" Margin="5" IsChecked="{Binding IsManualMode}" />
+      <controls:WiButton FrameworkElement.ToolTip="{DynamicResource l_popup.EditTools.Undo}" FrameworkElement.Margin="5" ButtonBase.Command="{Binding CmdUndo}">
+        <controls1:RadGlyph xmlns:controls1="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" controls1:RadGlyph.Glyph="" />
+      </controls:WiButton>
+    </StackPanel>
+    <Grid Row="0" Column="1" RowSpan="2">
+      <StackPanel Name="AutoSort" Orientation="Vertical">
+        <Expander IsExpanded="False">
+          <HeaderedContentControl.Header>
+            <ComboBox DisplayMemberPath="Description" ItemsSource="{Binding BendOrderStrategies}" SelectedItem="{Binding BendOrderStrategy, Mode=TwoWay}">
+              <ItemsControl.ItemContainerStyle>
+                <Style TargetType="{x:Type ComboBoxItem}">
+                  <Setter Property="FrameworkElement.ToolTip" Value="{Binding Description}" />
+                </Style>
+              </ItemsControl.ItemContainerStyle>
+            </ComboBox>
+          </HeaderedContentControl.Header>
+          <StackPanel>
+            <ComboBox Name="AutoSortNewItem" DisplayMemberPath="Description" ItemsSource="{Binding AutoSortListTranslation}" SelectedItem="{Binding SelectedNewTranslation}">
+              <FrameworkElement.ToolTip>
+                <TextBlock Text="{Binding SelectedNewTranslation.DescriptionLong}" />
+              </FrameworkElement.ToolTip>
+              <ItemsControl.ItemContainerStyle>
+                <Style TargetType="{x:Type ComboBoxItem}">
+                  <Setter Property="FrameworkElement.ToolTip" Value="{Binding DescriptionLong}" />
+                </Style>
+              </ItemsControl.ItemContainerStyle>
+            </ComboBox>
+            <Button Content="{DynamicResource BendView.BendSequenceView.AutoAddItem}" ToolTip="{DynamicResource BendView.BendSequenceView.AutoAddItemTt}" Style="{DynamicResource PnPopupOptionButton}" Margin="0" Command="{Binding CmdAutoSortAdd}" />
+            <ListView ItemsSource="{Binding AutoSortList}">
+              <ItemsControl.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                  <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+              </ItemsControl.ItemContainerStyle>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Grid>
+                    <DockPanel>
+                      <Button DockPanel.Dock="Right" MinWidth="15" Style="{DynamicResource PnPopupOptionButton}" Margin="0" CommandParameter="{Binding}" Command="{Binding ElementName=AutoSort, Path=DataContext.CmdDeleteItem}">x</Button>
+                      <ComboBox DisplayMemberPath="Description" SelectedValuePath="SortType" HorizontalAlignment="Stretch" ItemsSource="{Binding DataContext.AutoSortListTranslation, RelativeSource={RelativeSource AncestorType=ListView}}" SelectedValue="{Binding SortType}">
+                        <FrameworkElement.ToolTip>
+                          <TextBlock Text="{Binding DescriptionLong}" />
+                        </FrameworkElement.ToolTip>
+                        <ItemsControl.ItemContainerStyle>
+                          <Style TargetType="{x:Type ComboBoxItem}">
+                            <Setter Property="FrameworkElement.ToolTip" Value="{Binding DescriptionLong}" />
+                          </Style>
+                        </ItemsControl.ItemContainerStyle>
+                      </ComboBox>
+                    </DockPanel>
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ListView>
+            <Expander IsExpanded="False">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Expander}">
+                  <Setter Property="Expander.IsExpanded" Value="False" />
+                  <Style.Triggers>
+                    <DataTrigger Value="False" Binding="{Binding IsChecked, ElementName=ChkGroupParallels}">
+                      <Setter Property="Expander.IsExpanded" Value="False" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <HeaderedContentControl.Header>
+                <CheckBox Name="ChkGroupParallels" Content="{DynamicResource BendView.BendSequenceView.UseGroupParallels}" IsChecked="{Binding GroupParallesInAutoSort}" />
+              </HeaderedContentControl.Header>
+              <StackPanel>
+                <ComboBox DisplayMemberPath="Description" ItemsSource="{Binding AutoSortListTranslation}" SelectedItem="{Binding SelectedNewGroupTranslation}">
+                  <FrameworkElement.ToolTip>
+                    <TextBlock Text="{Binding SelectedNewGroupTranslation.DescriptionLong}" />
+                  </FrameworkElement.ToolTip>
+                  <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="{x:Type ComboBoxItem}">
+                      <Setter Property="FrameworkElement.ToolTip" Value="{Binding DescriptionLong}" />
+                    </Style>
+                  </ItemsControl.ItemContainerStyle>
+                </ComboBox>
+                <Button Content="{DynamicResource BendView.BendSequenceView.AutoAddItem}" ToolTip="{DynamicResource BendView.BendSequenceView.AutoAddItemTt}" Style="{DynamicResource PnPopupOptionButton}" Margin="0" Command="{Binding CmdAutoSortAddGroup}" />
+                <ListView ItemsSource="{Binding AutoSortListGroup}">
+                  <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                  </ItemsControl.ItemContainerStyle>
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Grid>
+                        <DockPanel>
+                          <Button DockPanel.Dock="Right" MinWidth="15" Style="{DynamicResource PnPopupOptionButton}" Margin="0" CommandParameter="{Binding}" Command="{Binding ElementName=AutoSort, Path=DataContext.CmdDeleteItem}">x</Button>
+                          <ComboBox DisplayMemberPath="Description" SelectedValuePath="SortType" HorizontalAlignment="Stretch" ItemsSource="{Binding DataContext.AutoSortListTranslation, RelativeSource={RelativeSource AncestorType=ListView}}" SelectedValue="{Binding SortType}">
+                            <FrameworkElement.ToolTip>
+                              <TextBlock Text="{Binding DescriptionLong}" />
+                            </FrameworkElement.ToolTip>
+                            <ItemsControl.ItemContainerStyle>
+                              <Style TargetType="{x:Type ComboBoxItem}">
+                                <Setter Property="FrameworkElement.ToolTip" Value="{Binding DescriptionLong}" />
+                              </Style>
+                            </ItemsControl.ItemContainerStyle>
+                          </ComboBox>
+                        </DockPanel>
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ListView>
+              </StackPanel>
+            </Expander>
+          </StackPanel>
+        </Expander>
+        <Button Content="{DynamicResource BendView.BendSequenceView.AutoDoSort}" ToolTip="{DynamicResource BendView.BendSequenceView.AutoDoSortTt}" Style="{DynamicResource PnPopupOptionButton}" Margin="0" Command="{Binding CmdAutoSortDo}" />
+        <Button Content="{DynamicResource BendView.BendSequenceView.StartNewBendSequence}" ToolTip="{DynamicResource BendView.BendSequenceView.StartNewBendSequenceTt}" Style="{DynamicResource PnPopupOptionButton}" Margin="0" DataContext="{Binding}" Command="{Binding CmdStartNewBendSequence}" />
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+          </Grid.ColumnDefinitions>
+          <Button Grid.Column="0" Content="{DynamicResource BendView.BendSequenceView.AcceptChanges}" Style="{DynamicResource PnPopupOptionButton}" Margin="5" DataContext="{Binding}" Command="{Binding CmdSequenceSave}" />
+          <Button Grid.Column="1" Content="{DynamicResource l_popup.BendView.EditOrder.CmdSequenceSaveTruncated}" Style="{DynamicResource PnPopupOptionButton}" Margin="5" DataContext="{Binding}" Command="{Binding CmdSequenceSaveTruncated}" />
+          <Button Grid.Column="2" Content="{DynamicResource BendView.BendSequenceView.DiscardChanges}" Style="{DynamicResource PnPopupOptionButton}" Margin="5" DataContext="{Binding}" Command="{Binding CmdSequenceCancel}" />
+        </Grid>
+      </StackPanel>
+    </Grid>
+    <telerik:RadGridView Name="GridViewSequence" Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False" ColumnWidth="Auto" AllowDrop="True" IsReadOnly="True" IsFilteringAllowed="False" Width="Auto" ItemsSource="{Binding Items}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <Style x:Key="{x:Type telerik:GridViewRow}" BasedOn="{StaticResource PartRowStyle}" TargetType="{x:Type telerik:GridViewRow}">
+            <Setter Property="UIElement.Opacity" Value="{Binding Opacity}" />
+          </Style>
+          <DataTemplate x:Key="DraggedItemTemplate">
+            <StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <TextBlock>
+                  <Run Text="{DynamicResource Telerik.DragDrop.Dragging}" /> <Run FontWeight="Bold" Text="{Binding CurrentDraggedItem.DragDesc, Mode=OneWay}" /></TextBlock>
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <TextBlock FontWeight="Bold" MinWidth="45" Text="{Binding DropPositionTranslated}" />
+                <TextBlock>
+                  <Run Text=", (" Foreground="#FFD3D3D3" /> <Run Text="{Binding CurrentDraggedOverItem.DragDesc, Mode=OneWay}" /> <Run Text=")" Foreground="#FFD3D3D3" /></TextBlock>
+              </StackPanel>
+            </StackPanel>
+          </DataTemplate>
+          <Style x:Key="{x:Type telerik:RadComboBox}" TargetType="{x:Type telerik:RadComboBox}">
+            <Setter Property="telerik:RadComboBox.OpenDropDownOnFocus" Value="True" />
+          </Style>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+      <telerik:GridViewDataControl.Columns>
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.BendView.Sequence.Order}" DataMemberBinding="{Binding OrderUi}">
+          <telerik:GridViewColumn.CellTemplate>
+            <DataTemplate>
+              <Button Margin="-5" Content="{Binding OrderUi}" Command="{Binding CmdSetCurrentBend}">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{Binding Path=CurrentProgressColor}" />
+                  </Style>
+                </FrameworkElement.Style>
+              </Button>
+            </DataTemplate>
+          </telerik:GridViewColumn.CellTemplate>
+        </telerik:GridViewDataColumn>
+        <telerik:GridViewDataColumn Header="" DataMemberBinding="{Binding OrderUi}">
+          <telerik:GridViewColumn.CellTemplate>
+            <DataTemplate>
+              <controls:WiButton FrameworkElement.ToolTip="{DynamicResource l_popup.BendView.EditOrder.MergeBelow}" ButtonBase.Command="{Binding CmdMerge}">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type Button}">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                      <DataTrigger Value="False" Binding="{Binding CanMerge}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+                <RadGlyph p23:RadGlyph.Glyph="" xmlns:p23="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" />
+              </controls:WiButton>
+            </DataTemplate>
+          </telerik:GridViewColumn.CellTemplate>
+        </telerik:GridViewDataColumn>
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.BendView.EditOrder.BendZone}" Width="Auto">
+          <telerik:GridViewColumn.CellTemplate>
+            <DataTemplate>
+              <ItemsControl ItemsSource="{Binding Path=BendZones}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Border BorderBrush="#FF000000" BorderThickness="1" Padding="0" Margin="2">
+                      <FrameworkElement.Style>
+                        <Style TargetType="{x:Type Border}">
+                          <Style.Triggers>
+                            <DataTrigger Value="True" Binding="{Binding Highlight}">
+                              <DataTrigger.Setters>
+                                <Setter Property="BorderBrush" Value="{Binding Path=Color, Converter={StaticResource ConverterCfgColor2Brush}}" />
+                                <Setter Property="BorderThickness" Value="3" />
+                              </DataTrigger.Setters>
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </FrameworkElement.Style>
+                      <TextBlock Margin="2" MinWidth="10" TextAlignment="Center" Text="{Binding Id}" FontWeight="{Binding Weight}" Foreground="{Binding Color}" MouseEnter="OnMouseEnterInner" MouseLeave="OnMouseLeaveInner" MouseDown="OnMouseDoubleClickInner" />
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </DataTemplate>
+          </telerik:GridViewColumn.CellTemplate>
+        </telerik:GridViewDataColumn>
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.BendView.Sequence.Angle}" Width="Auto" TextAlignment="Right" DataMemberBinding="{Binding AngleChange}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.BendView.Sequence.LengthWithGaps}" Width="Auto" TextAlignment="Right" DataMemberBinding="{Binding LengthTotalWithGaps}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.BendView.Sequence.LengthWithoutGaps}" Width="Auto" TextAlignment="Right" DataMemberBinding="{Binding LengthTotalWithoutGaps}" />
+      </telerik:GridViewDataControl.Columns>
+    </telerik:RadGridView>
+  </Grid>
+</UserControl>

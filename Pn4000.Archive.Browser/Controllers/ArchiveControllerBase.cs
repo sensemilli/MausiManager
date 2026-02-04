@@ -163,7 +163,7 @@ namespace WiCAM.Pn4000.Archive.Browser.Controllers
 
 		protected void InitializeFilters(Type itemType)
 		{
-			this._filterControl.InitializeControl(itemType, AppConfiguration.Instance.ListConfiguration);
+		//	this._filterControl.InitializeControl(itemType, AppConfiguration.Instance.ListConfiguration);
 			int num = 0;
 			foreach (CppConfigurationLineInfo listConfiguration in AppConfiguration.Instance.ListConfiguration)
 			{
@@ -173,10 +173,10 @@ namespace WiCAM.Pn4000.Archive.Browser.Controllers
 					continue;
 				}
 				string path = ((Binding)((DataGridBoundColumn)boundColumn).Binding).Path.Path;
-				if (!this._filterControl.FieldNames.ContainsKey(path) || boundColumn.Visibility != Visibility.Visible)
-				{
-					continue;
-				}
+		//		if (!this._filterControl.FieldNames.ContainsKey(path) || boundColumn.Visibility != Visibility.Visible)
+		//		{
+		///			continue;
+		//		}
 				if (num < this._archiveFilterCriteria.ListFilters.Count && this._archiveFilterCriteria.ListFilters[num].FieldName == null)
 				{
 					this._archiveFilterCriteria.ListFilters[num].FieldName = path;

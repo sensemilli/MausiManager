@@ -1,0 +1,79 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>WiCAM.Pn4000.BendDoc</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <UseWPF>True</UseWPF>
+    <TargetFramework>net9.0-windows</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="WiCAM.Pn4000.Contracts">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Config">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Config.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.PN3D">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.PN3D.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.ToolCalculation">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.ToolCalculation.dll</HintPath>
+    </Reference>
+    <Reference Include="BendDataBase">
+      <HintPath>C:\u\pn\run\BendDataBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\u\pn\run\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>C:\u\pn\run\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="BendDataSourceModel">
+      <HintPath>C:\u\pn\run\BendDataSourceModel.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Services">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Services.ConfigProviders.Contracts">
+      <HintPath>C:\u\pn\run\WiCAM.Services.ConfigProviders.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendModel.Loader">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendModel.Loader.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.GuiContracts">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.GuiContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.BendTable">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.BendTable.dll</HintPath>
+    </Reference>
+    <Reference Include="PowerCollections">
+      <HintPath>C:\u\pn\run\PowerCollections.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.Materials">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.Materials.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.FingerStopCalculationMediator">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.FingerStopCalculationMediator.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.FingerStopCalculation">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.FingerStopCalculation.dll</HintPath>
+    </Reference>
+    <Reference Include="pncommon">
+      <HintPath>C:\u\pn\run\pncommon.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.Pn4000.PKernelFlow.Adapters">
+      <HintPath>C:\u\pn\run\WiCAM.Pn4000.PKernelFlow.Adapters.dll</HintPath>
+    </Reference>
+    <Reference Include="WiCAM.PN4000.SpatialStarters">
+      <HintPath>C:\u\pn\run\WiCAM.PN4000.SpatialStarters.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

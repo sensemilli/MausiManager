@@ -200,5 +200,8 @@ namespace WiCAM.Pn4000.Config.DataStructures
     public bool GraphicShowShadow { get; set; } = true;
 
     public bool GraphicMetallicLook { get; set; } = true;
-  }
+        public int PnGeoFontIndex { get; internal set; }
+        public int? Undo3dAmount { get; internal set; }
+        public bool? UseUndo3d { get; internal set; }
+    }
 }

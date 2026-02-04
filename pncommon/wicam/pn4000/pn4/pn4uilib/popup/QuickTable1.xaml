@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.pn4.pn4UILib.Popup.QuickTable1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.pn4.pn4UILib.Popup" IsVisibleChanged="UserControl_IsVisibleChanged">
+  <Grid>
+    <DataGrid Name="dataGrid" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserResizeRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" IsReadOnly="True" RowBackground="#FFFFFFFF" AlternatingRowBackground="#FFF5F5F5" HorizontalGridLinesBrush="{DynamicResource PnPopup.BorderBrush}" VerticalGridLinesBrush="{DynamicResource PnPopup.BorderBrush}" ItemsSource="{Binding TableRecords, Mode=TwoWay}" PreviewMouseUp="dataGrid_PreviewMouseUp" PreviewMouseDown="dataGrid_PreviewMouseDown" SelectionChanged="dataGrid_SelectionChanged" Sorting="dataGrid_Sorting" MouseDoubleClick="dataGrid_MouseDoubleClick" MouseLeftButtonDown="dataGrid_MouseLeftButtonDown">
+      <DataGrid.RowStyle>
+        <Style TargetType="{x:Type DataGridRow}">
+          <Setter Property="IsEnabled" Value="{Binding IsForEnabled}" />
+          <Setter Property="FrameworkElement.ToolTip" Value="{Binding RecordToolTip}" />
+          <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+        </Style>
+      </DataGrid.RowStyle>
+      <DataGrid.CellStyle>
+        <Style TargetType="{x:Type DataGridCell}">
+          <Setter Property="BorderThickness" Value="0" />
+          <Setter Property="Background" Value="{Binding ConstBrush}" />
+          <Setter Property="Foreground" Value="{Binding FontBrush}" />
+          <Style.Triggers>
+            <Trigger Property="DataGridCell.IsSelected" Value="true">
+              <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+              <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+              <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+              <Setter Property="FontWeight" Value="Bold" />
+            </Trigger>
+            <MultiDataTrigger>
+              <MultiDataTrigger.Conditions>
+                <Condition Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Self}}" />
+                <Condition Value="False" Binding="{Binding Path=IsKeyboardFocusWithin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" />
+              </MultiDataTrigger.Conditions>
+              <MultiDataTrigger.Setters>
+                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                <Setter Property="FontWeight" Value="Bold" />
+              </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <Trigger Property="IsEnabled" Value="False" />
+            <DataTrigger Value="False" Binding="{Binding IsSelectable}">
+              <Setter Property="Background" Value="#FFB0C4DE" />
+              <Setter Property="Foreground" Value="#FF000000" />
+            </DataTrigger>
+            <DataTrigger Value="False" Binding="{Binding IsDataRecord}">
+              <Setter Property="Background" Value="#FFFAFAD2" />
+              <Setter Property="Foreground" Value="#FF000000" />
+              <Setter Property="FontWeight" Value="Bold" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </DataGrid.CellStyle>
+    </DataGrid>
+  </Grid>
+</UserControl>

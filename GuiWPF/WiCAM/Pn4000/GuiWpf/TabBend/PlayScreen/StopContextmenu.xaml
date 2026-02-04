@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<telerik:RadContextMenu x:Class="WiCAM.Pn4000.GuiWpf.TabBend.PlayScreen.StopContextmenu" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.PlayScreen" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.Loop}" ToolTip="{DynamicResource BendView.PlayScreenView.NextStops.LoopTt}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopStepsLoop, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.AllSteps}" ToolTip="{DynamicResource BendView.PlayScreenView.NextStops.AllStepsTt}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopAllStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.NotPositionedStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopNotPositionedStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.PositionDieStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopPositionDieStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.PositionFingerStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopPositionFingerStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.PositionPartInToolStationStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopPositionPartInToolStationStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.CloseStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopCloseStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.TouchStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopTouchStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.SpringPressDownStep}" ToolTip="{DynamicResource BendView.PlayScreenView.NextStops.TouchStepTt}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopSpringPressDownStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.ClampStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopClampStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.RetractFingerStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopRetractFingerStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.BendStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopBendStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.OverbendStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopOverbendStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.RelaxStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopRelaxStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.OpenStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopOpenStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.RemovePartStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopRemovePartStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.PositionAcbLaserStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopPositionAcbLaserStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.PositionLiftingAidStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopPositionLiftingAidStep, Mode=TwoWay}" />
+  <telerik:RadMenuItem Header="{DynamicResource BendView.PlayScreenView.NextStops.OthersStep}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding StopOthersStep, Mode=TwoWay}" />
+</telerik:RadContextMenu>

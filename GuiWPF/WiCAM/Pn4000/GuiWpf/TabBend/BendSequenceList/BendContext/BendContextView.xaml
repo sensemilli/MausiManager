@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.BendSequenceList.BendContext.BendContextView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.BendSequenceList.BendContext" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="1*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <StackPanel Grid.Row="4" Background="#afff">
+      <TextBlock>
+        <Run Text="{DynamicResource l_popup.EditBendContextMenu.Bends}" /> <Run Text="{Binding SelectedBendNumbers, Mode=OneWay}" /></TextBlock>
+            <telerik:RadWatermarkTextBox telerik:RadWatermarkTextBox.Label="{DynamicResource l_popup.EditBendContextMenu.Radius}" telerik:RadWatermarkTextBox.AdditionalContent="{Binding LengthUnit, Mode=OneWay}" TextBox.Text="{Binding Radius.Value}" />
+            <telerik:RadWatermarkTextBox telerik:RadWatermarkTextBox.Label="{DynamicResource l_popup.EditBendContextMenu.BendDeduction}" telerik:RadWatermarkTextBox.AdditionalContent="{Binding LengthUnit, Mode=OneWay}" TextBox.Text="{Binding BendDeduction.Value}" />
+      <CheckBox IsThreeState="False" Content="{DynamicResource l_popup.EditBendContextMenu.PartTurned}" IsChecked="{Binding FlipGeometry.Value}" />
+      <CheckBox IsThreeState="False" Content="{DynamicResource l_popup.EditBendContextMenu.UseAngleMeasurment}" IsChecked="{Binding AcbLaser.Value}" Visibility="{Binding AcbLaser.Visibility}" />
+      <StackPanel Orientation="Horizontal" Visibility="{Binding LiftingAidLeftFront.Visibility}">
+        <TextBlock Text="{DynamicResource l_popup.EditBendContextMenu.UseLeftFrontLiftingAid}" VerticalAlignment="Center" />
+        <telerik:RadComboBox DisplayMemberPath="Desc" SelectedValuePath="Value" ItemsSource="{Binding AllLiftingAidValues}" SelectedValue="{Binding LiftingAidLeftFront.Value}" />
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" Visibility="{Binding LiftingAidRightFront.Visibility}">
+        <TextBlock Text="{DynamicResource l_popup.EditBendContextMenu.UseRightFrontLiftingAid}" VerticalAlignment="Center" />
+        <telerik:RadComboBox DisplayMemberPath="Desc" SelectedValuePath="Value" ItemsSource="{Binding AllLiftingAidValues}" SelectedValue="{Binding LiftingAidRightFront.Value}" />
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" Visibility="{Binding LiftingAidLeftBack.Visibility}">
+        <TextBlock Text="{DynamicResource l_popup.EditBendContextMenu.UseLeftBackLiftingAid}" VerticalAlignment="Center" />
+        <telerik:RadComboBox DisplayMemberPath="Desc" SelectedValuePath="Value" ItemsSource="{Binding AllLiftingAidValues}" SelectedValue="{Binding LiftingAidLeftBack.Value}" />
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" Visibility="{Binding LiftingAidRightBack.Visibility}">
+        <TextBlock Text="{DynamicResource l_popup.EditBendContextMenu.UseRightBackLiftingAid}" VerticalAlignment="Center" />
+        <telerik:RadComboBox DisplayMemberPath="Desc" SelectedValuePath="Value" ItemsSource="{Binding AllLiftingAidValues}" SelectedValue="{Binding LiftingAidRightBack.Value}" />
+      </StackPanel>
+            <telerik:RadWatermarkTextBox telerik:RadWatermarkTextBox.Label="{DynamicResource l_popup.EditBendContextMenu.Comment}" TextBox.Text="{Binding Comment.Value}" />
+      <TextBlock Text="{DynamicResource l_popup.EditBendContextMenu.Setup}" />
+      <telerik:RadComboBox DisplayMemberPath="Desc" SelectedValuePath="Value" ItemsSource="{Binding ToolSetups}" SelectedValue="{Binding ToolSetupNo.Value}" />
+            <telerik:RadWatermarkTextBox telerik:RadWatermarkTextBox.Label="{DynamicResource l_popup.EditBendContextMenu.StepChange}" TextBox.Text="{Binding UserStepChangeMode.Value}" />
+      <TextBlock>
+        <Run Text="{DynamicResource l_popup.EditBendContextMenu.Punch}" /> <Run Text="{Binding UpperToolProfile.Value, Mode=OneWay}" /></TextBlock>
+      <telerik:RadComboBox DisplayMemberPath="Desc" ItemsSource="{Binding AllUpperTools}" SelectedValue="{Binding SelectedUpperToolGoal}" />
+      <TextBlock>
+        <Run Text="{DynamicResource l_popup.EditBendContextMenu.Die}" /> <Run Text="{Binding LowerToolProfile.Value, Mode=OneWay}" /></TextBlock>
+      <telerik:RadComboBox DisplayMemberPath="Desc" ItemsSource="{Binding AllLowerTools}" SelectedValue="{Binding SelectedLowerToolGoal}" />
+      <Button Content="{DynamicResource l_popup.EditBendContextMenu.SplitBendAngle}" Command="{Binding CmdSplitAngles}" />
+      <Button Visibility="Collapsed" Content="{DynamicResource l_popup.EditBendContextMenu.CreateStepBend}" Command="{Binding CmdStepBend}" />
+    </StackPanel>
+    <Button Grid.Row="5" Content="{DynamicResource l_popup.Button16_Ok}" Command="{Binding CmdCommit}" />
+    <Button Grid.Row="6" Content="{DynamicResource l_popup.Button5_Cancel}" Command="{Binding CmdCancel}" />
+  </Grid>
+</UserControl>

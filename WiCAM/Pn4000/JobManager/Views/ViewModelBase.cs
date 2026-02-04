@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using SmartAssembly.Attributes;
+using WiCAM.Pn4000.ScreenD3D.Controls;
 
 namespace WiCAM.Pn4000.JobManager
 {
@@ -24,9 +25,12 @@ namespace WiCAM.Pn4000.JobManager
         [Browsable(false)]
         [XmlIgnore]
         public bool IsNotifyEnabled { get; set; }
+        public double Opacity { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void MouseEnterCommand() => Opacity = 1.0;
 
+        public void MouseLeaveCommand() => Opacity = 0.6;
         protected ViewModelBase()
         {
             IsNotifyEnabled = true;

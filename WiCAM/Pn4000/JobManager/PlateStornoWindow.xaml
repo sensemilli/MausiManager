@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Window x:Class="WiCAM.Pn4000.JobManager.PlateStornoWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager" Title="{DynamicResource PlateStornoWindow}" Icon="/JobManager;component/Images/32/plateStorno.png" Height="300" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+<Window x:Class="WiCAM.Pn4000.JobManager.PlateStornoWindow" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager" Title="{DynamicResource PlateStornoWindow}" Icon="/MausiManager;component/Images/32/plateStorno.png" Height="300" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
   <Border Grid.Column="1" Grid.Row="1" Background="{StaticResource BrushBackground}" Margin="3">
     <Border Grid.Row="0" Margin="2" CornerRadius="3">
       <Grid Margin="5,2,5,2">

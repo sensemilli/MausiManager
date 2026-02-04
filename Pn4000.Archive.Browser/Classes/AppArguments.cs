@@ -88,7 +88,7 @@ namespace WiCAM.Pn4000.Archive.Browser.Classes
 			{
 				return ArchiveFileType.N2D;
 			}
-			return (ArchiveFileType)Enum.Parse(typeof(ArchiveFileType), str.ToUpper());
+			return (ArchiveFileType)System.Enum.Parse(typeof(ArchiveFileType), str.ToUpper());
 		}
 
 		private bool CheckIsMultiselect()

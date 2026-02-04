@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="WiCAM.Pn4000.PN3D.Popup.View.PopupValidationPending" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:WiCAM.Pn4000.PN3D.Popup.View" xmlns:vm="clr-namespace:WiCAM.Pn4000.PN3D.Popup.ViewModel" Title="{DynamicResource l_popup.ValidationPending.Title}" Height="300" Width="500" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight" Closing="Window_Closing">
+  <Grid Margin="20,30">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Visibility="Collapsed" ItemsSource="{Binding steps}">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Nr" Binding="{Binding BendOrderUi}" />
+            <DataGridTextColumn Header="Typ" Binding="{Binding Desc}" />
+            <DataGridTextColumn Header="Fortschritt" Binding="{Binding Progress}" />
+            <DataGridTextColumn Header="Kollision" Binding="{Binding HasCollision}" />
+          </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding ToolsValidationMessage}" Foreground="{Binding ToolsValidationMessageColor}" />
+        <TextBlock Grid.Row="3" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding ToolsSafetyDistanceMessage}" Foreground="{Binding ToolsSafetyDistanceMessageColor}" />
+        <TextBlock Grid.Row="5" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding ResultSummary}" />
+      </Grid>
+    </ScrollViewer>
+    <Button Name="btnExit" Grid.Row="1" Margin="0,30,0,0" Content="{DynamicResource l_popup.Button5_Cancel}" Style="{DynamicResource PnPopupOptionButton}" Click="Button_Click" />
+  </Grid>
+</Window>

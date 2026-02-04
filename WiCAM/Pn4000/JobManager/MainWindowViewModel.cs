@@ -19,7 +19,9 @@ using WiCAM.Pn4000.Common;
 using WiCAM.Pn4000.Gmpool;
 using WiCAM.Pn4000.JobManager.Helpers;
 using WiCAM.Pn4000.Materials;
+using WiCAM.Pn4000.ScreenD3D.Controls.Base;
 using WiCAM.Pn4000.WpfControls;
+using RelayCommand = WiCAM.Pn4000.Common.RelayCommand;
 
 namespace WiCAM.Pn4000.JobManager
 {
@@ -33,7 +35,20 @@ namespace WiCAM.Pn4000.JobManager
         public IAuftragsDataViewModel _auftragsDataModel;
         private IAutoLoopViewModel _autoLoopModel;
         private ICommonCutViewModel _commonCutModel;
-		public static MainWindowViewModel Instance { get; private set; }
+        private IPartEditViewModel _partEditModel;
+        private IProduktionsPlanEditViewModel _produktionsPlanEditModel;
+        public static MainWindowViewModel Instance
+        {
+            get
+            {
+                if (MainWindowViewModel._instance == null)
+                {
+                    //  Logger.Verbose("Initialize CadPartArchiveController");
+                    MainWindowViewModel._instance = new MainWindowViewModel();
+                }
+                return MainWindowViewModel._instance;
+            }
+        }
         public static MainWindowViewModel _MainWindowViewModel;
 
         private MaterialWindowViewModel _MatWin;
@@ -132,12 +147,9 @@ namespace WiCAM.Pn4000.JobManager
         {
             get
             {
-                return _MatWin._view.filter.FieldNames;
+				return null;// _MatWin._view.filter.FieldNames.ToArray();
             }
-            set
-            {
-                _MatWin._view.filter.FieldNames = value;
-            }
+           
         }
         public Visibility DateFilterVisibility
         {
@@ -231,6 +243,8 @@ namespace WiCAM.Pn4000.JobManager
         private ICommand _ShowHideDebugCommand;
         private bool debugIsVisible = false;
         private bool _isFlyoutOpen;
+        private static MainWindowViewModel _instance;
+
         public ICommand RibbonButtonOrdnerZuExel => this._auftragsDataModel.RibbonButtonOrdnerZuExelCommand;
         public ICommand ButtonSelectArchivCommand => this._auftragsDataModel.ButtonSelectArchivCommand;
         public ICommand ButtonReadMaterialCSVCommand => this._auftragsDataModel.ButtonReadMaterialCSVCommand;
@@ -251,6 +265,8 @@ namespace WiCAM.Pn4000.JobManager
         public ICommand GleicheDCommand => this._autoLoopModel.GleicheDCommand;
         public ICommand CADdeleteCommand => this._autoLoopModel.CADdeleteCommand;
         public ICommand GravurCommand => this._autoLoopModel.GravurCommand;
+        public ICommand HuelleNeuCommand => this._autoLoopModel.HuelleNeuCommand;
+
         public ICommand StanzenInnenCommand => this._autoLoopModel.StanzenInnenCommand;
         public ICommand KonturAussenCommand => this._autoLoopModel.KonturAussenCommand;
         public ICommand FlaecheAussenCommand => this._autoLoopModel.FlaecheAussenCommand;
@@ -267,6 +283,7 @@ namespace WiCAM.Pn4000.JobManager
         public ICommand DreissigCommand => this._commonCutModel.DreissigCommand;
 
         public ICommand SortXCommand => this._commonCutModel.SortXCommand;
+        public ICommand ReadPDFCommand => this._MatWin.ReadPDFCommand;
 
         public ICommand SelectVerticalTrimTool762x5Command => this._commonCutModel.SelectVerticalTrimTool762x5Command;
         public ICommand SelectVerticalTrimTool76x5Command => this._commonCutModel.SelectVerticalTrimTool76x5Command;
@@ -313,6 +330,26 @@ namespace WiCAM.Pn4000.JobManager
         public Visibility RestoreButtonVisibility => this._MatWin.RestoreButtonVisibility;
         public Visibility AddRestPlateVisibility => this._MatWin.AddRestPlateVisibility;
         public Visibility AddButtonVisibility => this._MatWin.AddButtonVisibility;
+        public ICommand ProduktionsPlanReadCmd => this._produktionsPlanEditModel.ProduktionsPlanReadCmd;
+        public ICommand FilterBiegenCmd => this._produktionsPlanEditModel.FilterBiegenCmd;
+
+        public ICommand FilterVerpacktCmd => this._produktionsPlanEditModel.FilterVerpacktCmd;
+        public ICommand PartEditCmd1 => this._partEditModel.PartEditCmd1;
+        public ICommand MessenCommand => this._partEditModel.MessenCommand;
+		public string MousePosition => this._partEditModel.MousePosition;
+		public ICommand ClickLeft => this._partEditModel.ClickLeft;
+		public ICommand ClickRight => this._partEditModel.ClickRight;
+		public ICommand ClickTop => this._partEditModel.ClickTop;
+		public ICommand ClickBottom => this._partEditModel.ClickBottom;
+		public ICommand ClickFront => this._partEditModel.ClickFront;
+		public ICommand ClickBack => this._partEditModel.ClickBack;
+		public ICommand ShowAll => this._partEditModel.ShowAll;
+		public ICommand ShowWires => this._partEditModel.ShowWires;
+        public ICommand DXFtxtAnpassenCommand => this._partEditModel.DXFtxtAnpassenCommand;
+
+        public ObservableCollection<UserStepFileTree> UserStepFileTree => this._partEditModel.UserStepFileTree;
+
+
 
         public FrameworkElement ActiveView
         {
@@ -584,8 +621,23 @@ namespace WiCAM.Pn4000.JobManager
 				base.NotifyPropertyChanged("SelectedImage");
 			}
 		}
+        public ICommand ExportCommand
+        {
+            get
+            {
+                return this._jobDataModel.ExportCommand;
+            }
+        }
 
-		public ICommand ShowTemplateCommand
+        public ICommand FreigabeLoeschenCommand
+        {
+            get
+            {
+                return this._jobDataModel.FreigabeLoeschenCommand;
+            }
+        }
+
+        public ICommand ShowTemplateCommand
 		{
 			get
 			{
@@ -668,9 +720,12 @@ namespace WiCAM.Pn4000.JobManager
 			}
 		}
 
-		public MainWindowViewModel()
+        public bool IsTab3D { get; internal set; }
+
+        public MainWindowViewModel()
 		{
-			_MainWindowViewModel = this;
+			MainWindow._instance.MainViewModel = this;
+            _MainWindowViewModel = this;
             IsFlyoutOpen = false;
         }
 
@@ -736,6 +791,11 @@ namespace WiCAM.Pn4000.JobManager
                 this._auftragsDataModel = this._settings.ModelManager.Register<AuftragsDataControl, AuftragsDataViewModel>(mainWindow.auftragsDataControl, this._provider) as IAuftragsDataViewModel;
                 this._autoLoopModel = this._settings.ModelManager.Register<AutoLoopControl, AutoLoopViewModel>(mainWindow.autoLoopControl, this._provider) as IAutoLoopViewModel;
                 this._commonCutModel = this._settings.ModelManager.Register<CommonCutControl, CommonCutViewModel>(mainWindow.commonCutControl, this._provider) as ICommonCutViewModel;
+                this._partEditModel = this._settings.ModelManager.Register<PartEditControl, PartEditViewModel>(mainWindow.partEditControl, this._provider) as IPartEditViewModel;
+                this._produktionsPlanEditModel =
+                    this._settings.ModelManager.Register<ProduktionsPlanEditControl, ProduktionsPlanEditViewModel>(
+                        mainWindow.produktionsPlanEditControl,
+                        this._provider) as IProduktionsPlanEditViewModel;
                 _MatWin = new MaterialWindowViewModel();
 
 				_MatWin.AreButtonsEnabled = !ApplicationConfigurationInfo.Instance.IsReadOnly();

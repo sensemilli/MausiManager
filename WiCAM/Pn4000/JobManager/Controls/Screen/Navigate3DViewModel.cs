@@ -8,15 +8,18 @@ using SharpDX;
 using System;
 using System.Windows;
 using System.Windows.Input;
+using WiCAM.Pn4000.Common;
 using WiCAM.Pn4000.Config.DataStructures;
+using WiCAM.Pn4000.JobManager;
 using WiCAM.Pn4000.ScreenD3D.Controls.Base;
 using WiCAM.Pn4000.ScreenD3D.Renderer;
 using WiCAM.Pn4000.ScreenD3D.Renderer.RenderTasks;
 using WiCAM.Services.ConfigProviders.Contracts;
+using RelayCommand = WiCAM.Pn4000.ScreenD3D.Controls.Base.RelayCommand;
 
 namespace WiCAM.Pn4000.ScreenD3D.Controls
 {
-  public class Navigate3DViewModel : ViewModelBase
+  public class Navigate3DViewModel : JobManager.ViewModelBase
   {
     private ICommand _clickFreeRot;
     private ICommand _clickXRot;
@@ -48,7 +51,8 @@ namespace WiCAM.Pn4000.ScreenD3D.Controls
     private ICommand _clickExtend;
     private ICommand _openContextMenu;
     private double _opacity = 0.6;
-    private Screen3D _screen3D;
+        public static Navigate3DViewModel NaviModel;
+        private Screen3D _screen3D;
     public IConfigProvider ConfigProvider;
     private Visibility _isometricVisible;
     private Visibility _percpectiveVisible;
@@ -195,6 +199,7 @@ namespace WiCAM.Pn4000.ScreenD3D.Controls
 
     public Navigate3DViewModel(Screen3D screen3D, IConfigProvider configProvider)
     {
+            NaviModel = this;
       this._screen3D = screen3D;
       this.ConfigProvider = configProvider;
       this.FreeRotation = true;
@@ -214,8 +219,32 @@ namespace WiCAM.Pn4000.ScreenD3D.Controls
       this.NotifyPropertyChanged(nameof (ShadowsVisible));
       this.NotifyPropertyChanged(nameof (MetallicLookVisible));
     }
+        public Navigate3DViewModel(Screen3D screen3D, ScreenD3D11 screenD3D11)
+        {
+            NaviModel = this;
 
-    public void RightClick()
+            this._screen3D = screen3D;
+          //  this.ConfigProvider = configProvider;
+            this.FreeRotation = true;
+            this.XRotation = false;
+            this.YRotation = false;
+            this.ZRotation = false;
+            if (screenD3D11.ProjectionType == ProjectionType.Perspective)
+            {
+                this.IsometricVisible = Visibility.Collapsed;
+                this.PerspectiveVisible = Visibility.Visible;
+            }
+            else
+            {
+                this.IsometricVisible = Visibility.Visible;
+                this.PerspectiveVisible = Visibility.Collapsed;
+            }
+       //     this.NotifyPropertyChanged(nameof(ShadowsVisible));
+        //    this.NotifyPropertyChanged(nameof(MetallicLookVisible));
+        }
+
+
+        public void RightClick()
     {
       this._screen3D.IgnoreMouseMove(true);
       this._screen3D.ScreenD3D.SetViewDirection(Matrix.Identity * Matrix.RotationZ(3.14159274f) * Matrix.RotationZ(-1.57079637f), false, (Action<RenderTaskResult>) (r => this._screen3D.ScreenD3D.ZoomExtend()));
@@ -490,8 +519,6 @@ namespace WiCAM.Pn4000.ScreenD3D.Controls
       this._screen3D.IgnoreMouseMove(false);
     }
 
-    public void MouseEnterCommand() => this.Opacity = 1.0;
-
-    public void MouseLeaveCommand() => this.Opacity = 0.6;
+   
   }
 }

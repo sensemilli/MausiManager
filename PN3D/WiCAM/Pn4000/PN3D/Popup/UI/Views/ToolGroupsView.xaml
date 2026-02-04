@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.PN3D.Popup.UI.Views.ToolGroupsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:ui1="clr-namespace:WiCAM.Pn4000.PN3D.BendSimulation.Configuration.UI" xmlns:converter="clr-namespace:WiCAM.Pn4000.PN3D.Converter" xmlns:ui="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI" xmlns:viewModels="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI.ViewModels" Background="#00FFFFFF" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" xmlns:views="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI.Views" IsVisibleChanged="UserControl_IsVisibleChanged">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <converter:IntToColorConverter x:Key="ColorConverter" />
+      <Style x:Key="GroupToolStyleListBox" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+              <Border Name="Bd" Background="#FFD3D3D3" Margin="1">
+                <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="5*" />
+                  </Grid.RowDefinitions>
+                  <StackPanel>
+                    <Grid>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="AUTO" />
+                        <RowDefinition Height="AUTO" />
+                      </Grid.RowDefinitions>
+                      <Border CornerRadius="3" Margin="5,5,5,0" Background="{Binding Profile.Priority, Converter={StaticResource ColorConverter}}">
+                        <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="1" Margin="0,7,0,5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{Binding Profile.Priority}" />
+                      </Border>
+                      <TextBlock Grid.Row="1" TextWrapping="WrapWithOverflow" FontSize="12" TextAlignment="Center" Margin="3,3,3,0" Text="{Binding Profile.Name}" />
+                    </Grid>
+                  </StackPanel>
+                  <ContentControl Grid.Row="1" Margin="3,2,3,3" Content="{Binding ImageProfile}" />
+                </Grid>
+              </Border>
+              <ControlTemplate.Triggers>
+                <Trigger Property="UIElement.IsMouseOver" Value="True">
+                  <Setter TargetName="Bd" Property="Panel.Background" Value="#FFB0C4DE" />
+                  <Setter TargetName="Bd" Property="Border.BorderBrush">
+                    <Setter.Value>
+                      <SolidColorBrush>#A826A0DF</SolidColorBrush>
+                    </Setter.Value>
+                  </Setter>
+                </Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+      <DataTemplate x:Key="DragTemplate">
+        <FrameworkTemplate.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type Image}" TargetType="{x:Type Image}">
+              <Setter Property="Width" Value="50" />
+              <Setter Property="Height" Value="50" />
+              <Setter Property="Margin" Value="5" />
+            </Style>
+          </ResourceDictionary>
+        </FrameworkTemplate.Resources>
+        <ListBoxItem Style="{StaticResource GroupToolStyleListBox}" />
+      </DataTemplate>
+      <Style x:Key="MenuItemContainerStyle" TargetType="{x:Type telerik:RadMenuItem}">
+        <Setter Property="Header" Value="{Binding Text}" />
+        <Setter Property="ItemsSource" Value="{Binding SubItems}" />
+        <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+      </Style>
+      <Style x:Key="DragDropPanel" TargetType="{x:Type ListBox}">
+        <Setter Property="Background" Value="#FFF5F5F5" />
+        <Setter Property="BorderBrush" Value="#FF000000" />
+        <Setter Property="ItemsPanel">
+          <Setter.Value>
+            <ItemsPanelTemplate>
+              <WrapPanel Background="#FFF5F5F5" FlowDirection="LeftToRight" ItemWidth="100" ItemHeight="AUTO" />
+            </ItemsPanelTemplate>
+          </Setter.Value>
+        </Setter>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ItemTemplate">
+          <Setter.Value>
+            <DataTemplate>
+              <Border Name="Bd" Background="#FFD3D3D3" Margin="1">
+                <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="5*" />
+                  </Grid.RowDefinitions>
+                  <StackPanel>
+                    <Grid>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="AUTO" />
+                        <RowDefinition Height="AUTO" />
+                      </Grid.RowDefinitions>
+                      <Border Visibility="Collapsed" CornerRadius="3" Margin="5,5,5,0" Background="{Binding Profile.Priority, Converter={StaticResource ColorConverter}}">
+                        <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="1" Margin="0,7,0,5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{Binding Profile.Priority}" />
+                      </Border>
+                      <TextBlock Grid.Row="1" TextWrapping="WrapWithOverflow" FontSize="12" TextAlignment="Center" Margin="3,3,3,0" Text="{Binding Profile.Name}" />
+                    </Grid>
+                  </StackPanel>
+                  <ContentControl Grid.Row="1" Margin="3,2,3,3" Content="{Binding ImageProfile}" />
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="0.8" />
+    </Border.Background>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="1*" />
+      </Grid.ColumnDefinitions>
+      <Border Margin="5" BorderThickness="2" Background="#00FFFFFF" CornerRadius="7.5" BorderBrush="{Binding PunchBorderBrush}">
+        <UIElement.InputBindings>
+          <MouseBinding CommandParameter="PunchGroups" MouseAction="LeftClick" Command="{Binding SelectClick}" />
+        </UIElement.InputBindings>
+        <Grid Margin="5">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="28*" />
+            <RowDefinition Height="20*" />
+          </Grid.RowDefinitions>
+          <UIElement.InputBindings>
+            <MouseBinding CommandParameter="PunchGroups" MouseAction="LeftClick" Command="{Binding SelectClick}" />
+          </UIElement.InputBindings>
+          <Grid Margin="5">
+            <UIElement.InputBindings>
+              <MouseBinding CommandParameter="PunchGroups" MouseAction="LeftClick" Command="{Binding SelectClick}" />
+            </UIElement.InputBindings>
+            <TextBlock TextAlignment="Center" Background="#00FFFFFF" FontSize="20" TextDecorations="Underline" Text="{DynamicResource l_popup.GroupsView.PunchGroups}" />
+          </Grid>
+          <telerik:RadGridView Name="LbPunchGroups" BorderBrush="#FFA9A9A9" Background="#FFF5F5F5" Grid.Row="1" Grid.Column="0" CanUserInsertRows="False" FrozenColumnsSplitterVisibility="Collapsed" AutoGenerateColumns="False" Margin="5" xmlns:controls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Data" IsSynchronizedWithCurrentItem="True" SelectionMode="Extended" GroupRenderMode="Flat" ItemsSource="{Binding ToolConfigModel.PunchGroups}" SelectedItem="{Binding SelectedPunchGroup}" SelectionChanged="Selector_OnSelectionChanged">
+            <UIElement.InputBindings>
+              <KeyBinding Key="Delete" Command="{Binding KeyDownDelete}" />
+            </UIElement.InputBindings>
+            <telerik:RadContextMenu.ContextMenu>
+              <telerik:RadContextMenu ItemContainerStyle="{StaticResource MenuItemContainerStyle}" ItemsSource="{Binding PunchGroupContextMenuItems}" Opening="PunchGroupContextMenu_Opened" />
+            </telerik:RadContextMenu.ContextMenu>
+            <telerik:GridViewDataControl.Columns>
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.GroupsView.ID}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding ID}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.GroupsView.Name}" Width="AUTO" DataMemberBinding="{Binding Name}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.GroupsView.Radius}" Width="AUTO" DataMemberBinding="{Binding Radius}" />
+            </telerik:GridViewDataControl.Columns>
+          </telerik:RadGridView>
+          <ui1:DragDropList Margin="5" Grid.Row="2" IsDropTarget="True" IsDragSource="True" BorderBrush="#FFA9A9A9" DragDropTemplate="{DynamicResource DragTemplate}" ItemContainerStyle="{DynamicResource GroupToolStyleListBox}" Style="{DynamicResource DragDropPanel}" Background="#00FFFFFF" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" OrderChangedCommand="{Binding PunchesOrderChangedCommand}" ItemsSource="{Binding PunchGroupTools, BindsDirectlyToSource=True}" />
+        </Grid>
+      </Border>
+      <Border Margin="5" Grid.Column="1" BorderThickness="2" Background="#00FFFFFF" CornerRadius="7.5" BorderBrush="{Binding DieBorderBrush}">
+        <UIElement.InputBindings>
+          <MouseBinding CommandParameter="DieGroups" MouseAction="LeftClick" Command="{Binding SelectClick}" />
+        </UIElement.InputBindings>
+        <Grid Margin="5">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="28*" />
+            <RowDefinition Height="20*" />
+          </Grid.RowDefinitions>
+          <UIElement.InputBindings>
+            <MouseBinding CommandParameter="DieGroups" MouseAction="LeftClick" Command="{Binding SelectClick}" />
+          </UIElement.InputBindings>
+          <Grid Margin="5">
+            <UIElement.InputBindings>
+              <MouseBinding CommandParameter="DieGroups" MouseAction="LeftClick" Command="{Binding SelectClick}" />
+            </UIElement.InputBindings>
+            <TextBlock TextAlignment="Center" Background="#00FFFFFF" FontSize="20" TextDecorations="Underline" Text="{DynamicResource l_popup.GroupsView.DieGroups}" />
+          </Grid>
+          <telerik:RadGridView Name="LbDieGroups" BorderBrush="#FFA9A9A9" Background="#FFF5F5F5" Grid.Row="1" Grid.Column="0" CanUserInsertRows="False" FrozenColumnsSplitterVisibility="Collapsed" AutoGenerateColumns="False" Margin="5" IsSynchronizedWithCurrentItem="True" SelectionMode="Extended" GroupRenderMode="Flat" ItemsSource="{Binding ToolConfigModel.DieGroups}" SelectedItem="{Binding SelectedDieGroup}" SelectionChanged="Selector_OnSelectionChanged">
+            <UIElement.InputBindings>
+              <KeyBinding Key="Delete" Command="{Binding KeyDownDelete}" />
+            </UIElement.InputBindings>
+            <telerik:RadContextMenu.ContextMenu>
+              <telerik:RadContextMenu ItemContainerStyle="{StaticResource MenuItemContainerStyle}" ItemsSource="{Binding DieGroupContextMenuItems}" Opening="DieGroupContextMenu_Opened" />
+            </telerik:RadContextMenu.ContextMenu>
+            <telerik:GridViewDataControl.Columns>
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.GroupsView.ID}" Width="AUTO" IsReadOnly="True" DataMemberBinding="{Binding ID}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.GroupsView.Name}" Width="AUTO" DataMemberBinding="{Binding Name}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.GroupsView.VWidth}" Width="AUTO" DataMemberBinding="{Binding VWidth}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.GroupsView.VAngle}" Width="AUTO" DataMemberBinding="{Binding VAngle}" />
+              <telerik:GridViewDataColumn Header="{DynamicResource l_popup.GroupsView.Radius}" Width="AUTO" DataMemberBinding="{Binding Radius}" />
+            </telerik:GridViewDataControl.Columns>
+          </telerik:RadGridView>
+          <ui1:DragDropList Margin="5" Grid.Row="2" IsDropTarget="True" IsDragSource="True" BorderBrush="#FFA9A9A9" DragDropTemplate="{DynamicResource DragTemplate}" ItemContainerStyle="{DynamicResource GroupToolStyleListBox}" Style="{DynamicResource DragDropPanel}" Background="#00FFFFFF" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" OrderChangedCommand="{Binding DiesOrderChangedCommand}" ItemsSource="{Binding DieGroupTools, BindsDirectlyToSource=True}" />
+        </Grid>
+      </Border>
+      <ContentControl Grid.ColumnSpan="2" Margin="4" Grid.RowSpan="3" Visibility="{Binding EditScreenVisible}" Content="{Binding EditScreen}">
+        <Control.Background>
+          <SolidColorBrush Color="WhiteSmoke" Opacity="0.8" />
+        </Control.Background>
+      </ContentControl>
+    </Grid>
+  </Border>
+</UserControl>

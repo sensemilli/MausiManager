@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<popup:PopupBase x:Class="WiCAM.Pn4000.GuiWpf.Ui3D.PopupUnfoldInfoView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:popup="clr-namespace:WiCAM.Pn4000.Popup;assembly=WiCAM.Pn4000.Popup" xmlns:converter="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" Template="{DynamicResource PopupControlTemplate}" Style="{DynamicResource PopupStyle}" Title="{DynamicResource l_popup.PopupUnfoldInfo.Title}" Height="800" Width="1500" ContentRendered="Content_Rendered">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <converter:BoolToColorConverter x:Key="BoolToColorConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="6*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="1*" />
+    </Grid.ColumnDefinitions>
+    <Border Margin="3,0,0,0" Grid.Row="0" BorderBrush="#FF696969" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.ColumnSpan="2">
+      <Grid Margin="5,3,5,2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldInfo.FileName}" Style="{DynamicResource PnPopupLabelForTextBox}" Margin="0" />
+        <Label Grid.Row="0" Grid.Column="1" Style="{DynamicResource PnPopupLabelForTextBox}" Margin="0" Content="{Binding PopupUnfoldInfoModel.FileName}" />
+        <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource l_popup.PopupUnfoldInfo.ModelName}" Style="{DynamicResource PnPopupLabelForTextBox}" Margin="0" />
+        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Style="{DynamicResource PnPopupLabelForTextBox}" Margin="0" Content="{Binding PopupUnfoldInfoModel.Doc.DiskFile.Header.ModelName}" />
+        <Label Grid.Row="0" Grid.Column="3" Content="{DynamicResource l_popup.PopupUnfoldInfo.OriginalMaterialName}" Style="{DynamicResource PnPopupLabelForTextBox}" />
+        <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Row="0" Grid.Column="4" Content="{Binding PopupUnfoldInfoModel.Doc.EntryModel3D.OriginalMaterialName}" />
+        <Label Grid.Row="1" Grid.Column="3" Content="{DynamicResource l_popup.PopupUnfoldInfo.Material3dGroup}" Style="{DynamicResource PnPopupLabelForTextBox}" />
+        <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Row="1" Grid.Column="4" Content="{Binding Material3DGroupName}" />
+        <Label Grid.Row="2" Grid.Column="3" Content="{DynamicResource l_popup.PopupUnfoldInfo.MaterialName}" Style="{DynamicResource PnPopupLabelForTextBox}" />
+        <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Row="2" Grid.Column="4" Content="{Binding PopupUnfoldInfoModel.Doc.Material.Name}" />
+        <Label Grid.Row="3" Grid.Column="3" Content="{DynamicResource l_popup.PopupUnfoldInfo.MaterialId}" Style="{DynamicResource PnPopupLabelForTextBox}" />
+        <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Row="3" Grid.Column="4" Content="{Binding PopupUnfoldInfoModel.Doc.Material.Number}" />
+        <Label Grid.Row="2" Grid.Column="0" Content="{DynamicResource l_popup.PopupSelectMaterial.Thickness}" Style="{DynamicResource PnPopupLabelForTextBox}" />
+        <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Row="2" Grid.Column="1" ContentStringFormat="{}{0:#,0.######}" Content="{Binding Thickness.Converted}" />
+        <Label Grid.Row="0" Grid.RowSpan="4" Grid.Column="6" Height="Auto" Style="{DynamicResource PnPopupLabelForTextBox}" Content="{Binding ValidationSummary}" />
+      </Grid>
+    </Border>
+    <telerik:RadGridView Grid.Row="1" Grid.Column="0" Margin="3,3,0,3" xmlns:controls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Data" IsSynchronizedWithCurrentItem="True" IsFilteringAllowed="False" IsReadOnly="True" SelectionMode="Single" VirtualizingPanel.IsVirtualizing="True" GroupRenderMode="Flat" AutoGenerateColumns="False" EnableRowVirtualization="True" CanUserInsertRows="False" ItemsSource="{Binding InfoItems}" SelectedItem="{Binding SelectedBend}">
+      <telerik:GridViewDataControl.Columns>
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupUnfoldInfo.Number}" Width="AUTO" DataMemberBinding="{Binding UiOrder}" />
+        <telerik:GridViewDataColumn DataFormatString="0.###" Header="{DynamicResource l_popup.PopupUnfoldInfo.Angle}" Width="AUTO" DataMemberBinding="{Binding AngleDeg}" />
+        <telerik:GridViewDataColumn DataFormatString="0.###" Header="{DynamicResource l_popup.PopupUnfoldInfo.OriginalRadius}" Width="AUTO" DataMemberBinding="{Binding OriginalRadius.Converted}" />
+        <telerik:GridViewDataColumn DataFormatString="0.###" Header="{DynamicResource l_popup.PopupUnfoldInfo.Radius}" Width="AUTO" DataMemberBinding="{Binding Radius.Converted}" />
+        <telerik:GridViewDataColumn DataFormatString="0.###" Header="{DynamicResource l_popup.PopupUnfoldInfo.BendDeduction}" Width="AUTO" DataMemberBinding="{Binding BendDeduction.Converted}">
+          <telerik:GridViewColumn.HeaderCellStyle>
+            <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
+              <Setter Property="ToolTipService.ToolTip" Value="{Binding DataContext.BdImage, RelativeSource={RelativeSource AncestorType=popup:PopupBase}}" />
+            </Style>
+          </telerik:GridViewColumn.HeaderCellStyle>
+        </telerik:GridViewDataColumn>
+        <telerik:GridViewDataColumn DataFormatString="0.###" Header="{DynamicResource l_popup.PopupUnfoldInfo.DinLength}" Width="AUTO" DataMemberBinding="{Binding DinLength.Converted}">
+          <telerik:GridViewColumn.HeaderCellStyle>
+            <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
+              <Setter Property="ToolTipService.ToolTip" Value="{Binding DataContext.DinImage, RelativeSource={RelativeSource AncestorType=popup:PopupBase}}" />
+            </Style>
+          </telerik:GridViewColumn.HeaderCellStyle>
+        </telerik:GridViewDataColumn>
+        <telerik:GridViewDataColumn DataFormatString="0.#####" Header="{DynamicResource l_popup.PopupUnfoldInfo.KFactor}" Width="AUTO" DataMemberBinding="{Binding KFactor}">
+          <telerik:GridViewColumn.HeaderCellStyle>
+            <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
+              <Setter Property="ToolTipService.ToolTip" Value="{Binding DataContext.KfImage, RelativeSource={RelativeSource AncestorType=popup:PopupBase}}" />
+            </Style>
+          </telerik:GridViewColumn.HeaderCellStyle>
+        </telerik:GridViewDataColumn>
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupUnfoldInfo.Algorithm}" Width="AUTO" DataMemberBinding="{Binding KFactorAlgorithmTranslated}">
+          <telerik:GridViewColumn.HeaderCellStyle>
+            <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
+              <Setter Property="ToolTipService.ToolTip" Value="{Binding DataContext.KFactorAlgorithmToolTip, RelativeSource={RelativeSource AncestorType=popup:PopupBase}}" />
+            </Style>
+          </telerik:GridViewColumn.HeaderCellStyle>
+        </telerik:GridViewDataColumn>
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupUnfoldInfo.ToolSelectionAlgorithm}" Width="AUTO" DataMemberBinding="{Binding ToolSelectionAlgorithmTranslated}">
+          <telerik:GridViewColumn.HeaderCellStyle>
+            <Style TargetType="{x:Type telerik:GridViewHeaderCell}">
+              <Setter Property="ToolTipService.ToolTip" Value="{Binding DataContext.ToolSelectionAlgorithmToolTip, RelativeSource={RelativeSource AncestorType=popup:PopupBase}}" />
+            </Style>
+          </telerik:GridViewColumn.HeaderCellStyle>
+        </telerik:GridViewDataColumn>
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupUnfoldInfo.PunchGroupName}" Width="AUTO" DataMemberBinding="{Binding PunchGroupName}" IsVisible="{Binding PunchGroupNameColumnVisible}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupUnfoldInfo.DieGroupName}" Width="AUTO" DataMemberBinding="{Binding DieGroupName}" IsVisible="{Binding DieGroupNameColumnVisible}" />
+        <telerik:GridViewDataColumn DataFormatString="0.###" Header="{DynamicResource l_popup.PopupUnfoldInfo.VWidth}" Width="AUTO" DataMemberBinding="{Binding VWidth.Converted}" IsVisible="{Binding VWidthColumnVisible}" />
+        <telerik:GridViewDataColumn DataFormatString="0.###" Header="{DynamicResource l_popup.PopupUnfoldInfo.VAngle}" Width="AUTO" DataMemberBinding="{Binding VAngle}" IsVisible="{Binding VAngleColumnVisible}" />
+        <telerik:GridViewDataColumn DataFormatString="0.###" Header="{DynamicResource l_popup.PopupUnfoldInfo.CornerRadius}" Width="AUTO" DataMemberBinding="{Binding CornerRadius.Converted}" IsVisible="{Binding CornerRadiusColumnVisible}" />
+        <telerik:GridViewDataColumn DataFormatString="0.###" Header="{DynamicResource l_popup.PopupUnfoldInfo.PunchRadius}" Width="AUTO" DataMemberBinding="{Binding PunchRadius.Converted}" IsVisible="{Binding PunchRadiusColumnVisible}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupUnfoldInfo.PunchGroupId}" Width="AUTO" DataMemberBinding="{Binding PunchGroupId}" IsVisible="{Binding PunchGroupIdColumnVisible}" />
+        <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupUnfoldInfo.DieGroupId}" Width="AUTO" DataMemberBinding="{Binding DieGroupId}" IsVisible="{Binding DieGroupIdColumnVisible}" />
+      </telerik:GridViewDataControl.Columns>
+    </telerik:RadGridView>
+    <converter:LoadingView Grid.Row="1" Grid.Column="1" Visibility="{Binding LoadingGeometryVisibility}" />
+    <Viewbox Grid.Row="1" Grid.Column="1">
+      <ContentControl Grid.Column="1" Margin="3,3,0,3" Grid.Row="1" Content="{Binding ImageUnfoldModel}">
+        <UIElement.InputBindings>
+          <MouseBinding MouseAction="LeftClick" Command="{Binding ModificationCommand}" />
+        </UIElement.InputBindings>
+      </ContentControl>
+    </Viewbox>
+  </Grid>
+</popup:PopupBase>

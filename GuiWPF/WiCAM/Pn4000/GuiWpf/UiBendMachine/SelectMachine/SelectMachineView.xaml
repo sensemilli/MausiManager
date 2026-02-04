@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.UiBendMachine.SelectMachine.SelectMachineView" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI"
+             xmlns:viewModels="clr-namespace:WiCAM.Pn4000.GuiWpf.UiBendMachine.SelectMachine"
+             xmlns:popup="clr-namespace:WiCAM.Pn4000.Popup;assembly=WiCAM.Pn4000.Popup" xmlns:views="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI.Views" 
+             xmlns:info="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI.Information" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+             xmlns:controls="http://schemas.telerik.com/2008/xaml/presentation" 
+             xmlns:views1="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI.Views;assembly=WiCAM.Pn4000.PN3D" 
+             xmlns:ui1="clr-namespace:WiCAM.Pn4000.PN3D.Popup.UI;assembly=WiCAM.Pn4000.PN3D" 
+             xmlns:ui3D="clr-namespace:WiCAM.Pn4000.GuiWpf.Ui3D" VerticalContentAlignment="Stretch"
+             HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#00FFFFFF">
+  <UIElement.InputBindings>
+    <KeyBinding Key="Enter" Command="{Binding Button16_OkClick}" />
+  </UIElement.InputBindings>
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1" CornerRadius="7.5" Margin="5">
+    <Border.Background>
+      <SolidColorBrush Color="WhiteSmoke" Opacity="{Binding DialogOpacity}" />
+    </Border.Background>
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="Auto" MinWidth="120" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="1*" />
+      </Grid.RowDefinitions>
+      <Grid Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#00FFFFFF" Visibility="{Binding EditorNotVisible}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="AUTO" />
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="AUTO" />
+          <RowDefinition Height="1.3*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="10" />
+          <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <GridSplitter Background="#00FFFFFF" Grid.Row="2" Grid.ColumnSpan="3" Height="10" Margin="0,0" HorizontalAlignment="Stretch" />
+        <GridSplitter Background="#00FFFFFF" Grid.Row="3" Grid.Column="1" Width="10" Margin="0,0" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" />
+        <telerik:RadGridView Name="MachineGridView" Grid.Row="1" Grid.ColumnSpan="3" IsReadOnly="True" Background="#FFF5F5F5" BorderBrush="#FFA9A9A9" BorderThickness="1" AlternationCount="2" AutoGenerateColumns="False" Margin="10,0,0,0" SelectedItem="{Binding SelectedMachine}" ItemsSource="{Binding Machines}">
+          <UIElement.InputBindings>
+            <KeyBinding Key="Enter" Command="{Binding EnterKeyDown}" CommandParameter="{Binding ElementName=MachineGridView}" />
+          </UIElement.InputBindings>
+          <controls:EventToCommandBehavior.EventBindings>
+            <controls:EventBinding  controls:EventBinding.EventName="MouseDoubleClick" controls:EventBinding.PassEventArgsToCommand="True" controls:EventBinding.Command="{Binding SelectDoubleClick}" />
+          </controls:EventToCommandBehavior.EventBindings>
+          <telerik:GridViewDataControl.Columns>
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.ColumnNumber}" DataMemberBinding="{Binding Number}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.ColumnManufacturer}" DataMemberBinding="{Binding Manufacturer}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.ColumnName}" DataMemberBinding="{Binding Name}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.ColumnDataType}" DataMemberBinding="{Binding PressBrakeDataType}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.ColumnInfoType}" DataMemberBinding="{Binding PressBrakeInfoType}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.ColumnRemark1}" DataMemberBinding="{Binding Remark1}" />
+            <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.ColumnRemark2}" DataMemberBinding="{Binding Remark2}" />
+          </telerik:GridViewDataControl.Columns>
+        </telerik:RadGridView>
+        <Border Background="#00FFFFFF" Grid.Row="3" Grid.RowSpan="2" Grid.Column="0" Margin="10,0,0,0" BorderBrush="#FFA9A9A9" BorderThickness="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{Binding PreferredProfilePreviewVisible}">
+          <Grid>
+            <ui3D:LoadingView Grid.Row="0" Grid.Column="0" Visibility="{Binding LoadingGeometryVisibility}" />
+            <Viewbox>
+              <ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Content="{Binding ImageUnfoldModel}">
+                <UIElement.InputBindings>
+                  <MouseBinding MouseAction="LeftClick" Command="{Binding ModificationCommand}" />
+                </UIElement.InputBindings>
+              </ContentControl>
+            </Viewbox>
+          </Grid>
+        </Border>
+        <Grid Row="3" Column="2" RowSpan="2" Margin="0">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*" MinHeight="40" />
+            <RowDefinition Height="2*" />
+          </Grid.RowDefinitions>
+          <Border Grid.Row="0" BorderBrush="#FFA9A9A9" BorderThickness="1">
+            <Grid Margin="10,0,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+              </Grid.ColumnDefinitions>
+              <RadioButton FontSize="15" FontWeight="SemiBold" Grid.Column="0" Content="{DynamicResource l_popup.PopupSelectMachine.UseDefaultTools}" VerticalContentAlignment="Center" HorizontalAlignment="Center" GroupName="0" Visibility="{Binding PreferredProfilePreviewVisible}" IsChecked="{Binding UseDefaultTools}" />
+              <RadioButton FontSize="15" FontWeight="SemiBold" Grid.Column="1" Content="{DynamicResource l_popup.PopupSelectMachine.UseSuggestedTools}" VerticalContentAlignment="Center" HorizontalAlignment="Center" GroupName="0" Visibility="{Binding PreferredProfilePreviewVisible}" IsChecked="{Binding UseSuggestedTools}" />
+            </Grid>
+          </Border>
+          <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Margin="0" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding PreferredProfilePreviewVisible}">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="2*" />
+              </Grid.RowDefinitions>
+              <Border MaxHeight="150" Margin="0,5,0,5" BorderBrush="#FFA9A9A9" BorderThickness="1" Grid.Column="0" Grid.Row="0" IsEnabled="{Binding UseDefaultTools}">
+                <telerik:RadGridView BorderBrush="#FFA9A9A9" Background="#FFF5F5F5" IsReadOnly="True" ShowGroupPanel="False" AutoGenerateColumns="False" ItemsSource="{Binding FittingProfilesDict}" SelectedItem="{Binding ProfileToUse, Mode=TwoWay}">
+                  <telerik:GridViewDataControl.Columns>
+                    <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.PunchGroupName}" DataMemberBinding="{Binding Value.Item2.PunchGroupName}" />
+                    <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.DieGroupName}" DataMemberBinding="{Binding Value.Item2.DieGroupName}" />
+                    <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.MinRadius}" DataMemberBinding="{Binding Value.Item2.MinRadius}" />
+                    <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.MaxRadius}" DataMemberBinding="{Binding Value.Item2.MaxRadius}" />
+                    <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.MinAngle}" DataMemberBinding="{Binding Value.Item2.MinAngle}" />
+                    <telerik:GridViewDataColumn Header="{DynamicResource l_popup.PopupSelectMachine.MaxAngle}" DataMemberBinding="{Binding Value.Item2.MaxAngle}" />
+                  </telerik:GridViewDataControl.Columns>
+                </telerik:RadGridView>
+              </Border>
+              <Border Margin="0" BorderBrush="#FFA9A9A9" BorderThickness="1" Grid.Row="1" Background="#00FFFFFF" IsEnabled="{Binding UseDefaultTools}">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="1*" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                  </Grid.RowDefinitions>
+                  <TextBlock Style="{DynamicResource PnPopupHeaderText}" Text="{DynamicResource l_popup.PopupSelectMachine.PunchLabel}" FontSize="23" TextDecorations="Underline" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" />
+                  <TextBlock Style="{DynamicResource PnPopupHeaderText}" Text="{DynamicResource l_popup.PopupSelectMachine.DieLabel}" FontSize="23" TextDecorations="Underline" FontWeight="Bold" TextAlignment="Center" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" />
+                  <Label Style="{DynamicResource PnPopupLabelForTextBox}" HorizontalContentAlignment="Right" Content="{DynamicResource l_popup.PopupSelectMachine.PunchProfileName}" Grid.Row="1" Grid.Column="1" />
+                  <Label Style="{DynamicResource PnPopupLabelForTextBox}" HorizontalContentAlignment="Right" Content="{DynamicResource l_popup.PopupSelectMachine.DieProfileName}" Grid.Column="3" Grid.Row="1" />
+                  <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Row="1" Grid.Column="2" Content="{Binding PrimaryPunch.Name}" />
+                  <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="4" Grid.Row="1" Content="{Binding PrimaryDie.Name}" />
+                  <Label Style="{DynamicResource PnPopupLabelForTextBox}" HorizontalContentAlignment="Right" Content="{DynamicResource l_popup.PopupSelectMachine.PunchRadius}" Grid.Row="2" Grid.Column="1" />
+                  <Label Style="{DynamicResource PnPopupLabelForTextBox}" HorizontalContentAlignment="Right" Content="{DynamicResource l_popup.PopupSelectMachine.DieOpeningWidth}" Grid.Column="3" Grid.Row="2" />
+                  <Label Style="{DynamicResource PnPopupLabelForTextBox}" HorizontalContentAlignment="Right" Content="{DynamicResource l_popup.PopupSelectMachine.DieOpeningAngle}" Grid.Column="3" Grid.Row="3" />
+                  <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Row="2" Grid.Column="2" Content="{Binding PrimaryPunch.Radius}" />
+                  <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="4" Grid.Row="2" Content="{Binding PrimaryDie.VWidth}" />
+                  <Label Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="4" Grid.Row="3" Content="{Binding PrimaryDie.VAngle}" />
+                  <Viewbox Grid.Row="1" Margin="10,0,0,10" Grid.RowSpan="8" Grid.Column="0">
+                    <ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Content="{Binding ImageDefaultPunchProfile}" />
+                  </Viewbox>
+                  <Viewbox Grid.Column="5" Grid.Row="1" Grid.RowSpan="8" Margin="0,0,10,10">
+                    <ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Content="{Binding ImageDefaultDieProfile}" />
+                  </Viewbox>
+                </Grid>
+              </Border>
+            </Grid>
+          </ScrollViewer>
+        </Grid>
+      </Grid>
+      <Grid Background="#00FFFFFF" Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Row="0" Column="0" Visibility="{Binding EditorVisible}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="1*" />
+          <RowDefinition Height="8*" />
+          <RowDefinition Height="8*" />
+          <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Border Margin="10,10,0,10" CornerRadius="7.5" Grid.RowSpan="4" BorderThickness="1" BorderBrush="#FFA9A9A9" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+          <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="1*" />
+              <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <telerik:RadGridView BorderBrush="#FFA9A9A9" Background="#FFF5F5F5" Margin="10" IsReadOnly="True" AutoGenerateColumns="True" ItemsSource="{Binding ToolConfigModel.PreferredProfiles}" SelectedItem="{Binding PreferredProfile}" />
+            <Grid Margin="0,0,10,10" Row="2">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+              </Grid.RowDefinitions>
+              <Label Content="{DynamicResource l_popup.PopupSelectMachine.Material3DGroupName}" Style="{DynamicResource PnPopupLabelForText}" Grid.Column="0" Grid.Row="0" />
+              <Label Content="{DynamicResource l_popup.PopupSelectMachine.SheetThickness}" Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Grid.Row="1" />
+              <Label Content="{DynamicResource l_popup.PopupSelectMachine.MinAngle}" Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Grid.Row="2" />
+              <Label Content="{DynamicResource l_popup.PopupSelectMachine.MaxAngle}" Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Grid.Row="3" />
+              <Label Content="{DynamicResource l_popup.PopupSelectMachine.MinRadius}" Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Grid.Row="4" />
+              <Label Content="{DynamicResource l_popup.PopupSelectMachine.MaxRadius}" Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="0" Grid.Row="5" />
+              <Label Content="{DynamicResource l_popup.PopupSelectMachine.PunchGroupName}" Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="2" Grid.Row="0" />
+              <Label Content="{DynamicResource l_popup.PopupSelectMachine.DieGroupName}" Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="2" Grid.Row="1" />
+              <Label Content="{DynamicResource l_popup.PopupSelectMachine.PunchRadius}" Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="2" Grid.Row="2" />
+              <Label Content="{DynamicResource l_popup.PopupSelectMachine.DieOpeningWidth}" Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="2" Grid.Row="3" />
+              <Label Content="{DynamicResource l_popup.PopupSelectMachine.DieCornerRadius}" Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="2" Grid.Row="4" />
+              <Label Content="{DynamicResource l_popup.PopupSelectMachine.DieOpeningAngle}" Style="{DynamicResource PnPopupLabelForTextBox}" Grid.Column="2" Grid.Row="5" />
+              <ComboBox Grid.Row="0" Grid.Column="1" Margin="3" Style="{DynamicResource PnPopupComboBoxStyle}" ItemsSource="{Binding Material3DGroupNames}" SelectedIndex="{Binding Material3DGroupIndex}" />
+              <popup:TextBoxDoubleValid ui1:SelectAllFocusBehavior.Enable="True" Style="{DynamicResource PnPopupTextBoxStyle}" Grid.Column="1" Grid.Row="1" Min="0.0" Text="{Binding Thickness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+              <popup:TextBoxDoubleValid ui1:SelectAllFocusBehavior.Enable="True" Style="{DynamicResource PnPopupTextBoxStyle}" Grid.Column="1" Grid.Row="2" Min="0.0" Text="{Binding MinAngle, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+              <popup:TextBoxDoubleValid ui1:SelectAllFocusBehavior.Enable="True" Style="{DynamicResource PnPopupTextBoxStyle}" Grid.Column="1" Grid.Row="3" Min="0.0" Text="{Binding MaxAngle, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+              <popup:TextBoxDoubleValid ui1:SelectAllFocusBehavior.Enable="True" Style="{DynamicResource PnPopupTextBoxStyle}" Grid.Column="1" Grid.Row="4" Min="0.0" Text="{Binding MinRadius, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+              <popup:TextBoxDoubleValid ui1:SelectAllFocusBehavior.Enable="True" Style="{DynamicResource PnPopupTextBoxStyle}" Grid.Column="1" Grid.Row="5" Min="0.0" Text="{Binding MaxRadius, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+              <ComboBox Grid.Row="0" Grid.Column="3" Margin="3" Style="{DynamicResource PnPopupComboBoxStyle}" DisplayMemberPath="Name" ItemsSource="{Binding ToolConfigModel.PunchGroups}" SelectedItem="{Binding PunchGroup}" />
+              <ComboBox Grid.Row="1" Grid.Column="3" Margin="3" Style="{DynamicResource PnPopupComboBoxStyle}" DisplayMemberPath="Name" ItemsSource="{Binding ToolConfigModel.DieGroups}" SelectedItem="{Binding DieGroup}" />
+              <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" Grid.Column="3" Grid.Row="2" IsEnabled="False" Text="{Binding PreferredProfile.PunchRadius, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" Grid.Column="3" Grid.Row="3" IsEnabled="False" Text="{Binding PreferredProfile.VWidth, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" Grid.Column="3" Grid.Row="4" IsEnabled="False" Text="{Binding PreferredProfile.CornerRadius, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBox Style="{DynamicResource PnPopupTextBoxStyle}" Grid.Column="3" Grid.Row="5" IsEnabled="False" Text="{Binding PreferredProfile.VAngle, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+          </Grid>
+        </Border>
+        <TextBlock Style="{DynamicResource PnPopupHeaderText}" Text="{DynamicResource l_popup.PopupSelectMachine.PunchLabel}" FontSize="23" TextDecorations="Underline" FontWeight="Bold" TextAlignment="Center" Grid.Row="0" Grid.Column="1" />
+        <Viewbox Grid.Row="1" Grid.Column="1" Margin="10">
+          <ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Content="{Binding ImagePunchProfile}" />
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="2" Margin="10">
+          <ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Content="{Binding ImageDieProfile}" />
+        </Viewbox>
+        <TextBlock Style="{DynamicResource PnPopupHeaderText}" Text="{DynamicResource l_popup.PopupSelectMachine.DieLabel}" FontSize="23" TextDecorations="Underline" FontWeight="Bold" TextAlignment="Center" Grid.Row="3" Grid.Column="1" />
+      </Grid>
+      <DockPanel Grid.Row="0" Grid.Column="1" Margin="2,0,2,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <StackPanel Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DockPanel.Dock="Top" Visibility="Collapsed">
+          <Button Margin="5,1,5,3" Style="{DynamicResource PnPopupOptionButton}" Height="25" Content="{DynamicResource l_popup.PopupSelectMachine.Add}" Command="{Binding Button2_AddClick}" IsEnabled="{Binding IsAddNewButtonEnabled}" />
+          <Button Margin="5,1,5,3" Style="{DynamicResource PnPopupOptionButton}" Height="25" Content="{DynamicResource l_popup.PopupSelectMachine.Edit}" Command="{Binding Button1_EditClick}" IsEnabled="{Binding IsEditButtonEnabled}" />
+          <Button Margin="5,1,5,3" Style="{DynamicResource PnPopupOptionButton}" Height="25" Content="{DynamicResource l_popup.PopupSelectMachine.Delete}" Command="{Binding Button0_DeleteClick}" IsEnabled="{Binding IsDeleteButtonEnabled}" />
+        </StackPanel>
+        <StackPanel VerticalAlignment="Bottom" Margin="0" HorizontalAlignment="Stretch">
+          <Button Margin="5,1,5,3" Style="{DynamicResource PnPopupOptionButton}" Height="25" Content="{DynamicResource l_popup.PopupSelectMachine.Cancel}" Command="{Binding Button5_CancelClick}" />
+          <Button Margin="5,1,5,3" Style="{DynamicResource PnPopupOptionButton}" Height="25" Content="{DynamicResource l_popup.PopupSelectMachine.Ok}" Command="{Binding Button16_OkClick}" IsEnabled="{Binding IsOkButtonEnabled}" />
+        </StackPanel>
+      </DockPanel>
+    </Grid>
+  </Border>
+</UserControl>

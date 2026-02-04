@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.Fortran.PnStatusBarPKernelControl" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.Fortran" 
+             xmlns:l="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar"
+             xmlns:pnStatusBar="clr-namespace:WiCAM.Pn4000.GuiContracts.PnStatusBar;assembly=WiCAM.Pn4000.GuiContracts" 
+             xmlns:basicControls="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.BasicControls">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <DataTemplate x:Key="template">
+        <basicControls:PnStatusBarItemControl Label="{Binding Label}" Info="{Binding Info}" Visibility="{Binding Visibility}" />
+      </DataTemplate>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <basicControls:PnStatusBarControl Margin="3" ItemsTemplate="{StaticResource template}" Visibility="{Binding Visibility}"
+                                    Info="{Binding Info}" FillBrush="{Binding Brush}" TextBrush="{Binding TextBrush}"
+                                    ToolTipVisibility="{Binding SubItemsVisibility}" ItemsSource="{Binding SubItems}" />
+</UserControl>

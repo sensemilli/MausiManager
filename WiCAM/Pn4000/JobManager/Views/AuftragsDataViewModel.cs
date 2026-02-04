@@ -46,6 +46,7 @@ using System.Xml.Linq;
 using WiCAM.Pn4000.BendModel.BendTools.Macros;
 using WiCAM.Pn4000.PN3D.BendSimulation.PP.Bystronic_BPX;
 using WiCAM.Pn4000.PN3D.Popup.Information;
+using System.IO.Compression;
 
 namespace WiCAM.Pn4000.JobManager
 {
@@ -111,7 +112,7 @@ namespace WiCAM.Pn4000.JobManager
         private GridLength _gridFilesHeight;
         private GridLength _column1Width;
 
-        
+
         public double dichte { get; private set; }
 
         public IView View { get; private set; }
@@ -194,7 +195,7 @@ namespace WiCAM.Pn4000.JobManager
             this.GridMaterialPool = AuftragsDataControl._AuftragsDataControl.GridMaterialPool;
 
             _InternJobPool.OpenSQLOrderDataConnection(this);
-        
+
             System.Windows.Style item = (System.Windows.Style)AuftragsDataControl._AuftragsDataControl.Resources["StyleRightAlignedCell"];
 
             SelectionChanged = new SelectionChangedEventHandler(this.SelectedAuftragChanged);
@@ -203,7 +204,7 @@ namespace WiCAM.Pn4000.JobManager
 
         }
 
-        
+
 
 
         public void Edit(ViewAction action)
@@ -236,7 +237,7 @@ namespace WiCAM.Pn4000.JobManager
         {
             Console.WriteLine(ActiveView);
             this.ActiveView = null;
-           // this._task = Task.Run<bool>(() => this.Enable(this._grid));
+            // this._task = Task.Run<bool>(() => this.Enable(this._grid));
         }
         public OrdersData SelectedAuftrag
         {
@@ -249,8 +250,8 @@ namespace WiCAM.Pn4000.JobManager
             {
                 this._SelectedAuftrag = value;
             }
-            }
-        
+        }
+
 
 
 
@@ -279,8 +280,8 @@ namespace WiCAM.Pn4000.JobManager
 
 
 
-        
-    
+
+
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -297,7 +298,7 @@ namespace WiCAM.Pn4000.JobManager
             _selectionChangedHandler?.Invoke(SelectedItems);
         }
 
-    
+
 
         public ICommand AddAuftragCommand
         {
@@ -382,7 +383,7 @@ namespace WiCAM.Pn4000.JobManager
             }
         }
 
-       
+
         public void ButtonWriteExcel2D()
         {
             Console.WriteLine("Write-Excel-2D");
@@ -483,6 +484,7 @@ namespace WiCAM.Pn4000.JobManager
         {
             Console.Write("ButtonStartAuftrag");
             ReadArchives();
+            AuftragsDataControl._AuftragsDataControl.InitializeFileSystemObjects();
         }
 
         public ICommand ButtonReadMaterialCSVCommand
@@ -507,7 +509,10 @@ namespace WiCAM.Pn4000.JobManager
 
         public void StartPNbrowser()
         {
-            System.Diagnostics.Process.Start(System.IO.Path.Combine(pathToPNdrive, "u\\pn\\run\\PnArBrDb.exe"));
+            //  System.Diagnostics.Process.Start(System.IO.Path.Combine(pathToPNdrive, "u\\pn\\run\\PnArBrDb.exe"));
+            if (File.Exists("P:\\MausiManager.zip"))
+                File.Delete("P:\\MausiManager.zip");
+            ZipFile.CreateFromDirectory("C:\\Users\\TBraig\\source\\repos\\sensemilli\\MausiManager\\bin\\Debug\\net6.0-windows", "P:\\MausiManager.zip");
         }
 
         public ICommand ButtonPnArchivBrowserSelectedCommand
@@ -717,7 +722,7 @@ namespace WiCAM.Pn4000.JobManager
         }
         private void WriteToMaterialDB()
         {
-            int i = 0;
+          //  int i = 0;
             foreach (var item in from item in AuftragsDataViewModel._auftragsDataViewModel._PlateData
                                      //where item.Text.Contains(TextFilterText.Text)
                                  select item)
@@ -740,7 +745,7 @@ namespace WiCAM.Pn4000.JobManager
         }
         private void PrintEtiketten()
         {
-            int i = 0;
+           // int i = 0;
             
             foreach (var item in from item in AuftragsDataViewModel._auftragsDataViewModel._PlateData
                                      //where item.Text.Contains(TextFilterText.Text)

@@ -1,0 +1,11 @@
+namespace WiCAM.OldPn.Enums;
+
+public enum StarOldPnAnswer
+{
+	OK = 0,
+	ERROR_LOADCONFIG = 1,
+	ERROR_NOPN = 2,
+	ERROR_NOFILETOCOPY = 3,
+	ERROR_NOFILETOCOPYBACK = 4,
+	ERROR_EXECALLEXCEPTION = 5
+}

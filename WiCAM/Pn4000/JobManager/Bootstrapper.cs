@@ -16,7 +16,8 @@ public class Bootstrapper
 
 	public bool Show()
 	{
-		_model = _settings.ModelManager.RegisterDialog<MainWindow, MainWindowViewModel>(_provider);
+
+        _model = _settings.ModelManager.RegisterDialog<MainWindow, MainWindowViewModel>(_provider);
 		return _model.Show();
 	}
 }

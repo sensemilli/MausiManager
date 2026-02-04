@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.TabBend.OrderBillboards.OrderBillboardsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.TabBend.OrderBillboards" xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns:controls="http://schemas.telerik.com/2008/xaml/presentation">
+  <telerik:RadToggleButton ToggleButton.IsThreeState="False" FrameworkElement.ToolTip="{DynamicResource OrderBillboardsView.BendNumberShowVisible}" ToggleButton.IsChecked="{Binding ShowBillboards}">
+    <controls:RadContextMenu.ContextMenu>
+      <controls:RadContextMenu>
+        <StackPanel Orientation="Horizontal">
+          <TextBlock HorizontalAlignment="Left" Margin="0,0,10,0" Text="{DynamicResource OrderBillboardsView.SizeControl}" />
+          <telerik:RadSlider FrameworkElement.MinWidth="100" RangeBase.LargeChange="0.2" telerik:RadSlider.HandlesVisibility="Visible" RangeBase.Minimum="{Binding MinSizeMultiplier}" RangeBase.Maximum="{Binding MaxSizeMultiplier}" RangeBase.Value="{Binding SizeMultiplierLog}" />
+        </StackPanel>
+        <controls:RadMenuItem Header="{DynamicResource OrderBillboardsView.BendNumberHide}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding HideBillboards, Mode=TwoWay}" />
+        <controls:RadMenuItem Header="{DynamicResource OrderBillboardsView.BendNumberOnlyNumbers}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding ShowNumbers, Mode=TwoWay}" />
+        <controls:RadMenuItem Header="{DynamicResource OrderBillboardsView.BendNumberNumbersAndLetters}" IsCheckable="True" StaysOpenOnClick="True" IsChecked="{Binding ShowNumbersAndLetters, Mode=TwoWay}" />
+      </controls:RadContextMenu>
+    </controls:RadContextMenu.ContextMenu>
+    <telerik:RadGlyph telerik:RadGlyph.Glyph="" telerik:RadGlyph.Foreground="#FF000000" telerik:RadGlyph.FontSize="20" />
+  </telerik:RadToggleButton>
+</UserControl>

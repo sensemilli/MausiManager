@@ -940,13 +940,16 @@ SelectedItem="{Binding PartOrderGridSelectedItemProperty}" VerticalGridLinesBrus
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Style.Triggers>
-                                            <Trigger Property="Text" Value="Almg1">
+                                            <Trigger Property="Text" Value="Almg1(NQ)">
                                                 <Setter Property="Background" Value="Yellow"/>
                                             </Trigger>
-                                            <Trigger Property="Text" Value="Almg3">
+                                            <Trigger Property="Text" Value="Almg1(EQ)">
                                                 <Setter Property="Background" Value="Yellow"/>
                                             </Trigger>
-                                            <Trigger Property="Text" Value="Almg4 E0/C0">
+                                            <Trigger Property="Text" Value="Almg(E0/C0)">
+                                                <Setter Property="Background" Value="DarkGreen"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="Almg(E6/C0)">
                                                 <Setter Property="Background" Value="DarkGreen"/>
                                             </Trigger>
                                             <Trigger Property="Text" Value="1.0033">
@@ -956,6 +959,14 @@ SelectedItem="{Binding PartOrderGridSelectedItemProperty}" VerticalGridLinesBrus
                                             <Trigger Property="Text" Value="1.0038">
                                                 <Setter Property="Background" Value="Cyan"/>
                                                 <Setter Property="Foreground" Value="Black"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="1.0355">
+                                                <Setter Property="Background" Value="Blue"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="S350GD+Z">
+                                                <Setter Property="Background" Value="Blue"/>
+                                                <Setter Property="Foreground" Value="White"/>
                                             </Trigger>
                                             <Trigger Property="Text" Value="1.4301">
                                                 <Setter Property="Background" Value="HotPink"/>

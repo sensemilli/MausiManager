@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.Bend.Model.Status3dModelDimensionView" x:ClassModifier="internal" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.Bend.Model" xmlns:basicControls="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralUI.PnStatusBar.BasicControls">
+  <basicControls:PnStatusBarControl Info="{Binding Dimensions, Mode=OneWay}" />
+</UserControl>

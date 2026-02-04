@@ -169,7 +169,7 @@ namespace WiCAM.Pn4000.Archive.Browser.ArchiveN2d
 			}
 			foreach (NcPartInfo ncPartInfo in ncPartInfos)
 			{
-				string str = this._dataRepository.DeleteOne(ncPartInfo.Rowid);
+				string str = this._dataRepository.DeleteOne(ncPartInfo.RowId);
 				if (string.IsNullOrEmpty(str))
 				{
 					this._deleteHelper.DeleteFiles(ncPartInfo);
@@ -253,7 +253,7 @@ namespace WiCAM.Pn4000.Archive.Browser.ArchiveN2d
 									Predicate<NcPartInfo> predicate1 = predicate;
 									if (predicate1 == null)
 									{
-										Predicate<NcPartInfo> rowid = (NcPartInfo x) => x.Rowid == ((NcPartInfo)this._grid.SelectedItems[i]).Rowid;
+										Predicate<NcPartInfo> rowid = (NcPartInfo x) => x.RowId == ((NcPartInfo)this._grid.SelectedItems[i]).RowId;
 										Predicate<NcPartInfo> predicate2 = rowid;
 										predicate = rowid;
 										predicate1 = predicate2;

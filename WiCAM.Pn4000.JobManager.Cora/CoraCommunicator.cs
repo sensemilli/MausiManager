@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using WiCAM.Apis.CoraAdapters.Contracts;
+using WiCAM.Apis.CoraAdapters.DependencyInjection.Extensions;
 using WiCAM.Apis.CoraAdapters.Extensions;
 using WiCAM.Pn4000.Common;
 using WiCAM.Pn4000.Jobdata.Classes;
@@ -210,11 +211,11 @@ internal class CoraCommunicator
 	private ICoraAdapter BuildAdapter(IJobManagerSettings settings)
 	{
 		ServiceCollection services = new ServiceCollection();
-		services.AddCoraAdapter(settings.CoraUrl, "JobManager");
+	//	services.AddCoraAdapter(settings.CoraUrl, "JobManager");
 		ServiceProvider serviceProvider = services.BuildServiceProvider();
 		Task.Run(async delegate
 		{
-			await serviceProvider.UseCoraAdapter();
+		//	await serviceProvider.UseCoraAdapter();
 		}).ConfigureAwait(continueOnCapturedContext: false).GetAwaiter()
 			.GetResult();
 		return serviceProvider.GetService<ICoraAdapter>();

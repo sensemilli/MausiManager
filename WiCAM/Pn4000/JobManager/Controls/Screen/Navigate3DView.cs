@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
-using WiCAM.Pn4000.ScreenD3D.Controls.Base;
+using WiCAM.Pn4000.JobManager;
 
 namespace WiCAM.Pn4000.ScreenD3D.Controls
 {
@@ -22,9 +22,9 @@ namespace WiCAM.Pn4000.ScreenD3D.Controls
 
     public Navigate3DView() => this.InitializeComponent();
 
-    private void UIElement_OnMouseEnter(object sender, MouseEventArgs e) => ((Navigate3DViewModel) this.DataContext).MouseEnterCommand();
+    private void UIElement_OnMouseEnter(object sender, MouseEventArgs e) => ((ViewModelBase) this.DataContext).MouseEnterCommand();
 
-    private void UIElement_OnMouseLeave(object sender, MouseEventArgs e) => ((Navigate3DViewModel) this.DataContext).MouseLeaveCommand();
+    private void UIElement_OnMouseLeave(object sender, MouseEventArgs e) => ((ViewModelBase) this.DataContext).MouseLeaveCommand();
 
 
    

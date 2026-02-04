@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<l:NewPnRibbonBase x:Class="WiCAM.Pn4000.GuiWpf.GeneralUI.Ribbon.NewPnRibbon" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:l="clr-namespace:WiCAM.Pn4000.GuiWpf.GeneralUI.Ribbon" xmlns:b="clr-namespace:WiCAM.Pn4000.pn4.uicontrols.Buttons;assembly=pn4.uicontrols" SnapsToDevicePixels="True" Background="#00FFFFFF">
+  <l:NewPnRibbonBase.TabEntityTemplate>
+    <DataTemplate>
+      <b:PnRibbonTabButton Style="{DynamicResource PnRibbonTabButtonStyle}" Content="{Binding Label}" />
+    </DataTemplate>
+  </l:NewPnRibbonBase.TabEntityTemplate>
+  <l:NewPnRibbonBase.SimpleButtonTemplate>
+    <DataTemplate>
+      <Button Content="{Binding Label}" />
+    </DataTemplate>
+  </l:NewPnRibbonBase.SimpleButtonTemplate>
+  <l:NewPnRibbonBase.GroupBoxTemplate>
+    <DataTemplate>
+      <GroupBox Content="Jello GroupBox" />
+    </DataTemplate>
+  </l:NewPnRibbonBase.GroupBoxTemplate>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="23" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0" Style="{DynamicResource ButtonsRibbonZoneStyle}">
+      <StackPanel Name="RibbonButtonsZone" Orientation="Horizontal" />
+    </Border>
+    <Border Name="MainRibbonZone" Grid.Row="1" Style="{DynamicResource MainRibbonZoneStyle}" />
+  </Grid>
+</l:NewPnRibbonBase>

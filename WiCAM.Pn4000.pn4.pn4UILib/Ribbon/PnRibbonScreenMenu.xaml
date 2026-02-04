@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="WiCAM.Pn4000.pn4.pn4UILib.Ribbon.PnRibbonScreenMenu" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WiCAM.Pn4000.pn4.pn4UILib.Ribbon" Loaded="UserControl_Loaded">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="170" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <StackPanel Grid.Column="0" Background="#FF2B579A" Orientation="Vertical" Margin="0,20,0,0">
+      <Button Height="35" Background="#FF002050" BorderBrush="#FF002050" Click="Button_Click">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Button}">
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                  <Border Name="border" BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="2" Background="{TemplateBinding Control.Background}" SnapsToDevicePixels="true">
+                    <Grid Name="panel" Width="{TemplateBinding FrameworkElement.Width}" Height="{TemplateBinding FrameworkElement.Width}">
+                      <ContentPresenter Width="{TemplateBinding FrameworkElement.Width}" Height="{TemplateBinding FrameworkElement.Width}" />
+                    </Grid>
+                  </Border>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="UIElement.IsMouseOver" Value="true">
+                      <Setter TargetName="border" Value="{DynamicResource RibbonButton.MouseOver.Background2}" Property="Border.Background" />
+                      <Setter TargetName="border" Value="{DynamicResource RibbonButton.MouseOver.Border}" Property="Border.BorderBrush" />
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="true">
+                      <Setter TargetName="border" Value="{DynamicResource RibbonButton.Pressed.Background}" Property="Border.Background" />
+                      <Setter TargetName="border" Value="{DynamicResource RibbonButton.Pressed.Border}" Property="Border.BorderBrush" />
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </FrameworkElement.Style>
+        <Path Data="F1 M48.5143,170 L144.514,73.9999 L195.514,74 L121.515,150 L304.514,150 L304.514,190 L121.514,190 L195.514,266 L144.514,266 L48.5143,170" Width="24" Height="20" Stretch="Fill" Fill="#FFFFFFFF" />
+      </Button>
+      <StackPanel Name="MainButtonsPanel" Orientation="Vertical" />
+    </StackPanel>
+    <Grid Column="1">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="80" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <TextBlock Name="MainInfo" FontSize="40" Foreground="#FF808080" FontFamily="Calibri Light" VerticalAlignment="Bottom" Padding="30,0,0,0">To jest informacja o aktualnej opcji</TextBlock>
+      <Grid Row="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Name="LeftPanel" Grid.Column="0" Orientation="Vertical" Margin="30,20,0,0" />
+        <StackPanel Name="RightPanel" Grid.Column="1" Orientation="Vertical" Margin="30,20,0,0" />
+        <Grid Column="2" Margin="20">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+          </Grid.RowDefinitions>
+          <Image Name="DocumentPreview" Grid.Row="0" />
+          <Label Name="DocumentDescription" Grid.Row="1" FontSize="15" />
+        </Grid>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>
