@@ -1,50 +1,131 @@
+using ControlzEx.Theming;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
 using System.Windows.Input;
-using System.Windows.Markup;
-using WiCAM.Pn4000.Archive.Browser.Classes;
-using WiCAM.Pn4000.Archive;
-using WiCAM.Pn4000.Common;
-using System.Collections.ObjectModel;
-using WiCAM.Pn4000.Gmpool;
-using WiCAM.Pn4000.Archive.Browser.ArchiveN2d;
-using WiCAM.Pn4000.WpfControls.ArchivesControl;
-using ControlzEx.Theming;
-using MahApps.Metro.Controls;
-using Microsoft.Office.Interop.Excel;
-using MahApps.Metro.Controls.Dialogs;
-using Action = System.Action;
-using Point = System.Windows.Point;
-using Window = System.Windows.Window;
-using Style = System.Windows.Style;
-using WiCAM.Pn4000.Archive.Browser.Archive3d;
-using WiCAM.Pn4000.pn4.pn4FlowCenter;
-using WiCAM.Pn4000.Screen;
-using Microsoft.Extensions.DependencyInjection;
-using WiCAM.Pn4000.Contracts.DependencyInjection;
-using System.IO;
-using static iTextSharp.text.pdf.PdfDocument;
-using WiCAM.Pn4000.Screen.Classic2D;
 using System.Windows.Interop;
-using System.Text;
-using System.Threading;
+using System.Windows.Markup;
 using System.Windows.Threading;
+using WiCAM.Pn4000.Archive;
+using WiCAM.Pn4000.Archive.Browser.Archive3d;
+using WiCAM.Pn4000.Archive.Browser.ArchiveN2d;
+using WiCAM.Pn4000.Archive.Browser.Classes;
+using WiCAM.Pn4000.Common;
+using WiCAM.Pn4000.Config.DataStructures;
+using WiCAM.Pn4000.Contracts.DependencyInjection;
+using WiCAM.Pn4000.Gmpool;
 using WiCAM.Pn4000.GuiContracts.Ribbon;
+using WiCAM.Pn4000.JobManager.Views;
+using WiCAM.Pn4000.pn4.Interfaces;
+using WiCAM.Pn4000.pn4.pn4FlowCenter;
 using WiCAM.Pn4000.pn4.pn4Services;
 using WiCAM.Pn4000.pn4.pn4UILib;
-using WiCAM.Pn4000.Config.DataStructures;
-using WiCAM.Pn4000.pn4.Interfaces;
-using System.Collections.Generic;
+using WiCAM.Pn4000.Screen;
+using WiCAM.Pn4000.Screen.Classic2D;
+using WiCAM.Pn4000.WpfControls.ArchivesControl;
+using static iTextSharp.text.pdf.PdfDocument;
+using Action = System.Action;
+using Point = System.Windows.Point;
+using Style = System.Windows.Style;
+using Window = System.Windows.Window;
 
 namespace WiCAM.Pn4000.JobManager;
 
 public partial class MainWindow : RibbonWindow, IDialogView, IView, IComponentConnector, IMainWindowDataProvider
 {
+    private readonly MacroRecorder _macroRecorder = new MacroRecorder();
+    private CancellationTokenSource _macroCts;
+
+
+    private void MacroRecorder_Status(string s)
+    {
+        // UI thread marshal
+        Dispatcher.Invoke(() =>
+        {
+            // Zeige kurz Status; hier MessageBox nur als Beispiel — besser: Statusbar oder Snackbar
+            // MessageBox.Show(s, "Macro", MessageBoxButton.OK, MessageBoxImage.Information);
+            System.Diagnostics.Debug.WriteLine($"Macro status: {s}");
+        });
+    }
+
+    private void MacroRecorder_Error(Exception ex)
+    {
+        Dispatcher.Invoke(() =>
+        {
+            // Nutzer informieren, Logging ergänzen
+            MessageBox.Show(this, $"Macro error: {ex.Message}", "Macro Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            System.Diagnostics.Debug.WriteLine(ex.ToString());
+        });
+    }
+    private void MacroRecord_Checked(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            _macroRecorder.StartRecording(this);
+        }
+        catch (Exception ex)
+        {
+            MacroRecorder_Error(ex);
+            // Sicherstellen, dass Toggle zurückgesetzt wird
+            if (sender is System.Windows.Controls.Primitives.ToggleButton tb) tb.IsChecked = false;
+        }
+    }
+
+    private void MacroRecord_Unchecked(object sender, RoutedEventArgs e)
+    {
+        try { _macroRecorder.StopRecording(this); }
+        catch (Exception ex) { MacroRecorder_Error(ex); }
+    }
+
+    private async void MacroPlay_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (_macroCts != null)
+            {
+                _macroCts.Cancel();
+                _macroCts = null;
+                return;
+            }
+            _macroCts = new CancellationTokenSource();
+            // Optional: disable UI controls while playing
+            try { await _macroRecorder.PlayAsync(_macroCts.Token); }
+            finally
+            {
+                _macroCts.Dispose();
+                _macroCts = null;
+            }
+        }
+        catch (Exception ex)
+        {
+            MacroRecorder_Error(ex);
+        }
+    }
+
+    private void MacroLoop_Checked(object sender, RoutedEventArgs e) => _macroRecorder.Loop = true;
+    private void MacroLoop_Unchecked(object sender, RoutedEventArgs e) => _macroRecorder.Loop = false;
+
+    private void MacroEdit_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new MacroEditorWindow(_macroRecorder);
+        if (dlg.ShowDialog() == true)
+        {
+            // Änderungen sind bereits in _macroRecorder.Steps sichtbar
+        }
+    }
 
     public static MainWindow _instance;
     public static MainWindow mainWindow;
@@ -176,12 +257,13 @@ public partial class MainWindow : RibbonWindow, IDialogView, IView, IComponentCo
         MainWindow._instance = this;
         mainWindow = this;
         jobHelper = new JobHelper();
-
+        _macroRecorder.ErrorOccurred += MacroRecorder_Error;
+        _macroRecorder.StatusChanged += MacroRecorder_Status;
         InitializeComponent();
 
         Handle = new WindowInteropHelper(this).Handle;
-        watch();
-        watchext();
+        //watch();
+        //watchext();
 
         Style item = (Style)this.Resources["StyleRightAlignedCell"];
 
@@ -255,6 +337,18 @@ public partial class MainWindow : RibbonWindow, IDialogView, IView, IComponentCo
         ThemeManager.Current.ChangeTheme(this, "Light.Green");
         xOrderFlyOut.Theme = FlyoutTheme.Dark;
 
+
+        // Standard-URL setzen
+        intranetBrowserControl.SetDefaultUrl("https://intranet.mundal.de/braig-test/");
+
+        // Zu einer bestimmten Seite navigieren
+       // intranetBrowserControl.NavigateToIntranetPage("abteilung/produktion");
+
+        // Direkt eine URL laden
+        intranetBrowserControl.LoadUrl("https://intranet.mundal.de/braig-test/");
+
+        // JavaScript ausführen
+     //   var result = await intranetBrowserControl.ExecuteScriptAsync("document.title");
         //App.serviceProvider.GetRequiredService<IFactorio>();
         //DialogManager.ShowDialogExternally<MessageDialog>(DialogManager.MessageDialog(), this);
         //MahApps.Metro.Controls.Dialogs.CustomDialog md = new CustomDialog();
@@ -447,6 +541,7 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
         if (this.ribbonTab1.IsSelected)
         {
             this.gridMain.Visibility = Visibility.Visible;
+            this.gridIntranet.Visibility = Visibility.Hidden;
             this.gridSettings.Visibility = Visibility.Hidden;
             this.PNarchive.Visibility = Visibility.Hidden;
             this.gridJob.Visibility = Visibility.Hidden;
@@ -456,10 +551,12 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
             this.gridPNxpert.Visibility = Visibility.Hidden;
             this.gridPNpartEdit.Visibility = Visibility.Hidden;
             this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab2.IsSelected)
         {
             this.gridMain.Visibility = Visibility.Visible;
+            this.gridIntranet.Visibility = Visibility.Hidden;
             this.gridSettings.Visibility = Visibility.Hidden;
             this.PNarchive.Visibility = Visibility.Hidden;
             this.gridJob.Visibility = Visibility.Hidden;
@@ -469,6 +566,7 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
             this.gridPNxpert.Visibility = Visibility.Hidden;
             this.gridPNpartEdit.Visibility = Visibility.Hidden;
             this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab04.IsSelected)
         {
@@ -482,10 +580,12 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
             this.gridPNxpert.Visibility = Visibility.Hidden;
             this.gridPNpartEdit.Visibility = Visibility.Hidden;
             this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab05.IsSelected)
         {
             this.gridMain.Visibility = Visibility.Hidden;
+            this.gridIntranet.Visibility = Visibility.Hidden;
             this.gridSettings.Visibility = Visibility.Hidden;
             this.PNarchive.Visibility = Visibility.Visible;
             this.gridJob.Visibility = Visibility.Hidden;
@@ -495,11 +595,13 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
             this.gridPNxpert.Visibility = Visibility.Hidden;
             this.gridPNpartEdit.Visibility = Visibility.Hidden;
             this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab3.IsSelected)
         {
             this.gridMain.Visibility = Visibility.Hidden;
             this.gridSettings.Visibility = Visibility.Visible;
+            this.gridIntranet.Visibility = Visibility.Hidden;
             this.PNarchive.Visibility = Visibility.Hidden;
             this.gridJob.Visibility = Visibility.Hidden;
             this.FPReditor.Visibility = Visibility.Hidden;
@@ -508,10 +610,12 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
             this.gridPNxpert.Visibility = Visibility.Hidden;
             this.gridPNpartEdit.Visibility = Visibility.Hidden;
             this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab6.IsSelected)
         {
             this.gridJob.Visibility = Visibility.Visible;
+            this.gridIntranet.Visibility = Visibility.Hidden;
             this.gridMain.Visibility = Visibility.Hidden;
             this.gridSettings.Visibility = Visibility.Hidden;
             this.PNarchive.Visibility = Visibility.Hidden;
@@ -521,10 +625,12 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
             this.gridPNxpert.Visibility = Visibility.Hidden;
             this.gridPNpartEdit.Visibility = Visibility.Hidden;
             this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab7.IsSelected)
         {
             this.FPReditor.Visibility = Visibility.Visible;
+            this.gridIntranet.Visibility = Visibility.Hidden;
             this.gridMain.Visibility = Visibility.Hidden;
             this.gridSettings.Visibility = Visibility.Hidden;
             this.PNarchive.Visibility = Visibility.Hidden;
@@ -534,10 +640,12 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
             this.gridPNxpert.Visibility = Visibility.Hidden;
             this.gridPNpartEdit.Visibility = Visibility.Hidden;
             this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab8.IsSelected)
         {
             this.gridCommonCut.Visibility = Visibility.Visible;
+            this.gridIntranet.Visibility = Visibility.Hidden;
             this.gridMain.Visibility = Visibility.Hidden;
             this.gridSettings.Visibility = Visibility.Hidden;
             this.PNarchive.Visibility = Visibility.Hidden;
@@ -547,10 +655,12 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
             this.gridPNxpert.Visibility = Visibility.Hidden;
             this.gridPNpartEdit.Visibility = Visibility.Hidden;
             this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab9.IsSelected)
         {
             this.gridPNxpert.Visibility = Visibility.Visible;
+            this.gridIntranet.Visibility = Visibility.Hidden;
             this.gridCommonCut.Visibility = Visibility.Hidden;
             this.gridMain.Visibility = Visibility.Hidden;
             this.gridSettings.Visibility = Visibility.Hidden;
@@ -560,10 +670,12 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
             this.MaterialView.Visibility = Visibility.Hidden;
             this.gridPNpartEdit.Visibility = Visibility.Hidden;
             this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
         }
         else if (this.ribbonTab10.IsSelected)
         {
             this.gridPNpartEdit.Visibility = Visibility.Visible;
+            this.gridIntranet.Visibility = Visibility.Hidden;
             this.gridPNxpert.Visibility = Visibility.Hidden;
             this.gridCommonCut.Visibility = Visibility.Hidden;
             this.gridMain.Visibility = Visibility.Hidden;
@@ -573,11 +685,13 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
             this.FPReditor.Visibility = Visibility.Hidden;
             this.MaterialView.Visibility = Visibility.Hidden;
             this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
             initScreen2D();
         }
         else if (this.ribbonTab11.IsSelected)
         {
             this.gridProduktionsPlan.Visibility = Visibility.Visible;
+            this.gridIntranet.Visibility = Visibility.Hidden;
             this.gridPNpartEdit.Visibility = Visibility.Hidden;
             this.gridPNxpert.Visibility = Visibility.Hidden;
             this.gridCommonCut.Visibility = Visibility.Hidden;
@@ -587,6 +701,37 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
             this.gridJob.Visibility = Visibility.Hidden;
             this.FPReditor.Visibility = Visibility.Hidden;
             this.MaterialView.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
+        }
+        else if (this.ribbonTab12.IsSelected)
+        {
+            this.gridIntranet.Visibility = Visibility.Visible;
+            this.gridMain.Visibility = Visibility.Hidden;
+            this.gridSettings.Visibility = Visibility.Hidden;
+            this.PNarchive.Visibility = Visibility.Hidden;
+            this.FPReditor.Visibility = Visibility.Hidden;
+            this.gridJob.Visibility = Visibility.Hidden;
+            this.gridCommonCut.Visibility = Visibility.Hidden;
+            this.gridPNxpert.Visibility = Visibility.Hidden;
+            this.gridPNpartEdit.Visibility = Visibility.Hidden;
+            this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
+            // ... usw.
+        }
+        else if (this.ribbonTab13.IsSelected)
+        {
+            this.gridDocuments.Visibility = Visibility.Visible;
+            this.gridIntranet.Visibility = Visibility.Hidden;
+            this.gridMain.Visibility = Visibility.Hidden;
+            this.gridSettings.Visibility = Visibility.Hidden;
+            this.PNarchive.Visibility = Visibility.Hidden;
+            this.FPReditor.Visibility = Visibility.Hidden;
+            this.gridJob.Visibility = Visibility.Hidden;
+            this.gridCommonCut.Visibility = Visibility.Hidden;
+            this.gridPNxpert.Visibility = Visibility.Hidden;
+            this.gridPNpartEdit.Visibility = Visibility.Hidden;
+            this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            // ... usw.
         }
         else
         {
@@ -594,6 +739,7 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
                 return;
             this.MaterialView.Visibility = Visibility.Visible;
             this.gridMain.Visibility = Visibility.Hidden;
+            this.gridIntranet.Visibility = Visibility.Hidden;
             this.gridSettings.Visibility = Visibility.Hidden;
             this.PNarchive.Visibility = Visibility.Hidden;
             this.FPReditor.Visibility = Visibility.Hidden;
@@ -602,6 +748,7 @@ private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool hand
             this.gridPNxpert.Visibility = Visibility.Hidden;
             this.gridPNpartEdit.Visibility = Visibility.Hidden;
             this.gridProduktionsPlan.Visibility = Visibility.Hidden;
+            this.gridDocuments.Visibility = Visibility.Hidden;
         }
     }
 

@@ -9,6 +9,7 @@ using Sense3D.SenseScreen3D.PN3D.Doc;
 using System;
 using System.CodeDom.Compiler;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -91,6 +92,9 @@ public partial class App : Application
 
     public ServiceCollection serviceDescriptors;
 	public static ServiceProvider serviceProvider;
+    private string _sourceFilePath = @"C:\u\pn\machine\machine_0001\config\LEARN____MACRO.TXT";
+    private FileSystemWatcher _macroWatcher;
+    private string _targetFilePath = @"C:\Users\TBraig\Desktop\machine_0001\config\LEARN____MACRO.TXT";
 
     protected override void OnStartup(StartupEventArgs e)
 	{
@@ -223,7 +227,7 @@ public partial class App : Application
             Current.Shutdown(0);
             return;
         }
-
+        SetupFileMonitoring();
         new Bootstrapper(ServiceFactory.CreateDefaultProvider()).Show();
         switch (AppConfiguration.Instance.ArchiveType)
         {
@@ -241,6 +245,7 @@ public partial class App : Application
                 }
         }
         Application.Current.Shutdown(0);
+
 	}
 
     private void Application_Startup(object sender, StartupEventArgs e)
@@ -312,10 +317,53 @@ public partial class App : Application
 		Logger.Exception(e);
 	}
 
-	
-	
 
-	[STAThread]
+    private void SetupFileMonitoring()
+    {
+        if (!System.IO.File.Exists(_sourceFilePath)) return;
+
+        string directory = System.IO.Path.GetDirectoryName(_sourceFilePath);
+        string fileName = System.IO.Path.GetFileName(_sourceFilePath);
+
+        _macroWatcher = new FileSystemWatcher(directory, fileName);
+
+        // Überwache das Schreibdatum
+        _macroWatcher.NotifyFilter = NotifyFilters.LastWrite;
+
+        // Event-Handler registrieren
+        _macroWatcher.Changed += (s, e) => MergeMacroFiles();
+
+        // Überwachung starten
+        _macroWatcher.EnableRaisingEvents = true;
+    }
+
+    private void MergeMacroFiles()
+    {
+        try
+        {
+            // Kurze Verzögerung, damit die schreibende App (z.B. WiCAM) die Datei freigibt
+            System.Threading.Thread.Sleep(500);
+
+            if (System.IO.File.Exists(_sourceFilePath) && System.IO.File.Exists(_targetFilePath))
+            {
+                string sourceContent = System.IO.File.ReadAllText(_sourceFilePath);
+
+                // Logik zum Zusammenführen: Hier hängen wir es einfach an, 
+                // oder Sie implementieren eine Prüfung auf Dubletten.
+                System.IO.File.AppendAllText(_targetFilePath, Environment.NewLine + sourceContent);
+
+                Logger.Info($"Makro-Datei automatisch zusammengeführt: {_sourceFilePath}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Fehler beim Zusammenführen der Makro-Dateien: " + ex.Message);
+        }
+    }
+
+
+
+    [STAThread]
 	public static void Main()
 	{
 		App app = new App();

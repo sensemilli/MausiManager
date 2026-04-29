@@ -1,0 +1,56 @@
+<UserControl x:Class="WiCAM.Pn4000.JobManager.Views.Microsoft365Control"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Toolbar -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <Button Content="Aktualisieren" Command="{Binding LoadFilesCommand}" Width="100" Margin="5"/>
+            <Button Content="Hochladen" Command="{Binding UploadCommand}" Width="100" Margin="5"/>
+            <Button Content="Herunterladen" Command="{Binding DownloadCommand}" Width="100" Margin="5"/>
+        </StackPanel>
+
+        <!-- Suchleiste -->
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" 
+                     Padding="5" FontSize="14"/>
+            <Button Grid.Column="1" Content="Suchen" Command="{Binding SearchCommand}" 
+                    Width="80" Margin="5,0,0,0"/>
+        </Grid>
+
+        <!-- Dateiliste -->
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Files}" 
+                  SelectedItem="{Binding SelectedFile}"
+                  AutoGenerateColumns="False" Margin="10"
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Groesse" Binding="{Binding Size}" Width="100"/>
+                <DataGridTextColumn Header="Geaendert" Binding="{Binding LastModifiedDateTime}" Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Statusleiste -->
+        <Border Grid.Row="3" Background="#FF2D2D30" Padding="10">
+            <Grid>
+                <TextBlock Text="Bereit" Foreground="White" VerticalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True" Height="3" 
+                             Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

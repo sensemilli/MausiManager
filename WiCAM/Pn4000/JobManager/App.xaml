@@ -6,7 +6,8 @@
              StartupUri="MainWindow.xaml" Startup="Application_Startup" Exit="Application_Exit">
   <Application.Resources>
     <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MausiManager;component/Resources/ControlStylesDictionary.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MausiManager;component/Resources/ImagesDictionary.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MausiManager;component/Resources/StringResources.xaml" />

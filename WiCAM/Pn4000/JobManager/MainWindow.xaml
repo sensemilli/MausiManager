@@ -14,7 +14,7 @@
                                           xmlns:consoleControl="clr-namespace:ConsoleControl.WPF;assembly=ConsoleControl.WPF"
                                                        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                                                                             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                                xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes" x:Name="winni">
+                                xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:local1="clr-namespace:WiCAM.Pn4000.JobManager.Views" x:Name="winni">
   <RibbonWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -527,9 +527,18 @@
                     <ribbon:RibbonToggleButton x:Name="xLastMach" Label="LastMachine" Margin="15,0,0,0" SmallImageSource="{StaticResource BitmapXrichten}" LargeImageSource="{StaticResource BitmapXrichten}" Command="{Binding LastMachCommand}"  />
                     <ribbon:RibbonToggleButton x:Name="xReadMach" Label="ReadMachines" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapYrichten}" LargeImageSource="{StaticResource BitmapYrichten}" Command="{Binding ReadMachCommand}"  />
                     <ribbon:RibbonToggleButton x:Name="xPopUpCheck" Label="ReadPopUps" Margin="15,0,15,0" SmallImageSource="{StaticResource BitmapYrichten}" LargeImageSource="{StaticResource BitmapYrichten}" Command="{Binding ReadPopUpsCommand}"  />
-
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="Macro">
+                    <ribbon:RibbonToggleButton x:Name="xMacroRecord" Label="Record Macro" SmallImageSource="{StaticResource BitmapYrichten}" LargeImageSource="{StaticResource BitmapYrichten}"
+                  Checked="MacroRecord_Checked" Unchecked="MacroRecord_Unchecked" />
+                    <ribbon:RibbonButton x:Name="xMacroPlay" Label="Play Macro" SmallImageSource="{StaticResource BitmapYrichten}" LargeImageSource="{StaticResource BitmapYrichten}"
+             Click="MacroPlay_Click" />
+                    <ribbon:RibbonToggleButton x:Name="xMacroLoop" Label="Loop" Checked="MacroLoop_Checked" Unchecked="MacroLoop_Unchecked" />
+                    <ribbon:RibbonButton x:Name="xMacroEdit" Label="Edit Macro" Click="MacroEdit_Click" />
                 </ribbon:RibbonGroup>
             </ribbon:RibbonTab>
+        
+        
             <ribbon:RibbonTab x:Name="ribbonTab10" Header="PNpartToolz">
                 <ribbon:RibbonGroup Header="{DynamicResource Filter}">
                     <ribbon:RibbonButton Label="{DynamicResource DeleteFilter}" SmallImageSource="{StaticResource BitmapFilterDelete16}" LargeImageSource="{StaticResource BitmapFilterDelete32}" Command="{Binding FilterDeleteCommand}" />
@@ -576,9 +585,25 @@
                 </ribbon:RibbonGroup>
 
             </ribbon:RibbonTab>
+            <ribbon:RibbonTab x:Name="ribbonTab12" Header="Intranet">
+                <ribbon:RibbonGroup Header="Navigation">
+                    <ribbon:RibbonButton Label="Zur Startseite" 
+                             SmallImageSource="{StaticResource BitmapArchivBrowser}" 
+                             LargeImageSource="{StaticResource BitmapArchivBrowser}" 
+                             Command="{Binding GoToIntranetHomeCommand}"/>
+                </ribbon:RibbonGroup>
+            </ribbon:RibbonTab>
+        <ribbon:RibbonTab x:Name="ribbonTab13" Header="Documents">
+            <ribbon:RibbonGroup Header="Navigation">
+                <ribbon:RibbonButton Label="Zur Startseite" 
+                           SmallImageSource="{StaticResource BitmapArchivBrowser}" 
+                           LargeImageSource="{StaticResource BitmapArchivBrowser}" 
+                           Command="{Binding GoToIntranetHomeCommand}"/>
+            </ribbon:RibbonGroup>
+        </ribbon:RibbonTab>
         </ribbon:Ribbon>
-      
-    <Grid Name="gridMain" Grid.Row="1">
+
+        <Grid Name="gridMain" Grid.Row="1">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="{Binding Column1Width, Mode=TwoWay}" />
         <ColumnDefinition />
@@ -929,7 +954,14 @@ IsOpen="{Binding IsFlyoutOpen, Mode=TwoWay}">
 
 
         </Grid>
-     
+
+        <Grid x:Name="gridIntranet" Visibility="Hidden" Grid.Row="1" Grid.Column="0">
+            <local1:IntranetBrowserControl x:Name="intranetBrowserControl"/>
+        </Grid>
+
+        <Grid x:Name="gridDocuments" Visibility="Hidden" Grid.Row="1" Grid.Column="0">
+            <local1:Microsoft365Control x:Name="documentsControl"/>
+        </Grid>
 
 
     </Grid>

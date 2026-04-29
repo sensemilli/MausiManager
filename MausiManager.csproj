@@ -189,6 +189,19 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+    <PackageReference Include="AnyCAD.QuickSolid.NET" Version="2025.8.13.1900" />
+    <PackageReference Include="AnyCAD.Rapid.NET" Version="2025.8.13.1900" />
+    <PackageReference Include="AnyCAD.Simulate.NET" Version="2025.8.13.1900" />
+    <PackageReference Include="Azure.Identity" Version="1.19.0" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.4" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="6.1.0" />
+    <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.2.1" />
+    <PackageReference Include="Microsoft.Agents.M365Copilot.Core" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Graph" Version="5.103.0" />
+    <PackageReference Include="Microsoft.Graph.Core" Version="3.2.5" />
+
+=======
     <PackageReference Include="AnyCAD.QuickSolid.NET" Version="2026.2.1.1119" />
     <PackageReference Include="AnyCAD.Rapid.NET" Version="2026.2.1.1119" />
     <PackageReference Include="AnyCAD.Simulate.NET" Version="2026.2.1.1119" />
@@ -196,6 +209,7 @@
     <PackageReference Include="MahApps.Metro.IconPacks" Version="6.2.1" />
     <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.2.1" />
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="16.0.18925.20022" />
+>>>>>>> ceb86ab92d08ccf120a009517151dea2325d11b8
     <PackageReference Include="MicrosoftOfficeCore" Version="15.0.0" NoWarn="NU1701" />
     <PackageReference Include="MaterialDesignThemes" Version="5.3.0" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.3.0" />
@@ -213,6 +227,7 @@
     <PackageReference Include="Tesseract" Version="5.2.0" />
     <PackageReference Include="Tesseract.Drawing" Version="5.2.0" />
     <PackageReference Include="UglyToad.PdfPig" Version="1.7.0-custom-5" />
+	  <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2739.15" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AnyCAD.Exchange.Net">
@@ -405,7 +420,11 @@
     </EmbeddedResource>
   </ItemGroup>
 	<ItemGroup>
+<<<<<<< HEAD
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.3" />
+=======
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.2" />
+>>>>>>> ceb86ab92d08ccf120a009517151dea2325d11b8
 	</ItemGroup>
   <ItemGroup>
     <None Update="Properties\Settings.settings">

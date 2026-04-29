@@ -1,0 +1,24 @@
+<Window x:Class="WiCAM.Pn4000.JobManager.MacroEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WiCAM.Pn4000.JobManager"
+        Title="Macro Editor" Height="400" Width="600">
+  <Window.Resources>
+    <local:TimeSpanToMsConverter x:Key="TimeSpanToMsConverter"/>
+  </Window.Resources>
+  <DockPanel>
+    <DataGrid x:Name="dgSteps" ItemsSource="{Binding Steps}" AutoGenerateColumns="False" CanUserAddRows="True" CanUserDeleteRows="True" Margin="4">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Type" Binding="{Binding EventType}" IsReadOnly="True" />
+        <DataGridTextColumn Header="X" Binding="{Binding X}" />
+        <DataGridTextColumn Header="Y" Binding="{Binding Y}" />
+        <DataGridTextColumn Header="VK" Binding="{Binding VirtualKey}" />
+        <DataGridTextColumn Header="Delay ms" Binding="{Binding DelayFromPrevious, Converter={StaticResource TimeSpanToMsConverter}}" />
+      </DataGrid.Columns>
+    </DataGrid>
+    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="4">
+      <Button Content="OK" Width="80" Margin="4" Click="Ok_Click" />
+      <Button Content="Cancel" Width="80" Margin="4" Click="Cancel_Click" />
+    </StackPanel>
+  </DockPanel>
+</Window>
